@@ -1,246 +1,633 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Bootstrap</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+  <meta charset="utf-8">
+  <script>document.documentElement.classList.add('js');</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Novaturient Advisory — Powerful change, by design</title>
+  <meta name="description" content="Novaturient Advisory partners with ambitious organisations to turn complexity into clear, confident decisions — strategy, financial advisory, operations, digital, risk and people.">
+  <meta property="og:title" content="Novaturient Advisory — Powerful change, by design">
+  <meta property="og:description" content="Innovation through ingenuity. Complex tasks and architecture inside — simple, clear solutions outside.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0C2C55">
+  <link rel="icon" type="image/svg+xml" href="site/img/favicon.svg">
+  <link rel="preload" href="site/fonts/space-grotesk-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="site/fonts/space-grotesk-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="site/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="site/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="site/css/main.css">
+</head>
+<body>
 
-    <!-- Le styles -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
-    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="assets/css/docs.css" rel="stylesheet">
-    <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.js"></script>
-    <![endif]-->
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a class="logo" href="#top" aria-label="Novaturient Advisory — home">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 44 44" width="40" height="40" role="img">
+            <rect class="logo-tile" x="0" y="0" width="44" height="44" rx="10"/>
+            <rect class="logo-glyph" x="11" y="11" width="5.2" height="22"/>
+            <rect class="logo-glyph" x="27.8" y="11" width="5.2" height="22"/>
+            <polygon class="logo-diag" points="11,11 16.2,11 33,33 27.8,33"/>
+          </svg>
+        </span>
+        <span class="logo-word">
+          <strong>Novaturient</strong>
+          <span>Advisory</span>
+        </span>
+      </a>
 
-    <!-- Le fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="assets/ico/favicon.png">
+      <nav class="main-nav" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#approach">Approach</a>
+        <a href="#industries">Industries</a>
+        <a href="#principles">Principles</a>
+      </nav>
 
-    <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-146052-10']);
-      _gaq.push(['_trackPageview']);
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
-  </head>
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm" href="#contact">Book a consultation</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <nav aria-label="Mobile">
+      <a href="#about"><i>01</i>About</a>
+      <a href="#services"><i>02</i>Services</a>
+      <a href="#approach"><i>03</i>Approach</a>
+      <a href="#industries"><i>04</i>Industries</a>
+      <a href="#principles"><i>05</i>Principles</a>
+      <a href="#contact"><i>06</i>Contact</a>
+    </nav>
+    <p class="mobile-menu-note">no·va·tu·ri·ent <em>(adj.)</em> — desiring or seeking powerful change.</p>
+  </div>
 
-    <!-- Navbar
-    ================================================== -->
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="./index.html">Bootstrap</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active">
-                <a href="./index.html">Home</a>
-              </li>
-              <li class="">
-                <a href="./getting-started.html">Get started</a>
-              </li>
-              <li class="">
-                <a href="./scaffolding.html">Scaffolding</a>
-              </li>
-              <li class="">
-                <a href="./base-css.html">Base CSS</a>
-              </li>
-              <li class="">
-                <a href="./components.html">Components</a>
-              </li>
-              <li class="">
-                <a href="./javascript.html">JavaScript</a>
-              </li>
-              <li class="">
-                <a href="./customize.html">Customize</a>
-              </li>
-            </ul>
-          </div>
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="top">
+      <div class="hero-bg" aria-hidden="true">
+        <svg class="hero-chevrons hero-chevrons-a" viewBox="0 0 900 700" preserveAspectRatio="xMidYMid slice">
+          <g fill="none" stroke-width="88">
+            <path d="M-40 120 L260 420 L560 120" stroke="rgba(6,24,48,.5)"/>
+            <path d="M300 320 L600 620 L900 320" stroke="rgba(10,34,66,.55)"/>
+            <path d="M520 40 L820 340 L1120 40" stroke="rgba(30,74,138,.28)"/>
+          </g>
+        </svg>
+        <svg class="hero-chevrons hero-chevrons-b" viewBox="0 0 900 700" preserveAspectRatio="xMidYMid slice">
+          <g fill="none" stroke-width="64">
+            <path d="M80 420 L340 680 L600 420" stroke="rgba(37,86,158,.20)"/>
+            <path d="M480 220 L740 480 L1000 220" stroke="rgba(6,22,44,.4)"/>
+          </g>
+        </svg>
+        <div class="hero-grid-lines"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <p class="hero-eyebrow reveal-load" style="--d:.05s">
+          <span class="tick" aria-hidden="true"></span>Advisory · Strategy · Transformation
+        </p>
+        <h1 class="hero-title">
+          <span class="line"><span class="line-inner" style="--d:.15s">Powerful change,</span></span>
+          <span class="line"><span class="line-inner" style="--d:.28s">by <em>design</em><span class="dot">.</span></span></span>
+        </h1>
+        <p class="hero-sub reveal-load" style="--d:.45s">
+          Novaturient Advisory partners with ambitious organisations to turn complexity
+          into clear, confident decisions — and decisions into measurable growth.
+        </p>
+        <div class="hero-cta reveal-load" style="--d:.58s">
+          <a class="btn btn-primary" href="#contact">Book a consultation</a>
+          <a class="btn btn-ghost" href="#services">Explore our services</a>
+        </div>
+      </div>
+
+      <div class="hero-foot">
+        <div class="container hero-foot-inner">
+          <p class="hero-definition reveal-load" style="--d:.75s">
+            <strong>no·va·tu·ri·ent</strong> <em>(adj.)</em> — desiring or seeking powerful
+            change in one's life, business, or situation.
+          </p>
+          <a class="hero-scroll reveal-load" style="--d:.85s" href="#about" aria-label="Scroll to About">
+            <svg viewBox="0 0 24 64" width="20" height="54" aria-hidden="true">
+              <path d="M12 2 V50 M3 42 L12 52 L21 42" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="butt"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <div class="marquee-group">
+          <span>Strategy</span><span>Financial Advisory</span><span>Operations</span>
+          <span>Digital &amp; Technology</span><span>Risk &amp; Compliance</span><span>People &amp; Change</span>
+        </div>
+        <div class="marquee-group">
+          <span>Strategy</span><span>Financial Advisory</span><span>Operations</span>
+          <span>Digital &amp; Technology</span><span>Risk &amp; Compliance</span><span>People &amp; Change</span>
         </div>
       </div>
     </div>
 
-<div class="jumbotron masthead">
-  <div class="container">
-    <h1>Bootstrap</h1>
-    <p>Sleek, intuitive, and powerful front-end framework for faster and easier web development.</p>
-    <p>
-      <a href="assets/bootstrap.zip" class="btn btn-primary btn-large" onclick="_gaq.push(['_trackEvent', 'Jumbotron actions', 'Download', 'Download 2.3.1']);">Download Bootstrap</a>
-    </p>
-    <ul class="masthead-links">
-      <li>
-        <a href="http://github.com/twitter/bootstrap" onclick="_gaq.push(['_trackEvent', 'Jumbotron actions', 'Jumbotron links', 'GitHub project']);">GitHub project</a>
-      </li>
-      <li>
-        <a href="./getting-started.html#examples" onclick="_gaq.push(['_trackEvent', 'Jumbotron actions', 'Jumbotron links', 'Examples']);">Examples</a>
-      </li>
-      <li>
-        <a href="./extend.html" onclick="_gaq.push(['_trackEvent', 'Jumbotron actions', 'Jumbotron links', 'Extend']);">Extend</a>
-      </li>
-      <li>
-        Version 2.3.1
-      </li>
-    </ul>
-  </div>
-</div>
+    <!-- ============ ABOUT ============ -->
+    <section class="section about" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-copy">
+            <p class="section-label" data-reveal><span class="tick" aria-hidden="true"></span>Who we are</p>
+            <h2 class="section-title" data-reveal>Innovation through <em>ingenuity</em>.</h2>
+            <blockquote class="about-pull" data-reveal>
+              Complex tasks and architecture inside —<br>simple, clear solutions outside.
+            </blockquote>
+            <p data-reveal>
+              Novaturient Advisory is a management consultancy built on a simple conviction:
+              organisations don't fear change — they fear <strong>unclear</strong> change.
+              We exist to make ambitious change legible, fundable and achievable.
+            </p>
+            <p data-reveal>
+              We take on the difficult work inside — the analysis, the architecture, the
+              trade-offs — so that what reaches your board, your teams and your market is
+              simple and decisive. It's how our name works, too: <em class="serif">novaturient</em>,
+              the desire for powerful change.
+            </p>
+            <div class="about-actions" data-reveal>
+              <a class="link-arrow" href="#approach">See how we work
+                <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M4 12 H20 M13 5 L20 12 L13 19" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+              </a>
+            </div>
+          </div>
 
-<div class="bs-docs-social">
-  <div class="container">
-    <ul class="bs-docs-social-buttons">
-      <li>
-        <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=twitter&repo=bootstrap&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
-      </li>
-      <li>
-        <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=twitter&repo=bootstrap&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="102px" height="20px"></iframe>
-      </li>
-      <li class="follow-btn">
-        <a href="https://twitter.com/twbootstrap" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true">Follow @twbootstrap</a>
-      </li>
-      <li class="tweet-btn">
-        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://twitter.github.com/bootstrap/" data-count="horizontal" data-via="twbootstrap" data-related="mdo:Creator of Twitter Bootstrap">Tweet</a>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<div class="container">
-
-  <div class="marketing">
-
-    <h1>Introducing Bootstrap.</h1>
-    <p class="marketing-byline">Need reasons to love Bootstrap? Look no further.</p>
-
-    <div class="row-fluid">
-      <div class="span4">
-        <img class="marketing-img" src="assets/img/bs-docs-twitter-github.png">
-        <h2>By nerds, for nerds.</h2>
-        <p>Built at Twitter by <a href="http://twitter.com/mdo">@mdo</a> and <a href="http://twitter.com/fat">@fat</a>, Bootstrap utilizes <a href="http://lesscss.org">LESS CSS</a>, is compiled via <a href="http://nodejs.org">Node</a>, and is managed through <a href="http://github.com">GitHub</a> to help nerds do awesome stuff on the web.</p>
+          <div class="about-visual" data-reveal>
+            <div class="about-panel">
+              <svg class="about-panel-chevrons" viewBox="0 0 520 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <g fill="none" stroke-width="56">
+                  <path d="M-30 90 L170 290 L370 90" stroke="rgba(6,24,48,.45)"/>
+                  <path d="M210 300 L410 500 L610 300" stroke="rgba(30,74,138,.25)"/>
+                  <path d="M60 430 L260 630 L460 430" stroke="rgba(6,22,44,.5)"/>
+                </g>
+              </svg>
+              <svg class="about-bridge" viewBox="0 0 520 360" aria-hidden="true">
+                <g fill="none" stroke="rgba(255,255,255,.8)" stroke-width="2">
+                  <path d="M0 268 H520"/>
+                  <path d="M150 268 V88"/>
+                  <path d="M370 268 V88"/>
+                  <path d="M150 100 Q 260 210 370 100" stroke="rgba(255,255,255,.92)"/>
+                  <path d="M150 100 Q 75 205 0 248" stroke="rgba(255,255,255,.55)"/>
+                  <path d="M370 100 Q 445 205 520 248" stroke="rgba(255,255,255,.55)"/>
+                  <g stroke="rgba(255,255,255,.5)" stroke-width="1.6">
+                    <path d="M194 268 V136"/>
+                    <path d="M227 268 V151"/>
+                    <path d="M260 268 V156"/>
+                    <path d="M293 268 V151"/>
+                    <path d="M326 268 V136"/>
+                    <path d="M96 268 V172"/>
+                    <path d="M48 268 V213"/>
+                    <path d="M424 268 V172"/>
+                    <path d="M472 268 V213"/>
+                  </g>
+                </g>
+                <path d="M0 302 H428" stroke="#E2231A" stroke-width="3" fill="none"/>
+                <path d="M416 290 L434 302 L416 314" fill="none" stroke="#E2231A" stroke-width="3"/>
+              </svg>
+            </div>
+            <figure class="about-card">
+              <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M4 4 L11 12 L4 20 M12 4 L19 12 L12 20" fill="none" stroke="#E2231A" stroke-width="2.6"/></svg>
+              <blockquote>We make change navigable.</blockquote>
+              <figcaption>The Novaturient promise</figcaption>
+            </figure>
+          </div>
+        </div>
       </div>
-      <div class="span4">
-        <img class="marketing-img" src="assets/img/bs-docs-responsive-illustrations.png">
-        <h2>Made for everyone.</h2>
-        <p>Bootstrap was made to not only look and behave great in the latest desktop browsers (as well as IE7!), but in tablet and smartphone browsers via <a href="./scaffolding.html#responsive">responsive CSS</a> as well.</p>
+    </section>
+
+    <!-- ============ STATS ============ -->
+    <!-- TODO: replace placeholder figures with the firm's real numbers -->
+    <section class="stats" aria-label="Key figures">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat" data-reveal>
+            <p class="stat-num"><span data-count="120">0</span><i>+</i></p>
+            <p class="stat-label">Engagements delivered</p>
+          </div>
+          <div class="stat" data-reveal>
+            <p class="stat-num"><span data-count="40">0</span><i>+</i></p>
+            <p class="stat-label">Organisations advised</p>
+          </div>
+          <div class="stat" data-reveal>
+            <p class="stat-num"><span data-count="8">0</span></p>
+            <p class="stat-label">Industries served</p>
+          </div>
+          <div class="stat" data-reveal>
+            <p class="stat-num"><span data-count="97">0</span><i>%</i></p>
+            <p class="stat-label">Repeat &amp; referral work</p>
+          </div>
+        </div>
       </div>
-      <div class="span4">
-        <img class="marketing-img" src="assets/img/bs-docs-bootstrap-features.png">
-        <h2>Packed with features.</h2>
-        <p>A 12-column responsive <a href="./scaffolding.html#gridSystem">grid</a>, dozens of components, <a href="./javascript.html">JavaScript plugins</a>, typography, form controls, and even a <a href="./customize.html">web-based Customizer</a> to make Bootstrap your own.</p>
+    </section>
+
+    <!-- ============ SERVICES ============ -->
+    <section class="section services" id="services">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="section-label" data-reveal><span class="tick" aria-hidden="true"></span>Services</p>
+            <h2 class="section-title" data-reveal>Advisory that meets<br>your <em>ambition</em>.</h2>
+          </div>
+          <p class="section-note" data-reveal>
+            Strategy&nbsp;/ Finance&nbsp;/ Operations&nbsp;/ Digital&nbsp;/ Risk&nbsp;/ People —
+            six practices, one integrated team.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card" data-reveal>
+            <span class="service-index" aria-hidden="true">01</span>
+            <span class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="12.5"/><path d="M20.8 11.2 L18 18 L11.2 20.8 L14 14 Z"/><circle cx="16" cy="16" r="1.4" class="fill"/></svg>
+            </span>
+            <h3>Strategy &amp; Transformation</h3>
+            <p>Corporate and growth strategy, market entry, operating-model design and transformation programmes that actually land.</p>
+            <a class="service-link" href="#contact">Talk to us
+              <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12 H20 M13 5 L20 12 L13 19" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+            </a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-index" aria-hidden="true">02</span>
+            <span class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32"><path d="M5 27 V17 M12.4 27 V11 M19.8 27 V14 M27 27 V6"/><path d="M22.6 6 H27 V10.4"/></svg>
+            </span>
+            <h3>Financial Advisory</h3>
+            <p>Corporate finance, transaction support, financial modelling and capital-raising readiness for decisive moments.</p>
+            <a class="service-link" href="#contact">Talk to us
+              <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12 H20 M13 5 L20 12 L13 19" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+            </a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-index" aria-hidden="true">03</span>
+            <span class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32"><rect x="4" y="4" width="10" height="10" rx="1.5"/><rect x="18" y="18" width="10" height="10" rx="1.5"/><path d="M23 4 v6 h-6 M9 28 v-6 h6"/></svg>
+            </span>
+            <h3>Operations Excellence</h3>
+            <p>Process, cost and performance improvement that frees capacity, lifts service and compounds margin.</p>
+            <a class="service-link" href="#contact">Talk to us
+              <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12 H20 M13 5 L20 12 L13 19" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+            </a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-index" aria-hidden="true">04</span>
+            <span class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32"><circle cx="8" cy="8" r="3.4"/><circle cx="24" cy="8" r="3.4"/><circle cx="8" cy="24" r="3.4"/><circle cx="24" cy="24" r="3.4"/><path d="M11.4 8 H20.6 M8 11.4 V20.6 M24 11.4 V20.6 M11.4 24 H20.6 M10.4 10.4 L21.6 21.6"/></svg>
+            </span>
+            <h3>Digital &amp; Technology</h3>
+            <p>Digital strategy, data &amp; analytics and systems architecture — technology in service of the business case.</p>
+            <a class="service-link" href="#contact">Talk to us
+              <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12 H20 M13 5 L20 12 L13 19" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+            </a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-index" aria-hidden="true">05</span>
+            <span class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32"><path d="M16 4 L27 8 V15 C27 22 22.4 26.4 16 28 C9.6 26.4 5 22 5 15 V8 Z"/><path d="M11 15.5 L14.6 19 L21 12.5"/></svg>
+            </span>
+            <h3>Risk &amp; Compliance</h3>
+            <p>Governance, regulatory readiness and enterprise-risk frameworks that protect momentum instead of slowing it.</p>
+            <a class="service-link" href="#contact">Talk to us
+              <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12 H20 M13 5 L20 12 L13 19" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+            </a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-index" aria-hidden="true">06</span>
+            <span class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32"><circle cx="11" cy="10" r="4.2"/><circle cx="22.6" cy="12.4" r="3.2"/><path d="M4 26 C4 20.8 7 17.8 11 17.8 C15 17.8 18 20.8 18 26 M19.4 24.6 C19.8 20.6 22 18.6 24.8 18.9 C26.6 19.1 28 20.2 28.6 22"/></svg>
+            </span>
+            <h3>People &amp; Change</h3>
+            <p>Organisation design, leadership alignment and change management that brings your people with you.</p>
+            <a class="service-link" href="#contact">Talk to us
+              <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12 H20 M13 5 L20 12 L13 19" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ APPROACH ============ -->
+    <section class="section approach" id="approach">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="section-label" data-reveal><span class="tick" aria-hidden="true"></span>How we work</p>
+            <h2 class="section-title" data-reveal>The Novaturient <em>path</em>.</h2>
+          </div>
+          <p class="section-note" data-reveal>
+            Four phases, one continuous conversation. Phase one always begins with listening.
+          </p>
+        </div>
+
+        <ol class="approach-grid">
+          <li class="approach-step" data-reveal>
+            <span class="approach-node" aria-hidden="true"></span>
+            <p class="approach-num">01</p>
+            <h3>Discover</h3>
+            <p>We immerse in your business — people, data, economics — until we see it whole.</p>
+          </li>
+          <li class="approach-step" data-reveal>
+            <span class="approach-node" aria-hidden="true"></span>
+            <p class="approach-num">02</p>
+            <h3>Diagnose</h3>
+            <p>We isolate the few issues that move the needle, and size the value of solving them.</p>
+          </li>
+          <li class="approach-step" data-reveal>
+            <span class="approach-node" aria-hidden="true"></span>
+            <p class="approach-num">03</p>
+            <h3>Design</h3>
+            <p>We shape the strategy, roadmap and case for change — simple enough to fund and follow.</p>
+          </li>
+          <li class="approach-step" data-reveal>
+            <span class="approach-node" aria-hidden="true"></span>
+            <p class="approach-num">04</p>
+            <h3>Deliver</h3>
+            <p>We stay in the room through execution, transferring capability as momentum builds.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ INDUSTRIES ============ -->
+    <section class="section industries" id="industries">
+      <div class="industries-bg" aria-hidden="true">
+        <svg viewBox="0 0 900 700" preserveAspectRatio="xMidYMid slice">
+          <g fill="none" stroke-width="72">
+            <path d="M-60 160 L220 440 L500 160" stroke="rgba(6,24,48,.4)"/>
+            <path d="M420 360 L700 640 L980 360" stroke="rgba(30,74,138,.22)"/>
+          </g>
+        </svg>
+      </div>
+      <div class="container">
+        <div class="industries-grid">
+          <div class="industries-intro">
+            <p class="section-label light" data-reveal><span class="tick" aria-hidden="true"></span>Industries</p>
+            <h2 class="section-title" data-reveal>Fluent in your <em>sector</em>.</h2>
+            <p data-reveal>
+              Sector context is the difference between advice and insight. We bring practical
+              fluency across the industries shaping the region's growth — and the humility to
+              learn what only you can know.
+            </p>
+          </div>
+          <ul class="industries-list">
+            <li data-reveal><i>01</i><span>Financial services</span><em aria-hidden="true">→</em></li>
+            <li data-reveal><i>02</i><span>Energy, utilities &amp; resources</span><em aria-hidden="true">→</em></li>
+            <li data-reveal><i>03</i><span>Consumer &amp; retail</span><em aria-hidden="true">→</em></li>
+            <li data-reveal><i>04</i><span>Technology, media &amp; telecom</span><em aria-hidden="true">→</em></li>
+            <li data-reveal><i>05</i><span>Government &amp; public sector</span><em aria-hidden="true">→</em></li>
+            <li data-reveal><i>06</i><span>Industrial &amp; manufacturing</span><em aria-hidden="true">→</em></li>
+            <li data-reveal><i>07</i><span>Healthcare &amp; life sciences</span><em aria-hidden="true">→</em></li>
+            <li data-reveal><i>08</i><span>Private equity &amp; funds</span><em aria-hidden="true">→</em></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PRINCIPLES ============ -->
+    <section class="section principles" id="principles">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="section-label" data-reveal><span class="tick" aria-hidden="true"></span>Principles</p>
+            <h2 class="section-title" data-reveal>What we <em>refuse</em> to compromise.</h2>
+          </div>
+          <p class="section-note" data-reveal>
+            Four commitments, present in every engagement — whatever the brief.
+          </p>
+        </div>
+
+        <div class="principles-grid">
+          <article class="principle principle-navy" data-reveal>
+            <p class="principle-num">01</p>
+            <h3>Clarity over complexity</h3>
+            <p>If a strategy can't be explained on one page, it isn't finished yet.</p>
+          </article>
+          <article class="principle principle-sand" data-reveal>
+            <p class="principle-num">02</p>
+            <h3>Evidence over opinion</h3>
+            <p>Recommendations earn their place with data — or they don't ship.</p>
+          </article>
+          <article class="principle principle-line" data-reveal>
+            <p class="principle-num">03</p>
+            <h3>Partnership over posture</h3>
+            <p>We sit on your side of the table. Senior people, no theatre.</p>
+          </article>
+          <article class="principle principle-pattern" data-reveal>
+            <svg class="principle-bg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <g fill="none" stroke-width="44">
+                <path d="M-20 60 L140 220 L300 60" stroke="rgba(255,255,255,.07)"/>
+                <path d="M200 140 L360 300 L520 140" stroke="rgba(6,24,48,.5)"/>
+              </g>
+            </svg>
+            <p class="principle-num">04</p>
+            <h3>Outcomes over outputs</h3>
+            <p>Decks don't compound — results do. We measure what changed.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TESTIMONIALS ============ -->
+    <section class="section testimonials" aria-label="What clients say">
+      <div class="container">
+        <p class="section-label centered" data-reveal><span class="tick" aria-hidden="true"></span>What clients say</p>
+        <div class="quote-rotator" id="quoteRotator" data-reveal>
+          <figure class="quote is-active">
+            <blockquote>
+              &ldquo;Novaturient brought structure to a problem we had circled for two years —
+              and the clarity to act on it within a quarter.&rdquo;
+            </blockquote>
+            <figcaption>Chief Executive · Financial services group</figcaption>
+          </figure>
+          <figure class="quote">
+            <blockquote>
+              &ldquo;They work inside the complexity so the organisation never has to. The
+              recommendations were simple, sequenced and fundable.&rdquo;
+            </blockquote>
+            <figcaption>Chief Operating Officer · Energy &amp; utilities company</figcaption>
+          </figure>
+          <figure class="quote">
+            <blockquote>
+              &ldquo;Less theatre, more traction. The roadmap survived contact with
+              reality — that is rare.&rdquo;
+            </blockquote>
+            <figcaption>Founder · Technology scale-up</figcaption>
+          </figure>
+          <div class="quote-dots" role="tablist" aria-label="Choose testimonial">
+            <button class="is-active" role="tab" aria-selected="true" aria-label="Testimonial 1"></button>
+            <button role="tab" aria-selected="false" aria-label="Testimonial 2"></button>
+            <button role="tab" aria-selected="false" aria-label="Testimonial 3"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section contact" id="contact">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-panel">
+            <svg class="contact-panel-chevrons" viewBox="0 0 520 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <g fill="none" stroke-width="60">
+                <path d="M-30 110 L170 310 L370 110" stroke="rgba(6,24,48,.45)"/>
+                <path d="M170 340 L370 540 L570 340" stroke="rgba(30,74,138,.25)"/>
+              </g>
+            </svg>
+            <div class="contact-panel-inner">
+              <p class="section-label light" data-reveal><span class="tick" aria-hidden="true"></span>Contact</p>
+              <h2 class="section-title" data-reveal>Ready for powerful <em>change</em>?</h2>
+              <p data-reveal>
+                Tell us where you want to go. A senior member of the team reads every
+                message and responds within two business days.
+              </p>
+              <ul class="contact-details">
+                <li data-reveal>
+                  <span>Email</span>
+                  <a href="mailto:hello@novaturientadvisory.com">hello@novaturientadvisory.com</a>
+                </li>
+                <li data-reveal>
+                  <span>Follow</span>
+                  <a href="#" rel="noopener">LinkedIn ↗</a>
+                </li>
+              </ul>
+              <svg class="contact-arrow" viewBox="0 0 24 64" width="22" height="58" aria-hidden="true">
+                <path d="M12 2 V50 M3 42 L12 52 L21 42" fill="none" stroke="#E2231A" stroke-width="4"/>
+              </svg>
+            </div>
+          </div>
+
+          <form class="contact-form" id="contactForm" novalidate data-reveal>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-name">Full name<i>*</i></label>
+                <input id="f-name" name="name" type="text" autocomplete="name" required placeholder="Your name">
+              </div>
+              <div class="field">
+                <label for="f-email">Work email<i>*</i></label>
+                <input id="f-email" name="email" type="email" autocomplete="email" required placeholder="you@company.com">
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-company">Organisation</label>
+                <input id="f-company" name="company" type="text" autocomplete="organization" placeholder="Company or institution">
+              </div>
+              <div class="field">
+                <label for="f-topic">What can we help with?</label>
+                <select id="f-topic" name="topic">
+                  <option>Strategy &amp; Transformation</option>
+                  <option>Financial Advisory</option>
+                  <option>Operations Excellence</option>
+                  <option>Digital &amp; Technology</option>
+                  <option>Risk &amp; Compliance</option>
+                  <option>People &amp; Change</option>
+                  <option>Something else</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-message">Your message<i>*</i></label>
+              <textarea id="f-message" name="message" rows="5" required placeholder="A sentence or two about your situation and ambition."></textarea>
+            </div>
+            <div class="form-foot">
+              <button class="btn btn-primary" type="submit">Send message
+                <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12 H20 M13 5 L20 12 L13 19" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+              </button>
+              <p class="form-note">We'll only use your details to respond to this enquiry.</p>
+            </div>
+            <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="logo logo-light" href="#top" aria-label="Novaturient Advisory — back to top">
+            <span class="logo-mark" aria-hidden="true">
+              <svg viewBox="0 0 44 44" width="40" height="40" role="img">
+                <rect class="logo-tile" x="0" y="0" width="44" height="44" rx="10"/>
+                <rect class="logo-glyph" x="11" y="11" width="5.2" height="22"/>
+                <rect class="logo-glyph" x="27.8" y="11" width="5.2" height="22"/>
+                <polygon class="logo-diag" points="11,11 16.2,11 33,33 27.8,33"/>
+              </svg>
+            </span>
+            <span class="logo-word">
+              <strong>Novaturient</strong>
+              <span>Advisory</span>
+            </span>
+          </a>
+          <p class="footer-def">
+            <strong>no·va·tu·ri·ent</strong> <em>(adj.)</em> — desiring or seeking powerful
+            change in one's life, business, or situation.
+          </p>
+          <p class="footer-tag">Innovation through ingenuity.</p>
+        </div>
+
+        <nav class="footer-col" aria-label="Explore">
+          <h4>Explore</h4>
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#approach">Approach</a>
+          <a href="#industries">Industries</a>
+          <a href="#principles">Principles</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Services">
+          <h4>Services</h4>
+          <a href="#services">Strategy &amp; Transformation</a>
+          <a href="#services">Financial Advisory</a>
+          <a href="#services">Operations Excellence</a>
+          <a href="#services">Digital &amp; Technology</a>
+          <a href="#services">Risk &amp; Compliance</a>
+          <a href="#services">People &amp; Change</a>
+        </nav>
+
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="mailto:hello@novaturientadvisory.com">hello@novaturientadvisory.com</a>
+          <a href="#" rel="noopener">LinkedIn ↗</a>
+          <a class="btn btn-ghost btn-sm footer-cta" href="#contact">Book a consultation</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© <span id="year">2026</span> Novaturient Advisory. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+        <button class="to-top" id="toTop" aria-label="Back to top">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+            <path d="M12 21 V5 M4 12 L12 4 L20 12" fill="none" stroke="currentColor" stroke-width="2.6"/>
+          </svg>
+        </button>
       </div>
     </div>
+  </footer>
 
-    <hr class="soften">
-
-    <h1>Built with Bootstrap.</h1>
-    <p class="marketing-byline">For even more sites built with Bootstrap, <a href="http://builtwithbootstrap.tumblr.com/" target="_blank">visit the unofficial Tumblr</a> or <a href="./getting-started.html#examples">browse the examples</a>.</p>
-    <div class="row-fluid">
-      <ul class="thumbnails example-sites">
-        <li class="span3">
-          <a class="thumbnail" href="http://soundready.fm/" target="_blank">
-            <img src="assets/img/example-sites/soundready.png" alt="SoundReady.fm">
-          </a>
-        </li>
-        <li class="span3">
-          <a class="thumbnail" href="http://kippt.com/" target="_blank">
-            <img src="assets/img/example-sites/kippt.png" alt="Kippt">
-          </a>
-        </li>
-        <li class="span3">
-          <a class="thumbnail" href="http://www.gathercontent.com/" target="_blank">
-            <img src="assets/img/example-sites/gathercontent.png" alt="Gather Content">
-          </a>
-        </li>
-        <li class="span3">
-          <a class="thumbnail" href="http://www.jshint.com/" target="_blank">
-            <img src="assets/img/example-sites/jshint.png" alt="JS Hint">
-          </a>
-        </li>
-      </ul>
-     </div>
-
-  </div>
-
-</div>
-
-
-
-    <!-- Footer
-    ================================================== -->
-    <footer class="footer">
-      <div class="container">
-        <p>Designed and built with all the love in the world by <a href="http://twitter.com/mdo" target="_blank">@mdo</a> and <a href="http://twitter.com/fat" target="_blank">@fat</a>.</p>
-        <p>Code licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>, documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
-        <p><a href="http://glyphicons.com">Glyphicons Free</a> licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
-        <ul class="footer-links">
-          <li><a href="http://blog.getbootstrap.com">Blog</a></li>
-          <li class="muted">&middot;</li>
-          <li><a href="https://github.com/twitter/bootstrap/issues?state=open">Issues</a></li>
-          <li class="muted">&middot;</li>
-          <li><a href="https://github.com/twitter/bootstrap/blob/master/CHANGELOG.md">Changelog</a></li>
-        </ul>
-      </div>
-    </footer>
-
-
-
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap-transition.js"></script>
-    <script src="assets/js/bootstrap-alert.js"></script>
-    <script src="assets/js/bootstrap-modal.js"></script>
-    <script src="assets/js/bootstrap-dropdown.js"></script>
-    <script src="assets/js/bootstrap-scrollspy.js"></script>
-    <script src="assets/js/bootstrap-tab.js"></script>
-    <script src="assets/js/bootstrap-tooltip.js"></script>
-    <script src="assets/js/bootstrap-popover.js"></script>
-    <script src="assets/js/bootstrap-button.js"></script>
-    <script src="assets/js/bootstrap-collapse.js"></script>
-    <script src="assets/js/bootstrap-carousel.js"></script>
-    <script src="assets/js/bootstrap-typeahead.js"></script>
-    <script src="assets/js/bootstrap-affix.js"></script>
-
-    <script src="assets/js/holder/holder.js"></script>
-    <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-    <script src="assets/js/application.js"></script>
-
-
-    <!-- Analytics
-    ================================================== -->
-    <script>
-      var _gauges = _gauges || [];
-      (function() {
-        var t   = document.createElement('script');
-        t.type  = 'text/javascript';
-        t.async = true;
-        t.id    = 'gauges-tracker';
-        t.setAttribute('data-site-id', '4f0dc9fef5a1f55508000013');
-        t.src = '//secure.gaug.es/track.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(t, s);
-      })();
-    </script>
-
-  </body>
+  <script src="site/js/main.js" defer></script>
+</body>
 </html>
