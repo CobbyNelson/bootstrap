@@ -25,8 +25,15 @@ const PAGES: Item[] = [
   { id: "p-events", title: "Events & roadshows", subtitle: "Upcoming sessions", href: "/events", group: "Pages", icon: FileText },
   { id: "w-dash", title: "Investor dashboard", subtitle: "Your workspace", href: "/dashboard", group: "Workspace", icon: LayoutDashboard },
   { id: "w-pipe", title: "Deal pipeline", subtitle: "Kanban & analytics", href: "/dashboard/pipeline", group: "Workspace", icon: LayoutDashboard },
+  { id: "w-crm", title: "CRM & relationships", subtitle: "Contacts, tasks & activity", href: "/dashboard/crm", group: "Workspace", icon: LayoutDashboard },
+  { id: "w-msg", title: "Messages", subtitle: "Secure conversations", href: "/dashboard/messages", group: "Workspace", icon: LayoutDashboard },
+  { id: "w-meet", title: "Video meetings", subtitle: "Calls & scheduling", href: "/dashboard/meetings", group: "Workspace", icon: LayoutDashboard },
   { id: "w-room", title: "Data rooms", subtitle: "Secure documents", href: "/dashboard/data-room", group: "Workspace", icon: LayoutDashboard },
+  { id: "w-docs", title: "Agreements & e-signature", subtitle: "NDAs, term sheets, audit trail", href: "/dashboard/documents", group: "Workspace", icon: LayoutDashboard },
+  { id: "w-settings", title: "Security & settings", subtitle: "2FA, sessions, team & roles", href: "/dashboard/settings", group: "Workspace", icon: LayoutDashboard },
   { id: "w-admin", title: "Admin — matching engine", subtitle: "Tune weights", href: "/admin/matching", group: "Workspace", icon: LayoutDashboard },
+  { id: "w-admin-events", title: "Admin — roadshows & events", subtitle: "Registration & check-in", href: "/admin/events", group: "Workspace", icon: LayoutDashboard },
+  { id: "w-admin-email", title: "Admin — email automation", subtitle: "Lifecycle journeys", href: "/admin/email", group: "Workspace", icon: LayoutDashboard },
 ];
 
 const OPPS: Item[] = MARKETPLACE.map((o) => ({

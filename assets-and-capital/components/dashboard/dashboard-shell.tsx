@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard, Target, Bookmark, MessageSquare, Presentation,
+  LayoutDashboard, Target, Bookmark, MessageSquare, Video, FileSignature, Contact,
   Settings, Bell, Search, ArrowLeft, BarChart3, Wallet, Building2, TrendingUp,
   Columns3, Lock, BadgeCheck,
 } from "lucide-react";
@@ -15,18 +15,25 @@ type NavItem = { label: string; href: string; icon: typeof LayoutDashboard };
 const INVESTOR_NAV: NavItem[] = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
   { label: "Deal pipeline", href: "/dashboard/pipeline", icon: Columns3 },
+  { label: "CRM", href: "/dashboard/crm", icon: Contact },
+  { label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
+  { label: "Meetings", href: "/dashboard/meetings", icon: Video },
   { label: "Data rooms", href: "/dashboard/data-room", icon: Lock },
+  { label: "Agreements", href: "/dashboard/documents", icon: FileSignature },
   { label: "Verification", href: "/dashboard/verification", icon: BadgeCheck },
   { label: "Matches", href: "/dashboard#matches", icon: Target },
   { label: "Saved & watchlist", href: "/dashboard#saved", icon: Bookmark },
-  { label: "Messages", href: "/dashboard#messages", icon: MessageSquare },
   { label: "Marketplace", href: "/marketplace", icon: Search },
 ];
 
 const BUSINESS_NAV: NavItem[] = [
   { label: "Overview", href: "/dashboard/business", icon: LayoutDashboard },
   { label: "Deal pipeline", href: "/dashboard/pipeline", icon: Columns3 },
+  { label: "CRM", href: "/dashboard/crm", icon: Contact },
+  { label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
+  { label: "Meetings", href: "/dashboard/meetings", icon: Video },
   { label: "Data room", href: "/dashboard/data-room", icon: Lock },
+  { label: "Agreements", href: "/dashboard/documents", icon: FileSignature },
   { label: "Verification", href: "/dashboard/business/verification", icon: BadgeCheck },
   { label: "Listing performance", href: "/dashboard/business#performance", icon: BarChart3 },
   { label: "Investor interest", href: "/dashboard/business#interest", icon: TrendingUp },
@@ -72,7 +79,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             <Building2 className="h-4 w-4" />
             View {isBusiness ? "investor" : "business"} view
           </Link>
-          <Link href="#settings" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
+          <Link href="/dashboard/settings" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
             <Settings className="h-4 w-4" /> Settings
           </Link>
           <Link href="/" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
