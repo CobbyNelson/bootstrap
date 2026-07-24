@@ -1,14 +1,28 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Search, SlidersHorizontal, LayoutGrid, List, X, MapPin } from "lucide-react";
+import { Search, SlidersHorizontal, LayoutGrid, List, X, MapPin, Tag } from "lucide-react";
 import { REGIONS, SECTORS_FILTER, STAGES, INSTRUMENTS, TIERS, SORTS } from "@/lib/marketplace-data";
-import { SCORED_MARKETPLACE as MARKETPLACE } from "@/lib/matching";
+import { SCORED_MARKETPLACE as MARKETPLACE, slugify } from "@/lib/matching";
 import { OpportunityCard } from "@/components/ui/opportunity-card";
-import { Badge } from "@/components/ui/badge";
 import { Money } from "@/components/ui/money";
 import { CurrencySwitcher } from "@/components/layout/currency-switcher";
 import { cn } from "@/lib/utils";
+
+const LIST_GRADIENTS = [
+  "from-navy-700 to-navy-900",
+  "from-brand-600 to-brand-800",
+  "from-ink to-navy-900",
+  "from-navy-600 to-brand-800",
+];
+function rowInitials(name: string) {
+  return name.split(" ").slice(0, 2).map((w) => w[0]).join("");
+}
+function rowGradient(name: string) {
+  const sum = name.split("").reduce((s, c) => s + c.charCodeAt(0), 0);
+  return LIST_GRADIENTS[sum % LIST_GRADIENTS.length];
+}
 
 function askValue(ask: string): number {
   const num = parseFloat(ask.replace(/[^0-9.]/g, "")) || 0;
@@ -204,32 +218,47 @@ export function MarketplaceView() {
         ) : (
           <div className="mt-6 divide-y divide-ink/[0.07] overflow-hidden rounded-3xl border border-ink/[0.07] bg-white">
             {results.map((o) => (
-              <div key={o.name} className="flex flex-wrap items-center gap-4 p-5 transition-colors hover:bg-paper-2/50">
-                <div className="flex min-w-0 flex-1 items-center gap-3">
-                  <div className="grid h-11 w-11 flex-none place-items-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 text-sm font-bold text-white">
-                    {o.name.split(" ").slice(0, 2).map((w) => w[0]).join("")}
+              <Link
+                key={o.name}
+                href={`/marketplace/${slugify(o.name)}`}
+                className="group flex items-center gap-4 p-4 transition-colors hover:bg-paper-2/50"
+              >
+                {/* thumbnail */}
+                <div className={cn("relative hidden h-16 w-24 flex-none overflow-hidden rounded-xl bg-gradient-to-br sm:block", rowGradient(o.name))}>
+                  <div className="grid-noise absolute inset-0 opacity-20" aria-hidden />
+                  <div className="absolute inset-0 grid place-items-center">
+                    <span className="font-display text-lg font-extrabold tracking-tight text-white/90">{rowInitials(o.name)}</span>
                   </div>
-                  <div className="min-w-0">
-                    <p className="truncate font-semibold text-ink">{o.name}</p>
-                    <p className="flex items-center gap-1 text-xs text-ink/50">
-                      <MapPin className="h-3 w-3" /> {o.country} · {o.sector}
-                    </p>
+                  <span className="absolute left-1.5 top-1.5 rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.55rem] font-semibold text-white tnum">{o.match}%</span>
+                </div>
+
+                {/* title + meta */}
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <h3 className="truncate font-display text-base font-bold text-brand-600">{o.name}</h3>
+                    <span className="hidden flex-none rounded-full bg-paper-2 px-2 py-0.5 text-[0.58rem] kicker text-ink md:inline">{o.tier}</span>
                   </div>
+                  <p className="flex items-center gap-1 text-xs text-ink/45">
+                    <MapPin className="h-3 w-3" /> {o.country} · {o.region}
+                  </p>
                 </div>
-                <Badge variant="neutral" size="sm">{o.stage}</Badge>
-                <div className="w-20 text-right">
-                  <p className="text-[0.62rem] uppercase tracking-wide text-ink/40">Ask</p>
-                  <p className="font-semibold text-ink tnum"><Money usd={o.ask} /></p>
+
+                {/* category tag */}
+                <span className="hidden items-center gap-1.5 rounded-lg border border-brand-200 px-2.5 py-1.5 text-xs font-semibold text-brand-600 lg:inline-flex">
+                  <Tag className="h-3.5 w-3.5" /> {o.sector}
+                </span>
+
+                {/* seeking */}
+                <div className="w-24 flex-none text-right">
+                  <p className="text-[0.6rem] uppercase tracking-wide text-ink/40">Seeking</p>
+                  <p className="font-bold text-ink tnum"><Money usd={o.ask} /></p>
                 </div>
-                <div className="w-24 text-right">
-                  <p className="text-[0.62rem] uppercase tracking-wide text-ink/40">Target</p>
-                  <p className="font-semibold text-ink tnum">{o.targetReturn}</p>
-                </div>
-                <div className="w-16 text-right">
-                  <p className="text-[0.62rem] uppercase tracking-wide text-ink/40">Match</p>
-                  <p className="font-semibold text-emerald-600 tnum">{o.match}%</p>
-                </div>
-              </div>
+
+                {/* invest */}
+                <span className="hidden flex-none rounded-lg bg-paper-2 px-3.5 py-1.5 text-xs font-semibold text-ink transition-colors group-hover:bg-brand-600 group-hover:text-white sm:inline-block">
+                  Invest
+                </span>
+              </Link>
             ))}
           </div>
         )}
