@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard, Target, Bookmark, MessageSquare, FileText, Presentation,
+  LayoutDashboard, Target, Bookmark, MessageSquare, Presentation,
   Settings, Bell, Search, ArrowLeft, BarChart3, Wallet, Building2, TrendingUp,
+  Columns3, Lock,
 } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { cn } from "@/lib/utils";
@@ -13,20 +14,20 @@ type NavItem = { label: string; href: string; icon: typeof LayoutDashboard };
 
 const INVESTOR_NAV: NavItem[] = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Deal pipeline", href: "/dashboard/pipeline", icon: Columns3 },
+  { label: "Data rooms", href: "/dashboard/data-room", icon: Lock },
   { label: "Matches", href: "/dashboard#matches", icon: Target },
   { label: "Saved & watchlist", href: "/dashboard#saved", icon: Bookmark },
   { label: "Messages", href: "/dashboard#messages", icon: MessageSquare },
-  { label: "Documents", href: "/dashboard#documents", icon: FileText },
-  { label: "Roadshows", href: "/dashboard#roadshows", icon: Presentation },
   { label: "Marketplace", href: "/marketplace", icon: Search },
 ];
 
 const BUSINESS_NAV: NavItem[] = [
   { label: "Overview", href: "/dashboard/business", icon: LayoutDashboard },
+  { label: "Deal pipeline", href: "/dashboard/pipeline", icon: Columns3 },
+  { label: "Data room", href: "/dashboard/data-room", icon: Lock },
   { label: "Listing performance", href: "/dashboard/business#performance", icon: BarChart3 },
   { label: "Investor interest", href: "/dashboard/business#interest", icon: TrendingUp },
-  { label: "Messages", href: "/dashboard/business#messages", icon: MessageSquare },
-  { label: "Documents", href: "/dashboard/business#documents", icon: FileText },
   { label: "Payments", href: "/dashboard/business#payments", icon: Wallet },
 ];
 
@@ -39,7 +40,6 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-dvh bg-paper-2/50 lg:grid lg:grid-cols-[248px_1fr]">
-      {/* sidebar */}
       <aside className="sticky top-0 hidden h-dvh flex-col border-r border-ink/[0.07] bg-white lg:flex">
         <div className="flex h-16 items-center border-b border-ink/[0.06] px-5">
           <Logo />
@@ -48,21 +48,22 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           <p className="px-3 pb-2 pt-3 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-ink/40">
             {roleLabel} workspace
           </p>
-          {nav.map((item, i) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
-                i === 0
-                  ? "bg-brand-50 text-brand-700 ring-1 ring-brand-100"
-                  : "text-ink/60 hover:bg-paper-2 hover:text-ink"
-              )}
-            >
-              <item.icon className="h-4 w-4" />
-              {item.label}
-            </Link>
-          ))}
+          {nav.map((item) => {
+            const active = item.href === pathname;
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
+                  active ? "bg-brand-50 text-brand-700 ring-1 ring-brand-100" : "text-ink/60 hover:bg-paper-2 hover:text-ink"
+                )}
+              >
+                <item.icon className="h-4 w-4" />
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
         <div className="border-t border-ink/[0.06] p-3">
           <Link href={isBusiness ? "/dashboard" : "/dashboard/business"} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
@@ -78,9 +79,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
 
-      {/* main column */}
       <div className="flex min-w-0 flex-col">
-        {/* topbar */}
         <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-ink/[0.07] bg-white/80 px-5 backdrop-blur-md md:px-8">
           <div className="lg:hidden">
             <Logo />
