@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Target, Bookmark, MessageSquare, Presentation,
   Settings, Bell, Search, ArrowLeft, BarChart3, Wallet, Building2, TrendingUp,
-  Columns3, Lock,
+  Columns3, Lock, BadgeCheck,
 } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,7 @@ const INVESTOR_NAV: NavItem[] = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
   { label: "Deal pipeline", href: "/dashboard/pipeline", icon: Columns3 },
   { label: "Data rooms", href: "/dashboard/data-room", icon: Lock },
+  { label: "Verification", href: "/dashboard/verification", icon: BadgeCheck },
   { label: "Matches", href: "/dashboard#matches", icon: Target },
   { label: "Saved & watchlist", href: "/dashboard#saved", icon: Bookmark },
   { label: "Messages", href: "/dashboard#messages", icon: MessageSquare },
@@ -26,6 +27,7 @@ const BUSINESS_NAV: NavItem[] = [
   { label: "Overview", href: "/dashboard/business", icon: LayoutDashboard },
   { label: "Deal pipeline", href: "/dashboard/pipeline", icon: Columns3 },
   { label: "Data room", href: "/dashboard/data-room", icon: Lock },
+  { label: "Verification", href: "/dashboard/business/verification", icon: BadgeCheck },
   { label: "Listing performance", href: "/dashboard/business#performance", icon: BarChart3 },
   { label: "Investor interest", href: "/dashboard/business#interest", icon: TrendingUp },
   { label: "Payments", href: "/dashboard/business#payments", icon: Wallet },

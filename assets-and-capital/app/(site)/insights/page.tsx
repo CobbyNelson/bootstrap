@@ -1,52 +1,64 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Clock, ArrowUpRight } from "lucide-react";
-import { INSIGHTS } from "@/lib/content";
+import { TrendingUp, ArrowRight } from "lucide-react";
+import { INDICATORS } from "@/lib/insights-data";
 import { PageHeader } from "@/components/layout/page-header";
+import { InsightsPortal } from "@/components/insights/insights-portal";
 import { Reveal } from "@/components/ui/reveal";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Insights",
-  description: "Research, market views, and practical guides for capital and opportunity.",
+  title: "Market Insights",
+  description:
+    "Research, country reports, investment guides, white papers, case studies, and interviews on African and emerging-market private capital.",
 };
-
-const ALL = [
-  ...INSIGHTS,
-  { title: "Structuring co-investments for the mid-market", category: "Deal Structuring", readTime: "7 min", date: "May 2026" },
-  { title: "What LPs look for in a first-time fund", category: "Market Intelligence", readTime: "6 min", date: "May 2026" },
-  { title: "ESG in emerging markets: signal, not checkbox", category: "ESG", readTime: "9 min", date: "Apr 2026" },
-];
-
-const GRADIENTS = ["from-brand-600 to-brand-900", "from-gold-500 to-gold-700", "from-ink to-ink-2"];
 
 export default function InsightsPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Insights"
+        eyebrow="Market insights"
         title="Intelligence for capital and opportunity"
-        subtitle="Research, market views, and practical guides from the Assets & Capital team."
+        subtitle="Research, country reports, investment guides, and case studies from the Assets & Capital team — built for allocators and founders operating in Africa and emerging markets."
       />
 
-      <section className="py-16 md:py-20">
-        <div className="container-x grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {ALL.map((post, i) => (
-            <Reveal key={post.title} delay={(i % 3) * 0.08}>
-              <Link href="#" className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]">
-                <div className={`relative aspect-[16/10] bg-gradient-to-br ${GRADIENTS[i % 3]}`}>
-                  <div className="grid-noise absolute inset-0 opacity-30" aria-hidden />
-                  <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-ink backdrop-blur">{post.category}</span>
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <h3 className="text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-brand-700">{post.title}</h3>
-                  <div className="mt-auto flex items-center justify-between pt-6 text-xs text-ink/50">
-                    <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> {post.readTime} · {post.date}</span>
-                    <ArrowUpRight className="h-4 w-4 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand-600" />
-                  </div>
-                </div>
-              </Link>
-            </Reveal>
+      {/* economic indicators */}
+      <section className="border-b border-ink/[0.06] py-8">
+        <div className="container-x grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {INDICATORS.map((ind) => (
+            <div key={ind.label} className="rounded-2xl border border-ink/[0.06] bg-white p-5">
+              <p className="text-xs text-ink/50">{ind.label}</p>
+              <div className="mt-2 flex items-baseline gap-2">
+                <span className="font-display text-2xl font-semibold text-ink tnum">{ind.value}</span>
+                <span className={`inline-flex items-center gap-0.5 text-xs font-medium ${ind.up ? "text-emerald-600" : "text-brand-600"}`}>
+                  <TrendingUp className="h-3 w-3" /> {ind.delta}
+                </span>
+              </div>
+            </div>
           ))}
+        </div>
+      </section>
+
+      <section className="py-14 md:py-16">
+        <div className="container-x">
+          <InsightsPortal />
+        </div>
+      </section>
+
+      {/* newsletter */}
+      <section className="pb-20">
+        <div className="container-x">
+          <Reveal>
+            <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-ink to-ink-2 px-8 py-12 text-center text-white md:px-16 md:py-14">
+              <div className="grid-noise pointer-events-none absolute inset-0 opacity-20" aria-hidden />
+              <div className="relative mx-auto max-w-xl">
+                <h2 className="font-display text-2xl font-semibold md:text-3xl">The Assets &amp; Capital briefing</h2>
+                <p className="mt-3 text-white/65">Transaction-derived benchmarks and curated opportunities, delivered monthly. No noise.</p>
+                <Button href="/register/investor" variant="gold" size="lg" className="mt-7">
+                  Subscribe <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
     </>
