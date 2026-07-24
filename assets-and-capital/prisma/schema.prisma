@@ -1,0 +1,384 @@
+// Assets & Capital — enterprise data model
+// PostgreSQL via Prisma. Run: npx prisma generate && npx prisma migrate dev
+// This schema is the source of truth the UI maps to; wire it to a database
+// (e.g. Supabase Postgres) and replace the sample data in lib/* with queries.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ------------------------------------------------------------ enums
+
+enum Role {
+  INVESTOR
+  BUSINESS
+  ADMIN
+  SUPER_ADMIN
+  STAFF
+}
+
+enum OrgType {
+  INVESTOR
+  BUSINESS
+}
+
+enum InvestorClass {
+  PRIVATE_EQUITY
+  REAL_ESTATE
+  FUND
+}
+
+enum InvestorType {
+  INDIVIDUAL
+  FAMILY_OFFICE
+  INSTITUTIONAL
+  PENSION_FUND
+  SOVEREIGN_WEALTH_FUND
+  OTHER
+}
+
+enum ListingTier {
+  STANDARD
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+enum ListingStatus {
+  DRAFT
+  IN_REVIEW
+  LIVE
+  IN_DILIGENCE
+  CLOSED
+  WITHDRAWN
+}
+
+enum Instrument {
+  DEBT
+  EQUITY
+  PREFERRED_EQUITY
+}
+
+enum KycStatus {
+  NOT_STARTED
+  PENDING
+  VERIFIED
+  REJECTED
+  EXPIRED
+}
+
+enum DealStage {
+  MATCHED
+  INTRO
+  NDA
+  DATA_ROOM
+  DILIGENCE
+  TERM_SHEET
+  CLOSED
+  PASSED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentProvider {
+  STRIPE
+  PAYSTACK
+  FLUTTERWAVE
+}
+
+// ------------------------------------------------------------ identity
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  role          Role     @default(INVESTOR)
+  emailVerified DateTime?
+  twoFactorOn   Boolean  @default(false)
+  orgId         String?
+  organization  Organization? @relation(fields: [orgId], references: [id])
+  messages      Message[]     @relation("MessageSender")
+  notifications Notification[]
+  auditLogs     AuditLog[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([orgId])
+}
+
+model Organization {
+  id          String  @id @default(cuid())
+  type        OrgType
+  legalName   String
+  country     String?
+  region      String?
+  kycStatus   KycStatus @default(NOT_STARTED)
+  users       User[]
+  investor    InvestorProfile?
+  business    BusinessProfile?
+  documents   Document[]
+  payments    Payment[]
+  subscription Subscription?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ------------------------------------------------------------ investor side
+
+model InvestorProfile {
+  id           String        @id @default(cuid())
+  orgId        String        @unique
+  organization Organization  @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  investorType InvestorType
+  accredited   Boolean       @default(false)
+  jurisdiction String?
+  mandates     Mandate[]
+  saved        SavedOpportunity[]
+  watchlist    Watchlist[]
+  createdAt    DateTime      @default(now())
+}
+
+model Mandate {
+  id            String        @id @default(cuid())
+  investorId    String
+  investor      InvestorProfile @relation(fields: [investorId], references: [id], onDelete: Cascade)
+  investorClass InvestorClass
+  name          String
+  objectives    String[]
+  strategies    String[]
+  instruments   Instrument[]
+  regions       String[]
+  sectors       String[]
+  exclusions    String[]
+  ticketMin     Int?
+  ticketTarget  Int?
+  ticketMax     Int?
+  targetIrr     Float?
+  thesis        String?
+  status        String        @default("active")
+  matches       Match[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([investorId])
+}
+
+// ------------------------------------------------------------ business side
+
+model BusinessProfile {
+  id            String    @id @default(cuid())
+  orgId         String    @unique
+  organization  Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  website       String?
+  foundedYear   Int?
+  legalStructure String?
+  verified      Boolean   @default(false)
+  listings      Listing[]
+  createdAt     DateTime  @default(now())
+}
+
+model Listing {
+  id           String        @id @default(cuid())
+  businessId   String
+  business     BusinessProfile @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  title        String
+  summary      String?
+  industryId   String?
+  industry     Industry?     @relation(fields: [industryId], references: [id])
+  region       String?
+  country      String?
+  stage        String?
+  instrument   Instrument?
+  askAmount    Int?
+  equityOffered Float?
+  returnOffer  String?
+  tier         ListingTier   @default(STANDARD)
+  status       ListingStatus @default(DRAFT)
+  featuredUntil DateTime?
+  views        Int           @default(0)
+  documents    Document[]
+  matches      Match[]
+  savedBy      SavedOpportunity[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([industryId])
+  @@index([status])
+}
+
+model Industry {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  slug     String    @unique
+  categories Category[]
+  listings Listing[]
+}
+
+model Category {
+  id         String   @id @default(cuid())
+  name       String
+  industryId String
+  industry   Industry @relation(fields: [industryId], references: [id], onDelete: Cascade)
+
+  @@unique([industryId, name])
+}
+
+// ------------------------------------------------------------ matching & deals
+
+model Match {
+  id         String    @id @default(cuid())
+  mandateId  String
+  mandate    Mandate   @relation(fields: [mandateId], references: [id], onDelete: Cascade)
+  listingId  String
+  listing    Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  score      Int
+  stage      DealStage @default(MATCHED)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([mandateId, listingId])
+  @@index([stage])
+}
+
+model SavedOpportunity {
+  id         String   @id @default(cuid())
+  investorId String
+  investor   InvestorProfile @relation(fields: [investorId], references: [id], onDelete: Cascade)
+  listingId  String
+  listing    Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([investorId, listingId])
+}
+
+model Watchlist {
+  id         String   @id @default(cuid())
+  investorId String
+  investor   InvestorProfile @relation(fields: [investorId], references: [id], onDelete: Cascade)
+  label      String
+  createdAt  DateTime @default(now())
+}
+
+// ------------------------------------------------------------ engagement
+
+model Message {
+  id        String   @id @default(cuid())
+  threadId  String
+  senderId  String
+  sender    User     @relation("MessageSender", fields: [senderId], references: [id])
+  body      String
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([threadId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  title     String
+  body      String?
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Document {
+  id         String   @id @default(cuid())
+  orgId      String?
+  organization Organization? @relation(fields: [orgId], references: [id])
+  listingId  String?
+  listing    Listing? @relation(fields: [listingId], references: [id])
+  name       String
+  storageKey String
+  mimeType   String?
+  sizeBytes  Int?
+  createdAt  DateTime @default(now())
+}
+
+// ------------------------------------------------------------ events
+
+model Roadshow {
+  id         String   @id @default(cuid())
+  title      String
+  location   String?
+  date       DateTime
+  requestedBy String?
+  createdAt  DateTime @default(now())
+}
+
+model Event {
+  id        String   @id @default(cuid())
+  title     String
+  type      String
+  location  String?
+  date      DateTime
+  createdAt DateTime @default(now())
+}
+
+// ------------------------------------------------------------ commerce
+
+model Subscription {
+  id         String   @id @default(cuid())
+  orgId      String   @unique
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  tier       ListingTier
+  active     Boolean  @default(true)
+  renewsAt   DateTime?
+  provider   PaymentProvider?
+  createdAt  DateTime @default(now())
+}
+
+model Payment {
+  id          String        @id @default(cuid())
+  orgId       String
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  invoiceNo   String        @unique
+  description String
+  amountCents Int
+  currency    String        @default("USD")
+  provider    PaymentProvider
+  status      PaymentStatus @default(PENDING)
+  isSuccessFee Boolean      @default(false)
+  createdAt   DateTime      @default(now())
+
+  @@index([status])
+}
+
+// ------------------------------------------------------------ ops
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  actor     User?    @relation(fields: [actorId], references: [id])
+  action    String
+  target    String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([action])
+  @@index([createdAt])
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  name      String
+  entityId  String?
+  props     Json?
+  createdAt DateTime @default(now())
+
+  @@index([name])
+}
