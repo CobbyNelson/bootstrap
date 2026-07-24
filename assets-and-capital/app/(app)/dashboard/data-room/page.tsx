@@ -128,7 +128,7 @@ export default function DataRoomPage() {
             <div className="space-y-3">
               {AUDIT.map((a, i) => (
                 <div key={i} className="flex items-start gap-3 text-sm">
-                  <span className={`mt-1.5 h-1.5 w-1.5 flex-none rounded-full ${a.action === "Print blocked" ? "bg-brand-600" : a.action === "Downloaded" ? "bg-gold-500" : "bg-emerald-500"}`} />
+                  <span className={`mt-1.5 h-1.5 w-1.5 flex-none rounded-full ${a.action === "Print blocked" ? "bg-brand-600" : a.action === "Downloaded" ? "bg-navy-500" : "bg-emerald-500"}`} />
                   <div className="min-w-0 flex-1">
                     <p className="text-ink/80">
                       <span className="font-medium text-ink">{a.who}</span> {a.action.toLowerCase()}

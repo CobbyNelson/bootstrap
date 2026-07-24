@@ -30,20 +30,20 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-dvh bg-paper-2/60 lg:grid lg:grid-cols-[264px_1fr]">
       {/* dark sidebar */}
-      <aside className="sticky top-0 hidden h-dvh flex-col overflow-hidden bg-ink text-white lg:flex">
+      <aside className="sticky top-0 hidden h-dvh flex-col overflow-hidden bg-navy-900 text-white lg:flex">
         <div
-          className="pointer-events-none absolute inset-0 opacity-70"
-          style={{ background: "radial-gradient(120% 60% at 0% 0%, rgba(185,28,28,0.22), transparent 60%)" }}
+          className="pointer-events-none absolute inset-0 opacity-80"
+          style={{ background: "radial-gradient(120% 60% at 0% 0%, rgba(229,50,43,0.22), transparent 60%)" }}
           aria-hidden
         />
         <div className="relative flex h-16 items-center gap-2 px-5">
           <Logo invert />
-          <span className="ml-1 rounded-md bg-gold-500 px-1.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-ink">Admin</span>
+          <span className="ml-1 rounded-md bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-white">Admin</span>
         </div>
 
         {/* profile */}
         <div className="relative mx-3 mb-2 flex items-center gap-3 rounded-2xl bg-white/[0.06] p-3">
-          <span className="grid h-11 w-11 flex-none place-items-center rounded-full bg-gradient-to-br from-brand-500 to-brand-800 text-sm font-semibold text-white ring-2 ring-gold-500/70 ring-offset-2 ring-offset-ink">
+          <span className="grid h-11 w-11 flex-none place-items-center rounded-full bg-gradient-to-br from-brand-500 to-brand-800 text-sm font-semibold text-white ring-2 ring-brand-500/60 ring-offset-2 ring-offset-navy-900">
             PA
           </span>
           <div className="min-w-0">
@@ -53,7 +53,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         </div>
 
         <nav className="relative flex-1 space-y-0.5 overflow-y-auto px-3 pb-2">
-          <p className="kicker px-3 pb-1.5 pt-3 text-[0.6rem] text-gold-400/80">Administration</p>
+          <p className="kicker px-3 pb-1.5 pt-3 text-[0.6rem] text-navy-300/70">Administration</p>
           {NAV.map((item) => {
             const active = item.href === pathname;
             return (
@@ -65,10 +65,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                   active ? "bg-white text-ink shadow-sm" : "text-white/65 hover:bg-white/[0.06] hover:text-white"
                 )}
               >
-                <item.icon className={cn("h-4 w-4", active ? "text-brand-600" : "text-gold-400")} />
+                <item.icon className={cn("h-4 w-4", active ? "text-brand-600" : "text-navy-300")} />
                 <span className="flex-1">{item.label}</span>
                 {item.badge && (
-                  <span className={cn("rounded-full px-1.5 py-0.5 text-[0.6rem] font-semibold", active ? "bg-brand-600 text-white" : "bg-gold-500 text-ink")}>
+                  <span className={cn("rounded-full px-1.5 py-0.5 text-[0.6rem] font-semibold", active ? "bg-brand-600 text-white" : "bg-brand-600 text-white")}>
                     {item.badge}
                   </span>
                 )}
@@ -79,16 +79,16 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
         {/* active team */}
         <div className="relative border-t border-white/10 px-5 py-4">
-          <p className="kicker mb-2 text-[0.6rem] text-gold-400/80">Active team</p>
+          <p className="kicker mb-2 text-[0.6rem] text-navy-300/70">Active team</p>
           <div className="flex items-center">
             <div className="flex -space-x-2">
               {TEAM.map((t) => (
-                <span key={t} className="grid h-8 w-8 place-items-center rounded-full border-2 border-ink bg-gradient-to-br from-brand-500 to-brand-800 text-[0.6rem] font-semibold text-white">
+                <span key={t} className="grid h-8 w-8 place-items-center rounded-full border-2 border-navy-900 bg-gradient-to-br from-brand-500 to-brand-800 text-[0.6rem] font-semibold text-white">
                   {t}
                 </span>
               ))}
             </div>
-            <span className="ml-2 grid h-8 items-center rounded-full bg-gold-500 px-2 text-[0.65rem] font-semibold text-ink">+12</span>
+            <span className="ml-2 grid h-8 items-center rounded-full bg-white/15 px-2 text-[0.65rem] font-semibold text-white">+12</span>
           </div>
           <Link href="/" className="mt-4 flex items-center gap-2 text-sm font-medium text-white/55 hover:text-white">
             <ArrowLeft className="h-4 w-4" /> Back to site
@@ -114,7 +114,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-600" />
             </button>
             <div className="flex items-center gap-2.5 rounded-full border border-ink/10 bg-white py-1 pl-1 pr-3">
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-xs font-semibold text-white ring-1 ring-gold-500/50">PA</span>
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-xs font-semibold text-white ring-1 ring-navy-500/50">PA</span>
               <span className="hidden leading-tight sm:block">
                 <span className="block text-xs font-medium text-ink">Platform Admin</span>
                 <span className="block text-[0.65rem] text-ink/50">Super admin</span>

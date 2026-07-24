@@ -8,12 +8,12 @@ type Cat = "message" | "deal" | "payment" | "event" | "task" | "approval" | "men
 const META: Record<Cat, { label: string; icon: typeof Bell; color: string }> = {
   message: { label: "Messages", icon: MessageSquare, color: "text-brand-600 bg-brand-50" },
   deal: { label: "Deals", icon: TrendingUp, color: "text-emerald-600 bg-emerald-50" },
-  payment: { label: "Payments", icon: Wallet, color: "text-gold-700 bg-gold-100" },
+  payment: { label: "Payments", icon: Wallet, color: "text-navy-700 bg-navy-100" },
   event: { label: "Events", icon: Calendar, color: "text-brand-600 bg-brand-50" },
   task: { label: "Tasks", icon: CheckSquare, color: "text-ink/70 bg-paper-2" },
   approval: { label: "Approvals", icon: BadgeCheck, color: "text-emerald-600 bg-emerald-50" },
   mention: { label: "Mentions", icon: AtSign, color: "text-brand-600 bg-brand-50" },
-  announcement: { label: "Announcements", icon: Megaphone, color: "text-gold-700 bg-gold-100" },
+  announcement: { label: "Announcements", icon: Megaphone, color: "text-navy-700 bg-navy-100" },
 };
 
 type Note = { id: number; cat: Cat; title: string; body: string; time: string; read: boolean };

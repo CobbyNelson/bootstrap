@@ -140,7 +140,7 @@ export function CRM() {
                           <span className="grid h-9 w-9 flex-none place-items-center rounded-full bg-gradient-to-br from-ink to-ink-2 text-[0.7rem] font-semibold text-white">{initials(c.name)}</span>
                           <div className="min-w-0">
                             <div className="flex items-center gap-1.5">
-                              {c.starred && <Star className="h-3 w-3 flex-none fill-gold-500 text-gold-500" />}
+                              {c.starred && <Star className="h-3 w-3 flex-none fill-navy-500 text-navy-500" />}
                               <p className="truncate font-medium text-ink">{c.name}</p>
                             </div>
                             <p className="flex items-center gap-1 truncate text-xs text-ink/50"><Building2 className="h-3 w-3" /> {c.title} · {c.org}</p>

@@ -125,7 +125,7 @@ export function Billing() {
               <ul className="mt-4 flex-1 space-y-2">
                 {p.features.map((f) => (
                   <li key={f} className="flex items-start gap-2 text-xs text-ink/65">
-                    <Check className="mt-0.5 h-3.5 w-3.5 flex-none text-gold-600" /> {f}
+                    <Check className="mt-0.5 h-3.5 w-3.5 flex-none text-navy-600" /> {f}
                   </li>
                 ))}
               </ul>

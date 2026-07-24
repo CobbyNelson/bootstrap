@@ -36,7 +36,7 @@ export function NewsletterForm() {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="inline-flex h-9 items-center gap-1.5 rounded-full bg-gold-500 px-4 text-sm font-medium text-ink transition-colors hover:bg-gold-400 disabled:opacity-60"
+            className="inline-flex h-9 items-center gap-1.5 rounded-full bg-navy-500 px-4 text-sm font-medium text-ink transition-colors hover:bg-navy-400 disabled:opacity-60"
           >
             {status === "loading" ? "Joining…" : "Subscribe"}
             {status !== "loading" && <ArrowRight className="h-3.5 w-3.5" />}

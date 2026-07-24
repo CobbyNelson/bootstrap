@@ -49,9 +49,9 @@ function initials(name: string) {
 
 /* ---------- KPI card ---------- */
 const TONES = {
-  gold: { card: "bg-gold-500 text-ink", label: "text-ink/60", badge: "bg-ink/10 text-ink", spark: "var(--color-ink)", pill: "bg-ink/10 text-ink" },
-  ink: { card: "bg-ink text-white", label: "text-white/55", badge: "bg-white/10 text-gold-400", spark: "var(--color-gold-400)", pill: "bg-white/10 text-white" },
-  brand: { card: "bg-brand-700 text-white", label: "text-white/65", badge: "bg-white/12 text-white", spark: "var(--color-gold-300)", pill: "bg-white/12 text-white" },
+  navy: { card: "bg-navy-700 text-white", label: "text-white/60", badge: "bg-white/12 text-white", spark: "var(--color-navy-200)", pill: "bg-white/12 text-white" },
+  ink: { card: "bg-ink text-white", label: "text-white/55", badge: "bg-white/10 text-navy-300", spark: "var(--color-navy-300)", pill: "bg-white/10 text-white" },
+  brand: { card: "bg-brand-600 text-white", label: "text-white/70", badge: "bg-white/15 text-white", spark: "#ffffff", pill: "bg-white/15 text-white" },
   cream: { card: "bg-white text-ink border border-ink/[0.07]", label: "text-ink/55", badge: "bg-brand-50 text-brand-600", spark: "var(--color-brand-600)", pill: "bg-emerald-50 text-emerald-700" },
 } as const;
 
@@ -108,7 +108,7 @@ export default function AdminOverview() {
 
       {/* KPI cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <Kpi tone="gold" icon={TrendingUp} label="Capital facilitated" value="$248M" delta="12%" spark={[40, 52, 48, 66, 72, 61, 84, 96]} />
+        <Kpi tone="navy" icon={TrendingUp} label="Capital facilitated" value="$248M" delta="12%" spark={[40, 52, 48, 66, 72, 61, 84, 96]} />
         <Kpi tone="ink" icon={Building2} label="Active listings" value="482" delta="24" spark={[30, 34, 40, 38, 52, 60, 66, 78]} />
         <Kpi tone="brand" icon={Users} label="Active investors" value="1,204" delta="61" spark={[20, 28, 34, 40, 44, 56, 66, 80]} />
         <Kpi tone="cream" icon={BadgeCheck} label="Pending approvals" value="6" delta="2 overdue" spark={[8, 5, 9, 6, 10, 7, 6, 6]} />
@@ -144,7 +144,7 @@ export default function AdminOverview() {
                     </td>
                     <td className="hidden py-3 text-ink/60 sm:table-cell">{b.sector}</td>
                     <td className="py-3 text-center">
-                      <span className="inline-grid h-7 w-7 place-items-center rounded-full bg-gold-500 text-[0.7rem] font-semibold text-ink tnum">
+                      <span className="inline-grid h-7 w-7 place-items-center rounded-full bg-navy-500 text-[0.7rem] font-semibold text-ink tnum">
                         {b.interest}
                       </span>
                     </td>
@@ -167,7 +167,7 @@ export default function AdminOverview() {
           <BarChartDual data={DEAL_VOLUME} labels={MONTHS.map((m) => m[0])} />
           <div className="mt-4 flex items-center gap-4 text-xs text-ink/55">
             <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-ink" /> Closed</span>
-            <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-gold-400" /> In pipeline</span>
+            <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-navy-400" /> In pipeline</span>
           </div>
         </Panel>
       </div>
@@ -186,7 +186,7 @@ export default function AdminOverview() {
             </div>
             <div className="ml-auto flex items-center gap-4 text-xs text-ink/55">
               <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-brand-600" /> Connected</span>
-              <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-gold-500" /> Target</span>
+              <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-navy-500" /> Target</span>
             </div>
           </div>
           <AreaChart primary={CAPITAL} secondary={TARGET} labels={MONTHS} peakLabel="$300M" />

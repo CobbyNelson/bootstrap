@@ -32,7 +32,7 @@ export function Hero() {
           >
             <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/70 px-3 py-1 text-[0.7rem] kicker text-brand-700 backdrop-blur">
               <span className="flex items-center gap-0.5" aria-hidden>
-                <span className="h-1.5 w-1.5 rounded-full bg-gold-500" />
+                <span className="h-1.5 w-1.5 rounded-full bg-navy-500" />
                 <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
               </span>
               Global marketplace · 46 countries
@@ -115,7 +115,7 @@ function FloatingCard() {
       className="relative"
     >
       {/* decorative sparkle accent */}
-      <Asterisk className="absolute -left-6 -top-8 hidden h-10 w-10 text-gold-500 sm:block" strokeWidth={2.5} aria-hidden />
+      <Asterisk className="absolute -left-6 -top-8 hidden h-10 w-10 text-navy-500 sm:block" strokeWidth={2.5} aria-hidden />
       {/* main opportunity card */}
       <div className="rounded-3xl border border-ink/[0.07] bg-white p-6 shadow-[var(--shadow-lift)]">
         <div className="flex items-start justify-between">
@@ -171,7 +171,7 @@ function FloatingCard() {
         transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
         className="absolute -right-4 -top-6 hidden items-center gap-2 rounded-full border border-ink/[0.07] bg-white/90 px-3.5 py-2 shadow-[var(--shadow-card)] backdrop-blur md:flex"
       >
-        <span className="h-2 w-2 animate-pulse rounded-full bg-gold-500" />
+        <span className="h-2 w-2 animate-pulse rounded-full bg-navy-500" />
         <span className="text-xs font-medium text-ink">New mandate match</span>
       </motion.div>
     </motion.div>

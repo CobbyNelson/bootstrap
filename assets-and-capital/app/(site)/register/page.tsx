@@ -47,7 +47,7 @@ export default function RegisterPage() {
               <ul className="mt-6 space-y-2">
                 {p.points.map((pt) => (
                   <li key={pt} className="flex items-center gap-2 text-sm text-ink/70">
-                    <span className="h-1.5 w-1.5 rounded-full bg-gold-500" /> {pt}
+                    <span className="h-1.5 w-1.5 rounded-full bg-navy-500" /> {pt}
                   </li>
                 ))}
               </ul>

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 const GRADIENTS = [
   "from-brand-600 to-brand-900",
-  "from-gold-500 to-gold-700",
+  "from-navy-500 to-navy-700",
   "from-ink to-ink-2",
 ];
 

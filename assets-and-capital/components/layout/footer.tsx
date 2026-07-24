@@ -69,10 +69,10 @@ export function Footer() {
             <div className="flex items-center gap-2.5">
               <span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-[10px] bg-gradient-to-br from-brand-500 to-brand-800">
                 <span className="font-display text-[15px] font-bold text-white">A</span>
-                <span className="absolute bottom-1 right-1.5 h-1.5 w-1.5 rounded-full bg-gold-400" aria-hidden />
+                <span className="absolute bottom-1 right-1.5 h-1.5 w-1.5 rounded-full bg-navy-400" aria-hidden />
               </span>
               <span className="font-display text-[17px] font-semibold">
-                Assets <span className="text-gold-500">&amp;</span> Capital
+                Assets <span className="text-navy-500">&amp;</span> Capital
               </span>
             </div>
             <p className="mt-5 text-[0.95rem] leading-relaxed text-white/60">

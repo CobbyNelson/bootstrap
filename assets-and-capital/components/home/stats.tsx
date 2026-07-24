@@ -4,16 +4,16 @@ import { Reveal } from "@/components/ui/reveal";
 
 export function StatsBand() {
   return (
-    <section className="relative overflow-hidden bg-ink py-16 text-white md:py-20">
-      <div className="grid-noise pointer-events-none absolute inset-0 opacity-30" aria-hidden />
+    <section className="relative overflow-hidden bg-navy-800 py-16 text-white md:py-20">
+      <div className="grid-noise pointer-events-none absolute inset-0 opacity-20" aria-hidden />
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(194,160,74,0.5), transparent)" }}
+        style={{ background: "linear-gradient(90deg, transparent, rgba(229,50,43,0.6), transparent)" }}
         aria-hidden
       />
       <div className="container-x relative">
         <Reveal>
-          <p className="text-center text-sm font-medium uppercase tracking-[0.2em] text-gold-400">
+          <p className="kicker text-center text-[0.8rem] text-brand-400">
             Trusted worldwide to make the connection
           </p>
         </Reveal>

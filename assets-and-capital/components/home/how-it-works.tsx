@@ -68,7 +68,7 @@ export function HowItWorks() {
                 </div>
                 <div className="flex items-center justify-between bg-ink px-6 py-3">
                   <span className="kicker text-[0.7rem] text-white/60">Step</span>
-                  <span className="font-grotesk text-sm font-semibold text-gold-400 tnum">
+                  <span className="font-grotesk text-sm font-semibold text-navy-400 tnum">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </div>

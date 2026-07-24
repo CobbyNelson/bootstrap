@@ -32,7 +32,7 @@ export default function LoginPage() {
           aria-hidden
         />
         <div className="relative flex h-full flex-col justify-center px-16 text-white">
-          <ShieldCheck className="h-10 w-10 text-gold-400" />
+          <ShieldCheck className="h-10 w-10 text-navy-400" />
           <blockquote className="mt-8 max-w-md font-display text-3xl font-medium leading-snug">
             “The connection between quality assets and ready capital — made simple, credible, and impactful.”
           </blockquote>

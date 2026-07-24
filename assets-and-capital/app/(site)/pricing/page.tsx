@@ -64,7 +64,7 @@ export default function PricingPage() {
                 <ul className="mt-7 space-y-3">
                   {tier.features.map((f) => (
                     <li key={f} className="flex items-start gap-2.5 text-sm text-ink/70">
-                      <Check className={cn("mt-0.5 h-4 w-4 flex-none", tier.featured ? "text-brand-600" : "text-gold-600")} />
+                      <Check className={cn("mt-0.5 h-4 w-4 flex-none", tier.featured ? "text-brand-600" : "text-navy-600")} />
                       {f}
                     </li>
                   ))}
@@ -83,7 +83,7 @@ export default function PricingPage() {
               <div className="grid-noise pointer-events-none absolute inset-0 opacity-20" aria-hidden />
               <div className="relative grid items-center gap-8 md:grid-cols-[1.4fr_1fr]">
                 <div>
-                  <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-gold-400">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-navy-400">
                     Aligned incentives
                   </span>
                   <h2 className="mt-4 font-display text-3xl font-semibold md:text-4xl">Pay a success fee only when you close</h2>

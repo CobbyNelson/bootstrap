@@ -62,7 +62,7 @@ export default function InvestorsPage() {
             {WHY.map((w, i) => (
               <Reveal key={w.title} delay={i * 0.08}>
                 <div className="h-full rounded-3xl border border-ink/[0.07] bg-white p-7">
-                  <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gold-100 text-gold-700 ring-1 ring-gold-200">
+                  <span className="grid h-12 w-12 place-items-center rounded-2xl bg-navy-100 text-navy-700 ring-1 ring-navy-200">
                     <w.icon className="h-5 w-5" />
                   </span>
                   <h3 className="mt-5 text-lg font-semibold text-ink">{w.title}</h3>

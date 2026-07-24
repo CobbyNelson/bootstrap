@@ -1,33 +1,24 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces, Space_Grotesk } from "next/font/google";
+import { Figtree, Manrope } from "next/font/google";
 import { SITE } from "@/lib/content";
 import { CommandPalette } from "@/components/search/command-palette";
 import { CurrencyProvider } from "@/components/providers/currency-provider";
 import "./globals.css";
 
-const inter = Inter({
+// Titles — friendly geometric sans.
+const figtree = Figtree({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-figtree",
   display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-// Editorial serif display — high-contrast, optical. Draws on the warm
-// editorial reference (sample 3).
-const fraunces = Fraunces({
+// Content — clean modern sans.
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-manrope",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
-});
-
-// Grotesque accent face for kickers, marquees, numerals and tags — the
-// agency energy from samples 1–2.
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -66,7 +57,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${fraunces.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={`${figtree.variable} ${manrope.variable}`}>
       <body className="min-h-dvh antialiased">
         <CurrencyProvider>
           {children}

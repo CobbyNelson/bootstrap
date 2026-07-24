@@ -1,48 +1,44 @@
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Reveal } from "@/components/ui/reveal";
-import { Eyebrow } from "@/components/ui/section-heading";
-import { Button } from "@/components/ui/button";
+
+const PANELS = [
+  {
+    href: "/register/investor",
+    bg: "bg-brand-600",
+    title: "Become an investor",
+    body: "Gain exclusive access to vetted, mandate-matched opportunities.",
+    btn: "bg-navy-800 hover:bg-navy-900",
+  },
+  {
+    href: "/register/business",
+    bg: "bg-navy-800",
+    title: "Register your business",
+    body: "Raise capital from a global network of ready investors.",
+    btn: "bg-brand-600 hover:bg-brand-700",
+  },
+];
 
 export function FinalCTA() {
   return (
-    <section className="py-20 md:py-28">
-      <div className="container-x">
-        <Reveal>
-          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand-700 via-brand-800 to-ink px-8 py-16 text-center md:px-16 md:py-24">
-            <div className="grid-noise pointer-events-none absolute inset-0 opacity-20" aria-hidden />
-            <div
-              className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full opacity-40 blur-3xl"
-              style={{ background: "radial-gradient(circle, rgba(194,160,74,0.35), transparent 60%)" }}
-              aria-hidden
-            />
-            <div className="relative mx-auto max-w-2xl">
-              <div className="flex justify-center">
-                <Eyebrow invert>Get started</Eyebrow>
-              </div>
-              <h2 className="mt-5 font-display text-3xl font-medium leading-tight text-white sm:text-4xl md:text-5xl">
-                Ready to make the connection?
-              </h2>
-              <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-white/70">
-                Whether you&apos;re deploying capital or raising it, Assets &amp; Capital makes the connection
-                simple, credible, and impactful.
-              </p>
-              <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-                <Button href="/register/investor" variant="gold" size="lg">
-                  Register as an investor <ArrowRight className="h-4 w-4" />
-                </Button>
-                <Button
-                  href="/register/business"
-                  variant="outline"
-                  size="lg"
-                  className="border-white/25 bg-white/5 text-white hover:border-white/40 hover:bg-white/10"
-                >
-                  List your business
-                </Button>
-              </div>
-            </div>
+    <section className="grid md:grid-cols-2">
+      {PANELS.map((p) => (
+        <div key={p.href} className={`relative overflow-hidden px-6 py-16 md:px-12 md:py-24 lg:px-20 ${p.bg}`}>
+          <div className="grid-noise pointer-events-none absolute inset-0 opacity-10" aria-hidden />
+          <div className="relative mx-auto max-w-md">
+            <h2 className="font-display text-4xl font-extrabold uppercase leading-[0.98] text-white sm:text-5xl">
+              {p.title}
+            </h2>
+            <p className="mt-5 text-lg leading-relaxed text-white/80">{p.body}</p>
+            <Link
+              href={p.href}
+              className={`group mt-8 flex items-center justify-between gap-4 rounded-xl px-6 py-4 text-sm font-semibold uppercase tracking-wide text-white transition-colors ${p.btn}`}
+            >
+              Register now
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </Link>
           </div>
-        </Reveal>
-      </div>
+        </div>
+      ))}
     </section>
   );
 }

@@ -38,7 +38,7 @@ export default function HomePage() {
     <>
       <Hero />
       <StatsBand />
-      <Marquee items={SERVICES_TICKER} tone="ink" />
+      <Marquee items={SERVICES_TICKER} tone="navy" />
       <HowItWorks />
       <WhyUs />
       <Featured />

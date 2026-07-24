@@ -1,46 +1,49 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Assets & Capital — Design System (Hybrid)
-   Brand: deep corporate red (accent) + warm gold, ink & cream.
-   Display: Fraunces (editorial serif) · Accent: Space Grotesk
-   (grotesque) · Body: Inter
+   Assets & Capital — Design System
+   Brand: vivid red + deep navy, on cool white/grey.
+   Titles: Figtree · Content: Manrope
    ============================================================ */
 
 @theme {
   /* Brand red (primary) */
-  --color-brand-50: #fef3f2;
-  --color-brand-100: #fee4e2;
-  --color-brand-200: #fecdca;
-  --color-brand-300: #fda4a2;
-  --color-brand-400: #f97970;
-  --color-brand-500: #ef4444;
-  --color-brand-600: #b91c1c; /* primary */
-  --color-brand-700: #991b1b; /* primary dark */
-  --color-brand-800: #7f1d1d;
-  --color-brand-900: #5e1414;
-  --color-brand-950: #3f0d0d;
+  --color-brand-50: #fef2f1;
+  --color-brand-100: #fde1de;
+  --color-brand-200: #fbc8c2;
+  --color-brand-300: #f7a199;
+  --color-brand-400: #f16d61;
+  --color-brand-500: #ec4436;
+  --color-brand-600: #e5322b; /* primary — vivid brand red */
+  --color-brand-700: #c11f18; /* hover / dark */
+  --color-brand-800: #9f1c17;
+  --color-brand-900: #831b18;
+  --color-brand-950: #470a08;
 
-  /* Warm gold (accent) */
-  --color-gold-100: #f6edd5;
-  --color-gold-200: #ecdcab;
-  --color-gold-300: #e0c67e;
-  --color-gold-400: #d4af5a;
-  --color-gold-500: #c2a04a; /* accent */
-  --color-gold-600: #a6842f;
-  --color-gold-700: #856822;
+  /* Brand navy (secondary) */
+  --color-navy-50: #eef2f8;
+  --color-navy-100: #d8e1ee;
+  --color-navy-200: #b3c4dc;
+  --color-navy-300: #839fc4;
+  --color-navy-400: #4f6fa1;
+  --color-navy-500: #2c4c80;
+  --color-navy-600: #1d3a67;
+  --color-navy-700: #132f52; /* primary navy */
+  --color-navy-800: #0f2542;
+  --color-navy-900: #0b1c33;
+  --color-navy-950: #061224;
 
-  /* Ink & warm-cream neutrals */
-  --color-ink: #14120e;      /* warm near-black */
-  --color-ink-2: #201d17;
-  --color-paper: #faf6ee;    /* warm cream canvas */
-  --color-paper-2: #f1e9da;  /* deeper cream */
-  --color-paper-3: #e9dfcb;  /* editorial band */
-  --color-line: #e4d9c4;
+  /* Ink & cool-neutral surfaces */
+  --color-ink: #10141c;      /* near-black text */
+  --color-ink-2: #1b2130;
+  --color-paper: #f8f9fb;    /* cool white canvas */
+  --color-paper-2: #edf0f4;  /* light grey */
+  --color-paper-3: #e3e8ee;  /* panel grey */
+  --color-line: #dfe4ea;
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
-  --font-grotesk: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  --font-grotesk: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
 
   --radius-xl: 14px;
   --radius-2xl: 20px;
@@ -66,10 +69,8 @@ body {
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-feature-settings: "cv02", "cv03", "cv04", "ss01";
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  letter-spacing: -0.011em;
+  letter-spacing: normal;
 }
 ::selection {
   background: var(--color-brand-600);
@@ -106,8 +107,8 @@ h1, h2, h3, h4 {
 }
 
 /* ---------- text treatments ---------- */
-.text-gradient-gold {
-  background: linear-gradient(100deg, var(--color-gold-600), var(--color-gold-400) 55%, var(--color-gold-300));
+.text-gradient-navy {
+  background: linear-gradient(100deg, var(--color-navy-700), var(--color-navy-500) 60%, var(--color-navy-400));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

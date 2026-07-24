@@ -23,7 +23,7 @@ function initials(name: string) {
 }
 
 export function OpportunityCard({ o, href }: { o: Opportunity; href?: string }) {
-  const matchColor = o.match >= 88 ? "text-emerald-600" : o.match >= 80 ? "text-brand-600" : "text-gold-600";
+  const matchColor = o.match >= 88 ? "text-emerald-600" : o.match >= 80 ? "text-brand-600" : "text-navy-600";
   const to = href ?? `/marketplace/${slugify(o.name)}`;
   return (
     <Link

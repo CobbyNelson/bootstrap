@@ -46,7 +46,7 @@ function ServiceColumn({
           <h3 className="font-display text-2xl font-semibold text-ink">{title}</h3>
           <span
             className={`rounded-full px-3 py-1 text-xs font-medium ${
-              accent === "brand" ? "bg-brand-50 text-brand-700" : "bg-gold-100 text-gold-700"
+              accent === "brand" ? "bg-brand-50 text-brand-700" : "bg-navy-100 text-navy-700"
             }`}
           >
             {tag}
@@ -63,7 +63,7 @@ function ServiceColumn({
                 className={`grid h-11 w-11 flex-none place-items-center rounded-xl ring-1 transition-colors ${
                   accent === "brand"
                     ? "bg-brand-50 text-brand-600 ring-brand-100 group-hover:bg-brand-600 group-hover:text-white"
-                    : "bg-gold-100 text-gold-700 ring-gold-200 group-hover:bg-gold-500 group-hover:text-white"
+                    : "bg-navy-100 text-navy-700 ring-navy-200 group-hover:bg-navy-500 group-hover:text-white"
                 }`}
               >
                 <s.icon className="h-5 w-5" />

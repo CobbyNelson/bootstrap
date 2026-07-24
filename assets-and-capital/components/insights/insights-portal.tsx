@@ -9,10 +9,10 @@ import { cn } from "@/lib/utils";
 const GRADIENT: Record<string, string> = {
   "Market Intelligence": "from-brand-600 to-brand-900",
   "Country Report": "from-ink to-ink-2",
-  "Investment Guide": "from-gold-500 to-gold-700",
+  "Investment Guide": "from-navy-500 to-navy-700",
   "White Paper": "from-brand-700 to-ink",
   "Case Study": "from-emerald-600 to-emerald-800",
-  Interview: "from-gold-600 to-brand-800",
+  Interview: "from-navy-600 to-brand-800",
   ESG: "from-emerald-500 to-emerald-700",
 };
 

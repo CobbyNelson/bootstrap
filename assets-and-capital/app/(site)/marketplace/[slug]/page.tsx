@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 function starColor(stars: number): string {
   if (stars >= 5) return "#059669";
   if (stars >= 4) return "var(--color-brand-600)";
-  return "var(--color-gold-600)";
+  return "var(--color-navy-600)";
 }
 
 function ScoreRing({ value, color }: { value: number; color: string }) {
@@ -147,7 +147,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
                       <span className="font-medium text-ink tnum">{Math.round(dim.f * 100)}</span>
                     </div>
                     <div className="h-1.5 overflow-hidden rounded-full bg-ink/[0.06]">
-                      <div className={cn("h-full rounded-full", dim.f >= 0.85 ? "bg-emerald-500" : dim.f >= 0.6 ? "bg-brand-600" : "bg-gold-500")} style={{ width: `${Math.round(dim.f * 100)}%` }} />
+                      <div className={cn("h-full rounded-full", dim.f >= 0.85 ? "bg-emerald-500" : dim.f >= 0.6 ? "bg-brand-600" : "bg-navy-500")} style={{ width: `${Math.round(dim.f * 100)}%` }} />
                     </div>
                   </div>
                 ))}
@@ -162,7 +162,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
                 {biz.map((b) => {
                   const good = b.higherIsBetter ? b.value >= 70 : b.value <= 45;
                   const mid = b.higherIsBetter ? b.value >= 55 : b.value <= 60;
-                  const tone = good ? "text-emerald-600" : mid ? "text-gold-600" : "text-brand-600";
+                  const tone = good ? "text-emerald-600" : mid ? "text-navy-600" : "text-brand-600";
                   return (
                     <div key={b.key} className="rounded-2xl border border-ink/[0.06] p-4">
                       <p className="text-xs text-ink/50">{b.label}</p>
@@ -214,7 +214,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
                 ))}
                 {match.watchouts.map((r) => (
                   <p key={r} className="flex items-start gap-2 text-sm text-ink/70">
-                    <TriangleAlert className="mt-0.5 h-4 w-4 flex-none text-gold-600" /> {r}
+                    <TriangleAlert className="mt-0.5 h-4 w-4 flex-none text-navy-600" /> {r}
                   </p>
                 ))}
               </div>

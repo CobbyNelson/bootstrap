@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button";
 
 export function Process() {
   return (
-    <section className="relative overflow-hidden bg-ink py-20 text-white md:py-28">
-      <div className="grid-noise pointer-events-none absolute inset-0 opacity-25" aria-hidden />
+    <section className="relative overflow-hidden bg-navy-800 py-20 text-white md:py-28">
+      <div className="grid-noise pointer-events-none absolute inset-0 opacity-20" aria-hidden />
       <div
-        className="pointer-events-none absolute right-[-5%] top-1/2 h-[400px] w-[400px] -translate-y-1/2 rounded-full opacity-30 blur-3xl"
-        style={{ background: "radial-gradient(circle, rgba(185,28,28,0.4), transparent 60%)" }}
+        className="pointer-events-none absolute right-[-5%] top-1/2 h-[400px] w-[400px] -translate-y-1/2 rounded-full opacity-40 blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(229,50,43,0.45), transparent 60%)" }}
         aria-hidden
       />
       <div className="container-x relative">
@@ -24,9 +24,9 @@ export function Process() {
         <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/5 md:grid-cols-4">
           {PROCESS.map((step, i) => (
             <Reveal key={step.title} delay={i * 0.1}>
-              <div className="group relative h-full bg-ink/40 p-8 transition-colors hover:bg-white/[0.04]">
+              <div className="group relative h-full bg-navy-900/40 p-8 transition-colors hover:bg-white/[0.04]">
                 <div className="flex items-center gap-3">
-                  <span className="grid h-9 w-9 place-items-center rounded-full border border-gold-500/40 font-grotesk text-sm font-semibold text-gold-400">
+                  <span className="grid h-9 w-9 place-items-center rounded-full border border-brand-500/50 font-grotesk text-sm font-semibold text-brand-400">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   {i < PROCESS.length - 1 && (
@@ -47,7 +47,7 @@ export function Process() {
               Meet multiple pre-screened opportunities in curated sessions built around your mandate.
             </p>
           </div>
-          <Button href="/services/roadshows" variant="gold" size="lg" className="shrink-0">
+          <Button href="/services/roadshows" variant="primary" size="lg" className="shrink-0">
             Request a roadshow <ArrowRight className="h-4 w-4" />
           </Button>
         </div>

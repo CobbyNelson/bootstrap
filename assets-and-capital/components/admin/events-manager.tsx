@@ -47,7 +47,7 @@ const REGISTRANTS = [
 ];
 
 const TIER_STYLE: Record<string, string> = {
-  VIP: "bg-gold-100 text-gold-700",
+  VIP: "bg-navy-100 text-navy-700",
   Investor: "bg-brand-50 text-brand-700",
   Speaker: "bg-violet-50 text-violet-700",
   General: "bg-ink/[0.05] text-ink/55",

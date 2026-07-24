@@ -106,7 +106,7 @@ export default function BusinessDashboard() {
           {scores.map((s) => {
             const good = s.higherIsBetter ? s.value >= 70 : s.value <= 45;
             const mid = s.higherIsBetter ? s.value >= 55 : s.value <= 60;
-            const tone = good ? "text-emerald-600" : mid ? "text-gold-600" : "text-brand-600";
+            const tone = good ? "text-emerald-600" : mid ? "text-navy-600" : "text-brand-600";
             return (
               <div key={s.key} className="rounded-2xl border border-ink/[0.06] p-4">
                 <p className="text-xs text-ink/50">{s.label}</p>

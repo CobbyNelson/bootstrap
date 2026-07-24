@@ -132,7 +132,7 @@ export function DealPipeline() {
                     <div key={d.name} className="rounded-xl border border-ink/[0.06] bg-paper-2/40 p-3 transition-colors hover:border-ink/15">
                       <div className="flex items-start justify-between gap-2">
                         <p className="text-[0.8rem] font-medium leading-snug text-ink">{d.name}</p>
-                        <span className={cn("text-[0.65rem] font-semibold tnum", d.score >= 90 ? "text-emerald-600" : d.score >= 75 ? "text-brand-600" : "text-gold-600")}>{d.score}</span>
+                        <span className={cn("text-[0.65rem] font-semibold tnum", d.score >= 90 ? "text-emerald-600" : d.score >= 75 ? "text-brand-600" : "text-navy-600")}>{d.score}</span>
                       </div>
                       <p className="mt-0.5 text-[0.68rem] text-ink/45">{d.sector}</p>
                       <div className="mt-2.5 flex items-center justify-between">

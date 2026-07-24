@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 
 const C = {
   ink: "var(--color-ink)",
-  gold: "var(--color-gold-500)",
-  goldSoft: "var(--color-gold-300)",
+  gold: "var(--color-navy-500)",
+  goldSoft: "var(--color-navy-300)",
   brand: "var(--color-brand-600)",
   teal: "#0f766e",
   line: "rgba(20,18,14,0.08)",
@@ -53,7 +53,7 @@ export function BarChartDual({
           return (
             <div key={i} className="flex h-full flex-1 flex-col justify-end">
               <div className="relative w-full overflow-hidden rounded-lg" style={{ height: `${total}%` }}>
-                <div className="absolute inset-x-0 top-0 bg-gold-400" style={{ height: `${capPct}%` }} />
+                <div className="absolute inset-x-0 top-0 bg-navy-400" style={{ height: `${capPct}%` }} />
                 <div className="absolute inset-x-0 bottom-0 bg-ink" style={{ height: `${100 - capPct}%` }} />
               </div>
             </div>

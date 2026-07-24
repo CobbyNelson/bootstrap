@@ -102,7 +102,7 @@ export default function AdminMatchingPage() {
                     <p className="truncate text-[0.7rem] text-ink/45">{o.sector} · {o.country}</p>
                   </div>
                   <div className="text-right">
-                    <p className={cn("font-display text-lg font-semibold tnum", m.stars >= 5 ? "text-emerald-600" : m.stars >= 4 ? "text-brand-600" : "text-gold-600")}>{m.score}</p>
+                    <p className={cn("font-display text-lg font-semibold tnum", m.stars >= 5 ? "text-emerald-600" : m.stars >= 4 ? "text-brand-600" : "text-navy-600")}>{m.score}</p>
                     <p className="text-[0.6rem] text-ink/40">{"★".repeat(m.stars)}</p>
                   </div>
                 </div>

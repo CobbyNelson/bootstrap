@@ -16,12 +16,12 @@ export function Eyebrow({
     <span
       className={cn(
         "inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[0.7rem] kicker",
-        invert ? "border-white/15 bg-white/5 text-gold-300" : "border-ink/10 bg-white/70 text-brand-700",
+        invert ? "border-white/15 bg-white/5 text-navy-300" : "border-ink/10 bg-white/70 text-brand-700",
         className
       )}
     >
       <span className="flex items-center gap-0.5" aria-hidden>
-        <span className="h-1.5 w-1.5 rounded-full bg-gold-500" />
+        <span className="h-1.5 w-1.5 rounded-full bg-navy-500" />
         <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
       </span>
       {children}
@@ -41,7 +41,7 @@ export function CircleArrow({
 }) {
   const tones = {
     brand: "bg-brand-600 text-white",
-    gold: "bg-gold-500 text-ink",
+    gold: "bg-navy-500 text-ink",
     ink: "bg-ink text-white",
     white: "bg-white text-ink",
   } as const;
