@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MapPin, ArrowRight, Bookmark, FileSignature, Check, TriangleAlert, ShieldCheck, Star } from "lucide-react";
+import { MapPin, ArrowRight, FileSignature, Check, TriangleAlert, ShieldCheck, Star } from "lucide-react";
+import { SaveButton } from "@/components/ui/save-button";
 import { getOpportunityBySlug, allOpportunitySlugs, scoreOpportunity, DEMO_MANDATE, derive } from "@/lib/matching";
 import { scoreBusiness } from "@/lib/business-scoring";
 import { Badge } from "@/components/ui/badge";
@@ -224,9 +225,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
                   Express interest <ArrowRight className="h-4 w-4" />
                 </Button>
                 <div className="grid grid-cols-2 gap-2">
-                  <button className="inline-flex items-center justify-center gap-1.5 rounded-full border border-ink/12 py-2.5 text-sm font-medium text-ink/70 hover:border-ink/25">
-                    <Bookmark className="h-4 w-4" /> Save
-                  </button>
+                  <SaveButton slug={slug} variant="detail" />
                   <button className="inline-flex items-center justify-center gap-1.5 rounded-full border border-ink/12 py-2.5 text-sm font-medium text-ink/70 hover:border-ink/25">
                     <FileSignature className="h-4 w-4" /> Sign NDA
                   </button>

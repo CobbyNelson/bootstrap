@@ -1,21 +1,61 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, Check, Loader2 } from "lucide-react";
+import { ArrowRight, Check, Loader2, AlertCircle } from "lucide-react";
+import { isEmail, isFilled, minLen } from "@/lib/validation";
+import { cn } from "@/lib/utils";
+
+type Field = "name" | "email" | "company" | "role" | "message";
+type Values = Record<Field, string>;
+type Errors = Partial<Record<Field, string>>;
+
+const EMPTY: Values = { name: "", email: "", company: "", role: "", message: "" };
+
+function validate(v: Values): Errors {
+  const e: Errors = {};
+  if (!isFilled(v.name)) e.name = "Please enter your name.";
+  if (!isFilled(v.email)) e.email = "Please enter your email.";
+  else if (!isEmail(v.email)) e.email = "Enter a valid email address.";
+  if (!isFilled(v.role)) e.role = "Select an option.";
+  if (!minLen(v.message, 10)) e.message = "Tell us a little more (10+ characters).";
+  return e;
+}
 
 export function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
+  const [values, setValues] = useState<Values>(EMPTY);
+  const [errors, setErrors] = useState<Errors>({});
+  const [touched, setTouched] = useState<Partial<Record<Field, boolean>>>({});
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+
+  const set = (f: Field) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const next = { ...values, [f]: e.target.value };
+    setValues(next);
+    if (touched[f]) setErrors(validate(next));
+  };
+  const blur = (f: Field) => () => {
+    setTouched((t) => ({ ...t, [f]: true }));
+    setErrors(validate(values));
+  };
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const errs = validate(values);
+    setErrors(errs);
+    setTouched({ name: true, email: true, company: true, role: true, message: true });
+    if (Object.keys(errs).length) return;
     setStatus("loading");
-    // Integration seam: POST /api/contact (Resend email). Simulated here.
-    await new Promise((r) => setTimeout(r, 900));
-    setStatus("done");
+    try {
+      // Integration seam: POST /api/contact (Resend email). Simulated here.
+      await new Promise((r) => setTimeout(r, 900));
+      setStatus("done");
+    } catch {
+      setStatus("error");
+    }
   }
 
-  const input =
-    "w-full rounded-xl border border-ink/10 bg-paper-2/60 px-3.5 py-2.5 text-sm text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-brand-600/30";
+  const base = "w-full rounded-xl border bg-paper-2/60 px-3.5 py-2.5 text-sm text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2";
+  const cls = (f: Field) =>
+    cn(base, errors[f] && touched[f] ? "border-brand-300 focus:ring-brand-600/30" : "border-ink/10 focus:ring-brand-600/30");
 
   if (status === "done") {
     return (
@@ -29,34 +69,52 @@ export function ContactForm() {
     );
   }
 
+  function Err({ f }: { f: Field }) {
+    if (!errors[f] || !touched[f]) return null;
+    return (
+      <p className="mt-1.5 flex items-center gap-1 text-xs font-medium text-brand-600">
+        <AlertCircle className="h-3.5 w-3.5" /> {errors[f]}
+      </p>
+    );
+  }
+
   return (
-    <form onSubmit={onSubmit} className="grid gap-4 sm:grid-cols-2">
+    <form onSubmit={onSubmit} noValidate className="grid gap-4 sm:grid-cols-2">
       <div>
         <label className="mb-1.5 block text-sm font-medium text-ink/80">Full name</label>
-        <input required className={input} placeholder="Jane Doe" />
+        <input value={values.name} onChange={set("name")} onBlur={blur("name")} className={cls("name")} placeholder="Jane Doe" />
+        <Err f="name" />
       </div>
       <div>
         <label className="mb-1.5 block text-sm font-medium text-ink/80">Email</label>
-        <input type="email" required className={input} placeholder="you@company.com" />
+        <input type="email" value={values.email} onChange={set("email")} onBlur={blur("email")} className={cls("email")} placeholder="you@company.com" />
+        <Err f="email" />
       </div>
       <div>
         <label className="mb-1.5 block text-sm font-medium text-ink/80">Company</label>
-        <input className={input} placeholder="Company name" />
+        <input value={values.company} onChange={set("company")} className={cls("company")} placeholder="Company name" />
       </div>
       <div>
         <label className="mb-1.5 block text-sm font-medium text-ink/80">I am a(n)</label>
-        <select className={input} defaultValue="">
+        <select value={values.role} onChange={set("role")} onBlur={blur("role")} className={cls("role")}>
           <option value="" disabled>Select…</option>
           <option>Investor</option>
           <option>Business seeking capital</option>
           <option>Partner / advisor</option>
           <option>Other</option>
         </select>
+        <Err f="role" />
       </div>
       <div className="sm:col-span-2">
         <label className="mb-1.5 block text-sm font-medium text-ink/80">How can we help?</label>
-        <textarea required rows={4} className={`${input} resize-y`} placeholder="Tell us a little about what you're looking for…" />
+        <textarea value={values.message} onChange={set("message")} onBlur={blur("message")} rows={4} className={cn(cls("message"), "resize-y")} placeholder="Tell us a little about what you're looking for…" />
+        <Err f="message" />
       </div>
+      {status === "error" && (
+        <div className="sm:col-span-2 flex items-center gap-2 rounded-xl border border-brand-200 bg-brand-50 px-3.5 py-2.5 text-sm font-medium text-brand-700">
+          <AlertCircle className="h-4 w-4" /> Something went wrong. Please try again.
+        </div>
+      )}
       <div className="sm:col-span-2">
         <button
           type="submit"
@@ -64,13 +122,9 @@ export function ContactForm() {
           className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
         >
           {status === "loading" ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" /> Sending…
-            </>
+            <><Loader2 className="h-4 w-4 animate-spin" /> Sending…</>
           ) : (
-            <>
-              Send message <ArrowRight className="h-4 w-4" />
-            </>
+            <>Send message <ArrowRight className="h-4 w-4" /></>
           )}
         </button>
       </div>

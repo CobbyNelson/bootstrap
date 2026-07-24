@@ -23,7 +23,7 @@ const INVESTOR_NAV: NavItem[] = [
   { label: "Agreements", href: "/dashboard/documents", icon: FileSignature },
   { label: "Verification", href: "/dashboard/verification", icon: BadgeCheck },
   { label: "Matches", href: "/dashboard#matches", icon: Target },
-  { label: "Saved & watchlist", href: "/dashboard#saved", icon: Bookmark },
+  { label: "Saved & watchlist", href: "/dashboard/saved", icon: Bookmark },
   { label: "Marketplace", href: "/marketplace", icon: Search },
 ];
 

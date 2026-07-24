@@ -15,6 +15,7 @@ const ROUTES = [
   "/contact",
   "/events",
   "/insights",
+  "/faq",
   "/register",
   "/register/investor",
   "/register/business",

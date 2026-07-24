@@ -3,6 +3,7 @@ import { MapPin, Tag } from "lucide-react";
 import type { Opportunity } from "@/lib/content";
 import { slugify } from "@/lib/matching";
 import { Money } from "./money";
+import { SaveButton } from "./save-button";
 
 const GRADIENTS = [
   "from-navy-700 to-navy-900",
@@ -36,7 +37,8 @@ export function OpportunityCard({ o, href }: { o: Opportunity; href?: string }) 
         <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[0.62rem] kicker text-ink shadow-sm">
           {o.tier}
         </span>
-        <span className="absolute right-3 top-3 rounded-full bg-brand-600 px-2.5 py-1 text-[0.65rem] font-semibold text-white tnum">
+        <SaveButton slug={slugify(o.name)} className="absolute right-3 top-3" />
+        <span className="absolute bottom-3 left-3 rounded-full bg-brand-600 px-2.5 py-1 text-[0.65rem] font-semibold text-white tnum">
           {o.match}% match
         </span>
       </div>
