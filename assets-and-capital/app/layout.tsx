@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { SITE } from "@/lib/content";
+import { CommandPalette } from "@/components/search/command-palette";
 import "./globals.css";
 
 const inter = Inter({
@@ -53,7 +54,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body className="min-h-dvh antialiased">{children}</body>
+      <body className="min-h-dvh antialiased">
+        {children}
+        <CommandPalette />
+      </body>
     </html>
   );
 }

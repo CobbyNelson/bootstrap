@@ -85,15 +85,19 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             <Logo />
           </div>
           <div className="ml-auto flex items-center gap-3">
-            <div className="hidden items-center gap-2 rounded-full border border-ink/10 bg-paper-2/60 px-3.5 py-2 text-sm text-ink/50 sm:flex">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event("ac-open-search"))}
+              className="hidden items-center gap-2 rounded-full border border-ink/10 bg-paper-2/60 px-3.5 py-2 text-sm text-ink/50 transition-colors hover:border-ink/20 hover:text-ink/70 sm:flex"
+            >
               <Search className="h-4 w-4" />
-              <span className="w-40">Search…</span>
+              <span className="w-40 text-left">Search…</span>
               <kbd className="rounded border border-ink/15 px-1.5 text-[0.65rem] text-ink/40">⌘K</kbd>
-            </div>
-            <button className="relative grid h-10 w-10 place-items-center rounded-full border border-ink/10 text-ink/60 hover:text-ink" aria-label="Notifications">
+            </button>
+            <Link href="/dashboard/notifications" className="relative grid h-10 w-10 place-items-center rounded-full border border-ink/10 text-ink/60 hover:text-ink" aria-label="Notifications">
               <Bell className="h-[18px] w-[18px]" />
               <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-600" />
-            </button>
+            </Link>
             <div className="flex items-center gap-2.5 rounded-full border border-ink/10 py-1 pl-1 pr-3">
               <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-ink to-ink-2 text-xs font-semibold text-white">
                 {person.name.split(" ").slice(0, 2).map((w) => w[0]).join("")}

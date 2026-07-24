@@ -64,7 +64,7 @@ export default function BusinessDashboard() {
             <Badge variant="success" size="sm">Verified</Badge>
           </div>
         </div>
-        <Link href="/pricing" className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
+        <Link href="/dashboard/business/billing" className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
           Upgrade listing <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
@@ -172,7 +172,7 @@ export default function BusinessDashboard() {
           </div>
         </Panel>
 
-        <Panel id="payments" title="Payments & invoices" action={{ label: "Billing", href: "/pricing" }}>
+        <Panel id="payments" title="Payments & invoices" action={{ label: "Billing", href: "/dashboard/business/billing" }}>
           <div className="divide-y divide-ink/[0.06]">
             {INVOICES.map((inv) => (
               <div key={inv.id} className="flex items-center gap-3 py-3 first:pt-0">
