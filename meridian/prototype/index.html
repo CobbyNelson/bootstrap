@@ -1,0 +1,1265 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian — Investment Matchmaking Platform (Prototype)</title>
+<style>
+  :root{
+    --bg:#0A0E17; --surface:#141A26; --surface-2:#1A2130; --surface-3:#212A3B;
+    --primary:#3B6EF5; --primary-dim:rgba(59,110,245,.16); --primary-line:rgba(59,110,245,.45);
+    --accent:#CBA15A; --accent-dim:rgba(203,161,90,.15);
+    --positive:#24B47E; --positive-dim:rgba(36,180,126,.14);
+    --negative:#E5484D; --negative-dim:rgba(229,72,77,.14);
+    --text:#EAEEF6; --muted:#8B96A9; --faint:#5D6779;
+    --border:#232B3B; --border-strong:#2D3646;
+    --font-sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,'SF Mono','Cascadia Code','Roboto Mono',Menlo,Consolas,monospace;
+    --r-sm:6px; --r-md:10px; --r-lg:14px;
+    --shadow:0 12px 32px rgba(0,0,0,.45);
+    --sidebar:236px; --topbar:56px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--font-sans);
+    font-size:14px; line-height:1.5; -webkit-font-smoothing:antialiased;
+    letter-spacing:-0.006em;
+  }
+  .num,.mono{font-family:var(--font-mono); font-variant-numeric:tabular-nums; letter-spacing:-0.01em}
+  .tnum{font-variant-numeric:tabular-nums}
+  h1,h2,h3,h4{margin:0; font-weight:600; letter-spacing:-0.02em; text-wrap:balance}
+  a{color:inherit; text-decoration:none}
+  button{font-family:inherit; cursor:pointer}
+  :focus-visible{outline:2px solid var(--primary); outline-offset:2px; border-radius:4px}
+
+  /* ---------- shell ---------- */
+  .app{display:grid; grid-template-columns:var(--sidebar) 1fr; grid-template-rows:var(--topbar) 1fr;
+       grid-template-areas:"brand top" "nav main"; height:100vh; overflow:hidden}
+  .brand{grid-area:brand; display:flex; align-items:center; gap:10px; padding:0 18px;
+         border-right:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--surface)}
+  .brand .glyph{width:26px;height:26px;border-radius:7px;
+    background:conic-gradient(from 220deg,var(--primary),#6c4bd6 55%,var(--accent));
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+  .brand b{font-size:16px; font-weight:600; letter-spacing:-0.03em}
+  .brand .tag{font-size:9px;color:var(--faint);font-family:var(--font-mono);margin-left:2px;letter-spacing:.04em}
+
+  .topbar{grid-area:top; display:flex; align-items:center; gap:14px; padding:0 18px;
+          border-bottom:1px solid var(--border); background:var(--surface)}
+  .org{display:flex;align-items:center;gap:9px;padding:6px 10px;border:1px solid var(--border-strong);
+       border-radius:var(--r-sm);background:var(--surface-2);font-size:12.5px;white-space:nowrap}
+  .org .dot{width:16px;height:16px;border-radius:5px;background:linear-gradient(140deg,var(--primary),#2a3f80);
+       font-size:9px;display:grid;place-items:center;color:#fff;font-weight:700}
+  .org .chev{color:var(--muted)}
+  .search{flex:1;max-width:440px;display:flex;align-items:center;gap:8px;height:34px;padding:0 10px;
+       border:1px solid var(--border);border-radius:var(--r-sm);background:var(--bg);color:var(--muted);font-size:12.5px}
+  .search kbd{margin-left:auto;font-family:var(--font-mono);font-size:10px;color:var(--faint);
+       border:1px solid var(--border-strong);border-radius:4px;padding:1px 5px}
+  .top-actions{display:flex;align-items:center;gap:6px;margin-left:auto}
+  .icobtn{width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--border);
+       border-radius:var(--r-sm);background:var(--surface-2);color:var(--muted);position:relative}
+  .icobtn:hover{color:var(--text);border-color:var(--border-strong)}
+  .icobtn .dot{position:absolute;top:7px;right:8px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+  .avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;
+       background:linear-gradient(140deg,#3d5bb0,#243a72);color:#fff}
+
+  /* ---------- sidebar ---------- */
+  nav.side{grid-area:nav; border-right:1px solid var(--border); background:var(--surface);
+       overflow-y:auto; padding:14px 12px; display:flex;flex-direction:column;gap:2px}
+  .nav-sec{font-size:10px;text-transform:uppercase;letter-spacing:.11em;color:var(--faint);
+       padding:14px 10px 6px; font-weight:600}
+  .nav-sec:first-child{padding-top:2px}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--r-sm);
+       color:var(--muted);font-size:13px;font-weight:450;border:1px solid transparent}
+  .nav-item svg{width:16px;height:16px;flex:none;opacity:.85}
+  .nav-item .cnt{margin-left:auto;font-family:var(--font-mono);font-size:10px;color:var(--faint);
+       background:var(--surface-2);border-radius:20px;padding:1px 7px}
+  .nav-item:hover{color:var(--text);background:var(--surface-2)}
+  .nav-item.active{color:var(--text);background:var(--primary-dim);border-color:var(--primary-line)}
+  .nav-item.active svg{opacity:1;color:var(--primary)}
+  .nav-item.locked{opacity:.55}
+  .side-foot{margin-top:auto;padding:12px 10px 4px;border-top:1px solid var(--border);
+       font-size:10.5px;color:var(--faint);font-family:var(--font-mono);line-height:1.6}
+  .side-foot b{color:var(--muted);font-weight:600}
+
+  /* ---------- main ---------- */
+  main{grid-area:main; overflow-y:auto; padding:22px 26px 60px}
+  .screen{display:none}
+  .screen.active{display:block; animation:rise .32s cubic-bezier(.2,.7,.2,1)}
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.screen.active{animation:none}}
+
+  .ph{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+  .ph .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);font-weight:600;margin-bottom:6px}
+  .ph h1{font-size:22px}
+  .ph p{margin:5px 0 0;color:var(--muted);font-size:13px;max-width:60ch}
+  .ph-actions{display:flex;gap:8px}
+
+  .btn{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 14px;border-radius:var(--r-sm);
+       font-size:12.5px;font-weight:500;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text)}
+  .btn:hover{border-color:var(--muted)}
+  .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+  .btn.primary:hover{background:#5480f7}
+  .btn.ghost{background:transparent}
+  .btn svg{width:15px;height:15px}
+  .btn.sm{height:28px;padding:0 10px;font-size:11.5px}
+
+  /* ---------- primitives ---------- */
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px}
+  .card.pad0{padding:0;overflow:hidden}
+  .card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+  .card-h h3{font-size:13.5px}
+  .card-h .sub{font-size:11px;color:var(--muted)}
+  .grid{display:grid;gap:14px}
+  .muted{color:var(--muted)}
+  .faint{color:var(--faint)}
+  hr.sep{border:0;border-top:1px solid var(--border);margin:14px 0}
+
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;
+       padding:2px 8px;border-radius:20px;letter-spacing:.02em;white-space:nowrap;font-family:var(--font-mono)}
+  .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .pill.ok{color:var(--positive);background:var(--positive-dim)}
+  .pill.warn{color:var(--accent);background:var(--accent-dim)}
+  .pill.bad{color:var(--negative);background:var(--negative-dim)}
+  .pill.info{color:#7ea2ff;background:var(--primary-dim)}
+  .pill.neu{color:var(--muted);background:var(--surface-3)}
+  .pill.plain::before{display:none}
+
+  .tier{font-family:var(--font-mono);font-weight:700;font-size:11px;padding:3px 8px;border-radius:6px;letter-spacing:.02em}
+  .tier.strong{color:#0b1a12;background:var(--positive)}
+  .tier.good{color:#fff;background:var(--primary)}
+  .tier.expl{color:var(--muted);background:var(--surface-3)}
+
+  /* KPI */
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:13px 14px;position:relative;overflow:hidden}
+  .kpi .lab{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px;margin-bottom:8px}
+  .kpi .val{font-size:22px;font-weight:600;font-family:var(--font-mono);font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+  .kpi .val small{font-size:12px;color:var(--muted);font-weight:500}
+  .kpi .delta{font-size:11px;margin-top:5px;font-family:var(--font-mono)}
+  .kpi .delta.up{color:var(--positive)} .kpi .delta.down{color:var(--negative)}
+  .kpi .spark{position:absolute;right:10px;bottom:10px;opacity:.8}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse}
+  .tbl-wrap{overflow-x:auto}
+  th{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:600;
+     text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface)}
+  td{padding:11px 14px;border-bottom:1px solid var(--border);font-size:12.5px;vertical-align:middle}
+  tbody tr:hover{background:var(--surface-2)}
+  tbody tr:last-child td{border-bottom:0}
+  td.r,th.r{text-align:right}
+  .co{display:flex;align-items:center;gap:10px}
+  .co .mk{width:28px;height:28px;border-radius:7px;display:grid;place-items:center;font-size:11px;font-weight:700;
+     font-family:var(--font-mono);color:#fff;flex:none}
+  .co .nm{font-weight:500} .co .meta{font-size:11px;color:var(--muted)}
+
+  /* progress */
+  .bar{height:6px;border-radius:6px;background:var(--surface-3);overflow:hidden}
+  .bar > i{display:block;height:100%;border-radius:6px;background:var(--primary)}
+  .bar.gold>i{background:var(--accent)} .bar.pos>i{background:var(--positive)}
+
+  .two{display:grid;grid-template-columns:1fr 340px;gap:14px;align-items:start}
+  .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  @media(max-width:1180px){.kpis{grid-template-columns:repeat(3,1fr)}.two{grid-template-columns:1fr}.three{grid-template-columns:1fr}}
+
+  /* match cards */
+  .mrow{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+  .mrow:last-child{border-bottom:0}
+  .mrow .score{width:46px;height:46px;border-radius:10px;display:grid;place-items:center;flex:none;
+     font-family:var(--font-mono);font-weight:700;font-size:15px;border:1px solid var(--border-strong)}
+  .mrow .score.s-strong{color:var(--positive);background:var(--positive-dim);border-color:rgba(36,180,126,.4)}
+  .mrow .score.s-good{color:#7ea2ff;background:var(--primary-dim);border-color:var(--primary-line)}
+  .mrow .body{flex:1;min-width:0}
+  .mrow .body .t{font-weight:500;font-size:13px}
+  .mrow .body .d{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+  .chip{font-size:10.5px;color:var(--muted);border:1px solid var(--border);border-radius:5px;padding:2px 7px;font-family:var(--font-mono)}
+
+  .list-task{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+  .list-task:last-child{border-bottom:0}
+  .list-task .ic{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;flex:none;font-size:12px}
+  .list-task .t{font-size:12.5px;font-weight:450}
+  .list-task .m{font-size:11px;color:var(--muted);margin-top:2px}
+
+  /* filter rail */
+  .disc{display:grid;grid-template-columns:230px 1fr;gap:16px;align-items:start}
+  @media(max-width:1000px){.disc{grid-template-columns:1fr}}
+  .facet{margin-bottom:16px}
+  .facet h4{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);margin-bottom:9px}
+  .opt{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);padding:4px 0}
+  .opt input{accent-color:var(--primary)}
+  .opt .n{margin-left:auto;font-family:var(--font-mono);font-size:10px;color:var(--faint)}
+  .range{display:flex;gap:8px}
+  .range input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);
+     padding:6px 8px;font-family:var(--font-mono);font-size:11px}
+  .toolbar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+  .segbtn{display:flex;border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden}
+  .segbtn button{background:var(--surface-2);color:var(--muted);border:0;padding:6px 11px;font-size:11.5px}
+  .segbtn button.on{background:var(--primary-dim);color:var(--text)}
+
+  /* match detail */
+  .crit{display:grid;grid-template-columns:150px 1fr 52px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)}
+  .crit:last-child{border-bottom:0}
+  .crit .nm{font-size:12px}
+  .crit .nm .w{font-family:var(--font-mono);font-size:10px;color:var(--faint);margin-left:4px}
+  .crit .f{font-family:var(--font-mono);font-size:12px;text-align:right;font-weight:600}
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden}
+  .vs .col{padding:14px}
+  .vs .col+.col{border-left:1px solid var(--border)}
+  .vs .col h4{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);margin-bottom:10px}
+  .kv{display:flex;justify-content:space-between;gap:10px;font-size:12px;padding:5px 0;border-bottom:1px dashed var(--border)}
+  .kv:last-child{border-bottom:0}
+  .kv .k{color:var(--muted)} .kv .v{font-family:var(--font-mono);text-align:right}
+  .kv .v.match{color:var(--positive)} .kv .v.miss{color:var(--accent)}
+
+  /* tabs */
+  .tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto}
+  .tab{padding:9px 13px;font-size:12.5px;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap}
+  .tab:hover{color:var(--text)}
+  .tab.on{color:var(--text);border-bottom-color:var(--primary)}
+  .tabpane{display:none} .tabpane.on{display:block;animation:rise .25s ease}
+
+  /* data room tree */
+  .tree{font-family:var(--font-mono);font-size:12px}
+  .tnode{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:6px;color:var(--muted)}
+  .tnode:hover{background:var(--surface-2);color:var(--text)}
+  .tnode.folder{color:var(--text);font-weight:500}
+  .tnode .sz{margin-left:auto;font-size:10px;color:var(--faint)}
+  .tnode .lock{color:var(--accent)} .tnode .open{color:var(--positive)}
+  .tchild{padding-left:20px;border-left:1px solid var(--border);margin-left:14px}
+
+  /* kanban */
+  .kan{display:grid;grid-auto-flow:column;grid-auto-columns:236px;gap:12px;overflow-x:auto;padding-bottom:10px}
+  .kcol{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);display:flex;flex-direction:column;min-height:200px}
+  .kcol .kh{display:flex;align-items:center;gap:8px;padding:11px 12px;border-bottom:1px solid var(--border);font-size:11.5px;font-weight:600}
+  .kcol .kh .c{margin-left:auto;font-family:var(--font-mono);font-size:10px;color:var(--faint);background:var(--surface-2);border-radius:20px;padding:1px 7px}
+  .kcol .kh .stripe{width:3px;height:14px;border-radius:3px}
+  .kbody{padding:10px;display:flex;flex-direction:column;gap:9px}
+  .kcard{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;cursor:grab}
+  .kcard:hover{border-color:var(--border-strong)}
+  .kcard .kt{font-size:12px;font-weight:500;margin-bottom:6px;display:flex;justify-content:space-between;gap:8px}
+  .kcard .kt .tk{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+  .kcard .km{font-size:10.5px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .kcard .av{width:19px;height:19px;border-radius:50%;background:linear-gradient(140deg,#3d5bb0,#243a72);
+     display:grid;place-items:center;font-size:9px;color:#fff;font-weight:600}
+
+  /* mandate builder */
+  .stepper{display:flex;gap:0;margin-bottom:18px;flex-wrap:wrap}
+  .step{display:flex;align-items:center;gap:9px;padding:0 16px 0 0;color:var(--muted);font-size:12px}
+  .step .n{width:22px;height:22px;border-radius:50%;border:1px solid var(--border-strong);display:grid;place-items:center;
+     font-size:11px;font-family:var(--font-mono)}
+  .step.done .n{background:var(--positive);border-color:var(--positive);color:#0b1a12}
+  .step.now{color:var(--text)} .step.now .n{background:var(--primary);border-color:var(--primary);color:#fff}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:6px}
+  .field input[type=text],.field select,.field textarea{width:100%;background:var(--bg);border:1px solid var(--border);
+     border-radius:var(--r-sm);color:var(--text);padding:9px 11px;font-family:inherit;font-size:12.5px}
+  .field textarea{resize:vertical;min-height:64px;line-height:1.55}
+  .tagrow{display:flex;gap:6px;flex-wrap:wrap}
+  .tagsel{font-size:11.5px;padding:5px 10px;border-radius:20px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--muted)}
+  .tagsel.on{background:var(--primary-dim);border-color:var(--primary-line);color:var(--text)}
+  .wt{display:grid;grid-template-columns:130px 1fr 40px;gap:12px;align-items:center;padding:7px 0}
+  .wt label{font-size:12px}
+  .wt input[type=range]{width:100%;accent-color:var(--primary)}
+  .wt .v{font-family:var(--font-mono);font-size:12px;text-align:right;color:var(--primary)}
+  .preview{position:sticky;top:0}
+  .preview .big{font-size:34px;font-family:var(--font-mono);font-weight:600;letter-spacing:-0.03em}
+
+  /* charts */
+  .chartcard svg{display:block;width:100%;height:auto;overflow:visible}
+  .axl{font-size:9px;fill:var(--faint);font-family:var(--font-mono)}
+  .funnel-row{display:grid;grid-template-columns:120px 1fr 96px;gap:10px;align-items:center;padding:6px 0}
+  .funnel-row .fn{font-size:12px} .funnel-row .fv{font-family:var(--font-mono);font-size:11px;text-align:right;color:var(--muted)}
+  .fbar{height:24px;border-radius:5px;background:linear-gradient(90deg,var(--primary),#6c4bd6);display:flex;align-items:center;
+     padding-left:9px;color:#fff;font-size:11px;font-family:var(--font-mono);font-weight:600}
+  .expo{display:flex;flex-direction:column;gap:8px}
+  .expo-row{display:grid;grid-template-columns:120px 1fr 60px;gap:10px;align-items:center}
+  .expo-row .en{font-size:12px} .expo-row .ev{font-family:var(--font-mono);font-size:11px;text-align:right}
+
+  /* compliance console */
+  .roles-grid{display:grid;grid-template-columns:1.4fr repeat(5,1fr);gap:0;border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;font-size:11.5px}
+  .roles-grid > div{padding:9px 11px;border-bottom:1px solid var(--border);border-right:1px solid var(--border)}
+  .roles-grid .hd{background:var(--surface-2);font-weight:600;color:var(--muted);font-size:10.5px}
+  .roles-grid .rn{font-weight:500}
+  .ck{color:var(--positive)} .xk{color:var(--faint)}
+  .audit{font-family:var(--font-mono);font-size:11.5px}
+  .audit td{padding:9px 12px}
+  .audit .hash{color:var(--faint);font-size:10px}
+
+  .banner{display:flex;gap:10px;align-items:flex-start;background:var(--accent-dim);border:1px solid rgba(203,161,90,.35);
+     border-radius:var(--r-md);padding:12px 14px;font-size:12px;margin-bottom:16px}
+  .banner svg{flex:none;margin-top:1px;color:var(--accent)}
+  .banner b{color:var(--accent)}
+
+  .disc-note{margin-top:26px;padding:14px 16px;border:1px dashed var(--border-strong);border-radius:var(--r-md);
+     font-size:11.5px;color:var(--muted);background:rgba(20,26,38,.5)}
+  .disc-note b{color:var(--text)}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- brand -->
+  <div class="brand">
+    <div class="glyph" aria-hidden="true"></div>
+    <b>Meridian</b><span class="tag">PROTO</span>
+  </div>
+
+  <!-- topbar -->
+  <div class="topbar">
+    <div class="org">
+      <span class="dot">M</span>
+      <span>Meridian State Retirement System</span>
+      <span class="chev">▾</span>
+    </div>
+    <div class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      Search opportunities, mandates, deals, entities…
+      <kbd>⌘K</kbd>
+    </div>
+    <div class="top-actions">
+      <button class="icobtn" title="Approvals inbox"><span class="dot"></span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>
+      </button>
+      <button class="icobtn" title="Help">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4"/><path d="M12 17h.01"/></svg>
+      </button>
+      <div class="avatar" title="Dana Whitfield — Deputy CIO">DW</div>
+    </div>
+  </div>
+
+  <!-- sidebar -->
+  <nav class="side">
+    <div class="nav-sec">Workspace</div>
+    <a class="nav-item active" data-screen="dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+      Dashboard
+    </a>
+    <div class="nav-sec">Discover</div>
+    <a class="nav-item" data-screen="marketplace">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9h18"/><path d="M3 5h18v14H3z"/><path d="M8 5v14"/></svg>
+      Marketplace<span class="cnt">142</span>
+    </a>
+    <a class="nav-item" data-screen="match">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="M5 8l7-5 7 5"/><path d="M5 16l7 5 7-5"/></svg>
+      Match Feed<span class="cnt">9</span>
+    </a>
+    <a class="nav-item" data-screen="deal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+      Deal / Data Room
+    </a>
+    <div class="nav-sec">Portfolio</div>
+    <a class="nav-item" data-screen="mandate">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v4H4z"/><path d="M4 12h10"/><path d="M4 16h10"/><path d="M18 13l2 2-4 4-2 .5.5-2z"/></svg>
+      Mandate Builder
+    </a>
+    <a class="nav-item" data-screen="pipeline">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="11" rx="1"/><rect x="17" y="4" width="4" height="7" rx="1"/></svg>
+      Pipeline
+    </a>
+    <a class="nav-item" data-screen="analytics">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 5-7"/></svg>
+      Analytics
+    </a>
+    <div class="nav-sec">Admin</div>
+    <a class="nav-item" data-screen="compliance">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+      Compliance Console<span class="cnt">6</span>
+    </a>
+    <div class="side-foot">
+      <b>Prototype</b> · sample data<br>
+      Role: <b>Deal Lead + Compliance</b><br>
+      Env: design-partner sandbox
+    </div>
+  </nav>
+
+  <!-- main -->
+  <main id="main">
+
+    <!-- ============ DASHBOARD ============ -->
+    <section class="screen active" data-screen="dashboard">
+      <div class="ph">
+        <div>
+          <div class="eyebrow">Allocator Workspace</div>
+          <h1>Good morning, Dana</h1>
+          <p>9 new mandate-fit matches overnight · 6 compliance tasks await your sign-off · Q3 deployment is tracking 4% ahead of pace.</p>
+        </div>
+        <div class="ph-actions">
+          <button class="btn ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>New mandate</button>
+          <button class="btn primary" data-goto="marketplace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9h18M3 5h18v14H3z"/></svg>Browse marketplace</button>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi">
+          <div class="lab">Dry powder to deploy</div>
+          <div class="val">$412<small>M</small></div>
+          <div class="delta down">−$38M vs Q2</div>
+          <svg class="spark" width="56" height="20" viewBox="0 0 56 20"><polyline fill="none" stroke="#8B96A9" stroke-width="1.5" points="0,4 12,6 24,5 36,10 48,13 56,15"/></svg>
+        </div>
+        <div class="kpi">
+          <div class="lab">Committed YTD</div>
+          <div class="val">$286<small>M</small></div>
+          <div class="delta up">+$64M this quarter</div>
+          <svg class="spark" width="56" height="20" viewBox="0 0 56 20"><polyline fill="none" stroke="#24B47E" stroke-width="1.5" points="0,16 12,14 24,11 36,9 48,5 56,3"/></svg>
+        </div>
+        <div class="kpi">
+          <div class="lab">Active deals</div>
+          <div class="val">17 <small>· $224M</small></div>
+          <div class="delta up">+3 vs last week</div>
+          <svg class="spark" width="56" height="20" viewBox="0 0 56 20"><polyline fill="none" stroke="#24B47E" stroke-width="1.5" points="0,14 12,12 24,13 36,8 48,7 56,4"/></svg>
+        </div>
+        <div class="kpi">
+          <div class="lab">Weighted pipeline</div>
+          <div class="val">$118<small>M</small></div>
+          <div class="delta up">3.4× coverage</div>
+          <svg class="spark" width="56" height="20" viewBox="0 0 56 20"><polyline fill="none" stroke="#8B96A9" stroke-width="1.5" points="0,12 12,10 24,11 36,9 48,8 56,7"/></svg>
+        </div>
+        <div class="kpi">
+          <div class="lab">Avg match score</div>
+          <div class="val">78.4</div>
+          <div class="delta up">+2.1 vs baseline</div>
+          <svg class="spark" width="56" height="20" viewBox="0 0 56 20"><polyline fill="none" stroke="#3B6EF5" stroke-width="1.5" points="0,13 12,11 24,9 36,10 48,7 56,6"/></svg>
+        </div>
+      </div>
+
+      <div class="two">
+        <div class="grid" style="gap:14px">
+          <div class="card">
+            <div class="card-h">
+              <h3>Top matches for your active mandates</h3>
+              <a class="sub" data-goto="match" style="color:var(--primary)">View all 9 →</a>
+            </div>
+            <div class="mrow">
+              <div class="score s-strong">89</div>
+              <div class="body">
+                <div class="t">Cedar Ridge Capital — Fund IV</div>
+                <div class="d">Mid-market buyout · North America · $1.2B target · min $10M</div>
+                <div class="chips"><span class="chip">Buyout</span><span class="chip">DPI 1.4×</span><span class="chip">2.0% fee</span><span class="chip">Art. 8 ESG</span></div>
+              </div>
+              <div style="text-align:right"><span class="tier strong">STRONG</span><div class="muted" style="font-size:11px;margin-top:6px">Mandate: NA Buyout</div></div>
+              <button class="btn sm" data-goto="match">Review</button>
+            </div>
+            <div class="mrow">
+              <div class="score s-strong">84</div>
+              <div class="body">
+                <div class="t">Blue Harbor Private Credit II</div>
+                <div class="d">Direct lending · North America · $850M target · min $15M</div>
+                <div class="chips"><span class="chip">Private credit</span><span class="chip">Net yield 11.2%</span><span class="chip">1.4% fee</span></div>
+              </div>
+              <div style="text-align:right"><span class="tier strong">STRONG</span><div class="muted" style="font-size:11px;margin-top:6px">Mandate: Yield / Credit</div></div>
+              <button class="btn sm" data-goto="match">Review</button>
+            </div>
+            <div class="mrow">
+              <div class="score s-good">72</div>
+              <div class="body">
+                <div class="t">Aster Growth Partners III</div>
+                <div class="d">Growth equity · US + EU · $600M target · min $10M</div>
+                <div class="chips"><span class="chip">Growth</span><span class="chip">Adjacent strategy</span><span class="chip">First-time close</span></div>
+              </div>
+              <div style="text-align:right"><span class="tier good">GOOD</span><div class="muted" style="font-size:11px;margin-top:6px">Mandate: NA Buyout</div></div>
+              <button class="btn sm" data-goto="match">Review</button>
+            </div>
+            <div class="mrow">
+              <div class="score s-good">67</div>
+              <div class="body">
+                <div class="t">Vantage Secondaries VI — LP stake</div>
+                <div class="d">Secondary · Global diversified · NAV $42M · 11% discount</div>
+                <div class="chips"><span class="chip">Secondary</span><span class="chip">J-curve mitigant</span><span class="chip">Vintage 2019</span></div>
+              </div>
+              <div style="text-align:right"><span class="tier good">GOOD</span><div class="muted" style="font-size:11px;margin-top:6px">Mandate: Diversifier</div></div>
+              <button class="btn sm" data-goto="match">Review</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-h"><h3>Mandate deployment &amp; pacing</h3><span class="sub">FY2026 target $520M</span></div>
+            <div style="display:flex;flex-direction:column;gap:15px">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span>North America Buyout</span><span class="mono muted">$186M / $240M · 78%</span></div>
+                <div class="bar"><i style="width:78%"></i></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span>Private Credit / Yield</span><span class="mono muted">$74M / $150M · 49%</span></div>
+                <div class="bar"><i style="width:49%"></i></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span>Growth Equity</span><span class="mono muted">$26M / $80M · 33%</span></div>
+                <div class="bar gold"><i style="width:33%"></i></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span>Secondaries / Diversifiers</span><span class="mono muted">$0M / $50M · 0%</span></div>
+                <div class="bar gold"><i style="width:3%"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid" style="gap:14px">
+          <div class="card">
+            <div class="card-h"><h3>Tasks &amp; approvals</h3><span class="pill warn">6 pending</span></div>
+            <div class="list-task">
+              <div class="ic" style="background:var(--accent-dim);color:var(--accent)">⚑</div>
+              <div><div class="t">Approve NDA countersignature — Cedar Ridge IV</div><div class="m">Compliance gate cleared · awaiting your signature</div></div>
+            </div>
+            <div class="list-task">
+              <div class="ic" style="background:var(--negative-dim);color:var(--negative)">!</div>
+              <div><div class="t">KYC re-verification expiring — Helios Climate GP</div><div class="m">Accreditation evidence lapses in 8 days</div></div>
+            </div>
+            <div class="list-task">
+              <div class="ic" style="background:var(--primary-dim);color:#7ea2ff)">✎</div>
+              <div><div class="t">IC memo review — Blue Harbor Private Credit II</div><div class="m">Analyst draft ready · due Fri</div></div>
+            </div>
+            <div class="list-task">
+              <div class="ic" style="background:var(--positive-dim);color:var(--positive)">✓</div>
+              <div><div class="t">Sanctions re-screen passed — Vantage VI</div><div class="m">OFAC / PEP / adverse-media · clean</div></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-h"><h3>Recent activity</h3><span class="sub">Live · audit-logged</span></div>
+            <div style="display:flex;flex-direction:column;gap:11px;font-size:12px">
+              <div><span class="mono faint">09:42</span> &nbsp;Cedar Ridge accepted your <b>intro request</b></div>
+              <div><span class="mono faint">09:18</span> &nbsp;New match <span class="tier good" style="font-size:10px">GOOD 72</span> Aster Growth III</div>
+              <div><span class="mono faint">08:55</span> &nbsp;Data room opened — <b>Blue Harbor</b> (12 docs)</div>
+              <div><span class="mono faint">08:31</span> &nbsp;Term sheet e-signed — <b>Ridgeline Direct</b></div>
+              <div><span class="mono faint">Yest</span> &nbsp;Mandate <b>NA Buyout</b> published v3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="disc-note">
+        <b>Compliance-native by design.</b> Every match on this screen has already passed a deterministic eligibility gate (accreditation, sanctions, mandate exclusions, conflicts) before scoring. Match scores are neutral, criteria-based fit signals with explainable reason codes — not investment advice.
+      </div>
+    </section>
+
+    <!-- ============ MARKETPLACE ============ -->
+    <section class="screen" data-screen="marketplace">
+      <div class="ph">
+        <div>
+          <div class="eyebrow">Discover</div>
+          <h1>Opportunity Marketplace</h1>
+          <p>142 vetted opportunities eligible for your org, ranked by fit to your active mandates. Teasers shown pre-consent; full profiles unlock on double opt-in.</p>
+        </div>
+        <div class="ph-actions">
+          <button class="btn ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Save search</button>
+          <button class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M6 12h12M9 18h6"/></svg>Compare (0)</button>
+        </div>
+      </div>
+
+      <div class="disc">
+        <aside>
+          <div class="card">
+            <div class="facet">
+              <h4>Asset class</h4>
+              <label class="opt"><input type="checkbox" checked> Buyout <span class="n">41</span></label>
+              <label class="opt"><input type="checkbox" checked> Private credit <span class="n">28</span></label>
+              <label class="opt"><input type="checkbox"> Growth equity <span class="n">33</span></label>
+              <label class="opt"><input type="checkbox"> Venture <span class="n">22</span></label>
+              <label class="opt"><input type="checkbox"> Real assets <span class="n">18</span></label>
+            </div>
+            <div class="facet">
+              <h4>Deal type</h4>
+              <label class="opt"><input type="checkbox" checked> Fund primary <span class="n">76</span></label>
+              <label class="opt"><input type="checkbox" checked> Co-investment <span class="n">31</span></label>
+              <label class="opt"><input type="checkbox"> Secondary <span class="n">19</span></label>
+              <label class="opt"><input type="checkbox"> Direct deal <span class="n">16</span></label>
+            </div>
+            <div class="facet">
+              <h4>Check size (USD)</h4>
+              <div class="range"><input type="text" value="$10M"><input type="text" value="$50M"></div>
+            </div>
+            <div class="facet">
+              <h4>Geography</h4>
+              <label class="opt"><input type="checkbox" checked> North America <span class="n">88</span></label>
+              <label class="opt"><input type="checkbox"> Europe <span class="n">34</span></label>
+              <label class="opt"><input type="checkbox"> APAC <span class="n">14</span></label>
+            </div>
+            <div class="facet">
+              <h4>Compliance gate</h4>
+              <label class="opt"><input type="checkbox" checked> Eligible for my org <span class="n">142</span></label>
+              <label class="opt"><input type="checkbox"> ESG Article 8/9 <span class="n">37</span></label>
+            </div>
+          </div>
+        </aside>
+
+        <div>
+          <div class="toolbar">
+            <div class="segbtn"><button class="on">Ranked by fit</button><button>Close date</button><button>Raise size</button><button>Momentum</button></div>
+            <span class="pill neu plain">142 results</span>
+            <span class="pill info">Mandate preset: NA Buyout</span>
+            <div style="margin-left:auto" class="segbtn"><button class="on">☰ Table</button><button>▦ Cards</button></div>
+          </div>
+
+          <div class="card pad0">
+            <div class="tbl-wrap">
+              <table>
+                <thead><tr><th>Opportunity</th><th>Type</th><th class="r">Raise / Min</th><th class="r">Track record</th><th>Gate</th><th class="r">Fit</th><th></th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><div class="co"><div class="mk" style="background:#2f6f52">CR</div><div><div class="nm">Cedar Ridge Capital — Fund IV</div><div class="meta">Mid-market buyout · North America</div></div></div></td>
+                    <td><span class="chip">Fund primary</span></td>
+                    <td class="r mono">$1.2B<br><span class="muted" style="font-size:11px">min $10M</span></td>
+                    <td class="r mono">DPI 1.4×<br><span class="muted" style="font-size:11px">Net IRR 19%</span></td>
+                    <td><span class="pill ok">Eligible</span></td>
+                    <td class="r"><span class="tier strong">89</span></td>
+                    <td><button class="btn sm" data-goto="match">Open</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="co"><div class="mk" style="background:#2a5691">BH</div><div><div class="nm">Blue Harbor Private Credit II</div><div class="meta">Direct lending · North America</div></div></div></td>
+                    <td><span class="chip">Fund primary</span></td>
+                    <td class="r mono">$850M<br><span class="muted" style="font-size:11px">min $15M</span></td>
+                    <td class="r mono">Yield 11.2%<br><span class="muted" style="font-size:11px">Loss 0.4%</span></td>
+                    <td><span class="pill ok">Eligible</span></td>
+                    <td class="r"><span class="tier strong">84</span></td>
+                    <td><button class="btn sm" data-goto="match">Open</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="co"><div class="mk" style="background:#6a4bb0">AG</div><div><div class="nm">Aster Growth Partners III</div><div class="meta">Growth equity · US + EU</div></div></div></td>
+                    <td><span class="chip">Fund primary</span></td>
+                    <td class="r mono">$600M<br><span class="muted" style="font-size:11px">min $10M</span></td>
+                    <td class="r mono">TVPI 2.1×<br><span class="muted" style="font-size:11px">Fund II</span></td>
+                    <td><span class="pill ok">Eligible</span></td>
+                    <td class="r"><span class="tier good">72</span></td>
+                    <td><button class="btn sm" data-goto="match">Open</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="co"><div class="mk" style="background:#8a6d2e">HC</div><div><div class="nm">Helios Climate Co-Invest</div><div class="meta">Infrastructure · North America</div></div></div></td>
+                    <td><span class="chip">Co-investment</span></td>
+                    <td class="r mono">$180M<br><span class="muted" style="font-size:11px">min $20M</span></td>
+                    <td class="r mono">Sponsor top-Q<br><span class="muted" style="font-size:11px">Art. 9</span></td>
+                    <td><span class="pill warn">NDA required</span></td>
+                    <td class="r"><span class="tier good">69</span></td>
+                    <td><button class="btn sm" data-goto="deal">Open</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="co"><div class="mk" style="background:#4a5568">VS</div><div><div class="nm">Vantage Secondaries VI</div><div class="meta">LP secondary · Global diversified</div></div></div></td>
+                    <td><span class="chip">Secondary</span></td>
+                    <td class="r mono">NAV $42M<br><span class="muted" style="font-size:11px">11% disc.</span></td>
+                    <td class="r mono">Vintage '19<br><span class="muted" style="font-size:11px">TVPI 1.5×</span></td>
+                    <td><span class="pill ok">Eligible</span></td>
+                    <td class="r"><span class="tier good">67</span></td>
+                    <td><button class="btn sm" data-goto="match">Open</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="co"><div class="mk" style="background:#3a7d6d">RD</div><div><div class="nm">Ridgeline Direct Lending SMA</div><div class="meta">Private credit · North America</div></div></div></td>
+                    <td><span class="chip">Direct deal</span></td>
+                    <td class="r mono">$120M<br><span class="muted" style="font-size:11px">min $25M</span></td>
+                    <td class="r mono">Yield 9.8%<br><span class="muted" style="font-size:11px">Snr secured</span></td>
+                    <td><span class="pill neu">Teaser</span></td>
+                    <td class="r"><span class="tier good">63</span></td>
+                    <td><button class="btn sm" data-goto="match">Open</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="co"><div class="mk" style="background:#7a3f52">NW</div><div><div class="nm">Northwind Infrastructure Fund II</div><div class="meta">Real assets · North America + EU</div></div></div></td>
+                    <td><span class="chip">Fund primary</span></td>
+                    <td class="r mono">$2.1B<br><span class="muted" style="font-size:11px">min $30M</span></td>
+                    <td class="r mono">DPI 0.9×<br><span class="muted" style="font-size:11px">Net IRR 13%</span></td>
+                    <td><span class="pill warn">Accred. verify</span></td>
+                    <td class="r"><span class="tier expl">54</span></td>
+                    <td><button class="btn sm" data-goto="match">Open</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="disc-note">Results are a discovery convenience. Eligibility is re-verified against the authoritative compliance oracle at the moment of any intro, data-room grant, or e-signature — never trusted from the index alone.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MATCH DETAIL ============ -->
+    <section class="screen" data-screen="match">
+      <div class="ph">
+        <div>
+          <div class="eyebrow">Match Explanation</div>
+          <h1>Cedar Ridge Capital — Fund IV</h1>
+          <p>Why this opportunity matched your <b>North America Buyout</b> mandate — a transparent, defensible, audit-logged fit breakdown.</p>
+        </div>
+        <div class="ph-actions">
+          <button class="btn ghost">Dismiss with reason</button>
+          <button class="btn">Add to pipeline</button>
+          <button class="btn primary" data-goto="deal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>Express interest &amp; request intro</button>
+        </div>
+      </div>
+
+      <div class="two">
+        <div class="grid" style="gap:14px">
+          <div class="card">
+            <div class="card-h"><h3>Fit breakdown by criterion</h3><span class="sub">Personalized weights · α = 1.0 (rules + embeddings)</span></div>
+            <div class="crit"><div class="nm">Asset class &amp; strategy<span class="w">16%</span></div><div class="bar pos"><i style="width:100%"></i></div><div class="f">1.00</div></div>
+            <div class="crit"><div class="nm">Check size &amp; capacity<span class="w">14%</span></div><div class="bar pos"><i style="width:95%"></i></div><div class="f">0.95</div></div>
+            <div class="crit"><div class="nm">Sector &amp; thesis<span class="w">13%</span></div><div class="bar"><i style="width:88%"></i></div><div class="f">0.88</div></div>
+            <div class="crit"><div class="nm">Stage / vintage<span class="w">10%</span></div><div class="bar pos"><i style="width:92%"></i></div><div class="f">0.92</div></div>
+            <div class="crit"><div class="nm">Geography<span class="w">8%</span></div><div class="bar pos"><i style="width:100%"></i></div><div class="f">1.00</div></div>
+            <div class="crit"><div class="nm">Risk / return<span class="w">10%</span></div><div class="bar"><i style="width:90%"></i></div><div class="f">0.90</div></div>
+            <div class="crit"><div class="nm">Track record<span class="w">9%</span></div><div class="bar pos"><i style="width:93%"></i></div><div class="f">0.93</div></div>
+            <div class="crit"><div class="nm">Diversification<span class="w">7%</span></div><div class="bar"><i style="width:85%"></i></div><div class="f">0.85</div></div>
+            <div class="crit"><div class="nm">Terms &amp; fees<span class="w">5%</span></div><div class="bar gold"><i style="width:80%"></i></div><div class="f">0.80</div></div>
+            <div class="crit"><div class="nm">Relationship / CF<span class="w">5%</span></div><div class="bar gold"><i style="width:30%"></i></div><div class="f">0.30</div></div>
+            <div class="crit"><div class="nm">ESG (binding)<span class="w">6%*</span></div><div class="bar pos"><i style="width:90%"></i></div><div class="f">0.90</div></div>
+          </div>
+
+          <div class="card">
+            <div class="card-h"><h3>Mandate criteria vs. opportunity</h3></div>
+            <div class="vs">
+              <div class="col">
+                <h4>Your mandate — NA Buyout</h4>
+                <div class="kv"><span class="k">Strategy</span><span class="v">Mid-mkt buyout</span></div>
+                <div class="kv"><span class="k">Ticket band</span><span class="v">$25–50M</span></div>
+                <div class="kv"><span class="k">Target net IRR</span><span class="v">≥ 15%</span></div>
+                <div class="kv"><span class="k">Geography</span><span class="v">North America</span></div>
+                <div class="kv"><span class="k">Fee ceiling</span><span class="v">≤ 2.0%</span></div>
+                <div class="kv"><span class="k">ESG</span><span class="v">Binding · Art. 8+</span></div>
+                <div class="kv"><span class="k">Single-mgr cap</span><span class="v">10% of PE</span></div>
+              </div>
+              <div class="col">
+                <h4>Cedar Ridge Fund IV</h4>
+                <div class="kv"><span class="k">Strategy</span><span class="v match">Mid-mkt buyout ✓</span></div>
+                <div class="kv"><span class="k">Min commitment</span><span class="v match">$10M ✓</span></div>
+                <div class="kv"><span class="k">Prior net IRR</span><span class="v match">19% ✓</span></div>
+                <div class="kv"><span class="k">Geography</span><span class="v match">North America ✓</span></div>
+                <div class="kv"><span class="k">Mgmt fee</span><span class="v match">2.0% ✓</span></div>
+                <div class="kv"><span class="k">SFDR</span><span class="v match">Article 8 ✓</span></div>
+                <div class="kv"><span class="k">$50M = </span><span class="v miss">1.2% of PE ⚑</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid" style="gap:14px">
+          <div class="card" style="text-align:center">
+            <div class="muted" style="font-size:12px">Composite match score</div>
+            <div style="font-family:var(--font-mono);font-size:52px;font-weight:700;line-height:1.1;color:var(--positive)">89</div>
+            <span class="tier strong" style="font-size:12px">STRONG MATCH</span>
+            <div class="muted" style="font-size:11px;margin-top:8px">Confidence: high · 11/11 dimensions scored</div>
+          </div>
+
+          <div class="card">
+            <div class="card-h"><h3>Reason codes</h3></div>
+            <div style="display:flex;flex-direction:column;gap:9px;font-size:12px">
+              <div style="display:flex;gap:8px"><span class="ck">✓</span> Mid-market buyout, North America — exact strategy &amp; geography fit</div>
+              <div style="display:flex;gap:8px"><span class="ck">✓</span> $25–50M ticket fits inside remaining capacity</div>
+              <div style="display:flex;gap:8px"><span class="ck">✓</span> Top-quartile prior DPI 1.4×, net IRR 19%</div>
+              <div style="display:flex;gap:8px"><span class="ck">✓</span> 2.0% fee within your ≤2.0% ceiling</div>
+              <div style="display:flex;gap:8px"><span class="ck">✓</span> Article 8 meets your binding ESG requirement</div>
+              <hr class="sep" style="margin:6px 0">
+              <div style="display:flex;gap:8px"><span style="color:var(--accent)">⚑</span> No prior relationship with this GP (first-time LP)</div>
+              <div style="display:flex;gap:8px"><span style="color:var(--accent)">⚑</span> Vintage pacing check advised before commitment</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-h"><h3>Compliance readiness</h3></div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;justify-content:space-between;font-size:12px"><span>Accreditation / QP gate</span><span class="pill ok">Cleared</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:12px"><span>Sanctions / PEP screen</span><span class="pill ok">Clean</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:12px"><span>Conflicts / interlocks</span><span class="pill ok">None</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:12px"><span>NDA status</span><span class="pill warn">Not signed</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:12px"><span>Data room</span><span class="pill neu">Locked</span></div>
+            </div>
+            <hr class="sep">
+            <div class="faint" style="font-size:10.5px">Eligibility gate passed deterministically before scoring. This is a neutral fit signal, not investment advice.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DEAL / DATA ROOM ============ -->
+    <section class="screen" data-screen="deal">
+      <div class="ph">
+        <div>
+          <div class="eyebrow">Deal Workspace</div>
+          <h1>Cedar Ridge Capital — Fund IV <span class="pill info" style="vertical-align:middle">Diligence</span></h1>
+          <p>$1.2B mid-market buyout · Close date Sep 30, 2026 · 3 watchers · Team: Dana W., Marcus L., Priya R.</p>
+        </div>
+        <div class="ph-actions">
+          <button class="btn ghost">Invite advisor</button>
+          <button class="btn">Export IC memo</button>
+          <button class="btn primary">Advance stage →</button>
+        </div>
+      </div>
+
+      <div class="tabs" id="dealtabs">
+        <div class="tab on" data-tab="overview">Overview</div>
+        <div class="tab" data-tab="terms">Terms</div>
+        <div class="tab" data-tab="dataroom">Data Room</div>
+        <div class="tab" data-tab="qa">Q&amp;A</div>
+        <div class="tab" data-tab="sign">Documents &amp; Sign</div>
+        <div class="tab" data-tab="activity">Activity</div>
+      </div>
+
+      <div class="tabpane on" data-tab="overview">
+        <div class="three" style="margin-bottom:14px">
+          <div class="card"><div class="lab muted" style="font-size:11px">Prior fund DPI</div><div class="num" style="font-size:24px;margin-top:6px">1.4×</div><div class="muted" style="font-size:11px">Fund III · realized</div></div>
+          <div class="card"><div class="lab muted" style="font-size:11px">Net IRR</div><div class="num" style="font-size:24px;margin-top:6px;color:var(--positive)">19.0%</div><div class="muted" style="font-size:11px">Top quartile vintage</div></div>
+          <div class="card"><div class="lab muted" style="font-size:11px">Proposed ticket</div><div class="num" style="font-size:24px;margin-top:6px">$40M</div><div class="muted" style="font-size:11px">1.0% of PE bucket</div></div>
+        </div>
+        <div class="two">
+          <div class="card">
+            <div class="card-h"><h3>Strategy &amp; thesis</h3></div>
+            <p class="muted" style="font-size:12.5px;line-height:1.7">Cedar Ridge acquires control positions in North American mid-market industrials and business-services companies ($50–250M enterprise value) with a buy-and-build operating playbook. Fund IV targets 12–15 platforms with a 3–5 year hold. Team continuity is strong (4 of 5 partners from Fund II), and realized DPI of 1.4× on Fund III places the manager in the top quartile of its 2018 vintage.</p>
+          </div>
+          <div class="card">
+            <div class="card-h"><h3>Deal team &amp; status</h3></div>
+            <div style="display:flex;flex-direction:column;gap:10px;font-size:12px">
+              <div style="display:flex;justify-content:space-between"><span>Owner</span><span class="muted">Dana Whitfield</span></div>
+              <div style="display:flex;justify-content:space-between"><span>Stage</span><span class="pill info">Diligence</span></div>
+              <div style="display:flex;justify-content:space-between"><span>Days in stage</span><span class="mono muted">6</span></div>
+              <div style="display:flex;justify-content:space-between"><span>Next gate</span><span class="muted">IC Review</span></div>
+              <div style="display:flex;justify-content:space-between"><span>Compliance</span><span class="pill ok">Cleared</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabpane" data-tab="terms">
+        <div class="card pad0"><div class="tbl-wrap"><table>
+          <thead><tr><th>Term</th><th>Fund IV</th><th>Your preference</th><th class="r">Fit</th></tr></thead>
+          <tbody>
+            <tr><td>Management fee</td><td class="mono">2.0%</td><td class="mono muted">≤ 2.0%</td><td class="r"><span class="pill ok plain">Met</span></td></tr>
+            <tr><td>Carried interest</td><td class="mono">20%</td><td class="mono muted">≤ 20%</td><td class="r"><span class="pill ok plain">Met</span></td></tr>
+            <tr><td>Preferred return</td><td class="mono">8%</td><td class="mono muted">≥ 8%</td><td class="r"><span class="pill ok plain">Met</span></td></tr>
+            <tr><td>GP commitment</td><td class="mono">3.0%</td><td class="mono muted">≥ 2%</td><td class="r"><span class="pill ok plain">Met</span></td></tr>
+            <tr><td>Key-person clause</td><td class="mono">Yes</td><td class="mono muted">Required</td><td class="r"><span class="pill ok plain">Met</span></td></tr>
+            <tr><td>Min LP commitment</td><td class="mono">$10M</td><td class="mono muted">$25–50M band</td><td class="r"><span class="pill warn plain">Review</span></td></tr>
+          </tbody>
+        </table></div></div>
+      </div>
+
+      <div class="tabpane" data-tab="dataroom">
+        <div class="banner">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <div><b>Watermarked &amp; access-logged.</b> Documents render with your identity watermark; downloads use short-TTL links. Executed docs are stored WORM. Every view writes to the immutable audit ledger.</div>
+        </div>
+        <div class="two">
+          <div class="card">
+            <div class="card-h"><h3>Cedar Ridge Fund IV — Data Room</h3><span class="pill ok">NDA signed</span></div>
+            <div class="tree">
+              <div class="tnode folder">📁 01 · Fund Documents <span class="sz">4 files</span></div>
+              <div class="tchild">
+                <div class="tnode"><span class="open">📄</span> LPA (execution version).pdf <span class="sz">2.4 MB</span></div>
+                <div class="tnode"><span class="open">📄</span> PPM.pdf <span class="sz">6.1 MB</span></div>
+                <div class="tnode"><span class="open">📄</span> Subscription agreement.pdf <span class="sz">1.2 MB</span></div>
+                <div class="tnode"><span class="lock">🔒</span> Side letter template.docx <span class="sz">Tier 2</span></div>
+              </div>
+              <div class="tnode folder">📁 02 · Track Record <span class="sz">3 files</span></div>
+              <div class="tchild">
+                <div class="tnode"><span class="open">📄</span> Fund III performance schedule.xlsx <span class="sz">840 KB</span></div>
+                <div class="tnode"><span class="open">📄</span> Realized deal case studies.pdf <span class="sz">3.3 MB</span></div>
+                <div class="tnode"><span class="lock">🔒</span> Audited financials FY25.pdf <span class="sz">Tier 2</span></div>
+              </div>
+              <div class="tnode folder">📁 03 · Team &amp; Operations <span class="sz">2 files</span></div>
+              <div class="tchild">
+                <div class="tnode"><span class="open">📄</span> Partner bios &amp; continuity.pdf <span class="sz">1.1 MB</span></div>
+                <div class="tnode"><span class="lock">🔒</span> Reference contacts.pdf <span class="sz">Request</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-h"><h3>Access &amp; engagement</h3></div>
+            <div style="display:flex;flex-direction:column;gap:12px;font-size:12px">
+              <div><div class="muted" style="margin-bottom:5px">Your engagement score</div><div class="bar pos"><i style="width:74%"></i></div><div class="mono faint" style="font-size:10px;margin-top:4px">74 / 100 · 9 docs viewed · 3 revisits</div></div>
+              <div style="display:flex;justify-content:space-between"><span>Tier 1 access</span><span class="pill ok">Granted</span></div>
+              <div style="display:flex;justify-content:space-between"><span>Tier 2 (financials)</span><span class="pill warn">Pending GP</span></div>
+              <div style="display:flex;justify-content:space-between"><span>Downloads</span><span class="mono muted">Enabled · watermarked</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabpane" data-tab="qa">
+        <div class="card">
+          <div class="card-h"><h3>Diligence Q&amp;A</h3><span class="sub">7 threads · 2 open</span></div>
+          <div class="list-task"><div class="ic" style="background:var(--positive-dim);color:var(--positive)">✓</div><div><div class="t">What drove the Fund III loss ratio of 8%?</div><div class="m">Answered by GP IR · 2 days ago</div></div></div>
+          <div class="list-task"><div class="ic" style="background:var(--accent-dim);color:var(--accent)">…</div><div><div class="t">Can you share unrealized mark methodology?</div><div class="m">Open · awaiting GP · asked by Marcus L.</div></div></div>
+          <div class="list-task"><div class="ic" style="background:var(--accent-dim);color:var(--accent)">…</div><div><div class="t">Confirm ERISA plan-asset treatment / blocker structure</div><div class="m">Open · flagged by Compliance</div></div></div>
+        </div>
+      </div>
+
+      <div class="tabpane" data-tab="sign">
+        <div class="card pad0"><div class="tbl-wrap"><table>
+          <thead><tr><th>Document</th><th>Type</th><th>Status</th><th class="r">Certificate</th></tr></thead>
+          <tbody>
+            <tr><td>Mutual NDA</td><td>NDA</td><td><span class="pill ok">Executed</span></td><td class="r mono faint">DS-9F2A…retained</td></tr>
+            <tr><td>Indication of Interest</td><td>IOI</td><td><span class="pill warn">Awaiting you</span></td><td class="r mono faint">—</td></tr>
+            <tr><td>Term sheet</td><td>Term sheet</td><td><span class="pill neu">Draft</span></td><td class="r mono faint">—</td></tr>
+          </tbody>
+        </table></div></div>
+        <div class="disc-note">MVP stops at signed NDAs and term sheets plus a <b>soft, non-binding</b> commitment record. Subscription-document generation, binding commitments, and funds flow move to the counsel-blessed broker-dealer rail in Phase 2.</div>
+      </div>
+
+      <div class="tabpane" data-tab="activity">
+        <div class="card pad0"><div class="tbl-wrap"><table class="audit">
+          <thead><tr><th>Time (UTC)</th><th>Actor</th><th>Action</th><th>Resource</th><th class="r">Record hash</th></tr></thead>
+          <tbody>
+            <tr><td>2026-07-23 09:42</td><td>D. Whitfield</td><td>intro.request.sent</td><td>match:cedar-ridge-iv</td><td class="r hash">a91f…c7</td></tr>
+            <tr><td>2026-07-23 09:44</td><td>Cedar Ridge IR</td><td>intro.accepted</td><td>match:cedar-ridge-iv</td><td class="r hash">b02e…3d</td></tr>
+            <tr><td>2026-07-23 09:51</td><td>D. Whitfield</td><td>nda.esign.completed</td><td>agreement:nda-8831</td><td class="r hash">c73a…9f</td></tr>
+            <tr><td>2026-07-23 09:52</td><td>system</td><td>dataroom.access.granted</td><td>room:crf4 · tier1</td><td class="r hash">d18c…22</td></tr>
+            <tr><td>2026-07-23 10:07</td><td>M. Lindqvist</td><td>document.viewed</td><td>doc:fund-iii-perf.xlsx</td><td class="r hash">e44b…a1</td></tr>
+          </tbody>
+        </table></div></div>
+      </div>
+    </section>
+
+    <!-- ============ MANDATE BUILDER ============ -->
+    <section class="screen" data-screen="mandate">
+      <div class="ph">
+        <div>
+          <div class="eyebrow">Portfolio</div>
+          <h1>Mandate Builder</h1>
+          <p>Codify your investment criteria into a structured mandate. It drives matching, saved searches, deployment pacing, and inbound deal routing — and keeps matching a neutral, investor-configured filter.</p>
+        </div>
+        <div class="ph-actions">
+          <button class="btn ghost">Save draft</button>
+          <button class="btn primary">Save &amp; activate</button>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <div class="step done"><span class="n">1</span> Strategy</div>
+        <div class="step done"><span class="n">2</span> Criteria</div>
+        <div class="step now"><span class="n">3</span> Weighting</div>
+        <div class="step"><span class="n">4</span> Pacing</div>
+        <div class="step"><span class="n">5</span> Visibility</div>
+      </div>
+
+      <div class="two">
+        <div class="grid" style="gap:14px">
+          <div class="card">
+            <div class="card-h"><h3>Strategy &amp; thesis</h3></div>
+            <div class="field"><label>Mandate name</label><input type="text" value="North America Buyout — FY2026"></div>
+            <div class="field"><label>Asset classes</label>
+              <div class="tagrow">
+                <span class="tagsel on">Buyout</span><span class="tagsel on">Growth (adjacent)</span><span class="tagsel">Venture</span>
+                <span class="tagsel">Private credit</span><span class="tagsel">Real assets</span><span class="tagsel">Secondaries</span>
+              </div>
+            </div>
+            <div class="field"><label>Investment thesis (embedded for semantic matching)</label>
+              <textarea>Control positions in North American mid-market industrials and business-services with a buy-and-build operating model; top-quartile managers with realized DPI; disciplined entry multiples.</textarea>
+            </div>
+            <div class="three" style="gap:12px">
+              <div class="field"><label>Ticket min</label><input type="text" value="$25M"></div>
+              <div class="field"><label>Ticket max</label><input type="text" value="$50M"></div>
+              <div class="field"><label>Target net IRR</label><input type="text" value="≥ 15%"></div>
+            </div>
+            <div class="field"><label>Hard exclusions (gate)</label>
+              <div class="tagrow">
+                <span class="tagsel on">Tobacco</span><span class="tagsel on">Controversial weapons</span>
+                <span class="tagsel on">Sanctioned jurisdictions</span><span class="tagsel">Fossil-fuel extraction</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-h"><h3>Criterion weighting</h3><span class="sub">Bounded ±40% of base · sums to 100%</span></div>
+            <div class="wt"><label>Asset class</label><input type="range" min="0" max="20" value="16"><span class="v">16%</span></div>
+            <div class="wt"><label>Check size</label><input type="range" min="0" max="20" value="14"><span class="v">14%</span></div>
+            <div class="wt"><label>Sector / thesis</label><input type="range" min="0" max="20" value="13"><span class="v">13%</span></div>
+            <div class="wt"><label>Stage / vintage</label><input type="range" min="0" max="20" value="10"><span class="v">10%</span></div>
+            <div class="wt"><label>Risk / return</label><input type="range" min="0" max="20" value="10"><span class="v">10%</span></div>
+            <div class="wt"><label>Track record</label><input type="range" min="0" max="20" value="9"><span class="v">9%</span></div>
+            <div class="wt"><label>ESG (binding)</label><input type="range" min="0" max="20" value="6"><span class="v">6%</span></div>
+          </div>
+        </div>
+
+        <div class="card preview">
+          <div class="card-h"><h3>Live match preview</h3><span class="pill ok">Updating</span></div>
+          <div class="big" style="color:var(--primary)">142</div>
+          <div class="muted" style="font-size:12px;margin-bottom:16px">eligible opportunities match this mandate right now</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;font-size:12px"><span class="mono">Strong (≥80)</span><span class="mono" style="color:var(--positive)">18</span></div>
+            <div class="bar pos"><i style="width:13%"></i></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px"><span class="mono">Good (60–79)</span><span class="mono" style="color:#7ea2ff">61</span></div>
+            <div class="bar"><i style="width:43%"></i></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px"><span class="mono">Exploratory (40–59)</span><span class="mono muted">63</span></div>
+            <div class="bar gold"><i style="width:44%"></i></div>
+          </div>
+          <hr class="sep">
+          <div class="muted" style="font-size:11.5px;margin-bottom:8px">Sample top matches</div>
+          <div style="font-size:12px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between"><span>Cedar Ridge IV</span><span class="tier strong" style="font-size:10px">89</span></div>
+            <div style="display:flex;justify-content:space-between"><span>Blue Harbor Credit II</span><span class="tier strong" style="font-size:10px">84</span></div>
+            <div style="display:flex;justify-content:space-between"><span>Aster Growth III</span><span class="tier good" style="font-size:10px">72</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PIPELINE ============ -->
+    <section class="screen" data-screen="pipeline">
+      <div class="ph">
+        <div>
+          <div class="eyebrow">Portfolio</div>
+          <h1>Deal Pipeline</h1>
+          <p>Every live opportunity through the allocation lifecycle with enforced stage gates — a deal can't advance without KYC, NDA, and compliance sign-off. Weighted pipeline value $118M.</p>
+        </div>
+        <div class="ph-actions">
+          <div class="segbtn"><button class="on">▦ Board</button><button>☰ Table</button></div>
+          <button class="btn ghost">Swimlane: Mandate ▾</button>
+        </div>
+      </div>
+
+      <div class="kan">
+        <div class="kcol">
+          <div class="kh"><span class="stripe" style="background:#5D6779"></span>Sourced<span class="c">3</span></div>
+          <div class="kbody">
+            <div class="kcard"><div class="kt">Northwind Infra II <span class="tk">$30M</span></div><div class="km"><span class="tier expl" style="font-size:9px">54</span><span class="av">DW</span> · Accred. verify</div></div>
+            <div class="kcard"><div class="kt">Meridian Real Estate <span class="tk">$20M</span></div><div class="km"><span class="tier good" style="font-size:9px">61</span><span class="av">PR</span></div></div>
+            <div class="kcard"><div class="kt">Solaris Venture V <span class="tk">$12M</span></div><div class="km"><span class="tier good" style="font-size:9px">60</span><span class="av">ML</span></div></div>
+          </div>
+        </div>
+        <div class="kcol">
+          <div class="kh"><span class="stripe" style="background:#3B6EF5"></span>Screening<span class="c">2</span></div>
+          <div class="kbody">
+            <div class="kcard"><div class="kt">Aster Growth III <span class="tk">$25M</span></div><div class="km"><span class="tier good" style="font-size:9px">72</span><span class="av">DW</span> · 3d</div></div>
+            <div class="kcard"><div class="kt">Ridgeline Direct <span class="tk">$25M</span></div><div class="km"><span class="tier good" style="font-size:9px">63</span><span class="av">PR</span></div></div>
+          </div>
+        </div>
+        <div class="kcol">
+          <div class="kh"><span class="stripe" style="background:#CBA15A"></span>NDA / Data Room<span class="c">2</span></div>
+          <div class="kbody">
+            <div class="kcard"><div class="kt">Helios Climate <span class="tk">$20M</span></div><div class="km"><span class="tier good" style="font-size:9px">69</span><span class="av">ML</span> · NDA out</div></div>
+            <div class="kcard"><div class="kt">Vantage Sec. VI <span class="tk">$18M</span></div><div class="km"><span class="tier good" style="font-size:9px">67</span><span class="av">DW</span></div></div>
+          </div>
+        </div>
+        <div class="kcol">
+          <div class="kh"><span class="stripe" style="background:#6c4bd6"></span>Diligence<span class="c">2</span></div>
+          <div class="kbody">
+            <div class="kcard" style="border-color:var(--primary-line)"><div class="kt">Cedar Ridge IV <span class="tk">$40M</span></div><div class="km"><span class="tier strong" style="font-size:9px">89</span><span class="av">DW</span> · 6d</div></div>
+            <div class="kcard"><div class="kt">Blue Harbor Credit II <span class="tk">$35M</span></div><div class="km"><span class="tier strong" style="font-size:9px">84</span><span class="av">PR</span></div></div>
+          </div>
+        </div>
+        <div class="kcol">
+          <div class="kh"><span class="stripe" style="background:#24B47E"></span>IC Review<span class="c">1</span></div>
+          <div class="kbody">
+            <div class="kcard"><div class="kt">Granite Buyout II <span class="tk">$45M</span></div><div class="km"><span class="tier strong" style="font-size:9px">81</span><span class="av">DW</span> · memo</div></div>
+          </div>
+        </div>
+        <div class="kcol">
+          <div class="kh"><span class="stripe" style="background:#24B47E"></span>Term Sheet<span class="c">1</span></div>
+          <div class="kbody">
+            <div class="kcard"><div class="kt">Ridgeline Direct SMA <span class="tk">$25M</span></div><div class="km"><span class="pill ok plain" style="font-size:9px">Signed</span><span class="av">PR</span></div></div>
+          </div>
+        </div>
+        <div class="kcol">
+          <div class="kh"><span class="stripe" style="background:#2f6f52"></span>Funded<span class="c">1</span></div>
+          <div class="kbody">
+            <div class="kcard"><div class="kt">Coastal Credit Fund <span class="tk">$50M</span></div><div class="km"><span class="pill ok plain" style="font-size:9px">Closed</span><span class="av">DW</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ANALYTICS ============ -->
+    <section class="screen" data-screen="analytics">
+      <div class="ph">
+        <div>
+          <div class="eyebrow">Analytics</div>
+          <h1>Portfolio &amp; Process Analytics</h1>
+          <p>Deployment pacing, pipeline conversion, exposure, and matching effectiveness — for principals and the investment committee. As of Jul 23, 2026.</p>
+        </div>
+        <div class="ph-actions">
+          <button class="btn ghost">FY2026 ▾</button>
+          <button class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Export board pack</button>
+        </div>
+      </div>
+
+      <div class="two">
+        <div class="card chartcard">
+          <div class="card-h"><h3>Deployment vs. pacing target</h3><span class="sub">$M cumulative · committed vs plan</span></div>
+          <svg viewBox="0 0 560 220" role="img" aria-label="Deployment vs pacing line chart">
+            <g stroke="#232B3B" stroke-width="1">
+              <line x1="40" y1="20" x2="40" y2="190"/><line x1="40" y1="190" x2="540" y2="190"/>
+              <line x1="40" y1="148" x2="540" y2="148"/><line x1="40" y1="106" x2="540" y2="106"/><line x1="40" y1="64" x2="540" y2="64"/>
+            </g>
+            <text class="axl" x="6" y="193">0</text><text class="axl" x="0" y="151">150</text><text class="axl" x="0" y="109">300</text><text class="axl" x="0" y="67">450</text><text class="axl" x="0" y="24">600</text>
+            <text class="axl" x="40" y="205">Jan</text><text class="axl" x="140" y="205">Mar</text><text class="axl" x="240" y="205">May</text><text class="axl" x="340" y="205">Jul</text><text class="axl" x="440" y="205">Sep</text><text class="axl" x="512" y="205">Dec</text>
+            <!-- target (dashed) -->
+            <polyline fill="none" stroke="#8B96A9" stroke-width="1.5" stroke-dasharray="4 4" points="40,190 140,168 240,140 340,112 440,80 540,44"/>
+            <!-- committed area -->
+            <polyline fill="rgba(59,110,245,.14)" stroke="none" points="40,190 140,176 240,150 340,104 340,190 40,190"/>
+            <polyline fill="none" stroke="#3B6EF5" stroke-width="2.5" points="40,190 140,176 240,150 340,104"/>
+            <circle cx="340" cy="104" r="4" fill="#3B6EF5" stroke="#0A0E17" stroke-width="2"/>
+            <text class="axl" x="348" y="100" fill="#EAEEF6">$286M</text>
+          </svg>
+          <div style="display:flex;gap:16px;font-size:11px;margin-top:8px" class="muted">
+            <span><span style="color:#3B6EF5">━</span> Committed (actual)</span>
+            <span><span style="color:#8B96A9">┅</span> Pacing target</span>
+            <span style="margin-left:auto;color:var(--positive)">▲ 4% ahead of pace</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-h"><h3>Pipeline conversion funnel</h3><span class="sub">FY2026</span></div>
+          <div class="funnel-row"><div class="fn">Matched</div><div class="fbar" style="width:100%">1,284</div><div class="fv">100%</div></div>
+          <div class="funnel-row"><div class="fn">Intro accepted</div><div class="fbar" style="width:64%">821</div><div class="fv">64%</div></div>
+          <div class="funnel-row"><div class="fn">Data room</div><div class="fbar" style="width:38%">488</div><div class="fv">38%</div></div>
+          <div class="funnel-row"><div class="fn">Diligence</div><div class="fbar" style="width:19%">244</div><div class="fv">19%</div></div>
+          <div class="funnel-row"><div class="fn">Term sheet</div><div class="fbar" style="width:9%">116</div><div class="fv">9%</div></div>
+          <div class="funnel-row"><div class="fn">Closed</div><div class="fbar" style="width:5%">61</div><div class="fv">4.7%</div></div>
+        </div>
+      </div>
+
+      <div class="two" style="margin-top:14px">
+        <div class="card">
+          <div class="card-h"><h3>Exposure by strategy</h3><span class="sub">Committed · HHI 0.21 (diversified)</span></div>
+          <div class="expo">
+            <div class="expo-row"><span class="en">Buyout</span><div class="bar"><i style="width:41%"></i></div><span class="ev">41%</span></div>
+            <div class="expo-row"><span class="en">Private credit</span><div class="bar pos"><i style="width:26%"></i></div><span class="ev">26%</span></div>
+            <div class="expo-row"><span class="en">Growth equity</span><div class="bar"><i style="width:14%"></i></div><span class="ev">14%</span></div>
+            <div class="expo-row"><span class="en">Real assets</span><div class="bar gold"><i style="width:11%"></i></div><span class="ev">11%</span></div>
+            <div class="expo-row"><span class="en">Secondaries</span><div class="bar gold"><i style="width:8%"></i></div><span class="ev">8%</span></div>
+          </div>
+          <hr class="sep">
+          <div class="faint" style="font-size:10.5px">No single-manager position exceeds the 10% concentration cap. Limit-breach monitor: clear.</div>
+        </div>
+
+        <div class="card">
+          <div class="card-h"><h3>Match effectiveness</h3><span class="sub">Score bucket → close rate</span></div>
+          <div class="expo">
+            <div class="expo-row"><span class="en">Strong (≥80)</span><div class="bar pos"><i style="width:82%"></i></div><span class="ev">18.4%</span></div>
+            <div class="expo-row"><span class="en">Good (60–79)</span><div class="bar"><i style="width:44%"></i></div><span class="ev">7.9%</span></div>
+            <div class="expo-row"><span class="en">Exploratory (40–59)</span><div class="bar gold"><i style="width:16%"></i></div><span class="ev">2.1%</span></div>
+            <div class="expo-row"><span class="en">Random baseline</span><div class="bar"><i style="width:6%;background:var(--faint)"></i></div><span class="ev">0.8%</span></div>
+          </div>
+          <hr class="sep">
+          <div class="faint" style="font-size:10.5px">Precision@10 = 4.7× baseline. Higher score buckets convert to closed allocations at materially higher rates — the ranking signal is working.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COMPLIANCE CONSOLE ============ -->
+    <section class="screen" data-screen="compliance">
+      <div class="ph">
+        <div>
+          <div class="eyebrow">Admin &amp; Compliance</div>
+          <h1>Compliance Console</h1>
+          <p>The control center: KYC/AML, accreditation and qualified-purchaser status, sanctions screening, roles, and the immutable audit log. Separation of duties enforced.</p>
+        </div>
+        <div class="ph-actions">
+          <button class="btn ghost">Export audit log</button>
+          <button class="btn">Trigger re-screen</button>
+        </div>
+      </div>
+
+      <div class="kpis" style="grid-template-columns:repeat(4,1fr)">
+        <div class="kpi"><div class="lab">KYC time-to-clear</div><div class="val">6.4<small>h median</small></div><div class="delta up">within SLA</div></div>
+        <div class="kpi"><div class="lab">Open compliance cases</div><div class="val">6</div><div class="delta down">2 due today</div></div>
+        <div class="kpi"><div class="lab">Sanctions hits (30d)</div><div class="val">1</div><div class="delta">dispositioned</div></div>
+        <div class="kpi"><div class="lab">Gating block rate</div><div class="val">4.2<small>%</small></div><div class="delta">mandate/accred.</div></div>
+      </div>
+
+      <div class="two">
+        <div class="card pad0">
+          <div class="card-h" style="padding:14px 16px 0"><h3>Compliance queue</h3><span class="pill warn">6 open</span></div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Subject</th><th>Check</th><th>Risk</th><th>Status</th><th class="r">Expires</th></tr></thead>
+            <tbody>
+              <tr><td>Helios Climate GP</td><td>Accreditation (506c)</td><td><span class="pill warn plain">Medium</span></td><td><span class="pill warn">Re-verify</span></td><td class="r mono">8d</td></tr>
+              <tr><td>Aurora Family Office</td><td>KYB / UBO</td><td><span class="pill ok plain">Low</span></td><td><span class="pill info">In review</span></td><td class="r mono">—</td></tr>
+              <tr><td>Meridian Growth SPV</td><td>Accreditation (QP)</td><td><span class="pill ok plain">Low</span></td><td><span class="pill ok">Cleared</span></td><td class="r mono">312d</td></tr>
+              <tr><td>Offshore Capital Ltd</td><td>Sanctions / PEP</td><td><span class="pill bad plain">High</span></td><td><span class="pill bad">Hit — EDD</span></td><td class="r mono">now</td></tr>
+              <tr><td>Cedar Ridge Capital</td><td>KYC signatory</td><td><span class="pill ok plain">Low</span></td><td><span class="pill ok">Cleared</span></td><td class="r mono">180d</td></tr>
+              <tr><td>Northwind GP</td><td>Accreditation (506c)</td><td><span class="pill warn plain">Medium</span></td><td><span class="pill info">Docs requested</span></td><td class="r mono">—</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <div class="card">
+          <div class="card-h"><h3>Case — Offshore Capital Ltd</h3><span class="pill bad">Sanctions hit</span></div>
+          <div style="display:flex;flex-direction:column;gap:9px;font-size:12px">
+            <div class="kv"><span class="k">Screen source</span><span class="v">OFAC SDN + adverse-media</span></div>
+            <div class="kv"><span class="k">Match confidence</span><span class="v" style="color:var(--negative)">Possible — 74%</span></div>
+            <div class="kv"><span class="k">UBO 50% rule</span><span class="v miss">Under review</span></div>
+            <div class="kv"><span class="k">Downstream</span><span class="v">All hard-gated</span></div>
+          </div>
+          <hr class="sep">
+          <div style="display:flex;gap:8px">
+            <button class="btn sm">Request EDD docs</button>
+            <button class="btn sm" style="border-color:var(--negative);color:var(--negative)">Block party</button>
+          </div>
+          <div class="faint" style="font-size:10.5px;margin-top:10px">Dispositioning this case requires the Compliance Officer role. The deal lead who benefits cannot approve — separation of duties enforced.</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <div class="card-h"><h3>Roles &amp; permissions</h3><span class="sub">RBAC + relationship ABAC</span></div>
+        <div class="roles-grid">
+          <div class="hd">Role</div><div class="hd">Mandates</div><div class="hd">Data room</div><div class="hd">Approve gate</div><div class="hd">Sign docs</div><div class="hd">Audit log</div>
+          <div class="rn">Org Admin</div><div class="ck">●</div><div class="ck">●</div><div class="xk">○</div><div class="ck">●</div><div class="ck">●</div>
+          <div class="rn">Compliance Officer</div><div class="xk">○</div><div class="ck">●</div><div class="ck">●</div><div class="xk">○</div><div class="ck">●</div>
+          <div class="rn">Deal Lead</div><div class="ck">●</div><div class="ck">●</div><div class="xk">○</div><div class="ck">●</div><div class="xk">○</div>
+          <div class="rn">Analyst</div><div class="ck">●</div><div class="ck">●</div><div class="xk">○</div><div class="xk">○</div><div class="xk">○</div>
+          <div class="rn">Auditor (read-only)</div><div class="xk">○</div><div class="xk">○</div><div class="xk">○</div><div class="xk">○</div><div class="ck">●</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <div class="card-h"><h3>Immutable audit log</h3><span class="sub">Hash-chained · WORM · 7-yr retention</span></div>
+        <div class="tbl-wrap"><table class="audit">
+          <thead><tr><th>Time (UTC)</th><th>Actor</th><th>Action</th><th>Resource</th><th class="r">prev → record</th></tr></thead>
+          <tbody>
+            <tr><td>2026-07-23 10:14</td><td>P. Raman (Compliance)</td><td>screening.rescreen.trigger</td><td>org:offshore-capital</td><td class="r hash">…9f → e44b…a1</td></tr>
+            <tr><td>2026-07-23 09:52</td><td>system</td><td>dataroom.access.granted</td><td>room:crf4 · tier1</td><td class="r hash">…22 → d18c…22</td></tr>
+            <tr><td>2026-07-23 09:51</td><td>D. Whitfield</td><td>nda.esign.completed</td><td>agreement:nda-8831</td><td class="r hash">…3d → c73a…9f</td></tr>
+            <tr><td>2026-07-23 09:44</td><td>Cedar Ridge IR</td><td>intro.accepted</td><td>match:cedar-ridge-iv</td><td class="r hash">…c7 → b02e…3d</td></tr>
+            <tr><td>2026-07-23 09:42</td><td>D. Whitfield</td><td>intro.request.sent</td><td>match:cedar-ridge-iv</td><td class="r hash">…00 → a91f…c7</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  // ---- screen router ----
+  var navItems = Array.prototype.slice.call(document.querySelectorAll('.nav-item'));
+  var screens = Array.prototype.slice.call(document.querySelectorAll('.screen'));
+  function show(name){
+    screens.forEach(function(s){ s.classList.toggle('active', s.getAttribute('data-screen')===name); });
+    navItems.forEach(function(n){ n.classList.toggle('active', n.getAttribute('data-screen')===name); });
+    var m = document.getElementById('main'); if(m) m.scrollTop = 0;
+  }
+  navItems.forEach(function(n){
+    n.addEventListener('click', function(e){ e.preventDefault(); show(n.getAttribute('data-screen')); });
+  });
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('[data-goto]');
+    if(t){ e.preventDefault(); show(t.getAttribute('data-goto')); }
+  });
+
+  // ---- deal tabs ----
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('#dealtabs .tab'));
+  var panes = Array.prototype.slice.call(document.querySelectorAll('.tabpane'));
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var key = tab.getAttribute('data-tab');
+      tabs.forEach(function(x){ x.classList.toggle('on', x===tab); });
+      panes.forEach(function(p){ p.classList.toggle('on', p.getAttribute('data-tab')===key); });
+    });
+  });
+
+  // ---- weighting sliders live label ----
+  document.querySelectorAll('.wt input[type=range]').forEach(function(r){
+    r.addEventListener('input', function(){
+      var v = r.parentElement.querySelector('.v'); if(v) v.textContent = r.value + '%';
+    });
+  });
+
+  // ---- keyboard: number keys jump screens ----
+  var order = ['dashboard','marketplace','match','deal','mandate','pipeline','analytics','compliance'];
+  document.addEventListener('keydown', function(e){
+    if(e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+    var i = parseInt(e.key,10);
+    if(i>=1 && i<=order.length) show(order[i-1]);
+  });
+})();
+</script>
+</body>
+</html>
