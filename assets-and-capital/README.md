@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Assets & Capital
 
-## Getting Started
+A premium digital investment marketplace connecting **vetted businesses seeking capital** with a **global network of ready investors** — for capital raising, partnerships, and market expansion.
 
-First, run the development server:
+> _Where quality assets meet ready capital._
+
+Built for [assetsandcapitalltd.com](https://assetsandcapitalltd.com).
+
+## Stack
+
+| Layer | Choice |
+|---|---|
+| Framework | **Next.js 16** (App Router, React Server Components) |
+| UI | **React 19** · **TypeScript** (strict) |
+| Styling | **Tailwind CSS v4** (CSS-first `@theme` tokens) |
+| Animation | **framer-motion** |
+| Icons | **lucide-react** (+ inline brand SVGs) |
+| Fonts | **Playfair Display** (display) · **Inter** (body) via `next/font` |
+
+_The brief specified Next.js 15; the toolchain installed the newer Next 16 / React 19 / Tailwind v4, which we adopted._
+
+## Design system
+
+Defined in [`app/globals.css`](app/globals.css) as Tailwind v4 theme tokens:
+
+- **Brand red** `#B91C1C` / `#991B1B` · **warm gold** `#C2A04A` accent · **ink** `#0C0D10` & **warm paper** `#FBFAF8` neutrals.
+- Display face Playfair Display, body Inter, tabular numerals for figures.
+- Reusable primitives in `components/ui/`: `Button` (cva variants), `Badge`, `Reveal` (scroll animation), `Counter` (animated), `SectionHeading`, `OpportunityCard`.
+
+## What's built
+
+**Marketing** — premium home page (hero with live deal card, animated stats, how-it-works tabs, why-us, featured opportunities, 14-sector industries, investment-process band, services, testimonials, insights, events, CTA), plus `Investors`, `Businesses`, `About`, `Contact`, `Events`, `Insights`, and `Pricing` (listing tiers + success-fee model + services + FAQ).
+
+**Marketplace** (`/marketplace`) — faceted filtering (region, sector, stage, instrument, tier), search, sort, grid/list views, empty state.
+
+**Onboarding**
+- **Investor mandate wizard** (`/register/investor`) — three branches (Private Equity / Real Estate / Fund) with conditional questions from the mandate questionnaire, autosave to `localStorage`, progress rail, validation, review & consent.
+- **Business intake** (`/register/business`) — company, the ask, services & listing tier.
+
+**Auth** — split-screen `/login`, `/register` hub.
+
+**Dynamic content** — `/services/[slug]` (roadshows, market-access, business-plan, financial-modelling, teaser) and `/legal/[slug]` (privacy, terms, cookies, disclosures) as SSG.
+
+**Global** — sticky nav with mega menu + mobile drawer, footer with newsletter form, SEO metadata, accessibility (skip link, focus states, reduced-motion), fully responsive.
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build (all routes prerender)
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Integration seams (wire up real services next)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The UI is complete and runnable with illustrative data. These points are stubbed for real back-end integration:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Auth** — `components/auth/login-form.tsx` → Supabase Auth `signInWithPassword`.
+- **Newsletter / contact** — `newsletter-form.tsx`, `contact-form.tsx` → `POST /api/*` (Resend email).
+- **Onboarding submit** — wizard/intake success handlers → persist to Postgres (Prisma) + Supabase Storage for uploads.
+- **Marketplace** — `lib/marketplace-data.ts` sample data → Prisma-backed queries + AI match scoring.
+- **Payments** — pricing tiers → Stripe / Paystack / Flutterwave checkout + success-fee tracking.
 
-## Learn More
+## Roadmap
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Next phases: Prisma/Postgres schema, investor & business dashboards, admin panel & CMS, payments, document vault (UploadThing), KYC workflow, and AI matching. See the platform architecture plan in `../meridian/PRODUCT_AND_ARCHITECTURE_PLAN.md` for the broader systems design.
