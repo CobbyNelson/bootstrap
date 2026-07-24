@@ -1,11 +1,12 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Target, Bookmark, MessageSquare, Video, FileSignature, Contact,
   Settings, Bell, Search, ArrowLeft, BarChart3, Wallet, Building2, TrendingUp,
-  Columns3, Lock, BadgeCheck,
+  Columns3, Lock, BadgeCheck, Menu, X,
 } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { cn } from "@/lib/utils";
@@ -40,12 +41,71 @@ const BUSINESS_NAV: NavItem[] = [
   { label: "Payments", href: "/dashboard/business#payments", icon: Wallet },
 ];
 
+function SidebarBody({
+  nav,
+  pathname,
+  roleLabel,
+  isBusiness,
+  onNavigate,
+}: {
+  nav: NavItem[];
+  pathname: string;
+  roleLabel: string;
+  isBusiness: boolean;
+  onNavigate?: () => void;
+}) {
+  return (
+    <>
+      <nav className="flex-1 space-y-1 overflow-y-auto p-3">
+        <p className="px-3 pb-2 pt-3 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-ink/40">
+          {roleLabel} workspace
+        </p>
+        {nav.map((item) => {
+          const active = item.href === pathname;
+          return (
+            <Link
+              key={item.label}
+              href={item.href}
+              onClick={onNavigate}
+              className={cn(
+                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
+                active ? "bg-brand-50 text-brand-700 ring-1 ring-brand-100" : "text-ink/60 hover:bg-paper-2 hover:text-ink"
+              )}
+            >
+              <item.icon className="h-4 w-4" />
+              {item.label}
+            </Link>
+          );
+        })}
+      </nav>
+      <div className="border-t border-ink/[0.06] p-3">
+        <Link href={isBusiness ? "/dashboard" : "/dashboard/business"} onClick={onNavigate} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
+          <Building2 className="h-4 w-4" />
+          View {isBusiness ? "investor" : "business"} view
+        </Link>
+        <Link href="/dashboard/settings" onClick={onNavigate} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
+          <Settings className="h-4 w-4" /> Settings
+        </Link>
+        <Link href="/" onClick={onNavigate} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
+          <ArrowLeft className="h-4 w-4" /> Back to site
+        </Link>
+      </div>
+    </>
+  );
+}
+
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isBusiness = pathname.startsWith("/dashboard/business");
   const nav = isBusiness ? BUSINESS_NAV : INVESTOR_NAV;
   const roleLabel = isBusiness ? "Business" : "Investor";
   const person = isBusiness ? { name: "Accra FinPay", sub: "Gold listing" } : { name: "Aurora Family Office", sub: "PE mandate" };
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
 
   return (
     <div className="min-h-dvh bg-paper-2/50 lg:grid lg:grid-cols-[248px_1fr]">
@@ -53,43 +113,35 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
         <div className="flex h-16 items-center border-b border-ink/[0.06] px-5">
           <Logo />
         </div>
-        <nav className="flex-1 space-y-1 overflow-y-auto p-3">
-          <p className="px-3 pb-2 pt-3 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-ink/40">
-            {roleLabel} workspace
-          </p>
-          {nav.map((item) => {
-            const active = item.href === pathname;
-            return (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={cn(
-                  "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
-                  active ? "bg-brand-50 text-brand-700 ring-1 ring-brand-100" : "text-ink/60 hover:bg-paper-2 hover:text-ink"
-                )}
-              >
-                <item.icon className="h-4 w-4" />
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-        <div className="border-t border-ink/[0.06] p-3">
-          <Link href={isBusiness ? "/dashboard" : "/dashboard/business"} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
-            <Building2 className="h-4 w-4" />
-            View {isBusiness ? "investor" : "business"} view
-          </Link>
-          <Link href="/dashboard/settings" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
-            <Settings className="h-4 w-4" /> Settings
-          </Link>
-          <Link href="/" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
-            <ArrowLeft className="h-4 w-4" /> Back to site
-          </Link>
-        </div>
+        <SidebarBody nav={nav} pathname={pathname} roleLabel={roleLabel} isBusiness={isBusiness} />
       </aside>
+
+      {/* mobile drawer */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true">
+          <button className="absolute inset-0 bg-ink/40 backdrop-blur-sm" aria-label="Close menu" onClick={() => setMobileOpen(false)} />
+          <div className="absolute inset-y-0 left-0 flex w-[82%] max-w-xs flex-col bg-white shadow-[var(--shadow-lift)]">
+            <div className="flex h-16 items-center justify-between border-b border-ink/[0.06] px-5">
+              <Logo />
+              <button onClick={() => setMobileOpen(false)} className="grid h-9 w-9 place-items-center rounded-full text-ink/60 hover:bg-paper-2" aria-label="Close menu">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <SidebarBody nav={nav} pathname={pathname} roleLabel={roleLabel} isBusiness={isBusiness} onNavigate={() => setMobileOpen(false)} />
+          </div>
+        </div>
+      )}
 
       <div className="flex min-w-0 flex-col">
         <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-ink/[0.07] bg-white/80 px-5 backdrop-blur-md md:px-8">
+          <button
+            type="button"
+            onClick={() => setMobileOpen(true)}
+            className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-paper-2 lg:hidden"
+            aria-label="Open menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
           <div className="lg:hidden">
             <Logo />
           </div>

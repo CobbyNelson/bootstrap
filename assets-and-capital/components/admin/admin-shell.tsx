@@ -1,10 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Building2, Users, ListChecks, Wallet, Presentation,
-  FileText, ScrollText, BadgeCheck, Search, Bell, ArrowLeft, SlidersHorizontal, Mailbox,
+  FileText, ScrollText, BadgeCheck, Search, Bell, ArrowLeft, SlidersHorizontal, Mailbox, Menu, X,
 } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { cn } from "@/lib/utils";
@@ -25,8 +26,42 @@ const NAV = [
 
 const TEAM = ["RO", "JA", "CD", "MP"];
 
+function AdminNavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {
+  return (
+    <>
+      {NAV.map((item) => {
+        const active = item.href === pathname;
+        return (
+          <Link
+            key={item.label}
+            href={item.href}
+            onClick={onNavigate}
+            className={cn(
+              "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
+              active ? "bg-white text-ink shadow-sm" : "text-white/65 hover:bg-white/[0.06] hover:text-white"
+            )}
+          >
+            <item.icon className={cn("h-4 w-4", active ? "text-brand-600" : "text-navy-300")} />
+            <span className="flex-1">{item.label}</span>
+            {item.badge && (
+              <span className="rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold text-white">{item.badge}</span>
+            )}
+          </Link>
+        );
+      })}
+    </>
+  );
+}
+
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
   return (
     <div className="min-h-dvh bg-paper-2/60 lg:grid lg:grid-cols-[264px_1fr]">
       {/* dark sidebar */}
@@ -54,27 +89,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
         <nav className="relative flex-1 space-y-0.5 overflow-y-auto px-3 pb-2">
           <p className="kicker px-3 pb-1.5 pt-3 text-[0.6rem] text-navy-300/70">Administration</p>
-          {NAV.map((item) => {
-            const active = item.href === pathname;
-            return (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={cn(
-                  "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
-                  active ? "bg-white text-ink shadow-sm" : "text-white/65 hover:bg-white/[0.06] hover:text-white"
-                )}
-              >
-                <item.icon className={cn("h-4 w-4", active ? "text-brand-600" : "text-navy-300")} />
-                <span className="flex-1">{item.label}</span>
-                {item.badge && (
-                  <span className={cn("rounded-full px-1.5 py-0.5 text-[0.6rem] font-semibold", active ? "bg-brand-600 text-white" : "bg-brand-600 text-white")}>
-                    {item.badge}
-                  </span>
-                )}
-              </Link>
-            );
-          })}
+          <AdminNavLinks pathname={pathname} />
         </nav>
 
         {/* active team */}
@@ -96,9 +111,48 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
 
+      {/* mobile drawer */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true">
+          <button className="absolute inset-0 bg-ink/50 backdrop-blur-sm" aria-label="Close menu" onClick={() => setMobileOpen(false)} />
+          <div className="absolute inset-y-0 left-0 flex w-[82%] max-w-xs flex-col overflow-hidden bg-navy-900 text-white shadow-[var(--shadow-lift)]">
+            <div
+              className="pointer-events-none absolute inset-0 opacity-80"
+              style={{ background: "radial-gradient(120% 60% at 0% 0%, rgba(229,50,43,0.22), transparent 60%)" }}
+              aria-hidden
+            />
+            <div className="relative flex h-16 items-center justify-between px-5">
+              <div className="flex items-center gap-2">
+                <Logo invert />
+                <span className="rounded-md bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-white">Admin</span>
+              </div>
+              <button onClick={() => setMobileOpen(false)} className="grid h-9 w-9 place-items-center rounded-full text-white/70 hover:bg-white/10" aria-label="Close menu">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <nav className="relative flex-1 space-y-0.5 overflow-y-auto px-3 pb-3">
+              <AdminNavLinks pathname={pathname} onNavigate={() => setMobileOpen(false)} />
+            </nav>
+            <div className="relative border-t border-white/10 px-5 py-4">
+              <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 text-sm font-medium text-white/55 hover:text-white">
+                <ArrowLeft className="h-4 w-4" /> Back to site
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* content */}
       <div className="flex min-w-0 flex-col">
         <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-ink/[0.07] bg-paper/85 px-5 backdrop-blur-md md:px-8">
+          <button
+            type="button"
+            onClick={() => setMobileOpen(true)}
+            className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-paper-2 lg:hidden"
+            aria-label="Open menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
           <div className="lg:hidden"><Logo /></div>
           <div className="ml-auto flex items-center gap-3">
             <button

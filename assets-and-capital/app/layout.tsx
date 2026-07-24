@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Figtree, Manrope } from "next/font/google";
 import { SITE } from "@/lib/content";
 import { CommandPalette } from "@/components/search/command-palette";
 import { CurrencyProvider } from "@/components/providers/currency-provider";
+import { CookieConsent } from "@/components/layout/cookie-consent";
 import "./globals.css";
 
 // Titles — friendly geometric sans.
@@ -53,6 +54,11 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#e5322b",
+  colorScheme: "light",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -62,6 +68,7 @@ export default function RootLayout({
         <CurrencyProvider>
           {children}
           <CommandPalette />
+          <CookieConsent />
         </CurrencyProvider>
       </body>
     </html>
