@@ -51,7 +51,7 @@ export default function InvestorDashboard() {
         <Panel id="matches" title="Recommended for your mandate" action={{ label: "See all", href: "/marketplace" }}>
           <div className="grid gap-5 sm:grid-cols-2">
             {FEATURED_OPPORTUNITIES.slice(0, 2).map((o) => (
-              <OpportunityCard key={o.name} o={o} href="/marketplace" />
+              <OpportunityCard key={o.name} o={o} />
             ))}
           </div>
         </Panel>

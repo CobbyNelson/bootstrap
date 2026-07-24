@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { Search, SlidersHorizontal, LayoutGrid, List, X, MapPin } from "lucide-react";
-import { MARKETPLACE, REGIONS, SECTORS_FILTER, STAGES, INSTRUMENTS, TIERS, SORTS } from "@/lib/marketplace-data";
+import { REGIONS, SECTORS_FILTER, STAGES, INSTRUMENTS, TIERS, SORTS } from "@/lib/marketplace-data";
+import { SCORED_MARKETPLACE as MARKETPLACE } from "@/lib/matching";
 import { OpportunityCard } from "@/components/ui/opportunity-card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";

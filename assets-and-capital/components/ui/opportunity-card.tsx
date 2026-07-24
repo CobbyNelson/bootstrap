@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, MapPin } from "lucide-react";
 import type { Opportunity } from "@/lib/content";
+import { slugify } from "@/lib/matching";
 import { Badge } from "./badge";
 import { cn } from "@/lib/utils";
 
@@ -19,11 +20,12 @@ function initials(name: string) {
     .join("");
 }
 
-export function OpportunityCard({ o, href = "/marketplace" }: { o: Opportunity; href?: string }) {
+export function OpportunityCard({ o, href }: { o: Opportunity; href?: string }) {
   const matchColor = o.match >= 88 ? "text-emerald-600" : o.match >= 80 ? "text-brand-600" : "text-gold-600";
+  const to = href ?? `/marketplace/${slugify(o.name)}`;
   return (
     <Link
-      href={href}
+      href={to}
       className="group flex h-full flex-col rounded-3xl border border-ink/[0.07] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-ink/10 hover:shadow-[var(--shadow-card)]"
     >
       <div className="flex items-start justify-between gap-3">
