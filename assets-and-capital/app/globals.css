@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Assets & Capital — Design System
+   Brand: deep corporate red + warm gold, ink & warm paper.
+   Display: Playfair Display · Body: Inter
+   ============================================================ */
+
+@theme {
+  /* Brand red (primary) */
+  --color-brand-50: #fef3f2;
+  --color-brand-100: #fee4e2;
+  --color-brand-200: #fecdca;
+  --color-brand-300: #fda4a2;
+  --color-brand-400: #f97970;
+  --color-brand-500: #ef4444;
+  --color-brand-600: #b91c1c; /* primary */
+  --color-brand-700: #991b1b; /* primary dark */
+  --color-brand-800: #7f1d1d;
+  --color-brand-900: #5e1414;
+  --color-brand-950: #3f0d0d;
+
+  /* Warm gold (accent) */
+  --color-gold-100: #f6edd5;
+  --color-gold-200: #ecdcab;
+  --color-gold-300: #e0c67e;
+  --color-gold-400: #d4af5a;
+  --color-gold-500: #c2a04a; /* accent */
+  --color-gold-600: #a6842f;
+  --color-gold-700: #856822;
+
+  /* Ink & warm-paper neutrals */
+  --color-ink: #0c0d10;
+  --color-ink-2: #16181d;
+  --color-paper: #fbfaf8;
+  --color-paper-2: #f4f2ec;
+  --color-line: #e7e3da;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+
+  --radius-xl: 14px;
+  --radius-2xl: 20px;
+  --radius-3xl: 28px;
+
+  --shadow-soft: 0 1px 2px rgba(12, 13, 16, 0.04), 0 8px 24px -12px rgba(12, 13, 16, 0.12);
+  --shadow-card: 0 1px 3px rgba(12, 13, 16, 0.05), 0 20px 40px -24px rgba(12, 13, 16, 0.22);
+  --shadow-lift: 0 2px 6px rgba(12, 13, 16, 0.06), 0 30px 60px -28px rgba(12, 13, 16, 0.30);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- base ---------- */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "ss01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.011em;
+}
+::selection {
+  background: var(--color-brand-600);
+  color: #fff;
+}
+:focus-visible {
+  outline: 2px solid var(--color-brand-600);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* ---------- layout helpers ---------- */
+.container-x {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) {
+  .container-x { padding-inline: 2rem; }
+}
+
+/* ---------- text treatments ---------- */
+.text-gradient-gold {
+  background: linear-gradient(100deg, var(--color-gold-600), var(--color-gold-400) 55%, var(--color-gold-300));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.text-gradient-brand {
+  background: linear-gradient(100deg, var(--color-brand-700), var(--color-brand-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hairline { border: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent); }
+
+.glass {
+  background: color-mix(in srgb, white 72%, transparent);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+}
+.glass-dark {
+  background: color-mix(in srgb, var(--color-ink) 55%, transparent);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+}
+
+.grid-noise {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--color-ink) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-ink) 4%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* ---------- skeleton shimmer ---------- */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--color-paper-2) 25%, var(--color-line) 37%, var(--color-paper-2) 63%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
