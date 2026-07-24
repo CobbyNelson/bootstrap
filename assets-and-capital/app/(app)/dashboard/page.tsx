@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Target, Bookmark, Eye, Presentation, FileText, Download, ArrowRight } from "lucide-react";
+import { Target, Bookmark, Eye, Presentation, FileText, Download, ArrowRight, ShieldCheck } from "lucide-react";
 import { FEATURED_OPPORTUNITIES } from "@/lib/content";
+import { scoreInvestor, DEMO_INVESTOR } from "@/lib/investor-scoring";
 import { OpportunityCard } from "@/components/ui/opportunity-card";
 import { Badge } from "@/components/ui/badge";
 import { StatCard, Panel, ProgressRing } from "@/components/dashboard/widgets";
@@ -25,6 +26,7 @@ const DOCS = [
 ];
 
 export default function InvestorDashboard() {
+  const inv = scoreInvestor(DEMO_INVESTOR);
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       {/* header */}
@@ -32,6 +34,10 @@ export default function InvestorDashboard() {
         <div>
           <p className="text-sm text-ink/50">Investor workspace</p>
           <h1 className="mt-1 font-display text-3xl font-semibold text-ink">Welcome back, Aurora</h1>
+          <div className="mt-2 flex items-center gap-2">
+            <Badge variant="gold" size="sm"><ShieldCheck className="h-3.5 w-3.5" /> {inv.badge}</Badge>
+            <span className="text-xs text-ink/50">Trust score <span className="font-semibold text-ink tnum">{inv.score}</span>/100</span>
+          </div>
         </div>
         <Link href="/marketplace" className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
           Browse marketplace <ArrowRight className="h-4 w-4" />

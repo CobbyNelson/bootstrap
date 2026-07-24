@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MapPin, ArrowRight, Bookmark, FileSignature, Check, TriangleAlert, ShieldCheck } from "lucide-react";
-import { getOpportunityBySlug, allOpportunitySlugs, scoreOpportunity, DEMO_MANDATE } from "@/lib/matching";
+import { MapPin, ArrowRight, Bookmark, FileSignature, Check, TriangleAlert, ShieldCheck, Star } from "lucide-react";
+import { getOpportunityBySlug, allOpportunitySlugs, scoreOpportunity, DEMO_MANDATE, derive } from "@/lib/matching";
+import { scoreBusiness } from "@/lib/business-scoring";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -18,11 +19,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: `${o.name} — ${o.sector}`, description: o.blurb };
 }
 
-const TIER_COLOR = {
-  Strong: { text: "text-emerald-600", stroke: "var(--color-positive, #24B47E)", ring: "#059669" },
-  Good: { text: "text-brand-600", stroke: "var(--color-brand-600)", ring: "#b91c1c" },
-  Exploratory: { text: "text-gold-600", stroke: "var(--color-gold-600)", ring: "#a6842f" },
-} as const;
+function starColor(stars: number): string {
+  if (stars >= 5) return "#059669";
+  if (stars >= 4) return "var(--color-brand-600)";
+  return "var(--color-gold-600)";
+}
 
 function ScoreRing({ value, color }: { value: number; color: string }) {
   const size = 132;
@@ -37,7 +38,7 @@ function ScoreRing({ value, color }: { value: number; color: string }) {
       </svg>
       <div className="absolute text-center">
         <span className="block font-display text-4xl font-semibold text-ink tnum">{value}</span>
-        <span className="block text-[0.65rem] uppercase tracking-widest text-ink/40">match</span>
+        <span className="block text-[0.62rem] uppercase tracking-widest text-ink/40">% match</span>
       </div>
     </div>
   );
@@ -49,14 +50,19 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
   if (!o) notFound();
 
   const match = scoreOpportunity(DEMO_MANDATE, o);
-  const color = TIER_COLOR[match.tier];
+  const d = derive(o);
+  const biz = scoreBusiness(o);
+  const color = starColor(match.stars);
 
   const metrics = [
     { k: "Ask", v: o.ask },
     { k: "Instrument", v: o.instrument },
     { k: "Target return", v: o.targetReturn },
+    { k: "Est. revenue", v: `$${d.revenueM}M` },
+    { k: "Est. EBITDA margin", v: `${d.ebitdaMargin}%` },
+    { k: "Est. headcount", v: `${d.employees}` },
     { k: "Stage", v: o.stage },
-    { k: "Region", v: o.region },
+    { k: "Risk", v: d.riskLevel },
     { k: "Listing tier", v: o.tier },
   ];
   const compliance = [
@@ -109,8 +115,8 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
               <p className="mt-3 leading-relaxed text-ink/65">{o.blurb}</p>
               <p className="mt-3 leading-relaxed text-ink/65">
                 {o.name} is seeking {o.ask} in {o.instrument.toLowerCase()} to accelerate growth across {o.region}. The
-                opportunity has been screened and verified by the Assets &amp; Capital team and is presented here with an
-                explainable match score against your active mandate.
+                opportunity has been screened and verified by the Assets &amp; Capital team and is presented with an
+                explainable AI match score against your active mandate.
               </p>
             </div>
 
@@ -126,6 +132,47 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
               </dl>
             </div>
 
+            {/* fit breakdown — full 15 criteria */}
+            <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
+              <div className="flex items-center justify-between">
+                <h2 className="font-display text-xl font-semibold text-ink">AI fit breakdown</h2>
+                <span className="text-xs text-ink/45">15 weighted criteria</span>
+              </div>
+              <div className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+                {match.dimensions.map((dim) => (
+                  <div key={dim.key}>
+                    <div className="mb-1 flex items-center justify-between text-xs">
+                      <span className="text-ink/70">{dim.label} <span className="text-ink/30">· {dim.weight}%</span></span>
+                      <span className="font-medium text-ink tnum">{Math.round(dim.f * 100)}</span>
+                    </div>
+                    <div className="h-1.5 overflow-hidden rounded-full bg-ink/[0.06]">
+                      <div className={cn("h-full rounded-full", dim.f >= 0.85 ? "bg-emerald-500" : dim.f >= 0.6 ? "bg-brand-600" : "bg-gold-500")} style={{ width: `${Math.round(dim.f * 100)}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* business scorecard */}
+            <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
+              <h2 className="font-display text-xl font-semibold text-ink">Business scorecard</h2>
+              <p className="mt-1 text-sm text-ink/55">AI-generated quality signals for this business.</p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {biz.map((b) => {
+                  const good = b.higherIsBetter ? b.value >= 70 : b.value <= 45;
+                  const mid = b.higherIsBetter ? b.value >= 55 : b.value <= 60;
+                  const tone = good ? "text-emerald-600" : mid ? "text-gold-600" : "text-brand-600";
+                  return (
+                    <div key={b.key} className="rounded-2xl border border-ink/[0.06] p-4">
+                      <p className="text-xs text-ink/50">{b.label}</p>
+                      <p className={cn("mt-1 font-display text-2xl font-semibold tnum", tone)}>{b.value}</p>
+                      <p className="mt-1 text-[0.7rem] leading-snug text-ink/45">{b.recommendations[0]}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
             <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-brand-600" />
@@ -139,9 +186,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
                   </div>
                 ))}
               </div>
-              <p className="mt-4 text-xs text-ink/40">
-                Match scores are neutral, criteria-based signals against your mandate — not investment advice.
-              </p>
+              <p className="mt-4 text-xs text-ink/40">Match scores are neutral, criteria-based signals against your mandate — not investment advice.</p>
             </div>
           </div>
 
@@ -149,28 +194,18 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
           <aside className="lg:sticky lg:top-24 lg:self-start">
             <div className="space-y-4 rounded-3xl border border-ink/[0.07] bg-white p-7 shadow-[var(--shadow-soft)]">
               <div className="flex flex-col items-center text-center">
-                <ScoreRing value={match.score} color={color.ring} />
-                <span className={cn("mt-3 rounded-full px-3 py-1 text-sm font-semibold", color.text)}>{match.tier} match</span>
+                <ScoreRing value={match.score} color={color} />
+                <div className="mt-3 flex items-center gap-0.5">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <Star key={i} className="h-4 w-4" style={{ color, fill: i <= match.stars ? color : "transparent" }} strokeWidth={1.5} />
+                  ))}
+                </div>
+                <span className="mt-1.5 text-sm font-semibold" style={{ color }}>{match.tier}</span>
                 <p className="mt-1 text-xs text-ink/45">vs. mandate: {DEMO_MANDATE.name}</p>
               </div>
 
-              <div className="space-y-3 border-t border-ink/[0.06] pt-5">
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/40">Fit breakdown</p>
-                {match.dimensions.map((d) => (
-                  <div key={d.key}>
-                    <div className="mb-1 flex items-center justify-between text-xs">
-                      <span className="text-ink/70">{d.label} <span className="text-ink/30">· {d.weight}%</span></span>
-                      <span className="font-medium text-ink tnum">{d.f.toFixed(2)}</span>
-                    </div>
-                    <div className="h-1.5 overflow-hidden rounded-full bg-ink/[0.06]">
-                      <div className="h-full rounded-full bg-brand-600" style={{ width: `${Math.round(d.f * 100)}%` }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
               <div className="space-y-2 border-t border-ink/[0.06] pt-5">
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/40">Reason codes</p>
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/40">Why this match</p>
                 {match.matched.map((r) => (
                   <p key={r} className="flex items-start gap-2 text-sm text-ink/70">
                     <Check className="mt-0.5 h-4 w-4 flex-none text-emerald-600" /> {r}

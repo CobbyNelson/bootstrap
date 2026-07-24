@@ -1,15 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Building2, Users, ListChecks, Wallet, Presentation,
-  FileText, Shield, ScrollText, BadgeCheck, Search, Bell, ArrowLeft,
+  FileText, Shield, ScrollText, BadgeCheck, Search, Bell, ArrowLeft, SlidersHorizontal,
 } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { cn } from "@/lib/utils";
 
 const NAV = [
   { label: "Overview", href: "/admin", icon: LayoutDashboard },
+  { label: "Matching engine", href: "/admin/matching", icon: SlidersHorizontal },
   { label: "Approvals", href: "/admin#approvals", icon: BadgeCheck, badge: "6" },
   { label: "Businesses", href: "/admin#businesses", icon: Building2 },
   { label: "Investors", href: "/admin#investors", icon: Users },
@@ -21,6 +23,7 @@ const NAV = [
 ];
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   return (
     <div className="min-h-dvh bg-paper-2/50 lg:grid lg:grid-cols-[248px_1fr]">
       <aside className="sticky top-0 hidden h-dvh flex-col border-r border-ink/[0.07] bg-white lg:flex">
@@ -30,20 +33,23 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         </div>
         <nav className="flex-1 space-y-1 overflow-y-auto p-3">
           <p className="px-3 pb-2 pt-3 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-ink/40">Administration</p>
-          {NAV.map((item, i) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
-                i === 0 ? "bg-brand-50 text-brand-700 ring-1 ring-brand-100" : "text-ink/60 hover:bg-paper-2 hover:text-ink"
-              )}
-            >
-              <item.icon className="h-4 w-4" />
-              <span className="flex-1">{item.label}</span>
-              {item.badge && <span className="rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold text-white">{item.badge}</span>}
-            </Link>
-          ))}
+          {NAV.map((item) => {
+            const active = item.href === pathname;
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
+                  active ? "bg-brand-50 text-brand-700 ring-1 ring-brand-100" : "text-ink/60 hover:bg-paper-2 hover:text-ink"
+                )}
+              >
+                <item.icon className="h-4 w-4" />
+                <span className="flex-1">{item.label}</span>
+                {item.badge && <span className="rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold text-white">{item.badge}</span>}
+              </Link>
+            );
+          })}
         </nav>
         <div className="border-t border-ink/[0.06] p-3">
           <Link href="/" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">

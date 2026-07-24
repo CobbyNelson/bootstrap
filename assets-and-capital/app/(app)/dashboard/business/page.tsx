@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Eye, Users, Bookmark, FileCheck, ArrowRight, Wallet, Download, CheckCircle2 } from "lucide-react";
+import { FEATURED_OPPORTUNITIES } from "@/lib/content";
+import { scoreBusiness } from "@/lib/business-scoring";
 import { Badge } from "@/components/ui/badge";
 import { StatCard, Panel, ProgressRing } from "@/components/dashboard/widgets";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Business Dashboard" };
 
@@ -48,6 +51,8 @@ function AreaChart() {
 }
 
 export default function BusinessDashboard() {
+  const self = FEATURED_OPPORTUNITIES.find((o) => o.name === "Accra FinPay") ?? FEATURED_OPPORTUNITIES[0];
+  const scores = scoreBusiness(self);
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -95,6 +100,23 @@ export default function BusinessDashboard() {
           </div>
         </Panel>
       </div>
+
+      <Panel id="scorecard" title="AI business scorecard" action={{ label: "Improve score", href: "/register/business" }}>
+        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          {scores.map((s) => {
+            const good = s.higherIsBetter ? s.value >= 70 : s.value <= 45;
+            const mid = s.higherIsBetter ? s.value >= 55 : s.value <= 60;
+            const tone = good ? "text-emerald-600" : mid ? "text-gold-600" : "text-brand-600";
+            return (
+              <div key={s.key} className="rounded-2xl border border-ink/[0.06] p-4">
+                <p className="text-xs text-ink/50">{s.label}</p>
+                <p className={cn("mt-1 font-display text-2xl font-semibold tnum", tone)}>{s.value}</p>
+                <p className="mt-1.5 text-[0.7rem] leading-snug text-ink/45">{s.recommendations[0]}</p>
+              </div>
+            );
+          })}
+        </div>
+      </Panel>
 
       <Panel id="interest" title="Investor interest" action={{ label: "View all", href: "#interest" }}>
         <div className="overflow-x-auto">
