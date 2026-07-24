@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Fraunces, Space_Grotesk } from "next/font/google";
 import { SITE } from "@/lib/content";
 import { CommandPalette } from "@/components/search/command-palette";
 import { CurrencyProvider } from "@/components/providers/currency-provider";
@@ -11,11 +11,23 @@ const inter = Inter({
   display: "swap",
 });
 
-const playfair = Playfair_Display({
+// Editorial serif display — high-contrast, optical. Draws on the warm
+// editorial reference (sample 3).
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-fraunces",
   display: "swap",
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+});
+
+// Grotesque accent face for kickers, marquees, numerals and tags — the
+// agency energy from samples 1–2.
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -54,7 +66,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${inter.variable} ${fraunces.variable} ${spaceGrotesk.variable}`}>
       <body className="min-h-dvh antialiased">
         <CurrencyProvider>
           {children}

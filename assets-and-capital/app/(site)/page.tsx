@@ -10,15 +10,39 @@ import { Testimonials } from "@/components/home/testimonials";
 import { Insights } from "@/components/home/insights";
 import { Events } from "@/components/home/events";
 import { FinalCTA } from "@/components/home/cta";
+import { Marquee } from "@/components/ui/marquee";
+
+const SERVICES_TICKER = [
+  "Capital Raising",
+  "Deal Origination",
+  "Investor Matching",
+  "Due Diligence",
+  "Roadshows",
+  "Market Access",
+  "M&A Advisory",
+];
+
+const SECTORS_TICKER = [
+  "Private Equity",
+  "Venture Capital",
+  "Growth Capital",
+  "Renewable Energy",
+  "FinTech",
+  "Infrastructure",
+  "Real Estate",
+  "Agriculture",
+];
 
 export default function HomePage() {
   return (
     <>
       <Hero />
       <StatsBand />
+      <Marquee items={SERVICES_TICKER} tone="ink" />
       <HowItWorks />
       <WhyUs />
       <Featured />
+      <Marquee items={SECTORS_TICKER} tone="brand" speed="slow" />
       <Industries />
       <Process />
       <Services />

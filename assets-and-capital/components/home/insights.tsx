@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ArrowUpRight, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 import { INSIGHTS } from "@/lib/content";
-import { SectionHeading } from "@/components/ui/section-heading";
+import { SectionHeading, CircleArrow } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 
@@ -35,7 +35,7 @@ export function Insights() {
               >
                 <div className={`relative aspect-[16/10] bg-gradient-to-br ${GRADIENTS[i % 3]}`}>
                   <div className="grid-noise absolute inset-0 opacity-30" aria-hidden />
-                  <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-ink backdrop-blur">
+                  <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[0.65rem] kicker text-ink backdrop-blur">
                     {post.category}
                   </span>
                 </div>
@@ -43,11 +43,11 @@ export function Insights() {
                   <h3 className="text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-brand-700">
                     {post.title}
                   </h3>
-                  <div className="mt-auto flex items-center justify-between pt-6 text-xs text-ink/50">
-                    <span className="inline-flex items-center gap-1.5">
+                  <div className="mt-auto flex items-center justify-between pt-6">
+                    <span className="inline-flex items-center gap-1.5 text-xs text-ink/50">
                       <Clock className="h-3.5 w-3.5" /> {post.readTime} · {post.date}
                     </span>
-                    <ArrowUpRight className="h-4 w-4 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand-600" />
+                    <CircleArrow tone="ink" size="sm" />
                   </div>
                 </div>
               </Link>

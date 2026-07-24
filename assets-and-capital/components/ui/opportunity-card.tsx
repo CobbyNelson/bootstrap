@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { ArrowUpRight, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import type { Opportunity } from "@/lib/content";
 import { slugify } from "@/lib/matching";
 import { Badge } from "./badge";
 import { Money } from "./money";
+import { CircleArrow } from "./section-heading";
 import { cn } from "@/lib/utils";
 
 const TIER_STYLE: Record<Opportunity["tier"], string> = {
@@ -70,8 +71,8 @@ export function OpportunityCard({ o, href }: { o: Opportunity; href?: string }) 
       </div>
 
       <div className="mt-5 flex items-center justify-between border-t border-ink/[0.06] pt-4">
-        <span className="text-xs font-medium text-ink/50">View opportunity</span>
-        <ArrowUpRight className="h-4 w-4 text-ink/40 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand-600" />
+        <span className="kicker text-[0.7rem] text-ink/55">View opportunity</span>
+        <CircleArrow tone="gold" size="sm" />
       </div>
     </Link>
   );

@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
+import { Eyebrow } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
 
 export function FinalCTA() {
@@ -15,7 +16,10 @@ export function FinalCTA() {
               aria-hidden
             />
             <div className="relative mx-auto max-w-2xl">
-              <h2 className="font-display text-3xl font-semibold leading-tight text-white sm:text-4xl md:text-5xl">
+              <div className="flex justify-center">
+                <Eyebrow invert>Get started</Eyebrow>
+              </div>
+              <h2 className="mt-5 font-display text-3xl font-medium leading-tight text-white sm:text-4xl md:text-5xl">
                 Ready to make the connection?
               </h2>
               <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-white/70">

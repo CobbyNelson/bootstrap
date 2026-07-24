@@ -57,18 +57,21 @@ export function HowItWorks() {
             {active.steps.map((step, i) => (
               <li
                 key={step.title}
-                className="group relative rounded-3xl border border-ink/[0.07] bg-white p-6 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
+                className="group relative flex flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
               >
-                <span className="font-display text-5xl font-semibold text-brand-600/15 transition-colors group-hover:text-brand-600/30">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-3 text-lg font-semibold text-ink">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink/55">{step.body}</p>
-                {i < active.steps.length - 1 && (
-                  <span className="absolute right-6 top-8 hidden text-ink/15 lg:block" aria-hidden>
-                    →
+                <div className="flex-1 p-6">
+                  <span className="font-grotesk text-5xl font-semibold text-brand-600/15 transition-colors group-hover:text-brand-600/35">
+                    {String(i + 1).padStart(2, "0")}
                   </span>
-                )}
+                  <h3 className="mt-3 text-lg font-semibold text-ink">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink/55">{step.body}</p>
+                </div>
+                <div className="flex items-center justify-between bg-ink px-6 py-3">
+                  <span className="kicker text-[0.7rem] text-white/60">Step</span>
+                  <span className="font-grotesk text-sm font-semibold text-gold-400 tnum">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
               </li>
             ))}
           </motion.ol>

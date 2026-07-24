@@ -26,8 +26,8 @@ export function Process() {
             <Reveal key={step.title} delay={i * 0.1}>
               <div className="group relative h-full bg-ink/40 p-8 transition-colors hover:bg-white/[0.04]">
                 <div className="flex items-center gap-3">
-                  <span className="grid h-9 w-9 place-items-center rounded-full border border-gold-500/40 font-display text-sm font-semibold text-gold-400">
-                    {i + 1}
+                  <span className="grid h-9 w-9 place-items-center rounded-full border border-gold-500/40 font-grotesk text-sm font-semibold text-gold-400">
+                    {String(i + 1).padStart(2, "0")}
                   </span>
                   {i < PROCESS.length - 1 && (
                     <ArrowRight className="h-4 w-4 text-white/20" aria-hidden />

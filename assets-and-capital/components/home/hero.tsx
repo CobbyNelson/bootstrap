@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, TrendingUp, ShieldCheck, Sparkles, MapPin } from "lucide-react";
+import { ArrowRight, TrendingUp, ShieldCheck, MapPin, Asterisk } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -30,9 +30,12 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease }}
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/70 px-3.5 py-1.5 text-xs font-medium text-ink/70 backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5 text-gold-600" />
-              Global investment marketplace · 46 countries
+            <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/70 px-3 py-1 text-[0.7rem] kicker text-brand-700 backdrop-blur">
+              <span className="flex items-center gap-0.5" aria-hidden>
+                <span className="h-1.5 w-1.5 rounded-full bg-gold-500" />
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
+              </span>
+              Global marketplace · 46 countries
             </span>
           </motion.div>
 
@@ -40,11 +43,11 @@ export function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease, delay: 0.06 }}
-            className="mt-6 font-display text-[2.6rem] font-semibold leading-[1.04] tracking-tight text-ink sm:text-6xl md:text-[4.1rem]"
+            className="mt-6 font-display text-[2.7rem] font-medium leading-[1.02] tracking-[-0.02em] text-ink sm:text-6xl md:text-[4.2rem]"
           >
             Where quality assets
             <br className="hidden sm:block" /> meet{" "}
-            <span className="text-gradient-brand">ready capital.</span>
+            <span className="italic text-gradient-brand">ready capital.</span>
           </motion.h1>
 
           <motion.p
@@ -111,11 +114,13 @@ function FloatingCard() {
       transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       className="relative"
     >
+      {/* decorative sparkle accent */}
+      <Asterisk className="absolute -left-6 -top-8 hidden h-10 w-10 text-gold-500 sm:block" strokeWidth={2.5} aria-hidden />
       {/* main opportunity card */}
       <div className="rounded-3xl border border-ink/[0.07] bg-white p-6 shadow-[var(--shadow-lift)]">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 text-sm font-bold text-white">
+            <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 text-sm font-bold text-white">
               SS
             </div>
             <div>
