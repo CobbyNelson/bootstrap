@@ -1,79 +1,74 @@
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { MapPin, Tag } from "lucide-react";
 import type { Opportunity } from "@/lib/content";
 import { slugify } from "@/lib/matching";
-import { Badge } from "./badge";
 import { Money } from "./money";
-import { CircleArrow } from "./section-heading";
-import { cn } from "@/lib/utils";
 
-const TIER_STYLE: Record<Opportunity["tier"], string> = {
-  Standard: "neutral",
-  Silver: "outline",
-  Gold: "gold",
-  Platinum: "brand",
-};
+const GRADIENTS = [
+  "from-navy-700 to-navy-900",
+  "from-brand-600 to-brand-800",
+  "from-ink to-navy-900",
+  "from-navy-600 to-brand-800",
+];
 
 function initials(name: string) {
-  return name
-    .split(" ")
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("");
+  return name.split(" ").slice(0, 2).map((w) => w[0]).join("");
+}
+
+function pickGradient(name: string) {
+  const sum = name.split("").reduce((s, c) => s + c.charCodeAt(0), 0);
+  return GRADIENTS[sum % GRADIENTS.length];
 }
 
 export function OpportunityCard({ o, href }: { o: Opportunity; href?: string }) {
-  const matchColor = o.match >= 88 ? "text-emerald-600" : o.match >= 80 ? "text-brand-600" : "text-navy-600";
   const to = href ?? `/marketplace/${slugify(o.name)}`;
   return (
     <Link
       href={to}
-      className="group flex h-full flex-col rounded-3xl border border-ink/[0.07] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-ink/10 hover:shadow-[var(--shadow-card)]"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/[0.07] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-[var(--shadow-card)]"
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 text-sm font-bold text-white">
-            {initials(o.name)}
-          </div>
+      {/* image header */}
+      <div className={`relative aspect-[16/9] overflow-hidden bg-gradient-to-br ${pickGradient(o.name)}`}>
+        <div className="grid-noise absolute inset-0 opacity-20" aria-hidden />
+        <div className="absolute inset-0 grid place-items-center">
+          <span className="font-display text-4xl font-extrabold tracking-tight text-white/90">{initials(o.name)}</span>
+        </div>
+        <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[0.62rem] kicker text-ink shadow-sm">
+          {o.tier}
+        </span>
+        <span className="absolute right-3 top-3 rounded-full bg-brand-600 px-2.5 py-1 text-[0.65rem] font-semibold text-white tnum">
+          {o.match}% match
+        </span>
+      </div>
+
+      {/* body */}
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="truncate font-semibold text-ink">{o.name}</p>
-            <p className="flex items-center gap-1 text-xs text-ink/50">
+            <h3 className="font-display text-lg font-bold leading-tight text-brand-600">{o.name}</h3>
+            <p className="mt-1 flex items-center gap-1 text-xs text-ink/45">
               <MapPin className="h-3 w-3" /> {o.country} · {o.region}
             </p>
           </div>
+          <span className="flex-none rounded-lg bg-paper-2 px-3.5 py-1.5 text-xs font-semibold text-ink transition-colors group-hover:bg-brand-600 group-hover:text-white">
+            Invest
+          </span>
         </div>
-        <Badge variant={TIER_STYLE[o.tier] as "brand" | "gold" | "neutral" | "outline"} size="sm">
-          {o.tier}
-        </Badge>
-      </div>
 
-      <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-ink/55">{o.blurb}</p>
+        <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ink/55">{o.blurb}</p>
 
-      <div className="mt-5 flex flex-wrap gap-1.5">
-        <Badge variant="neutral" size="sm">{o.sector}</Badge>
-        <Badge variant="neutral" size="sm">{o.stage}</Badge>
-        <Badge variant="neutral" size="sm">{o.instrument}</Badge>
-      </div>
-
-      <div className="mt-auto grid grid-cols-3 gap-2 pt-6">
-        <div>
-          <p className="text-[0.62rem] uppercase tracking-wide text-ink/40">Ask</p>
-          <p className="font-semibold text-ink tnum"><Money usd={o.ask} /></p>
-        </div>
-        <div>
-          <p className="text-[0.62rem] uppercase tracking-wide text-ink/40">Target</p>
-          <p className="font-semibold text-ink tnum">{o.targetReturn}</p>
-        </div>
-        <div>
-          <p className="text-[0.62rem] uppercase tracking-wide text-ink/40">Match</p>
-          <p className={cn("font-semibold tnum", matchColor)}>{o.match}%</p>
+        <div className="mt-auto flex items-center justify-between gap-3 pt-5">
+          <span className="inline-flex items-center gap-1.5 rounded-lg border border-brand-200 px-2.5 py-1.5 text-xs font-semibold text-brand-600">
+            <Tag className="h-3.5 w-3.5" /> {o.sector}
+          </span>
+          <span className="text-sm text-ink/50">
+            Seeking: <span className="font-bold text-ink"><Money usd={o.ask} /></span>
+          </span>
         </div>
       </div>
 
-      <div className="mt-5 flex items-center justify-between border-t border-ink/[0.06] pt-4">
-        <span className="kicker text-[0.7rem] text-ink/55">View opportunity</span>
-        <CircleArrow tone="gold" size="sm" />
-      </div>
+      {/* red accent bar */}
+      <div className="h-1 bg-brand-500/25 transition-colors group-hover:bg-brand-600" aria-hidden />
     </Link>
   );
 }

@@ -44,7 +44,7 @@ export function InsightsPortal() {
         <Cover type={featured.type} className="aspect-[16/10] lg:aspect-auto" />
         <div className="flex flex-col justify-center p-8 md:p-10">
           <span className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-600">Featured · {featured.category}</span>
-          <h2 className="mt-3 font-display text-2xl font-semibold leading-tight text-ink group-hover:text-brand-700 md:text-3xl">{featured.title}</h2>
+          <h2 className="mt-3 font-display text-2xl font-semibold leading-tight text-navy-700 group-hover:text-brand-700 md:text-3xl">{featured.title}</h2>
           <p className="mt-3 leading-relaxed text-ink/60">{featured.excerpt}</p>
           <div className="mt-6 flex items-center gap-3 text-sm text-ink/50">
             <span className="font-medium text-ink/70">{featured.author}</span>

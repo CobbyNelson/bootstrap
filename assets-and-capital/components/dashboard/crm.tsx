@@ -93,7 +93,7 @@ export function CRM() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-600">Relationship manager</p>
-          <h1 className="mt-1 font-display text-2xl font-semibold text-ink">CRM &amp; pipeline</h1>
+          <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">CRM &amp; pipeline</h1>
           <p className="mt-1 text-sm text-ink/55">{CONTACTS.length} relationships · {openTasks} open tasks · $61.7M in tracked value</p>
         </div>
         <button className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700">

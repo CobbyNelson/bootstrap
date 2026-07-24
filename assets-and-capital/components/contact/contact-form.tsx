@@ -23,7 +23,7 @@ export function ContactForm() {
         <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-emerald-500 text-white">
           <Check className="h-6 w-6" />
         </div>
-        <h3 className="mt-4 font-display text-xl font-semibold text-ink">Message sent</h3>
+        <h3 className="mt-4 font-display text-xl font-semibold text-navy-700">Message sent</h3>
         <p className="mt-2 text-sm text-ink/60">Thank you — our team will be in touch within one business day.</p>
       </div>
     );

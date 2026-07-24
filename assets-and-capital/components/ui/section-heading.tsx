@@ -87,7 +87,7 @@ export function SectionHeading({
         <h2
           className={cn(
             "mt-4 text-balance text-[2rem] font-medium leading-[1.08] sm:text-4xl md:text-[2.85rem]",
-            invert ? "text-white" : "text-ink"
+            invert ? "text-white" : "text-navy-700"
           )}
         >
           {title}

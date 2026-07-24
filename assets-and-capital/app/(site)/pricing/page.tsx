@@ -47,10 +47,10 @@ export default function PricingPage() {
                     <Sparkles className="h-3 w-3" /> Most popular
                   </span>
                 )}
-                <p className="font-display text-xl font-semibold text-ink">{tier.name}</p>
+                <p className="font-display text-xl font-semibold text-navy-700">{tier.name}</p>
                 <p className="mt-1 text-sm text-ink/55">{tier.tagline}</p>
                 <div className="mt-5 flex items-baseline gap-1.5">
-                  <span className="font-display text-4xl font-semibold text-ink tnum">{tier.price}</span>
+                  <span className="font-display text-4xl font-semibold text-navy-700 tnum">{tier.price}</span>
                   <span className="text-sm text-ink/50">/ {tier.cadence}</span>
                 </div>
                 <Button

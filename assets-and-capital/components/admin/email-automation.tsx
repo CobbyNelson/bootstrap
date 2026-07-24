@@ -58,7 +58,7 @@ function Metric({ icon: Icon, label, value, delta }: { icon: typeof Mail; label:
         <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand-50 text-brand-600 ring-1 ring-brand-100"><Icon className="h-4 w-4" /></span>
         {delta && <span className="text-xs font-medium text-emerald-600">{delta}</span>}
       </div>
-      <p className="mt-4 font-display text-2xl font-semibold text-ink tnum">{value}</p>
+      <p className="mt-4 font-display text-2xl font-semibold text-navy-700 tnum">{value}</p>
       <p className="mt-0.5 text-sm text-ink/55">{label}</p>
     </div>
   );
@@ -72,7 +72,7 @@ export function EmailAutomation() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-600">Lifecycle marketing</p>
-          <h1 className="mt-1 font-display text-2xl font-semibold text-ink">Email automation</h1>
+          <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Email automation</h1>
           <p className="mt-1 text-sm text-ink/55">Triggered journeys that nurture investors and businesses end-to-end.</p>
         </div>
         <button className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> New flow</button>
@@ -89,7 +89,7 @@ export function EmailAutomation() {
         {/* flows list */}
         <div className="overflow-hidden rounded-2xl border border-ink/[0.07] bg-white">
           <div className="border-b border-ink/[0.06] p-4">
-            <h2 className="font-display text-base font-semibold text-ink">Automation flows</h2>
+            <h2 className="font-display text-base font-semibold text-navy-700">Automation flows</h2>
           </div>
           <div className="divide-y divide-ink/[0.04]">
             {flows.map((f) => (
@@ -127,7 +127,7 @@ export function EmailAutomation() {
         {/* journey preview */}
         <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-base font-semibold text-ink">Investor onboarding</h2>
+            <h2 className="font-display text-base font-semibold text-navy-700">Investor onboarding</h2>
             <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600"><TrendingUp className="h-3.5 w-3.5" /> 24% goal</span>
           </div>
           <ol className="mt-5 relative space-y-4 border-l border-ink/[0.08] pl-6">

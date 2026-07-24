@@ -43,7 +43,7 @@ export default function DataRoomPage() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-sm text-ink/50">Secure data room</p>
-          <h1 className="mt-1 font-display text-3xl font-semibold text-ink">Sahara Solar Grid</h1>
+          <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">Sahara Solar Grid</h1>
           <div className="mt-2 flex items-center gap-2">
             <Badge variant="success" size="sm"><ShieldCheck className="h-3.5 w-3.5" /> Encrypted</Badge>
             <Badge variant="neutral" size="sm"><Droplet className="h-3.5 w-3.5" /> Watermarking on</Badge>

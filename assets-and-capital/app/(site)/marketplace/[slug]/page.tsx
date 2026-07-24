@@ -38,7 +38,7 @@ function ScoreRing({ value, color }: { value: number; color: string }) {
         <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c - (value / 100) * c} />
       </svg>
       <div className="absolute text-center">
-        <span className="block font-display text-4xl font-semibold text-ink tnum">{value}</span>
+        <span className="block font-display text-4xl font-semibold text-navy-700 tnum">{value}</span>
         <span className="block text-[0.62rem] uppercase tracking-widest text-ink/40">% match</span>
       </div>
     </div>
@@ -91,7 +91,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
                 {o.name.split(" ").slice(0, 2).map((w) => w[0]).join("")}
               </div>
               <div>
-                <h1 className="font-display text-3xl font-semibold text-ink sm:text-4xl">{o.name}</h1>
+                <h1 className="font-display text-3xl font-semibold text-navy-700 sm:text-4xl">{o.name}</h1>
                 <p className="mt-1.5 flex items-center gap-2 text-ink/55">
                   <MapPin className="h-4 w-4" /> {o.country} · {o.region}
                   <span className="text-ink/25">|</span> {o.sector}
@@ -112,7 +112,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
           {/* left */}
           <div className="space-y-6">
             <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
-              <h2 className="font-display text-xl font-semibold text-ink">Overview</h2>
+              <h2 className="font-display text-xl font-semibold text-navy-700">Overview</h2>
               <p className="mt-3 leading-relaxed text-ink/65">{o.blurb}</p>
               <p className="mt-3 leading-relaxed text-ink/65">
                 {o.name} is seeking {o.ask} in {o.instrument.toLowerCase()} to accelerate growth across {o.region}. The
@@ -122,7 +122,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
             </div>
 
             <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
-              <h2 className="font-display text-xl font-semibold text-ink">Key metrics</h2>
+              <h2 className="font-display text-xl font-semibold text-navy-700">Key metrics</h2>
               <dl className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
                 {metrics.map((m) => (
                   <div key={m.k} className="rounded-2xl bg-paper-2/60 p-4">
@@ -136,7 +136,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
             {/* fit breakdown — full 15 criteria */}
             <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
               <div className="flex items-center justify-between">
-                <h2 className="font-display text-xl font-semibold text-ink">AI fit breakdown</h2>
+                <h2 className="font-display text-xl font-semibold text-navy-700">AI fit breakdown</h2>
                 <span className="text-xs text-ink/45">15 weighted criteria</span>
               </div>
               <div className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
@@ -156,7 +156,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
 
             {/* business scorecard */}
             <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
-              <h2 className="font-display text-xl font-semibold text-ink">Business scorecard</h2>
+              <h2 className="font-display text-xl font-semibold text-navy-700">Business scorecard</h2>
               <p className="mt-1 text-sm text-ink/55">AI-generated quality signals for this business.</p>
               <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {biz.map((b) => {
@@ -177,7 +177,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
             <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-brand-600" />
-                <h2 className="font-display text-xl font-semibold text-ink">Compliance readiness</h2>
+                <h2 className="font-display text-xl font-semibold text-navy-700">Compliance readiness</h2>
               </div>
               <div className="mt-5 grid gap-2 sm:grid-cols-2">
                 {compliance.map((c) => (

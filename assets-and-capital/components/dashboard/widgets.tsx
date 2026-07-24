@@ -34,7 +34,7 @@ export function StatCard({
           </span>
         )}
       </div>
-      <p className="mt-4 font-display text-2xl font-semibold text-ink tnum">{value}</p>
+      <p className="mt-4 font-display text-2xl font-semibold text-navy-700 tnum">{value}</p>
       <p className="mt-1 text-sm text-ink/55">{label}</p>
     </div>
   );
@@ -56,7 +56,7 @@ export function Panel({
   return (
     <section id={id} className={cn("scroll-mt-24 rounded-3xl border border-ink/[0.07] bg-white p-6", className)}>
       <div className="mb-5 flex items-center justify-between gap-3">
-        <h2 className="font-display text-lg font-semibold text-ink">{title}</h2>
+        <h2 className="font-display text-lg font-semibold text-navy-700">{title}</h2>
         {action && (
           <Link href={action.href} className="inline-flex items-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-700">
             {action.label} <ArrowRight className="h-3.5 w-3.5" />

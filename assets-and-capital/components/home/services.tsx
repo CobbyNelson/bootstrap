@@ -43,7 +43,7 @@ function ServiceColumn({
     <Reveal>
       <div className="h-full rounded-3xl border border-ink/[0.07] bg-white p-7">
         <div className="flex items-center justify-between">
-          <h3 className="font-display text-2xl font-semibold text-ink">{title}</h3>
+          <h3 className="font-display text-2xl font-semibold text-navy-700">{title}</h3>
           <span
             className={`rounded-full px-3 py-1 text-xs font-medium ${
               accent === "brand" ? "bg-brand-50 text-brand-700" : "bg-navy-100 text-navy-700"

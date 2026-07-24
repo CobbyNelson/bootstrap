@@ -57,7 +57,7 @@ function Stat({ icon: Icon, label, value, sub }: { icon: typeof Users; label: st
   return (
     <div className="rounded-2xl border border-ink/[0.07] bg-white p-5">
       <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand-50 text-brand-600 ring-1 ring-brand-100"><Icon className="h-4 w-4" /></span>
-      <p className="mt-4 font-display text-2xl font-semibold text-ink tnum">{value}</p>
+      <p className="mt-4 font-display text-2xl font-semibold text-navy-700 tnum">{value}</p>
       <p className="mt-0.5 text-sm text-ink/55">{label}</p>
       {sub && <p className="mt-1 text-xs font-medium text-emerald-600">{sub}</p>}
     </div>
@@ -75,7 +75,7 @@ export function EventsManager() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-600">Roadshows &amp; events</p>
-          <h1 className="mt-1 font-display text-2xl font-semibold text-ink">Event management</h1>
+          <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Event management</h1>
           <p className="mt-1 text-sm text-ink/55">Registration, ticketing, QR check-in and live attendance.</p>
         </div>
         <button className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> Create event</button>
@@ -92,7 +92,7 @@ export function EventsManager() {
         {/* events table */}
         <div className="overflow-hidden rounded-2xl border border-ink/[0.07] bg-white">
           <div className="border-b border-ink/[0.06] p-4">
-            <h2 className="font-display text-base font-semibold text-ink">All events</h2>
+            <h2 className="font-display text-base font-semibold text-navy-700">All events</h2>
           </div>
           <div className="divide-y divide-ink/[0.04]">
             {EVENTS.map((e) => (
@@ -128,7 +128,7 @@ export function EventsManager() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-xs font-medium uppercase tracking-wider text-ink/45">{active.type}</p>
-                <h3 className="mt-1 font-display text-lg font-semibold text-ink">{active.title}</h3>
+                <h3 className="mt-1 font-display text-lg font-semibold text-navy-700">{active.title}</h3>
               </div>
               <span className={cn("rounded-full px-2.5 py-1 text-xs font-medium ring-1", STATUS_STYLE[active.status])}>{active.status}</span>
             </div>
@@ -141,7 +141,7 @@ export function EventsManager() {
               ].map((s) => (
                 <div key={s.label} className="rounded-xl bg-paper-2/60 p-3">
                   <s.icon className="mx-auto h-4 w-4 text-brand-600" />
-                  <p className="mt-1.5 font-display text-lg font-semibold text-ink tnum">{s.value}</p>
+                  <p className="mt-1.5 font-display text-lg font-semibold text-navy-700 tnum">{s.value}</p>
                   <p className="text-[0.65rem] text-ink/50">{s.label}</p>
                 </div>
               ))}
@@ -158,7 +158,7 @@ export function EventsManager() {
 
           <div className="rounded-3xl border border-ink/[0.07] bg-white p-5">
             <div className="mb-3 flex items-center justify-between">
-              <h3 className="font-display text-base font-semibold text-ink">Registrants</h3>
+              <h3 className="font-display text-base font-semibold text-navy-700">Registrants</h3>
               <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600"><TrendingUp className="h-3.5 w-3.5" /> {checkedIn} checked in</span>
             </div>
             <div className="mb-3 flex items-center gap-2 rounded-full bg-paper-2 px-3.5">

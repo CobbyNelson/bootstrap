@@ -42,7 +42,7 @@ export default function RegisterPage() {
               <span className="grid h-14 w-14 place-items-center rounded-2xl bg-brand-50 text-brand-600 ring-1 ring-brand-100 transition-colors group-hover:bg-brand-600 group-hover:text-white">
                 <p.icon className="h-6 w-6" />
               </span>
-              <h2 className="mt-6 font-display text-2xl font-semibold text-ink">{p.title}</h2>
+              <h2 className="mt-6 font-display text-2xl font-semibold text-navy-700">{p.title}</h2>
               <p className="mt-2 text-ink/60">{p.body}</p>
               <ul className="mt-6 space-y-2">
                 {p.points.map((pt) => (

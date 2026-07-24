@@ -33,7 +33,7 @@ export default function InvestorDashboard() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-sm text-ink/50">Investor workspace</p>
-          <h1 className="mt-1 font-display text-3xl font-semibold text-ink">Welcome back, Aurora</h1>
+          <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">Welcome back, Aurora</h1>
           <div className="mt-2 flex items-center gap-2">
             <Badge variant="gold" size="sm"><ShieldCheck className="h-3.5 w-3.5" /> {inv.badge}</Badge>
             <span className="text-xs text-ink/50">Trust score <span className="font-semibold text-ink tnum">{inv.score}</span>/100</span>

@@ -55,7 +55,7 @@ export function AccountSettings() {
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-600">Account</p>
-        <h1 className="mt-1 font-display text-2xl font-semibold text-ink">Security &amp; settings</h1>
+        <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Security &amp; settings</h1>
         <p className="mt-1 text-sm text-ink/55">Protect your account and manage who can access your workspace.</p>
       </div>
 
@@ -70,7 +70,7 @@ export function AccountSettings() {
           <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
             <div className="flex items-center gap-2">
               <Shield className="h-4 w-4 text-emerald-600" />
-              <h2 className="font-display text-base font-semibold text-ink">Security status</h2>
+              <h2 className="font-display text-base font-semibold text-navy-700">Security status</h2>
               <span className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 ring-1 ring-emerald-100"><CheckCircle2 className="h-3.5 w-3.5" /> Strong</span>
             </div>
             <div className="mt-4 h-2 overflow-hidden rounded-full bg-ink/[0.06]">
@@ -103,7 +103,7 @@ export function AccountSettings() {
           </div>
 
           <div className="rounded-2xl border border-ink/[0.07] bg-white p-6">
-            <h2 className="font-display text-base font-semibold text-ink">Recent security activity</h2>
+            <h2 className="font-display text-base font-semibold text-navy-700">Recent security activity</h2>
             <div className="mt-4 space-y-3">
               {LOGINS.map((l, i) => (
                 <div key={i} className="flex items-center gap-3">
@@ -125,7 +125,7 @@ export function AccountSettings() {
       {tab === "Sessions" && (
         <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-base font-semibold text-ink">Active sessions</h2>
+            <h2 className="font-display text-base font-semibold text-navy-700">Active sessions</h2>
             <button className="inline-flex items-center gap-1.5 rounded-full border border-brand-200 px-3.5 py-2 text-sm font-medium text-brand-700 hover:bg-brand-50"><LogOut className="h-4 w-4" /> Sign out all others</button>
           </div>
           <div className="mt-4 divide-y divide-ink/[0.05]">
@@ -152,7 +152,7 @@ export function AccountSettings() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Users className="h-4 w-4 text-brand-600" />
-              <h2 className="font-display text-base font-semibold text-ink">Team &amp; role-based access</h2>
+              <h2 className="font-display text-base font-semibold text-navy-700">Team &amp; role-based access</h2>
             </div>
             <button className="rounded-full bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700">Invite member</button>
           </div>
@@ -178,7 +178,7 @@ export function AccountSettings() {
           <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
             <div className="flex items-center gap-2">
               <Bell className="h-4 w-4 text-brand-600" />
-              <h2 className="font-display text-base font-semibold text-ink">Notifications</h2>
+              <h2 className="font-display text-base font-semibold text-navy-700">Notifications</h2>
             </div>
             <div className="mt-4 space-y-4">
               {[
@@ -201,7 +201,7 @@ export function AccountSettings() {
           <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
             <div className="flex items-center gap-2">
               <Globe className="h-4 w-4 text-brand-600" />
-              <h2 className="font-display text-base font-semibold text-ink">Region &amp; currency</h2>
+              <h2 className="font-display text-base font-semibold text-navy-700">Region &amp; currency</h2>
             </div>
             <div className="mt-4 grid gap-4 sm:grid-cols-3">
               {[

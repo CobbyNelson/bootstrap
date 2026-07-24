@@ -56,7 +56,7 @@ export function Messaging() {
       {/* conversation list */}
       <div className="flex flex-col border-r border-ink/[0.07]">
         <div className="border-b border-ink/[0.06] p-4">
-          <h1 className="font-display text-xl font-semibold text-ink">Messages</h1>
+          <h1 className="font-display text-xl font-semibold text-navy-700">Messages</h1>
           <div className="mt-3 flex items-center gap-2 rounded-full bg-paper-2 px-3.5">
             <Search className="h-4 w-4 text-ink/40" />
             <input placeholder="Search conversations…" className="h-9 w-full bg-transparent text-sm text-ink placeholder:text-ink/40 focus:outline-none" />

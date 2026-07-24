@@ -32,7 +32,7 @@ export default function AboutPage() {
         <div className="container-x grid gap-12 lg:grid-cols-2">
           <Reveal>
             <div>
-              <h2 className="font-display text-2xl font-semibold text-ink">Our mission</h2>
+              <h2 className="font-display text-2xl font-semibold text-navy-700">Our mission</h2>
               <p className="mt-4 leading-relaxed text-ink/60">
                 To create a trusted platform that seamlessly connects investors with vetted business opportunities —
                 providing value through transparency, personalised services, and expert support for successful
@@ -49,7 +49,7 @@ export default function AboutPage() {
             <div className="grid grid-cols-2 gap-4">
               {STATS.map((s) => (
                 <div key={s.label} className="rounded-3xl border border-ink/[0.07] bg-white p-6">
-                  <div className="font-display text-3xl font-semibold text-ink">
+                  <div className="font-display text-3xl font-semibold text-navy-700">
                     <Counter value={s.value} decimals={s.decimals ?? 0} prefix={s.prefix} suffix={s.suffix} className="tnum" />
                   </div>
                   <p className="mt-1 text-sm text-ink/55">{s.label}</p>

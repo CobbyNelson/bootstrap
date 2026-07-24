@@ -50,7 +50,7 @@ export function Meetings() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-600">Video meetings</p>
-          <h1 className="mt-1 font-display text-2xl font-semibold text-ink">Calls &amp; scheduling</h1>
+          <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Calls &amp; scheduling</h1>
           <p className="mt-1 text-sm text-ink/55">Host secure calls or connect your calendar and conferencing tools.</p>
         </div>
         <button className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> New meeting</button>
@@ -79,12 +79,12 @@ export function Meetings() {
       <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
         {/* upcoming */}
         <div className="space-y-3">
-          <h2 className="font-display text-base font-semibold text-ink">Upcoming</h2>
+          <h2 className="font-display text-base font-semibold text-navy-700">Upcoming</h2>
           {MEETINGS.filter((m) => m.status !== "Live").map((m) => (
             <div key={m.id} className="flex items-center gap-4 rounded-2xl border border-ink/[0.07] bg-white p-4">
               <div className="grid h-14 w-14 flex-none place-items-center rounded-2xl bg-paper-2 text-center">
                 <span className="text-[0.6rem] font-medium uppercase text-ink/45">{m.date.split(" ")[0]}</span>
-                <span className="font-display text-lg font-semibold leading-none text-ink">{m.time.split(":")[0]}<span className="text-xs">:{m.time.split(":")[1].slice(0, 2)}</span></span>
+                <span className="font-display text-lg font-semibold leading-none text-navy-700">{m.time.split(":")[0]}<span className="text-xs">:{m.time.split(":")[1].slice(0, 2)}</span></span>
               </div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-ink">{m.title}</p>
@@ -110,7 +110,7 @@ export function Meetings() {
         {/* scheduler */}
         <div className="space-y-4">
           <div className="rounded-3xl border border-ink/[0.07] bg-white p-5">
-            <h2 className="font-display text-base font-semibold text-ink">Quick schedule</h2>
+            <h2 className="font-display text-base font-semibold text-navy-700">Quick schedule</h2>
             <label className="mt-4 block">
               <span className="text-xs font-medium text-ink/55">Date</span>
               <div className="mt-1.5 flex items-center gap-2 rounded-xl border border-ink/10 bg-paper-2/40 px-3.5 py-2.5 text-sm text-ink">
@@ -139,7 +139,7 @@ export function Meetings() {
           </div>
 
           <div className="rounded-3xl border border-ink/[0.07] bg-white p-5">
-            <h2 className="font-display text-base font-semibold text-ink">Connected calendars</h2>
+            <h2 className="font-display text-base font-semibold text-navy-700">Connected calendars</h2>
             <div className="mt-3 space-y-2.5">
               {[
                 { name: "Google Calendar", connected: true },

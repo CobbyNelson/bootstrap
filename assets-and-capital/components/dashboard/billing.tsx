@@ -43,7 +43,7 @@ export function Billing() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-sm text-ink/50">Business workspace</p>
-          <h1 className="mt-1 font-display text-3xl font-semibold text-ink">Billing &amp; subscription</h1>
+          <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">Billing &amp; subscription</h1>
         </div>
         <button className="inline-flex items-center gap-2 rounded-full border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/70 hover:border-ink/25">
           <CreditCard className="h-4 w-4" /> Manage payment method
@@ -57,7 +57,7 @@ export function Billing() {
             <Badge variant="gold"><Sparkles className="h-3.5 w-3.5" /> Gold plan</Badge>
             <span className="text-xs text-ink/45">Renews 12 Jan 2027</span>
           </div>
-          <p className="mt-4 font-display text-3xl font-semibold text-ink tnum">$3,500<span className="text-base font-normal text-ink/45">/yr</span></p>
+          <p className="mt-4 font-display text-3xl font-semibold text-navy-700 tnum">$3,500<span className="text-base font-normal text-ink/45">/yr</span></p>
           <p className="mt-1 text-sm text-ink/55">Actively promoted to mandate-matched investors.</p>
           <div className="mt-5 flex items-center gap-2 rounded-2xl bg-paper-2/60 p-1.5">
             <Tag className="ml-2 h-4 w-4 text-ink/40" />
@@ -82,7 +82,7 @@ export function Billing() {
         </div>
 
         <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
-          <h2 className="font-display text-lg font-semibold text-ink">Usage this cycle</h2>
+          <h2 className="font-display text-lg font-semibold text-navy-700">Usage this cycle</h2>
           <div className="mt-5 grid gap-5 sm:grid-cols-2">
             {USAGE.map((u) => {
               const pct = Math.min(100, Math.round((u.used / u.total) * 100));
@@ -105,7 +105,7 @@ export function Billing() {
       {/* plans */}
       <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="font-display text-lg font-semibold text-ink">Plans</h2>
+          <h2 className="font-display text-lg font-semibold text-navy-700">Plans</h2>
           <div className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-paper-2/60 p-1 text-sm">
             <button onClick={() => setAnnual(false)} className={cn("rounded-full px-3 py-1", !annual && "bg-white shadow-sm")}>Monthly</button>
             <button onClick={() => setAnnual(true)} className={cn("rounded-full px-3 py-1", annual && "bg-white shadow-sm")}>
@@ -121,7 +121,7 @@ export function Billing() {
                 {p.current && <Badge variant="brand" size="sm">Current</Badge>}
               </div>
               <p className="mt-0.5 text-xs text-ink/45">{p.blurb}</p>
-              <p className="mt-3 font-display text-xl font-semibold text-ink tnum">{price(p)}</p>
+              <p className="mt-3 font-display text-xl font-semibold text-navy-700 tnum">{price(p)}</p>
               <ul className="mt-4 flex-1 space-y-2">
                 {p.features.map((f) => (
                   <li key={f} className="flex items-start gap-2 text-xs text-ink/65">
@@ -146,7 +146,7 @@ export function Billing() {
 
       {/* invoices */}
       <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
-        <h2 className="mb-4 font-display text-lg font-semibold text-ink">Invoices</h2>
+        <h2 className="mb-4 font-display text-lg font-semibold text-navy-700">Invoices</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>

@@ -51,7 +51,7 @@ export function NotificationCenter() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-sm text-ink/50">Workspace</p>
-          <h1 className="mt-1 flex items-center gap-2 font-display text-3xl font-semibold text-ink">
+          <h1 className="mt-1 flex items-center gap-2 font-display text-3xl font-semibold text-navy-700">
             Notifications
             {unread > 0 && <span className="rounded-full bg-brand-600 px-2 py-0.5 text-xs font-semibold text-white tnum">{unread}</span>}
           </h1>

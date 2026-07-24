@@ -131,7 +131,7 @@ export function BusinessIntake() {
           <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100">
             <PartyPopper className="h-7 w-7" />
           </div>
-          <h2 className="mt-6 font-display text-2xl font-semibold text-ink">Listing submitted</h2>
+          <h2 className="mt-6 font-display text-2xl font-semibold text-navy-700">Listing submitted</h2>
           <p className="mt-3 text-ink/60">
             Thank you. Our team will review your business and reach out to confirm your listing and any services you
             selected. We&apos;ll then start putting your opportunity in front of the right investors.
@@ -173,7 +173,7 @@ export function BusinessIntake() {
         <div className="rounded-3xl border border-ink/[0.07] bg-white p-6 shadow-[var(--shadow-soft)] md:p-9">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 className="font-display text-2xl font-semibold text-ink">{step.title}</h2>
+              <h2 className="font-display text-2xl font-semibold text-navy-700">{step.title}</h2>
               {step.subtitle && <p className="mt-1.5 text-sm text-ink/55">{step.subtitle}</p>}
             </div>
             <span className={cn("inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs transition-opacity", saved ? "bg-emerald-50 text-emerald-600 opacity-100" : "text-ink/30 opacity-0")}>

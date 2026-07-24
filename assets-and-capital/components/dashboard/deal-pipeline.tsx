@@ -77,7 +77,7 @@ export function DealPipeline() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-sm text-ink/50">Workspace</p>
-          <h1 className="mt-1 font-display text-3xl font-semibold text-ink">Deal pipeline</h1>
+          <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">Deal pipeline</h1>
         </div>
         <div className="inline-flex rounded-full border border-ink/10 bg-white p-1">
           {[
@@ -107,7 +107,7 @@ export function DealPipeline() {
                 <k.icon className="h-4 w-4" />
               </span>
             </div>
-            <p className="mt-4 font-display text-2xl font-semibold text-ink tnum">{k.value}</p>
+            <p className="mt-4 font-display text-2xl font-semibold text-navy-700 tnum">{k.value}</p>
             <p className="mt-1 text-sm text-ink/55">{k.label}</p>
             <p className="text-xs text-ink/40">{k.sub}</p>
           </div>

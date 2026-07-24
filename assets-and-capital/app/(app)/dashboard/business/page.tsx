@@ -58,7 +58,7 @@ export default function BusinessDashboard() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-sm text-ink/50">Business workspace</p>
-          <h1 className="mt-1 font-display text-3xl font-semibold text-ink">Accra FinPay</h1>
+          <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">Accra FinPay</h1>
           <div className="mt-2 flex items-center gap-2">
             <Badge variant="gold" size="sm">Gold listing</Badge>
             <Badge variant="success" size="sm">Verified</Badge>
@@ -79,7 +79,7 @@ export default function BusinessDashboard() {
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
         <Panel id="performance" title="Listing performance" action={{ label: "Details", href: "#performance" }}>
           <div className="mb-4 flex items-baseline gap-3">
-            <span className="font-display text-3xl font-semibold text-ink tnum">1,284</span>
+            <span className="font-display text-3xl font-semibold text-navy-700 tnum">1,284</span>
             <span className="text-sm font-medium text-emerald-600">+18% · 28 days</span>
           </div>
           <AreaChart />

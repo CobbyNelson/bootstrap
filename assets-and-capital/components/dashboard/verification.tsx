@@ -35,7 +35,7 @@ export function VerificationFlow({
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
         <p className="text-sm text-ink/50">{eyebrow}</p>
-        <h1 className="mt-1 font-display text-3xl font-semibold text-ink">{subject}</h1>
+        <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">{subject}</h1>
       </div>
 
       {/* overall */}
@@ -53,7 +53,7 @@ export function VerificationFlow({
         </div>
 
         <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
-          <h2 className="mb-4 font-display text-lg font-semibold text-ink">Verification steps</h2>
+          <h2 className="mb-4 font-display text-lg font-semibold text-navy-700">Verification steps</h2>
           <ol className="space-y-1">
             {steps.map((s, i) => {
               const m = STATUS_META[s.status];
@@ -79,7 +79,7 @@ export function VerificationFlow({
       {/* documents */}
       <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-display text-lg font-semibold text-ink">Documents</h2>
+          <h2 className="font-display text-lg font-semibold text-navy-700">Documents</h2>
           <button className="inline-flex items-center gap-2 rounded-full border border-ink/12 px-3.5 py-2 text-sm font-medium text-ink/70 hover:border-ink/25">
             <Upload className="h-4 w-4" /> Upload
           </button>

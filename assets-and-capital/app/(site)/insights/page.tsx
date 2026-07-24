@@ -28,7 +28,7 @@ export default function InsightsPage() {
             <div key={ind.label} className="rounded-2xl border border-ink/[0.06] bg-white p-5">
               <p className="text-xs text-ink/50">{ind.label}</p>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="font-display text-2xl font-semibold text-ink tnum">{ind.value}</span>
+                <span className="font-display text-2xl font-semibold text-navy-700 tnum">{ind.value}</span>
                 <span className={`inline-flex items-center gap-0.5 text-xs font-medium ${ind.up ? "text-emerald-600" : "text-brand-600"}`}>
                   <TrendingUp className="h-3 w-3" /> {ind.delta}
                 </span>

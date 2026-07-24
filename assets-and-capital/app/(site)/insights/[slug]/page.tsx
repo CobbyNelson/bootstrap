@@ -84,7 +84,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="mt-8 space-y-8">
             {a.body.slice(1).map((s, i) => (
               <div key={i}>
-                {s.h && <h2 className="font-display text-xl font-semibold text-ink md:text-2xl">{s.h}</h2>}
+                {s.h && <h2 className="font-display text-xl font-semibold text-navy-700 md:text-2xl">{s.h}</h2>}
                 <p className="mt-3 leading-relaxed text-ink/70">{s.p}</p>
               </div>
             ))}
@@ -105,7 +105,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       {/* related */}
       <section className="border-t border-ink/[0.06] py-14 md:py-16">
         <div className="container-x">
-          <h2 className="mb-8 font-display text-2xl font-semibold text-ink">More insights</h2>
+          <h2 className="mb-8 font-display text-2xl font-semibold text-navy-700">More insights</h2>
           <div className="grid gap-6 md:grid-cols-3">
             {more.map((r) => (
               <Link key={r.slug} href={`/insights/${r.slug}`} className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]">

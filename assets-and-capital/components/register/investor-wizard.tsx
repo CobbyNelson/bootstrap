@@ -276,7 +276,7 @@ export function InvestorWizard() {
           <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100">
             <PartyPopper className="h-7 w-7" />
           </div>
-          <h2 className="mt-6 font-display text-2xl font-semibold text-ink">Mandate submitted</h2>
+          <h2 className="mt-6 font-display text-2xl font-semibold text-navy-700">Mandate submitted</h2>
           <p className="mt-3 text-ink/60">
             Thank you. Your investment mandate is being reviewed by our team. You&apos;ll start receiving
             mandate-matched opportunities as soon as your account is verified.
@@ -295,7 +295,7 @@ export function InvestorWizard() {
       <div className="container-x py-12 md:py-16">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-medium text-ink/50">Step 1 of {totalSteps}</p>
-          <h2 className="mt-3 font-display text-3xl font-semibold text-ink">What kind of investor are you?</h2>
+          <h2 className="mt-3 font-display text-3xl font-semibold text-navy-700">What kind of investor are you?</h2>
           <p className="mt-3 text-ink/60">This tailors your mandate to the right questions. You can change it anytime.</p>
         </div>
         <div className="mx-auto mt-10 grid max-w-4xl gap-5 md:grid-cols-3">
@@ -376,7 +376,7 @@ export function InvestorWizard() {
         <div className="rounded-3xl border border-ink/[0.07] bg-white p-6 shadow-[var(--shadow-soft)] md:p-9">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 className="font-display text-2xl font-semibold text-ink">{step.title}</h2>
+              <h2 className="font-display text-2xl font-semibold text-navy-700">{step.title}</h2>
               {step.subtitle && <p className="mt-1.5 text-sm text-ink/55">{step.subtitle}</p>}
             </div>
             <span

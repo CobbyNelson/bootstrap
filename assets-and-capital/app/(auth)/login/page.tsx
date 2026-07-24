@@ -15,7 +15,7 @@ export default function LoginPage() {
       <div className="flex items-center justify-center px-6 py-24">
         <div className="w-full max-w-sm">
           <Logo />
-          <h1 className="mt-10 font-display text-3xl font-semibold text-ink">Welcome back</h1>
+          <h1 className="mt-10 font-display text-3xl font-semibold text-navy-700">Welcome back</h1>
           <p className="mt-2 text-ink/55">Sign in to access your marketplace and matches.</p>
           <div className="mt-8">
             <LoginForm />

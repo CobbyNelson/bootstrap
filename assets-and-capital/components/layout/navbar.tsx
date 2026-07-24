@@ -148,13 +148,13 @@ export function Navbar() {
                     <Link
                       href={group.href}
                       onClick={() => setMobileOpen(false)}
-                      className="block font-display text-xl font-semibold text-ink"
+                      className="block font-display text-xl font-semibold text-navy-700"
                     >
                       {group.label}
                     </Link>
                   ) : (
                     <>
-                      <p className="font-display text-xl font-semibold text-ink">{group.label}</p>
+                      <p className="font-display text-xl font-semibold text-navy-700">{group.label}</p>
                       <div className="mt-3 grid gap-1">
                         {group.columns!.flatMap((c) => c.links).map((link) => (
                           <Link

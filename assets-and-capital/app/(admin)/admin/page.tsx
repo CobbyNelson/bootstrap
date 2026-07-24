@@ -94,7 +94,7 @@ export default function AdminOverview() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="kicker text-[0.7rem] text-brand-600">Platform administration</p>
-          <h1 className="mt-1.5 font-display text-3xl font-medium text-ink">Overview</h1>
+          <h1 className="mt-1.5 font-display text-3xl font-medium text-navy-700">Overview</h1>
         </div>
         <div className="flex items-center gap-2">
           <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-3.5 py-2 text-sm text-ink/60">

@@ -76,7 +76,7 @@ export function ESign() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-600">Documents &amp; e-signature</p>
-          <h1 className="mt-1 font-display text-2xl font-semibold text-ink">Agreements</h1>
+          <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Agreements</h1>
           <p className="mt-1 text-sm text-ink/55">Legally-binding e-signature with tamper-evident audit trail</p>
         </div>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 ring-1 ring-emerald-100">
@@ -118,7 +118,7 @@ export function ESign() {
             {/* document preview */}
             <div className="relative border-b border-ink/[0.06] bg-paper-2/40 p-8">
               <div className="mx-auto max-w-lg rounded-xl border border-ink/10 bg-white p-8 shadow-sm">
-                <p className="text-center font-display text-lg font-semibold text-ink">{active.title}</p>
+                <p className="text-center font-display text-lg font-semibold text-navy-700">{active.title}</p>
                 <p className="mt-1 text-center text-xs text-ink/45">Between Aurora Family Office and {active.counterparty}</p>
                 <div className="mt-6 space-y-2">
                   {[100, 92, 96, 70, 88, 60].map((w, i) => (
@@ -130,7 +130,7 @@ export function ESign() {
                     <div key={i} className={cn("rounded-lg border-2 border-dashed p-3", s.status === "Signed" ? "border-emerald-300 bg-emerald-50/40" : "border-brand-300 bg-brand-50/30")}>
                       <p className="text-[0.65rem] uppercase tracking-wider text-ink/40">Signature</p>
                       {s.status === "Signed" || (i === 1 && signed) ? (
-                        <p className="mt-1 font-display text-base italic text-ink">{s.name.split(" ").slice(0, 2).join(" ")}</p>
+                        <p className="mt-1 font-display text-base italic text-navy-700">{s.name.split(" ").slice(0, 2).join(" ")}</p>
                       ) : (
                         <p className="mt-1 flex items-center gap-1 text-xs font-medium text-brand-600"><PenLine className="h-3.5 w-3.5" /> Sign here</p>
                       )}
@@ -142,10 +142,10 @@ export function ESign() {
               {signing && !signed && (
                 <div className="absolute inset-0 grid place-items-center bg-ink/40 p-6 backdrop-blur-sm">
                   <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
-                    <p className="font-display text-lg font-semibold text-ink">Adopt your signature</p>
+                    <p className="font-display text-lg font-semibold text-navy-700">Adopt your signature</p>
                     <p className="mt-1 text-xs text-ink/50">Drawn signature is bound to your verified identity.</p>
                     <div className="mt-4 grid h-24 place-items-center rounded-xl border border-ink/10 bg-paper-2/50">
-                      <span className="font-display text-2xl italic text-ink">Aurora Family Office</span>
+                      <span className="font-display text-2xl italic text-navy-700">Aurora Family Office</span>
                     </div>
                     <label className="mt-3 flex items-start gap-2 text-xs text-ink/60">
                       <input type="checkbox" defaultChecked className="mt-0.5 accent-[var(--color-brand-600)]" />
@@ -178,7 +178,7 @@ export function ESign() {
 
           {/* signer status */}
           <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
-            <h2 className="font-display text-base font-semibold text-ink">Signer status</h2>
+            <h2 className="font-display text-base font-semibold text-navy-700">Signer status</h2>
             <div className="mt-4 space-y-3">
               {active.signers.map((s, i) => {
                 const done = s.status === "Signed" || (i === 1 && signed);
@@ -204,7 +204,7 @@ export function ESign() {
           <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
             <div className="flex items-center gap-2">
               <Fingerprint className="h-4 w-4 text-brand-600" />
-              <h2 className="font-display text-base font-semibold text-ink">Certificate of completion</h2>
+              <h2 className="font-display text-base font-semibold text-navy-700">Certificate of completion</h2>
             </div>
             <div className="mt-3 grid gap-3 rounded-2xl bg-paper-2/50 p-4 sm:grid-cols-3">
               <div className="flex items-center gap-2 text-xs text-ink/60"><Hash className="h-3.5 w-3.5 text-ink/40" /> Envelope AC-8F3K-2291</div>

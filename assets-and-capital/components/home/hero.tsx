@@ -43,7 +43,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease, delay: 0.06 }}
-            className="mt-6 font-display text-[2.7rem] font-medium leading-[1.02] tracking-[-0.02em] text-ink sm:text-6xl md:text-[4.2rem]"
+            className="mt-6 font-display text-[2.7rem] font-medium leading-[1.02] tracking-[-0.02em] text-navy-700 sm:text-6xl md:text-[4.2rem]"
           >
             Where quality assets
             <br className="hidden sm:block" /> meet{" "}
@@ -159,7 +159,7 @@ function FloatingCard() {
         className="absolute -left-10 -bottom-12 hidden rounded-2xl border border-ink/[0.07] bg-white/95 p-4 shadow-[var(--shadow-card)] backdrop-blur sm:block"
       >
         <p className="text-[0.65rem] uppercase tracking-wide text-ink/45">Capital connected</p>
-        <p className="font-display text-2xl font-semibold text-ink tnum">$2.4B</p>
+        <p className="font-display text-2xl font-semibold text-navy-700 tnum">$2.4B</p>
         <div className="mt-1.5 flex items-center gap-1 text-xs font-medium text-emerald-600">
           <TrendingUp className="h-3.5 w-3.5" /> +18% this quarter
         </div>

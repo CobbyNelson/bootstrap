@@ -42,7 +42,7 @@ export default function AdminMatchingPage() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-sm text-ink/50">Matching engine</p>
-          <h1 className="mt-1 font-display text-3xl font-semibold text-ink">Compatibility weighting</h1>
+          <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">Compatibility weighting</h1>
           <p className="mt-1.5 max-w-xl text-sm text-ink/55">
             Tune how much each criterion influences the AI match score. Changes re-rank the sample instantly; scores are
             normalised so weights don&apos;t need to sum to 100.
@@ -62,7 +62,7 @@ export default function AdminMatchingPage() {
         {/* sliders */}
         <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
           <div className="mb-5 flex items-center justify-between">
-            <h2 className="font-display text-lg font-semibold text-ink">Criteria weights</h2>
+            <h2 className="font-display text-lg font-semibold text-navy-700">Criteria weights</h2>
             <span className="text-xs text-ink/45">Total <span className="font-semibold text-ink tnum">{total}</span></span>
           </div>
           <div className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
@@ -90,7 +90,7 @@ export default function AdminMatchingPage() {
         <div className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="font-display text-lg font-semibold text-ink">Live re-ranking</h2>
+              <h2 className="font-display text-lg font-semibold text-navy-700">Live re-ranking</h2>
               <span className="text-xs text-ink/45">vs. demo mandate</span>
             </div>
             <div className="space-y-2.5">
