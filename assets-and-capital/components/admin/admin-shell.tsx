@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Building2, Users, ListChecks, Wallet, Presentation,
-  FileText, Shield, ScrollText, BadgeCheck, Search, Bell, ArrowLeft, SlidersHorizontal, Mailbox,
+  FileText, ScrollText, BadgeCheck, Search, Bell, ArrowLeft, SlidersHorizontal, Mailbox,
 } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { cn } from "@/lib/utils";
@@ -23,17 +23,37 @@ const NAV = [
   { label: "Audit log", href: "/admin#audit", icon: ScrollText },
 ];
 
+const TEAM = ["RO", "JA", "CD", "MP"];
+
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   return (
-    <div className="min-h-dvh bg-paper-2/50 lg:grid lg:grid-cols-[248px_1fr]">
-      <aside className="sticky top-0 hidden h-dvh flex-col border-r border-ink/[0.07] bg-white lg:flex">
-        <div className="flex h-16 items-center gap-2 border-b border-ink/[0.06] px-5">
-          <Logo />
-          <span className="ml-1 rounded-md bg-ink px-1.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-white">Admin</span>
+    <div className="min-h-dvh bg-paper-2/60 lg:grid lg:grid-cols-[264px_1fr]">
+      {/* dark sidebar */}
+      <aside className="sticky top-0 hidden h-dvh flex-col overflow-hidden bg-ink text-white lg:flex">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-70"
+          style={{ background: "radial-gradient(120% 60% at 0% 0%, rgba(185,28,28,0.22), transparent 60%)" }}
+          aria-hidden
+        />
+        <div className="relative flex h-16 items-center gap-2 px-5">
+          <Logo invert />
+          <span className="ml-1 rounded-md bg-gold-500 px-1.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-ink">Admin</span>
         </div>
-        <nav className="flex-1 space-y-1 overflow-y-auto p-3">
-          <p className="px-3 pb-2 pt-3 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-ink/40">Administration</p>
+
+        {/* profile */}
+        <div className="relative mx-3 mb-2 flex items-center gap-3 rounded-2xl bg-white/[0.06] p-3">
+          <span className="grid h-11 w-11 flex-none place-items-center rounded-full bg-gradient-to-br from-brand-500 to-brand-800 text-sm font-semibold text-white ring-2 ring-gold-500/70 ring-offset-2 ring-offset-ink">
+            PA
+          </span>
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold text-white">Platform Admin</p>
+            <p className="truncate text-[0.7rem] text-white/45">Super admin</p>
+          </div>
+        </div>
+
+        <nav className="relative flex-1 space-y-0.5 overflow-y-auto px-3 pb-2">
+          <p className="kicker px-3 pb-1.5 pt-3 text-[0.6rem] text-gold-400/80">Administration</p>
           {NAV.map((item) => {
             const active = item.href === pathname;
             return (
@@ -42,43 +62,59 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 href={item.href}
                 className={cn(
                   "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
-                  active ? "bg-brand-50 text-brand-700 ring-1 ring-brand-100" : "text-ink/60 hover:bg-paper-2 hover:text-ink"
+                  active ? "bg-white text-ink shadow-sm" : "text-white/65 hover:bg-white/[0.06] hover:text-white"
                 )}
               >
-                <item.icon className="h-4 w-4" />
+                <item.icon className={cn("h-4 w-4", active ? "text-brand-600" : "text-gold-400")} />
                 <span className="flex-1">{item.label}</span>
-                {item.badge && <span className="rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold text-white">{item.badge}</span>}
+                {item.badge && (
+                  <span className={cn("rounded-full px-1.5 py-0.5 text-[0.6rem] font-semibold", active ? "bg-brand-600 text-white" : "bg-gold-500 text-ink")}>
+                    {item.badge}
+                  </span>
+                )}
               </Link>
             );
           })}
         </nav>
-        <div className="border-t border-ink/[0.06] p-3">
-          <Link href="/" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
+
+        {/* active team */}
+        <div className="relative border-t border-white/10 px-5 py-4">
+          <p className="kicker mb-2 text-[0.6rem] text-gold-400/80">Active team</p>
+          <div className="flex items-center">
+            <div className="flex -space-x-2">
+              {TEAM.map((t) => (
+                <span key={t} className="grid h-8 w-8 place-items-center rounded-full border-2 border-ink bg-gradient-to-br from-brand-500 to-brand-800 text-[0.6rem] font-semibold text-white">
+                  {t}
+                </span>
+              ))}
+            </div>
+            <span className="ml-2 grid h-8 items-center rounded-full bg-gold-500 px-2 text-[0.65rem] font-semibold text-ink">+12</span>
+          </div>
+          <Link href="/" className="mt-4 flex items-center gap-2 text-sm font-medium text-white/55 hover:text-white">
             <ArrowLeft className="h-4 w-4" /> Back to site
           </Link>
         </div>
       </aside>
 
+      {/* content */}
       <div className="flex min-w-0 flex-col">
-        <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-ink/[0.07] bg-white/80 px-5 backdrop-blur-md md:px-8">
+        <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-ink/[0.07] bg-paper/85 px-5 backdrop-blur-md md:px-8">
           <div className="lg:hidden"><Logo /></div>
           <div className="ml-auto flex items-center gap-3">
             <button
               type="button"
               onClick={() => window.dispatchEvent(new Event("ac-open-search"))}
-              className="hidden items-center gap-2 rounded-full border border-ink/10 bg-paper-2/60 px-3.5 py-2 text-sm text-ink/50 transition-colors hover:border-ink/20 hover:text-ink/70 sm:flex"
+              className="hidden items-center gap-2 rounded-full border border-ink/10 bg-white/70 px-3.5 py-2 text-sm text-ink/50 transition-colors hover:border-ink/20 hover:text-ink/70 sm:flex"
             >
-              <Search className="h-4 w-4" /><span className="w-40 text-left">Search admin…</span>
+              <Search className="h-4 w-4" /><span className="w-36 text-left">Search admin…</span>
               <kbd className="rounded border border-ink/15 px-1.5 text-[0.65rem] text-ink/40">⌘K</kbd>
             </button>
-            <button className="relative grid h-10 w-10 place-items-center rounded-full border border-ink/10 text-ink/60 hover:text-ink" aria-label="Notifications">
+            <button className="relative grid h-10 w-10 place-items-center rounded-full border border-ink/10 bg-white text-ink/60 hover:text-ink" aria-label="Notifications">
               <Bell className="h-[18px] w-[18px]" />
               <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-600" />
             </button>
-            <div className="flex items-center gap-2.5 rounded-full border border-ink/10 py-1 pl-1 pr-3">
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-xs font-semibold text-white">
-                <Shield className="h-4 w-4" />
-              </span>
+            <div className="flex items-center gap-2.5 rounded-full border border-ink/10 bg-white py-1 pl-1 pr-3">
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-xs font-semibold text-white ring-1 ring-gold-500/50">PA</span>
               <span className="hidden leading-tight sm:block">
                 <span className="block text-xs font-medium text-ink">Platform Admin</span>
                 <span className="block text-[0.65rem] text-ink/50">Super admin</span>
