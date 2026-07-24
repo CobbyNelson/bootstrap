@@ -6,6 +6,7 @@ import { getOpportunityBySlug, allOpportunitySlugs, scoreOpportunity, DEMO_MANDA
 import { scoreBusiness } from "@/lib/business-scoring";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Money } from "@/components/ui/money";
 import { cn } from "@/lib/utils";
 
 export function generateStaticParams() {
@@ -55,10 +56,10 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
   const color = starColor(match.stars);
 
   const metrics = [
-    { k: "Ask", v: o.ask },
+    { k: "Ask", v: <Money usd={o.ask} /> },
     { k: "Instrument", v: o.instrument },
     { k: "Target return", v: o.targetReturn },
-    { k: "Est. revenue", v: `$${d.revenueM}M` },
+    { k: "Est. revenue", v: <Money usd={`$${d.revenueM}M`} /> },
     { k: "Est. EBITDA margin", v: `${d.ebitdaMargin}%` },
     { k: "Est. headcount", v: `${d.employees}` },
     { k: "Stage", v: o.stage },

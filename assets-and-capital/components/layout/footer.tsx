@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Mail, Globe } from "lucide-react";
 import { SITE } from "@/lib/content";
 import { NewsletterForm } from "./newsletter-form";
+import { CurrencySwitcher } from "./currency-switcher";
 
 function LinkedInIcon({ className }: { className?: string }) {
   return (
@@ -121,9 +122,12 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {SITE.legalName}. All rights reserved.
           </p>
-          <p className="text-white/40">
-            {SITE.domain} · An alternative capital-raising & deal-making platform.
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="hidden text-white/40 md:block">
+              {SITE.domain} · Capital-raising & deal-making platform.
+            </p>
+            <CurrencySwitcher variant="dark" />
+          </div>
         </div>
       </div>
     </footer>

@@ -3,6 +3,7 @@ import { ArrowUpRight, MapPin } from "lucide-react";
 import type { Opportunity } from "@/lib/content";
 import { slugify } from "@/lib/matching";
 import { Badge } from "./badge";
+import { Money } from "./money";
 import { cn } from "@/lib/utils";
 
 const TIER_STYLE: Record<Opportunity["tier"], string> = {
@@ -56,7 +57,7 @@ export function OpportunityCard({ o, href }: { o: Opportunity; href?: string }) 
       <div className="mt-auto grid grid-cols-3 gap-2 pt-6">
         <div>
           <p className="text-[0.62rem] uppercase tracking-wide text-ink/40">Ask</p>
-          <p className="font-semibold text-ink tnum">{o.ask}</p>
+          <p className="font-semibold text-ink tnum"><Money usd={o.ask} /></p>
         </div>
         <div>
           <p className="text-[0.62rem] uppercase tracking-wide text-ink/40">Target</p>

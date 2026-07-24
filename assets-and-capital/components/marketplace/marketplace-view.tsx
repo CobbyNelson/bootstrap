@@ -6,6 +6,8 @@ import { REGIONS, SECTORS_FILTER, STAGES, INSTRUMENTS, TIERS, SORTS } from "@/li
 import { SCORED_MARKETPLACE as MARKETPLACE } from "@/lib/matching";
 import { OpportunityCard } from "@/components/ui/opportunity-card";
 import { Badge } from "@/components/ui/badge";
+import { Money } from "@/components/ui/money";
+import { CurrencySwitcher } from "@/components/layout/currency-switcher";
 import { cn } from "@/lib/utils";
 
 function askValue(ask: string): number {
@@ -151,6 +153,7 @@ export function MarketplaceView() {
                 </option>
               ))}
             </select>
+            <div className="hidden sm:block"><CurrencySwitcher /></div>
             <div className="hidden items-center rounded-xl border border-ink/10 p-0.5 sm:flex">
               <button
                 onClick={() => setView("grid")}
@@ -216,7 +219,7 @@ export function MarketplaceView() {
                 <Badge variant="neutral" size="sm">{o.stage}</Badge>
                 <div className="w-20 text-right">
                   <p className="text-[0.62rem] uppercase tracking-wide text-ink/40">Ask</p>
-                  <p className="font-semibold text-ink tnum">{o.ask}</p>
+                  <p className="font-semibold text-ink tnum"><Money usd={o.ask} /></p>
                 </div>
                 <div className="w-24 text-right">
                   <p className="text-[0.62rem] uppercase tracking-wide text-ink/40">Target</p>

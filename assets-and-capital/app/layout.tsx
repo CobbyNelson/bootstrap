@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { SITE } from "@/lib/content";
 import { CommandPalette } from "@/components/search/command-palette";
+import { CurrencyProvider } from "@/components/providers/currency-provider";
 import "./globals.css";
 
 const inter = Inter({
@@ -55,8 +56,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="min-h-dvh antialiased">
-        {children}
-        <CommandPalette />
+        <CurrencyProvider>
+          {children}
+          <CommandPalette />
+        </CurrencyProvider>
       </body>
     </html>
   );
