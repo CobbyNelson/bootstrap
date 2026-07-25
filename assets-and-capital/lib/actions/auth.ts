@@ -1,14 +1,29 @@
 "use server";
 
 import bcrypt from "bcryptjs";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { createSession, destroySession } from "@/lib/session";
+import { rateLimit, sweep } from "@/lib/rate-limit";
+import { sendEmail, emails } from "@/lib/email";
 
 export type AuthResult = { ok: boolean; error?: string; role?: string };
 
 function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
+}
+
+const TOO_MANY = "Too many attempts. Please wait a moment and try again.";
+
+/** Throttle by client IP + email so one address can't be brute-forced. */
+async function throttle(scope: string, email: string, limit: number, windowMs: number) {
+  sweep();
+  const h = await headers();
+  const ip = h.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const byIp = rateLimit(`${scope}:ip:${ip}`, limit * 3, windowMs);
+  const byEmail = rateLimit(`${scope}:em:${email}`, limit, windowMs);
+  return byIp.ok && byEmail.ok;
 }
 
 export async function registerUser(input: {
@@ -22,6 +37,8 @@ export async function registerUser(input: {
   if (!input.password || input.password.length < 8)
     return { ok: false, error: "Password must be at least 8 characters." };
 
+  if (!(await throttle("register", email, 5, 60_000))) return { ok: false, error: TOO_MANY };
+
   try {
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) return { ok: false, error: "An account with this email already exists." };
@@ -32,6 +49,8 @@ export async function registerUser(input: {
       data: { email, name: input.name?.trim() || null, passwordHash, role },
     });
     await createSession({ id: user.id, email: user.email, name: user.name, role: user.role });
+    const welcome = emails.welcome(user.name);
+    void sendEmail({ to: user.email, ...welcome });
     return { ok: true, role: user.role };
   } catch (e) {
     console.error("registerUser failed", e);
@@ -41,6 +60,7 @@ export async function registerUser(input: {
 
 export async function loginUser(input: { email: string; password: string }): Promise<AuthResult> {
   const email = normalizeEmail(input.email || "");
+  if (!(await throttle("login", email, 8, 60_000))) return { ok: false, error: TOO_MANY };
   try {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user || !user.passwordHash) return { ok: false, error: "Incorrect email or password." };

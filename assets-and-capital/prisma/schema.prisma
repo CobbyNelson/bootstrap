@@ -100,6 +100,15 @@ enum PaymentProvider {
   FLUTTERWAVE
 }
 
+enum CommitmentStatus {
+  SOFT_COMMITTED
+  ALLOCATED
+  AGREEMENT_SENT
+  SIGNED
+  FUNDED
+  WITHDRAWN
+}
+
 // ------------------------------------------------------------ identity
 
 model User {
@@ -120,6 +129,9 @@ model User {
   ndaSignatures NdaSignature[]
   savedListings SavedListing[]
   paymentIntents PaymentIntent[]
+  commitments   Commitment[]
+  kyc           KycRecord?
+  docAccess     DocumentAccessLog[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -138,6 +150,72 @@ model InvestorSubscription {
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+/// Data-room documents. Files live in object storage; only the key is stored.
+/// Downloads go through /api/documents/[id], which re-checks entitlements.
+model DataRoomDocument {
+  id         String   @id @default(cuid())
+  slug       String
+  name       String
+  storageKey String
+  mimeType   String?
+  sizeBytes  Int?
+  accessLogs DocumentAccessLog[]
+  createdAt  DateTime @default(now())
+
+  @@index([slug])
+}
+
+model DocumentAccessLog {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  documentId String
+  document   DataRoomDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  action     String
+  ip         String?
+  createdAt  DateTime @default(now())
+
+  @@index([documentId])
+  @@index([userId])
+}
+
+/// The investment transaction: soft commit → allocation → agreement → funded.
+model Commitment {
+  id           String           @id @default(cuid())
+  userId       String
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  slug         String
+  amountUsd    Int
+  status       CommitmentStatus @default(SOFT_COMMITTED)
+  allocatedUsd Int?
+  signedAt     DateTime?
+  fundedAt     DateTime?
+  note         String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  @@unique([userId, slug])
+  @@index([status])
+}
+
+/// Investor compliance: identity, accreditation and screening outcomes.
+model KycRecord {
+  id             String    @id @default(cuid())
+  userId         String    @unique
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status         KycStatus @default(NOT_STARTED)
+  accredited     Boolean   @default(false)
+  sanctionsClear Boolean   @default(false)
+  pepMatch       Boolean   @default(false)
+  provider       String?
+  reference      String?
+  legalName      String?
+  country        String?
+  reviewedAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 }
 
 /// A checkout attempt. Subscriptions are only ever activated from an intent
