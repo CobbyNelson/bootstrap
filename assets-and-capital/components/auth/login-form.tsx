@@ -52,7 +52,9 @@ export function LoginForm() {
       setFormError(result.error || "Something went wrong. Please try again.");
       return;
     }
-    const dest = next || (result.role === "BUSINESS" ? "/dashboard/business" : "/dashboard");
+    // Only honor an internal (relative, single-slash) next target — avoids open redirects.
+    const safeNext = next && next.startsWith("/") && !next.startsWith("//") ? next : null;
+    const dest = safeNext || (result.role === "BUSINESS" ? "/dashboard/business" : "/dashboard");
     router.push(dest);
     router.refresh();
   }
