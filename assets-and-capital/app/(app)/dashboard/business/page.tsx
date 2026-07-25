@@ -57,7 +57,7 @@ export default function BusinessDashboard() {
     <div className="mx-auto max-w-6xl space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm text-ink/50">Business workspace</p>
+          <p className="text-sm text-ink/65">Business workspace</p>
           <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">Accra FinPay</h1>
           <div className="mt-2 flex items-center gap-2">
             <Badge variant="gold" size="sm">Gold listing</Badge>
@@ -80,7 +80,7 @@ export default function BusinessDashboard() {
         <Panel id="performance" title="Listing performance" action={{ label: "Details", href: "#performance" }}>
           <div className="mb-4 flex items-baseline gap-3">
             <span className="font-display text-3xl font-semibold text-navy-700 tnum">1,284</span>
-            <span className="text-sm font-medium text-emerald-600">+18% · 28 days</span>
+            <span className="text-sm font-medium text-emerald-700">+18% · 28 days</span>
           </div>
           <AreaChart />
         </Panel>
@@ -90,13 +90,13 @@ export default function BusinessDashboard() {
             <ProgressRing value={64} />
             <div>
               <p className="font-medium text-ink">$9.6M of $15M</p>
-              <p className="text-sm text-ink/55">Soft-circled across 4 investors.</p>
+              <p className="text-sm text-ink/65">Soft-circled across 4 investors.</p>
             </div>
           </div>
           <div className="mt-5 space-y-2 border-t border-ink/[0.06] pt-4 text-sm">
-            <div className="flex justify-between"><span className="text-ink/55">Instrument</span><span className="font-medium text-ink">Equity</span></div>
-            <div className="flex justify-between"><span className="text-ink/55">Stake offered</span><span className="font-medium text-ink">18%</span></div>
-            <div className="flex justify-between"><span className="text-ink/55">Return offer</span><span className="font-medium text-ink">4.0× MOIC</span></div>
+            <div className="flex justify-between"><span className="text-ink/65">Instrument</span><span className="font-medium text-ink">Equity</span></div>
+            <div className="flex justify-between"><span className="text-ink/65">Stake offered</span><span className="font-medium text-ink">18%</span></div>
+            <div className="flex justify-between"><span className="text-ink/65">Return offer</span><span className="font-medium text-ink">4.0× MOIC</span></div>
           </div>
         </Panel>
       </div>
@@ -106,12 +106,12 @@ export default function BusinessDashboard() {
           {scores.map((s) => {
             const good = s.higherIsBetter ? s.value >= 70 : s.value <= 45;
             const mid = s.higherIsBetter ? s.value >= 55 : s.value <= 60;
-            const tone = good ? "text-emerald-600" : mid ? "text-navy-600" : "text-brand-600";
+            const tone = good ? "text-emerald-700" : mid ? "text-navy-600" : "text-brand-600";
             return (
               <div key={s.key} className="rounded-2xl border border-ink/[0.06] p-4">
-                <p className="text-xs text-ink/50">{s.label}</p>
+                <p className="text-xs text-ink/65">{s.label}</p>
                 <p className={cn("mt-1 font-display text-2xl font-semibold tnum", tone)}>{s.value}</p>
-                <p className="mt-1.5 text-[0.7rem] leading-snug text-ink/45">{s.recommendations[0]}</p>
+                <p className="mt-1.5 text-[0.7rem] leading-snug text-ink/60">{s.recommendations[0]}</p>
               </div>
             );
           })}
@@ -122,7 +122,7 @@ export default function BusinessDashboard() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left text-[0.7rem] uppercase tracking-wide text-ink/40">
+              <tr className="text-left text-[0.7rem] uppercase tracking-wide text-ink/60">
                 <th className="pb-3 font-semibold">Investor</th>
                 <th className="pb-3 font-semibold">Type</th>
                 <th className="pb-3 font-semibold">Stage</th>
@@ -137,7 +137,7 @@ export default function BusinessDashboard() {
                   <td className="py-3 text-ink/60">{r.type}</td>
                   <td className="py-3"><Badge variant="neutral" size="sm">{r.stage}</Badge></td>
                   <td className="py-3 text-right font-medium text-ink tnum">{r.ticket}</td>
-                  <td className="py-3 text-right font-medium text-emerald-600 tnum">{r.match}%</td>
+                  <td className="py-3 text-right font-medium text-emerald-700 tnum">{r.match}%</td>
                 </tr>
               ))}
             </tbody>
@@ -160,12 +160,12 @@ export default function BusinessDashboard() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-2">
                     <p className="truncate font-medium text-ink">{m.from}</p>
-                    <span className="flex items-center gap-2 text-xs text-ink/40">
+                    <span className="flex items-center gap-2 text-xs text-ink/60">
                       {m.unread && <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />}
                       {m.time}
                     </span>
                   </div>
-                  <p className="truncate text-sm text-ink/55">{m.preview}</p>
+                  <p className="truncate text-sm text-ink/65">{m.preview}</p>
                 </div>
               </div>
             ))}
@@ -181,7 +181,7 @@ export default function BusinessDashboard() {
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium text-ink">{inv.desc}</p>
-                  <p className="text-xs text-ink/50">{inv.id}</p>
+                  <p className="text-xs text-ink/65">{inv.id}</p>
                 </div>
                 <span className="font-medium text-ink tnum">{inv.amount}</span>
                 <Badge variant={inv.status === "Paid" ? "success" : "gold"} size="sm">{inv.status}</Badge>
@@ -201,13 +201,13 @@ export default function BusinessDashboard() {
           ].map((d) => (
             <div key={d.name} className="flex items-center gap-3 rounded-2xl border border-ink/[0.06] p-4">
               <span className="grid h-9 w-9 flex-none place-items-center rounded-xl bg-paper-2 text-ink/60">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                <CheckCircle2 className="h-4 w-4 text-emerald-700" />
               </span>
               <div className="min-w-0 flex-1">
                 <p className="truncate font-medium text-ink">{d.name}</p>
-                <p className="text-xs text-ink/50">{d.size}</p>
+                <p className="text-xs text-ink/65">{d.size}</p>
               </div>
-              <Download className="h-4 w-4 text-ink/40" />
+              <Download className="h-4 w-4 text-ink/60" />
             </div>
           ))}
         </div>

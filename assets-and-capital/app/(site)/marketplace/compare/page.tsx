@@ -35,7 +35,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
               <Scale className="h-6 w-6" />
             </span>
             <h3 className="mt-5 font-display text-lg font-bold text-navy-700">Pick at least two to compare</h3>
-            <p className="mt-1.5 max-w-sm text-sm text-ink/55">Save opportunities from the marketplace, then compare your shortlist here.</p>
+            <p className="mt-1.5 max-w-sm text-sm text-ink/65">Save opportunities from the marketplace, then compare your shortlist here.</p>
             <Link href="/marketplace" className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700">
               Browse the marketplace <ArrowRight className="h-4 w-4" />
             </Link>
@@ -58,7 +58,7 @@ function ComparisonTable({ opps }: { opps: NonNullable<ReturnType<typeof getOppo
 
   const rows: { label: string; render: (c: (typeof cols)[number]) => React.ReactNode }[] = [
     { label: "Mandate match", render: (c) => (
-      <span className="inline-flex items-center gap-1.5 font-semibold text-emerald-600">
+      <span className="inline-flex items-center gap-1.5 font-semibold text-emerald-700">
         <span className="tnum">{c.match.score}</span>
         <span className="flex">{Array.from({ length: 5 }).map((_, i) => (
           <Star key={i} className={cn("h-3.5 w-3.5", i < c.match.stars ? "fill-navy-500 text-navy-500" : "text-ink/15")} />
@@ -105,7 +105,7 @@ function ComparisonTable({ opps }: { opps: NonNullable<ReturnType<typeof getOppo
         <dl className="mt-4 divide-y divide-ink/[0.06] rounded-2xl border border-ink/[0.07] bg-white">
           {rows.map((row) => (
             <div key={row.label} className="grid items-center" style={{ gridTemplateColumns: `180px repeat(${cols.length}, minmax(0, 1fr))` }}>
-              <dt className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-ink/45">{row.label}</dt>
+              <dt className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-ink/60">{row.label}</dt>
               {cols.map((c) => (
                 <dd key={c.o.name} className="px-4 py-3 text-sm text-ink/75">{row.render(c)}</dd>
               ))}

@@ -10,7 +10,7 @@ export type VDoc = { name: string; status: VStatus };
 const STATUS_META: Record<VStatus, { badge: "success" | "brand" | "gold" | "neutral"; icon: typeof Check; ring: string }> = {
   Approved: { badge: "success", icon: Check, ring: "bg-emerald-500 text-white" },
   "Under Review": { badge: "brand", icon: Loader2, ring: "bg-brand-600 text-white" },
-  Pending: { badge: "gold", icon: Clock, ring: "border border-ink/20 text-ink/40" },
+  Pending: { badge: "gold", icon: Clock, ring: "border border-ink/20 text-ink/60" },
   Rejected: { badge: "neutral", icon: X, ring: "bg-brand-600 text-white" },
 };
 
@@ -34,7 +34,7 @@ export function VerificationFlow({
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
-        <p className="text-sm text-ink/50">{eyebrow}</p>
+        <p className="text-sm text-ink/65">{eyebrow}</p>
         <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">{subject}</h1>
       </div>
 
@@ -47,7 +47,7 @@ export function VerificationFlow({
               <Badge variant={STATUS_META[overall].badge}>
                 <ShieldCheck className="h-3.5 w-3.5" /> {overall}
               </Badge>
-              <p className="mt-2 text-sm leading-snug text-ink/55">{intro}</p>
+              <p className="mt-2 text-sm leading-snug text-ink/65">{intro}</p>
             </div>
           </div>
         </div>
@@ -67,7 +67,7 @@ export function VerificationFlow({
                       <p className="text-sm font-medium text-ink">{s.label}</p>
                       <Badge variant={m.badge} size="sm">{s.status}</Badge>
                     </div>
-                    <p className="mt-0.5 text-xs text-ink/50">{s.detail}</p>
+                    <p className="mt-0.5 text-xs text-ink/65">{s.detail}</p>
                   </div>
                 </li>
               );
@@ -89,7 +89,7 @@ export function VerificationFlow({
             const m = STATUS_META[d.status];
             return (
               <div key={d.name} className="flex items-center gap-3 rounded-2xl border border-ink/[0.06] p-3.5">
-                <span className="grid h-9 w-9 flex-none place-items-center rounded-xl bg-paper-2 text-ink/50">
+                <span className="grid h-9 w-9 flex-none place-items-center rounded-xl bg-paper-2 text-ink/65">
                   <FileText className="h-4 w-4" />
                 </span>
                 <p className="min-w-0 flex-1 truncate text-sm font-medium text-ink">{d.name}</p>
@@ -98,7 +98,7 @@ export function VerificationFlow({
             );
           })}
         </div>
-        <p className="mt-4 flex items-center gap-1.5 text-xs text-ink/40">
+        <p className="mt-4 flex items-center gap-1.5 text-xs text-ink/60">
           <ShieldCheck className="h-3.5 w-3.5" /> Documents are encrypted and reviewed by a compliance officer before approval.
         </p>
       </div>

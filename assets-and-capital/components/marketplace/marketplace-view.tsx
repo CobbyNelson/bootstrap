@@ -97,7 +97,7 @@ export function MarketplaceView() {
           <div className="flex items-center justify-between">
             <p className="font-medium text-ink">Filters</p>
             {activeCount > 0 && (
-              <button onClick={clearAll} className="text-xs font-medium text-brand-600 hover:text-brand-700">
+              <button onClick={clearAll} className="text-xs font-medium text-brand-700 hover:text-brand-800">
                 Clear all ({activeCount})
               </button>
             )}
@@ -105,7 +105,7 @@ export function MarketplaceView() {
           <div className="mt-4 space-y-6">
             {facetGroups.map((g) => (
               <div key={g.key}>
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/40">{g.label}</p>
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/60">{g.label}</p>
                 <div className="mt-2.5 space-y-1.5">
                   {g.options.map((opt) => {
                     const checked = filters[g.key].has(opt);
@@ -139,12 +139,12 @@ export function MarketplaceView() {
       <div>
         <div className="flex flex-col gap-3 rounded-2xl border border-ink/[0.07] bg-white p-3 sm:flex-row sm:items-center">
           <div className="flex flex-1 items-center gap-2 rounded-xl bg-paper-2 px-3.5">
-            <Search className="h-4 w-4 text-ink/40" />
+            <Search className="h-4 w-4 text-ink/60" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search opportunities, sectors, countries…"
-              className="h-10 w-full bg-transparent text-sm text-ink placeholder:text-ink/40 focus:outline-none"
+              className="h-10 w-full bg-transparent text-sm text-ink placeholder:text-ink/60 focus:outline-none"
               aria-label="Search opportunities"
             />
           </div>
@@ -171,14 +171,14 @@ export function MarketplaceView() {
             <div className="hidden items-center rounded-xl border border-ink/10 p-0.5 sm:flex">
               <button
                 onClick={() => setView("grid")}
-                className={cn("grid h-9 w-9 place-items-center rounded-lg", view === "grid" ? "bg-ink text-white" : "text-ink/50")}
+                className={cn("grid h-9 w-9 place-items-center rounded-lg", view === "grid" ? "bg-ink text-white" : "text-ink/65")}
                 aria-label="Grid view"
               >
                 <LayoutGrid className="h-4 w-4" />
               </button>
               <button
                 onClick={() => setView("list")}
-                className={cn("grid h-9 w-9 place-items-center rounded-lg", view === "list" ? "bg-ink text-white" : "text-ink/50")}
+                className={cn("grid h-9 w-9 place-items-center rounded-lg", view === "list" ? "bg-ink text-white" : "text-ink/65")}
                 aria-label="List view"
               >
                 <List className="h-4 w-4" />
@@ -188,11 +188,11 @@ export function MarketplaceView() {
         </div>
 
         <div className="mt-4 flex items-center justify-between">
-          <p className="text-sm text-ink/55">
+          <p className="text-sm text-ink/65">
             <span className="font-semibold text-ink tnum">{results.length}</span> opportunities
           </p>
           {activeCount > 0 && (
-            <button onClick={clearAll} className="inline-flex items-center gap-1 text-xs font-medium text-ink/50 hover:text-ink">
+            <button onClick={clearAll} className="inline-flex items-center gap-1 text-xs font-medium text-ink/65 hover:text-ink">
               <X className="h-3.5 w-3.5" /> Clear filters
             </button>
           )}
@@ -200,11 +200,11 @@ export function MarketplaceView() {
 
         {results.length === 0 ? (
           <div className="mt-6 grid place-items-center rounded-3xl border border-dashed border-ink/15 bg-white/50 px-6 py-20 text-center">
-            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-paper-2 text-ink/40">
+            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-paper-2 text-ink/60">
               <Search className="h-6 w-6" />
             </div>
             <p className="mt-4 font-medium text-ink">No opportunities match your filters</p>
-            <p className="mt-1 max-w-sm text-sm text-ink/50">Try widening your criteria or clearing a filter to see more of the marketplace.</p>
+            <p className="mt-1 max-w-sm text-sm text-ink/65">Try widening your criteria or clearing a filter to see more of the marketplace.</p>
             <button onClick={clearAll} className="mt-5 rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white hover:bg-ink-2">
               Clear all filters
             </button>
@@ -238,19 +238,19 @@ export function MarketplaceView() {
                     <h3 className="truncate font-display text-base font-bold text-brand-600">{o.name}</h3>
                     <span className="hidden flex-none rounded-full bg-paper-2 px-2 py-0.5 text-[0.58rem] kicker text-ink md:inline">{o.tier}</span>
                   </div>
-                  <p className="flex items-center gap-1 text-xs text-ink/45">
+                  <p className="flex items-center gap-1 text-xs text-ink/60">
                     <MapPin className="h-3 w-3" /> {o.country} · {o.region}
                   </p>
                 </div>
 
                 {/* category tag */}
-                <span className="hidden items-center gap-1.5 rounded-lg border border-brand-200 px-2.5 py-1.5 text-xs font-semibold text-brand-600 lg:inline-flex">
+                <span className="hidden items-center gap-1.5 rounded-lg border border-brand-200 px-2.5 py-1.5 text-xs font-semibold text-brand-700 lg:inline-flex">
                   <Tag className="h-3.5 w-3.5" /> {o.sector}
                 </span>
 
                 {/* seeking */}
                 <div className="w-24 flex-none text-right">
-                  <p className="text-[0.6rem] uppercase tracking-wide text-ink/40">Seeking</p>
+                  <p className="text-[0.6rem] uppercase tracking-wide text-ink/60">Seeking</p>
                   <p className="font-bold text-ink tnum"><Money usd={o.ask} /></p>
                 </div>
 

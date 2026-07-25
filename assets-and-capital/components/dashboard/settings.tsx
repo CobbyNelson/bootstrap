@@ -54,14 +54,14 @@ export function AccountSettings() {
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-600">Account</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-700">Account</p>
         <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Security &amp; settings</h1>
-        <p className="mt-1 text-sm text-ink/55">Protect your account and manage who can access your workspace.</p>
+        <p className="mt-1 text-sm text-ink/65">Protect your account and manage who can access your workspace.</p>
       </div>
 
       <div className="flex flex-wrap gap-1 rounded-full border border-ink/[0.07] bg-white p-1">
         {TABS.map((t) => (
-          <button key={t} onClick={() => setTab(t)} className={cn("rounded-full px-4 py-2 text-sm font-medium transition-colors", tab === t ? "bg-ink text-white" : "text-ink/55 hover:text-ink")}>{t}</button>
+          <button key={t} onClick={() => setTab(t)} className={cn("rounded-full px-4 py-2 text-sm font-medium transition-colors", tab === t ? "bg-ink text-white" : "text-ink/65 hover:text-ink")}>{t}</button>
         ))}
       </div>
 
@@ -69,14 +69,14 @@ export function AccountSettings() {
         <div className="space-y-4">
           <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
             <div className="flex items-center gap-2">
-              <Shield className="h-4 w-4 text-emerald-600" />
+              <Shield className="h-4 w-4 text-emerald-700" />
               <h2 className="font-display text-base font-semibold text-navy-700">Security status</h2>
               <span className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 ring-1 ring-emerald-100"><CheckCircle2 className="h-3.5 w-3.5" /> Strong</span>
             </div>
             <div className="mt-4 h-2 overflow-hidden rounded-full bg-ink/[0.06]">
               <div className="h-full rounded-full bg-emerald-500" style={{ width: "90%" }} />
             </div>
-            <p className="mt-2 text-xs text-ink/50">9 of 10 recommendations complete. Add a backup security key to reach 100%.</p>
+            <p className="mt-2 text-xs text-ink/65">9 of 10 recommendations complete. Add a backup security key to reach 100%.</p>
           </div>
 
           {[
@@ -87,7 +87,7 @@ export function AccountSettings() {
               <span className="grid h-10 w-10 flex-none place-items-center rounded-xl bg-brand-50 text-brand-600 ring-1 ring-brand-100"><row.icon className="h-5 w-5" /></span>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium text-ink">{row.title}</p>
-                <p className="text-xs text-ink/50">{row.desc}</p>
+                <p className="text-xs text-ink/65">{row.desc}</p>
               </div>
               <Toggle on={row.on} onClick={row.set} />
             </div>
@@ -97,7 +97,7 @@ export function AccountSettings() {
             <span className="grid h-10 w-10 flex-none place-items-center rounded-xl bg-ink/[0.05] text-ink/60"><Key className="h-5 w-5" /></span>
             <div className="min-w-0 flex-1">
               <p className="text-sm font-medium text-ink">Password</p>
-              <p className="text-xs text-ink/50">Last changed 3 days ago · 24 characters</p>
+              <p className="text-xs text-ink/65">Last changed 3 days ago · 24 characters</p>
             </div>
             <button className="rounded-full border border-ink/12 px-4 py-2 text-sm font-medium text-ink/70 hover:bg-paper-2">Change</button>
           </div>
@@ -107,14 +107,14 @@ export function AccountSettings() {
             <div className="mt-4 space-y-3">
               {LOGINS.map((l, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <span className={cn("grid h-8 w-8 flex-none place-items-center rounded-full", l.ok ? "bg-emerald-50 text-emerald-600" : "bg-brand-50 text-brand-600")}>
+                  <span className={cn("grid h-8 w-8 flex-none place-items-center rounded-full", l.ok ? "bg-emerald-50 text-emerald-700" : "bg-brand-50 text-brand-600")}>
                     {l.ok ? <CheckCircle2 className="h-4 w-4" /> : <AlertTriangle className="h-4 w-4" />}
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium text-ink">{l.event}</p>
-                    <p className="flex items-center gap-1 text-xs text-ink/50"><MapPin className="h-3 w-3" /> {l.where}</p>
+                    <p className="flex items-center gap-1 text-xs text-ink/65"><MapPin className="h-3 w-3" /> {l.where}</p>
                   </div>
-                  <span className="text-xs text-ink/45">{l.when}</span>
+                  <span className="text-xs text-ink/60">{l.when}</span>
                 </div>
               ))}
             </div>
@@ -137,9 +137,9 @@ export function AccountSettings() {
                     {s.device}
                     {s.current && <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[0.65rem] font-medium text-emerald-700">This device</span>}
                   </p>
-                  <p className="text-xs text-ink/50">{s.where} · {s.ip}</p>
+                  <p className="text-xs text-ink/65">{s.where} · {s.ip}</p>
                 </div>
-                <span className={cn("text-xs", s.current ? "font-medium text-emerald-600" : "text-ink/45")}>{s.when}</span>
+                <span className={cn("text-xs", s.current ? "font-medium text-emerald-700" : "text-ink/60")}>{s.when}</span>
                 {!s.current && <button className="rounded-full border border-ink/12 px-3 py-1.5 text-xs font-medium text-ink/60 hover:bg-paper-2">Revoke</button>}
               </div>
             ))}
@@ -163,8 +163,8 @@ export function AccountSettings() {
                   {m.name.split(" ").slice(0, 2).map((w) => w[0]).join("")}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-ink">{m.name} {m.you && <span className="text-ink/40">(you)</span>}</p>
-                  <p className="truncate text-xs text-ink/50">{m.email} · {m.access}</p>
+                  <p className="text-sm font-medium text-ink">{m.name} {m.you && <span className="text-ink/60">(you)</span>}</p>
+                  <p className="truncate text-xs text-ink/65">{m.email} · {m.access}</p>
                 </div>
                 <span className={cn("rounded-full px-2.5 py-1 text-xs font-medium ring-1", ROLE_STYLE[m.role])}>{m.role}</span>
               </div>
@@ -190,7 +190,7 @@ export function AccountSettings() {
                 <div key={row.key} className="flex items-center gap-4">
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium text-ink">{row.label}</p>
-                    <p className="text-xs text-ink/50">{row.desc}</p>
+                    <p className="text-xs text-ink/65">{row.desc}</p>
                   </div>
                   <Toggle on={prefs[row.key]} onClick={() => setPrefs((p) => ({ ...p, [row.key]: !p[row.key] }))} />
                 </div>
@@ -210,7 +210,7 @@ export function AccountSettings() {
                 { label: "Time zone", value: "GMT · London" },
               ].map((f) => (
                 <label key={f.label} className="block">
-                  <span className="text-xs font-medium text-ink/55">{f.label}</span>
+                  <span className="text-xs font-medium text-ink/65">{f.label}</span>
                   <div className="mt-1.5 flex items-center justify-between rounded-xl border border-ink/10 bg-paper-2/40 px-3.5 py-2.5 text-sm text-ink">
                     {f.value}
                     <Monitor className="h-4 w-4 text-ink/30" />

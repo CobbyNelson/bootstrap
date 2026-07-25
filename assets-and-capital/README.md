@@ -15,7 +15,7 @@ Built for [assetsandcapitalltd.com](https://assetsandcapitalltd.com).
 | Styling | **Tailwind CSS v4** (CSS-first `@theme` tokens) |
 | Animation | **framer-motion** |
 | Icons | **lucide-react** (+ inline brand SVGs) |
-| Fonts | **Playfair Display** (display) · **Inter** (body) via `next/font` |
+| Fonts | **Figtree** (titles) · **Manrope** (body) via `next/font` |
 
 _The brief specified Next.js 15; the toolchain installed the newer Next 16 / React 19 / Tailwind v4, which we adopted._
 
@@ -23,8 +23,8 @@ _The brief specified Next.js 15; the toolchain installed the newer Next 16 / Rea
 
 Defined in [`app/globals.css`](app/globals.css) as Tailwind v4 theme tokens:
 
-- **Brand red** `#B91C1C` / `#991B1B` · **warm gold** `#C2A04A` accent · **ink** `#0C0D10` & **warm paper** `#FBFAF8` neutrals.
-- Display face Playfair Display, body Inter, tabular numerals for figures.
+- **Brand red** `#df2d25` / `#c11f18` · **navy** `#132f52` primary · **ink** `#10141c` & **cool paper** `#f8f9fb` neutrals.
+- Title face Figtree, body Manrope, tabular numerals for figures.
 - Reusable primitives in `components/ui/`: `Button` (cva variants), `Badge`, `Reveal` (scroll animation), `Counter` (animated), `SectionHeading`, `OpportunityCard`.
 
 ## What's built

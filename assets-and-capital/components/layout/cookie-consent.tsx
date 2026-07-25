@@ -37,7 +37,7 @@ export function CookieConsent() {
         </span>
         <p className="flex-1 text-sm leading-relaxed text-ink/70">
           We use cookies to run the platform, remember your preferences and understand how it&apos;s used. See our{" "}
-          <Link href="/legal/cookies" className="font-medium text-brand-600 underline-offset-2 hover:underline">
+          <Link href="/legal/cookies" className="font-medium text-brand-700 underline-offset-2 hover:underline">
             cookie policy
           </Link>
           .

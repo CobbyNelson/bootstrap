@@ -24,13 +24,13 @@ export default function OpengraphImage() {
           <div style={{ display: "flex", position: "relative", width: "56px", height: "56px" }}>
             <svg width="56" height="56" viewBox="0 0 44 44">
               <polygon points="1,41 12,41 25,17 14,17" fill="#8b95a4" />
-              <polygon points="9,41 20,41 35,5 24,5" fill="#e5322b" />
+              <polygon points="9,41 20,41 35,5 24,5" fill="#df2d25" />
               <polygon points="24,5 33,5 43,41 34,41" fill="#ffffff" />
             </svg>
           </div>
           <div style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
             <span style={{ color: "#ffffff", fontSize: "26px", fontWeight: 800, letterSpacing: "-0.02em" }}>
-              ASSETS <span style={{ color: "#e5322b" }}>&</span> CAPITAL
+              ASSETS <span style={{ color: "#df2d25" }}>&</span> CAPITAL
             </span>
           </div>
         </div>

@@ -31,7 +31,7 @@ const FLOWS: Flow[] = [
 const STATUS_STYLE: Record<FlowStatus, string> = {
   Active: "bg-emerald-50 text-emerald-700 ring-emerald-100",
   Paused: "bg-amber-50 text-amber-700 ring-amber-100",
-  Draft: "bg-ink/[0.05] text-ink/55 ring-ink/10",
+  Draft: "bg-ink/[0.05] text-ink/65 ring-ink/10",
 };
 
 const JOURNEY = [
@@ -47,8 +47,8 @@ const JOURNEY = [
 const TONE: Record<string, string> = {
   brand: "bg-brand-50 text-brand-600 ring-brand-100",
   ink: "bg-ink text-white ring-ink",
-  muted: "bg-ink/[0.05] text-ink/45 ring-ink/10",
-  emerald: "bg-emerald-50 text-emerald-600 ring-emerald-100",
+  muted: "bg-ink/[0.05] text-ink/60 ring-ink/10",
+  emerald: "bg-emerald-50 text-emerald-700 ring-emerald-100",
 };
 
 function Metric({ icon: Icon, label, value, delta }: { icon: typeof Mail; label: string; value: string; delta?: string }) {
@@ -56,10 +56,10 @@ function Metric({ icon: Icon, label, value, delta }: { icon: typeof Mail; label:
     <div className="rounded-2xl border border-ink/[0.07] bg-white p-5">
       <div className="flex items-center justify-between">
         <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand-50 text-brand-600 ring-1 ring-brand-100"><Icon className="h-4 w-4" /></span>
-        {delta && <span className="text-xs font-medium text-emerald-600">{delta}</span>}
+        {delta && <span className="text-xs font-medium text-emerald-700">{delta}</span>}
       </div>
       <p className="mt-4 font-display text-2xl font-semibold text-navy-700 tnum">{value}</p>
-      <p className="mt-0.5 text-sm text-ink/55">{label}</p>
+      <p className="mt-0.5 text-sm text-ink/65">{label}</p>
     </div>
   );
 }
@@ -71,9 +71,9 @@ export function EmailAutomation() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-600">Lifecycle marketing</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-700">Lifecycle marketing</p>
           <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Email automation</h1>
-          <p className="mt-1 text-sm text-ink/55">Triggered journeys that nurture investors and businesses end-to-end.</p>
+          <p className="mt-1 text-sm text-ink/65">Triggered journeys that nurture investors and businesses end-to-end.</p>
         </div>
         <button className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> New flow</button>
       </div>
@@ -100,11 +100,11 @@ export function EmailAutomation() {
                     <p className="truncate text-sm font-medium text-ink">{f.name}</p>
                     <span className={cn("rounded-full px-2 py-0.5 text-[0.65rem] font-medium ring-1", STATUS_STYLE[f.status])}>{f.status}</span>
                   </div>
-                  <p className="mt-0.5 flex items-center gap-1 truncate text-xs text-ink/50"><Zap className="h-3 w-3" /> {f.trigger} · {f.steps} steps</p>
+                  <p className="mt-0.5 flex items-center gap-1 truncate text-xs text-ink/65"><Zap className="h-3 w-3" /> {f.trigger} · {f.steps} steps</p>
                 </div>
                 <div className="hidden text-right md:block">
                   <p className="text-sm font-medium text-ink tnum">{f.sent.toLocaleString()}</p>
-                  <p className="text-[0.7rem] text-ink/45">sent</p>
+                  <p className="text-[0.7rem] text-ink/60">sent</p>
                 </div>
                 <div className="hidden w-28 text-right lg:block">
                   <p className="text-xs text-ink/60"><span className="font-medium text-ink tnum">{f.openRate}%</span> open</p>
@@ -128,7 +128,7 @@ export function EmailAutomation() {
         <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
           <div className="flex items-center justify-between">
             <h2 className="font-display text-base font-semibold text-navy-700">Investor onboarding</h2>
-            <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600"><TrendingUp className="h-3.5 w-3.5" /> 24% goal</span>
+            <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700"><TrendingUp className="h-3.5 w-3.5" /> 24% goal</span>
           </div>
           <ol className="mt-5 relative space-y-4 border-l border-ink/[0.08] pl-6">
             {JOURNEY.map((s, i) => (
@@ -137,7 +137,7 @@ export function EmailAutomation() {
                   <s.icon className="h-3.5 w-3.5" />
                 </span>
                 <p className="text-sm font-medium text-ink">{s.label}</p>
-                <p className="text-xs text-ink/50">{s.detail}</p>
+                <p className="text-xs text-ink/65">{s.detail}</p>
               </li>
             ))}
           </ol>

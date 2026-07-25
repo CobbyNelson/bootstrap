@@ -50,9 +50,9 @@ function initials(name: string) {
 /* ---------- KPI card ---------- */
 const TONES = {
   navy: { card: "bg-navy-700 text-white", label: "text-white/60", badge: "bg-white/12 text-white", spark: "var(--color-navy-200)", pill: "bg-white/12 text-white" },
-  ink: { card: "bg-ink text-white", label: "text-white/55", badge: "bg-white/10 text-navy-300", spark: "var(--color-navy-300)", pill: "bg-white/10 text-white" },
+  ink: { card: "bg-ink text-white", label: "text-white/70", badge: "bg-white/10 text-navy-300", spark: "var(--color-navy-300)", pill: "bg-white/10 text-white" },
   brand: { card: "bg-brand-600 text-white", label: "text-white/70", badge: "bg-white/15 text-white", spark: "#ffffff", pill: "bg-white/15 text-white" },
-  cream: { card: "bg-white text-ink border border-ink/[0.07]", label: "text-ink/55", badge: "bg-brand-50 text-brand-600", spark: "var(--color-brand-600)", pill: "bg-emerald-50 text-emerald-700" },
+  cream: { card: "bg-white text-ink border border-ink/[0.07]", label: "text-ink/65", badge: "bg-brand-50 text-brand-600", spark: "var(--color-brand-600)", pill: "bg-emerald-50 text-emerald-700" },
 } as const;
 
 function Kpi({
@@ -93,12 +93,12 @@ export default function AdminOverview() {
       {/* header */}
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="kicker text-[0.7rem] text-brand-600">Platform administration</p>
+          <p className="kicker text-[0.7rem] text-brand-700">Platform administration</p>
           <h1 className="mt-1.5 font-display text-3xl font-medium text-navy-700">Overview</h1>
         </div>
         <div className="flex items-center gap-2">
           <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-3.5 py-2 text-sm text-ink/60">
-            <CalendarDays className="h-4 w-4 text-ink/40" /> Last 30 days
+            <CalendarDays className="h-4 w-4 text-ink/60" /> Last 30 days
           </span>
           <button className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-ink-2">
             <Download className="h-4 w-4" /> Export
@@ -120,7 +120,7 @@ export default function AdminOverview() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-[0.68rem] uppercase tracking-wide text-ink/40">
+                <tr className="text-left text-[0.68rem] uppercase tracking-wide text-ink/60">
                   <th className="pb-3 font-semibold">Business</th>
                   <th className="hidden pb-3 font-semibold sm:table-cell">Sector</th>
                   <th className="pb-3 text-center font-semibold">Interest</th>
@@ -138,13 +138,13 @@ export default function AdminOverview() {
                         </span>
                         <div className="min-w-0">
                           <p className="truncate font-medium text-ink">{b.name}</p>
-                          <p className="truncate text-xs text-ink/45">{b.email}</p>
+                          <p className="truncate text-xs text-ink/60">{b.email}</p>
                         </div>
                       </div>
                     </td>
                     <td className="hidden py-3 text-ink/60 sm:table-cell">{b.sector}</td>
                     <td className="py-3 text-center">
-                      <span className="inline-grid h-7 w-7 place-items-center rounded-full bg-navy-500 text-[0.7rem] font-semibold text-ink tnum">
+                      <span className="inline-grid h-7 w-7 place-items-center rounded-full bg-navy-600 text-[0.7rem] font-semibold text-white tnum">
                         {b.interest}
                       </span>
                     </td>
@@ -162,10 +162,10 @@ export default function AdminOverview() {
         <Panel title="Deal volume" action={{ label: "Statistics", href: "#stats" }}>
           <div className="mb-4 flex items-baseline gap-2">
             <span className="font-grotesk text-2xl font-semibold text-ink tnum">1,124</span>
-            <span className="text-sm font-medium text-emerald-600">+18% · 12 mo</span>
+            <span className="text-sm font-medium text-emerald-700">+18% · 12 mo</span>
           </div>
           <BarChartDual data={DEAL_VOLUME} labels={MONTHS.map((m) => m[0])} />
-          <div className="mt-4 flex items-center gap-4 text-xs text-ink/55">
+          <div className="mt-4 flex items-center gap-4 text-xs text-ink/65">
             <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-ink" /> Closed</span>
             <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-navy-400" /> In pipeline</span>
           </div>
@@ -182,9 +182,9 @@ export default function AdminOverview() {
           <div className="mb-3 flex flex-wrap items-center gap-4">
             <div className="flex items-baseline gap-2">
               <span className="font-grotesk text-2xl font-semibold text-ink tnum">$248M</span>
-              <span className="text-sm font-medium text-emerald-600">+12% YoY</span>
+              <span className="text-sm font-medium text-emerald-700">+12% YoY</span>
             </div>
-            <div className="ml-auto flex items-center gap-4 text-xs text-ink/55">
+            <div className="ml-auto flex items-center gap-4 text-xs text-ink/65">
               <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-brand-600" /> Connected</span>
               <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-navy-500" /> Target</span>
             </div>
@@ -202,7 +202,7 @@ export default function AdminOverview() {
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <p className="truncate font-medium text-ink">{a.name}</p>
-                    <p className="text-xs text-ink/50">{a.detail}</p>
+                    <p className="text-xs text-ink/65">{a.detail}</p>
                   </div>
                   <Badge variant="neutral" size="sm">{a.type.split(" ")[0]}</Badge>
                 </div>
@@ -210,7 +210,7 @@ export default function AdminOverview() {
                   <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-ink py-1.5 text-[0.7rem] kicker text-white hover:bg-ink-2">
                     <Check className="h-3.5 w-3.5" /> Approve
                   </button>
-                  <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-ink/12 py-1.5 text-[0.7rem] kicker text-ink/60 hover:border-brand-300 hover:text-brand-600">
+                  <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-ink/12 py-1.5 text-[0.7rem] kicker text-ink/60 hover:border-brand-300 hover:text-brand-700">
                     <X className="h-3.5 w-3.5" /> Reject
                   </button>
                 </div>
@@ -223,12 +223,12 @@ export default function AdminOverview() {
           <div className="divide-y divide-ink/[0.06]">
             {PAYMENTS.map((p) => (
               <div key={p.id} className="flex items-center gap-3 py-3 first:pt-0">
-                <span className="grid h-9 w-9 flex-none place-items-center rounded-xl bg-paper-2 text-ink/50">
+                <span className="grid h-9 w-9 flex-none place-items-center rounded-xl bg-paper-2 text-ink/65">
                   <Wallet className="h-4 w-4" />
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium text-ink">{p.who}</p>
-                  <p className="text-xs text-ink/50">{p.desc} · {p.id}</p>
+                  <p className="text-xs text-ink/65">{p.desc} · {p.id}</p>
                 </div>
                 <span className="font-medium text-ink tnum">{p.amount}</span>
                 <Badge variant={p.status === "Paid" ? "success" : "gold"} size="sm">{p.status}</Badge>

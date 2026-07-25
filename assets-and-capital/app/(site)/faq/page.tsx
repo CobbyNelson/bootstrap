@@ -51,7 +51,7 @@ export default function FaqPage() {
                     <details key={item.q} className="group px-5">
                       <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left font-medium text-ink [&::-webkit-details-marker]:hidden">
                         {item.q}
-                        <span className="grid h-7 w-7 flex-none place-items-center rounded-full border border-ink/12 text-ink/50 transition-transform group-open:rotate-45 group-open:border-brand-300 group-open:text-brand-600">
+                        <span className="grid h-7 w-7 flex-none place-items-center rounded-full border border-ink/12 text-ink/65 transition-transform group-open:rotate-45 group-open:border-brand-300 group-open:text-brand-600">
                           <Plus className="h-4 w-4" />
                         </span>
                       </summary>
@@ -65,7 +65,7 @@ export default function FaqPage() {
 
           <aside className="lg:sticky lg:top-28 lg:self-start">
             <div className="rounded-3xl border border-ink/[0.07] bg-navy-800 p-7 text-white">
-              <h3 className="font-display text-lg font-bold">Still have questions?</h3>
+              <h3 className="font-display text-lg font-bold text-white">Still have questions?</h3>
               <p className="mt-2 text-sm text-white/70">Our team is happy to help you get set up, whether you&apos;re deploying capital or raising it.</p>
               <Link href="/contact" className="mt-5 inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700">
                 Contact us <ArrowRight className="h-4 w-4" />

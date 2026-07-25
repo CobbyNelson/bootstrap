@@ -103,7 +103,7 @@ export function Footer() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {COLUMNS.map((col) => (
               <div key={col.title}>
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-white/40">{col.title}</p>
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-white/65">{col.title}</p>
                 <ul className="mt-4 space-y-3">
                   {col.links.map((l) => (
                     <li key={l.href}>
@@ -118,12 +118,12 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-8 text-sm text-white/45 sm:flex-row sm:items-center">
+        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-8 text-sm text-white/65 sm:flex-row sm:items-center">
           <p>
             © {new Date().getFullYear()} {SITE.legalName}. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <p className="hidden text-white/40 md:block">
+            <p className="hidden text-white/65 md:block">
               {SITE.domain} · Capital-raising & deal-making platform.
             </p>
             <CurrencySwitcher variant="dark" />

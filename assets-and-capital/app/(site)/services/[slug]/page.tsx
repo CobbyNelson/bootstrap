@@ -97,7 +97,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             <p className="text-lg leading-relaxed text-ink/70">{s.intro}</p>
           </div>
           <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
-            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-ink/40">What&apos;s included</p>
+            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-ink/60">What&apos;s included</p>
             <ul className="mt-4 space-y-3">
               {s.features.map((f) => (
                 <li key={f} className="flex items-start gap-2.5 text-sm text-ink/70">

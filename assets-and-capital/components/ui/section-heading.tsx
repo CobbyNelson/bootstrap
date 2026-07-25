@@ -41,7 +41,7 @@ export function CircleArrow({
 }) {
   const tones = {
     brand: "bg-brand-600 text-white",
-    gold: "bg-navy-500 text-ink",
+    gold: "bg-navy-600 text-white",
     ink: "bg-ink text-white",
     white: "bg-white text-ink",
   } as const;

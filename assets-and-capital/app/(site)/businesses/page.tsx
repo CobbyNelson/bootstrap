@@ -41,7 +41,7 @@ export default function BusinessesPage() {
                 <div className="h-full rounded-3xl border border-ink/[0.07] bg-white p-6">
                   <span className="font-display text-4xl font-semibold text-brand-600/20">{String(i + 1).padStart(2, "0")}</span>
                   <h3 className="mt-3 text-lg font-semibold text-ink">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink/55">{step.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-ink/65">{step.body}</p>
                 </div>
               </Reveal>
             ))}
@@ -60,7 +60,7 @@ export default function BusinessesPage() {
                     <s.icon className="h-5 w-5" />
                   </span>
                   <h3 className="mt-5 text-lg font-semibold text-ink">{s.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink/55">{s.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-ink/65">{s.body}</p>
                 </div>
               </Reveal>
             ))}

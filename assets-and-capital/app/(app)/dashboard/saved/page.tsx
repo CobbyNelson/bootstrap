@@ -20,9 +20,9 @@ export default function SavedPage() {
     <div className="mx-auto max-w-6xl space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="kicker text-[0.7rem] text-brand-600">Investor workspace</p>
+          <p className="kicker text-[0.7rem] text-brand-700">Investor workspace</p>
           <h1 className="mt-1.5 font-display text-2xl font-bold text-navy-700">Saved &amp; watchlist</h1>
-          <p className="mt-1 text-sm text-ink/55">
+          <p className="mt-1 text-sm text-ink/65">
             {mounted ? `${count} saved ${count === 1 ? "opportunity" : "opportunities"}` : "Your saved opportunities"}
           </p>
         </div>

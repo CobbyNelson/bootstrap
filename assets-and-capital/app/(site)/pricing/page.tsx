@@ -48,10 +48,10 @@ export default function PricingPage() {
                   </span>
                 )}
                 <p className="font-display text-xl font-semibold text-navy-700">{tier.name}</p>
-                <p className="mt-1 text-sm text-ink/55">{tier.tagline}</p>
+                <p className="mt-1 text-sm text-ink/65">{tier.tagline}</p>
                 <div className="mt-5 flex items-baseline gap-1.5">
                   <span className="font-display text-4xl font-semibold text-navy-700 tnum">{tier.price}</span>
-                  <span className="text-sm text-ink/50">/ {tier.cadence}</span>
+                  <span className="text-sm text-ink/65">/ {tier.cadence}</span>
                 </div>
                 <Button
                   href="/register/business"
@@ -126,7 +126,7 @@ export default function PricingPage() {
                     <s.icon className="h-5 w-5" />
                   </span>
                   <h3 className="mt-4 font-semibold text-ink">{s.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink/55">{s.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-ink/65">{s.body}</p>
                 </div>
               </Reveal>
             ))}
@@ -143,7 +143,7 @@ export default function PricingPage() {
               <details key={item.q} className="group py-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-ink">
                   {item.q}
-                  <span className="grid h-6 w-6 flex-none place-items-center rounded-full border border-ink/15 text-ink/50 transition-transform group-open:rotate-45">
+                  <span className="grid h-6 w-6 flex-none place-items-center rounded-full border border-ink/15 text-ink/65 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>

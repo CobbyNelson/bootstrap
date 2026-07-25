@@ -67,11 +67,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <h1 className="mt-4 font-display text-3xl font-semibold leading-tight sm:text-4xl md:text-[2.7rem]">{a.title}</h1>
           <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-white/70">
             <span className="font-medium text-white">{a.author}</span>
-            <span className="text-white/40">·</span>
+            <span className="text-white/65">·</span>
             <span>{a.authorRole}</span>
-            <span className="text-white/40">·</span>
+            <span className="text-white/65">·</span>
             <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> {a.readTime}</span>
-            <span className="text-white/40">·</span>
+            <span className="text-white/65">·</span>
             <span>{a.date}</span>
           </div>
         </div>
@@ -96,7 +96,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </span>
             <div>
               <p className="font-medium text-ink">{a.author}</p>
-              <p className="text-sm text-ink/55">{a.authorRole}, Assets &amp; Capital</p>
+              <p className="text-sm text-ink/65">{a.authorRole}, Assets &amp; Capital</p>
             </div>
           </div>
         </article>
@@ -115,7 +115,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 </div>
                 <div className="flex flex-1 flex-col p-6">
                   <h3 className="text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-brand-700">{r.title}</h3>
-                  <div className="mt-auto flex items-center justify-between pt-6 text-xs text-ink/50">
+                  <div className="mt-auto flex items-center justify-between pt-6 text-xs text-ink/65">
                     <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> {r.readTime}</span>
                     <ArrowUpRight className="h-4 w-4 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand-600" />
                   </div>

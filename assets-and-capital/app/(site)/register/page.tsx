@@ -57,9 +57,9 @@ export default function RegisterPage() {
             </Link>
           ))}
         </div>
-        <p className="container-x mt-8 text-center text-sm text-ink/50">
+        <p className="container-x mt-8 text-center text-sm text-ink/65">
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-brand-600 hover:text-brand-700">
+          <Link href="/login" className="font-medium text-brand-700 hover:text-brand-800">
             Sign in
           </Link>
         </p>

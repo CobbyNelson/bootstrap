@@ -16,7 +16,7 @@ export default function LoginPage() {
         <div className="w-full max-w-sm">
           <Logo />
           <h1 className="mt-10 font-display text-3xl font-semibold text-navy-700">Welcome back</h1>
-          <p className="mt-2 text-ink/55">Sign in to access your marketplace and matches.</p>
+          <p className="mt-2 text-ink/65">Sign in to access your marketplace and matches.</p>
           <div className="mt-8">
             <LoginForm />
           </div>
@@ -44,7 +44,7 @@ export default function LoginPage() {
             ].map((s) => (
               <div key={s.k}>
                 <p className="font-display text-2xl font-semibold tnum">{s.v}</p>
-                <p className="mt-1 text-xs text-white/50">{s.k}</p>
+                <p className="mt-1 text-xs text-white/65">{s.k}</p>
               </div>
             ))}
           </div>

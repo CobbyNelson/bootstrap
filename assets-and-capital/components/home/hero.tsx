@@ -78,7 +78,7 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-ink/55"
+            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-ink/65"
           >
             <span className="inline-flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 text-brand-600" /> Vetted opportunities
@@ -125,7 +125,7 @@ function FloatingCard() {
             </div>
             <div>
               <p className="font-semibold text-ink">Sahara Solar Grid</p>
-              <p className="text-xs text-ink/50">Renewable Energy · Kenya</p>
+              <p className="text-xs text-ink/65">Renewable Energy · Kenya</p>
             </div>
           </div>
           <MatchRing value={94} />
@@ -138,7 +138,7 @@ function FloatingCard() {
             { k: "Target", v: "22% IRR" },
           ].map((s) => (
             <div key={s.k} className="rounded-xl bg-paper-2 p-3">
-              <p className="text-[0.65rem] uppercase tracking-wide text-ink/45">{s.k}</p>
+              <p className="text-[0.65rem] uppercase tracking-wide text-ink/60">{s.k}</p>
               <p className="mt-1 font-semibold text-ink tnum">{s.v}</p>
             </div>
           ))}
@@ -158,9 +158,9 @@ function FloatingCard() {
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
         className="absolute -left-10 -bottom-12 hidden rounded-2xl border border-ink/[0.07] bg-white/95 p-4 shadow-[var(--shadow-card)] backdrop-blur sm:block"
       >
-        <p className="text-[0.65rem] uppercase tracking-wide text-ink/45">Capital connected</p>
+        <p className="text-[0.65rem] uppercase tracking-wide text-ink/60">Capital connected</p>
         <p className="font-display text-2xl font-semibold text-navy-700 tnum">$2.4B</p>
-        <div className="mt-1.5 flex items-center gap-1 text-xs font-medium text-emerald-600">
+        <div className="mt-1.5 flex items-center gap-1 text-xs font-medium text-emerald-700">
           <TrendingUp className="h-3.5 w-3.5" /> +18% this quarter
         </div>
       </motion.div>

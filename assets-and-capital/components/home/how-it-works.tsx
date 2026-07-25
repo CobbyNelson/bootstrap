@@ -64,11 +64,11 @@ export function HowItWorks() {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <h3 className="mt-3 text-lg font-semibold text-ink">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink/55">{step.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-ink/65">{step.body}</p>
                 </div>
                 <div className="flex items-center justify-between bg-ink px-6 py-3">
                   <span className="kicker text-[0.7rem] text-white/60">Step</span>
-                  <span className="font-grotesk text-sm font-semibold text-navy-400 tnum">
+                  <span className="font-grotesk text-sm font-semibold text-brand-400 tnum">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </div>

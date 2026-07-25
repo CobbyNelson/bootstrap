@@ -18,7 +18,7 @@ export function EmptyState({
         <Icon className="h-6 w-6" />
       </span>
       <h3 className="mt-5 font-display text-lg font-bold text-navy-700">{title}</h3>
-      <p className="mt-1.5 max-w-sm text-sm text-ink/55">{description}</p>
+      <p className="mt-1.5 max-w-sm text-sm text-ink/65">{description}</p>
       {action && (
         <Link
           href={action.href}

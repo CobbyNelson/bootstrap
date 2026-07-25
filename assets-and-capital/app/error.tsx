@@ -24,7 +24,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
         <p className="mx-auto mt-3 max-w-sm text-ink/60">
           An unexpected error occurred. You can try again, or head back home while we look into it.
         </p>
-        {error?.digest && <p className="mt-2 text-xs text-ink/40">Reference: {error.digest}</p>}
+        {error?.digest && <p className="mt-2 text-xs text-ink/60">Reference: {error.digest}</p>}
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <button
             onClick={reset}

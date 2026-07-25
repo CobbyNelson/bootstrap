@@ -38,7 +38,7 @@ export default function ContactPage() {
                     <d.icon className="h-5 w-5" />
                   </span>
                   <div>
-                    <p className="text-xs uppercase tracking-wide text-ink/45">{d.label}</p>
+                    <p className="text-xs uppercase tracking-wide text-ink/60">{d.label}</p>
                     <p className="font-medium text-ink">{d.value}</p>
                   </div>
                 </div>

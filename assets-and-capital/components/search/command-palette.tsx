@@ -166,16 +166,16 @@ export function CommandPalette() {
       <button className="absolute inset-0 bg-ink/40 backdrop-blur-sm" aria-label="Close search" onClick={() => setOpen(false)} />
       <div className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-[var(--shadow-lift)]">
         <div className="flex items-center gap-3 border-b border-ink/[0.07] px-4">
-          <Search className="h-[18px] w-[18px] text-ink/40" />
+          <Search className="h-[18px] w-[18px] text-ink/60" />
           <input
             ref={inputRef}
             value={q}
             onChange={(e) => { setQ(e.target.value); setActive(0); }}
             onKeyDown={onKeyDown}
             placeholder="Search opportunities, pages, actions…"
-            className="h-14 w-full bg-transparent text-[0.95rem] text-ink placeholder:text-ink/40 focus:outline-none"
+            className="h-14 w-full bg-transparent text-[0.95rem] text-ink placeholder:text-ink/60 focus:outline-none"
           />
-          <kbd className="rounded border border-ink/15 px-1.5 py-0.5 text-[0.65rem] text-ink/40">ESC</kbd>
+          <kbd className="rounded border border-ink/15 px-1.5 py-0.5 text-[0.65rem] text-ink/60">ESC</kbd>
         </div>
 
         <div className="max-h-[52vh] overflow-y-auto p-2">
@@ -183,15 +183,15 @@ export function CommandPalette() {
             <div className="px-2 py-2">
               {recent.length > 0 && (
                 <>
-                  <p className="px-2 pb-1.5 pt-2 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink/40">Recent</p>
+                  <p className="px-2 pb-1.5 pt-2 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink/60">Recent</p>
                   {recent.map((r) => (
                     <button key={r} onClick={() => setQ(r)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm text-ink/70 hover:bg-paper-2">
-                      <Clock className="h-4 w-4 text-ink/40" /> {r}
+                      <Clock className="h-4 w-4 text-ink/60" /> {r}
                     </button>
                   ))}
                 </>
               )}
-              <p className="px-2 pb-1.5 pt-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink/40">Popular</p>
+              <p className="px-2 pb-1.5 pt-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink/60">Popular</p>
               <div className="flex flex-wrap gap-2 px-2 pt-1">
                 {POPULAR.map((p) => (
                   <button key={p} onClick={() => setQ(p)} className="rounded-full border border-ink/12 px-3 py-1.5 text-sm text-ink/60 hover:border-ink/25 hover:text-ink">
@@ -201,11 +201,11 @@ export function CommandPalette() {
               </div>
             </div>
           ) : results.length === 0 ? (
-            <p className="px-4 py-10 text-center text-sm text-ink/45">No results for “{q}”.</p>
+            <p className="px-4 py-10 text-center text-sm text-ink/60">No results for “{q}”.</p>
           ) : (
             groups.map(([group, items]) => (
               <div key={group} className="pb-1">
-                <p className="px-3 pb-1 pt-2 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink/40">{group}</p>
+                <p className="px-3 pb-1 pt-2 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink/60">{group}</p>
                 {items.map((it) => {
                   flatIndex++;
                   const idx = flatIndex;
@@ -219,12 +219,12 @@ export function CommandPalette() {
                         active === idx ? "bg-brand-50" : "hover:bg-paper-2"
                       )}
                     >
-                      <span className={cn("grid h-8 w-8 flex-none place-items-center rounded-lg", active === idx ? "bg-brand-600 text-white" : "bg-paper-2 text-ink/50")}>
+                      <span className={cn("grid h-8 w-8 flex-none place-items-center rounded-lg", active === idx ? "bg-brand-600 text-white" : "bg-paper-2 text-ink/65")}>
                         <it.icon className="h-4 w-4" />
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-medium text-ink">{highlight(it.title, q)}</span>
-                        <span className="block truncate text-xs text-ink/45">{it.subtitle}</span>
+                        <span className="block truncate text-xs text-ink/60">{it.subtitle}</span>
                       </span>
                       {active === idx && <CornerDownLeft className="h-3.5 w-3.5 text-ink/30" />}
                     </button>
@@ -235,7 +235,7 @@ export function CommandPalette() {
           )}
         </div>
 
-        <div className="flex items-center justify-between border-t border-ink/[0.07] px-4 py-2.5 text-[0.7rem] text-ink/40">
+        <div className="flex items-center justify-between border-t border-ink/[0.07] px-4 py-2.5 text-[0.7rem] text-ink/60">
           <span className="flex items-center gap-2">
             <kbd className="rounded border border-ink/15 px-1.5">↑</kbd><kbd className="rounded border border-ink/15 px-1.5">↓</kbd> navigate
             <kbd className="rounded border border-ink/15 px-1.5">↵</kbd> open

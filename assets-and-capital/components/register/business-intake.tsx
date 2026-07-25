@@ -128,7 +128,7 @@ export function BusinessIntake() {
     return (
       <div className="container-x py-16">
         <div className="mx-auto max-w-lg rounded-3xl border border-ink/[0.07] bg-white p-10 text-center shadow-[var(--shadow-card)]">
-          <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100">
+          <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100">
             <PartyPopper className="h-7 w-7" />
           </div>
           <h2 className="mt-6 font-display text-2xl font-semibold text-navy-700">Listing submitted</h2>
@@ -147,7 +147,7 @@ export function BusinessIntake() {
   return (
     <div className="container-x grid gap-10 py-12 lg:grid-cols-[240px_1fr] md:py-16">
       <aside className="lg:sticky lg:top-24 lg:self-start">
-        <div className="mb-4 flex items-center justify-between text-xs text-ink/50">
+        <div className="mb-4 flex items-center justify-between text-xs text-ink/65">
           <span>Progress</span>
           <span className="tnum">{progress}%</span>
         </div>
@@ -158,8 +158,8 @@ export function BusinessIntake() {
           {STEPS.map((s, i) => {
             const state = i < stepIndex ? "done" : i === stepIndex ? "now" : "todo";
             return (
-              <li key={s.id} className={cn("flex items-center gap-3 rounded-xl px-3 py-2 text-sm", state === "now" ? "bg-brand-50 font-medium text-ink" : "text-ink/50")}>
-                <span className={cn("grid h-6 w-6 place-items-center rounded-full text-xs", state === "done" && "bg-emerald-500 text-white", state === "now" && "bg-brand-600 text-white", state === "todo" && "border border-ink/20 text-ink/40")}>
+              <li key={s.id} className={cn("flex items-center gap-3 rounded-xl px-3 py-2 text-sm", state === "now" ? "bg-brand-50 font-medium text-ink" : "text-ink/65")}>
+                <span className={cn("grid h-6 w-6 place-items-center rounded-full text-xs", state === "done" && "bg-emerald-500 text-white", state === "now" && "bg-brand-600 text-white", state === "todo" && "border border-ink/20 text-ink/60")}>
                   {state === "done" ? <Check className="h-3.5 w-3.5" /> : i + 1}
                 </span>
                 {s.title}
@@ -174,9 +174,9 @@ export function BusinessIntake() {
           <div className="flex items-start justify-between gap-4">
             <div>
               <h2 className="font-display text-2xl font-semibold text-navy-700">{step.title}</h2>
-              {step.subtitle && <p className="mt-1.5 text-sm text-ink/55">{step.subtitle}</p>}
+              {step.subtitle && <p className="mt-1.5 text-sm text-ink/65">{step.subtitle}</p>}
             </div>
-            <span className={cn("inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs transition-opacity", saved ? "bg-emerald-50 text-emerald-600 opacity-100" : "text-ink/30 opacity-0")}>
+            <span className={cn("inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs transition-opacity", saved ? "bg-emerald-50 text-emerald-700 opacity-100" : "text-ink/30 opacity-0")}>
               <Cloud className="h-3.5 w-3.5" /> Saved
             </span>
           </div>
@@ -185,7 +185,7 @@ export function BusinessIntake() {
             {step.fields.map((f) => {
               const wrap = f.span === 2 || f.type === "chips" || f.type === "textarea" ? "sm:col-span-2" : "";
               const err = errors[f.name];
-              const base = "w-full rounded-xl border bg-paper-2/60 px-3.5 py-2.5 text-sm text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-brand-600/30";
+              const base = "w-full rounded-xl border bg-paper-2/60 px-3.5 py-2.5 text-sm text-ink placeholder:text-ink/60 focus:outline-none focus:ring-2 focus:ring-brand-600/30";
               const border = err ? "border-brand-400" : "border-ink/10";
               const val = values[f.name];
               return (

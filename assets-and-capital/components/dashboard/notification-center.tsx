@@ -7,11 +7,11 @@ import { cn } from "@/lib/utils";
 type Cat = "message" | "deal" | "payment" | "event" | "task" | "approval" | "mention" | "announcement";
 const META: Record<Cat, { label: string; icon: typeof Bell; color: string }> = {
   message: { label: "Messages", icon: MessageSquare, color: "text-brand-600 bg-brand-50" },
-  deal: { label: "Deals", icon: TrendingUp, color: "text-emerald-600 bg-emerald-50" },
+  deal: { label: "Deals", icon: TrendingUp, color: "text-emerald-700 bg-emerald-50" },
   payment: { label: "Payments", icon: Wallet, color: "text-navy-700 bg-navy-100" },
   event: { label: "Events", icon: Calendar, color: "text-brand-600 bg-brand-50" },
   task: { label: "Tasks", icon: CheckSquare, color: "text-ink/70 bg-paper-2" },
-  approval: { label: "Approvals", icon: BadgeCheck, color: "text-emerald-600 bg-emerald-50" },
+  approval: { label: "Approvals", icon: BadgeCheck, color: "text-emerald-700 bg-emerald-50" },
   mention: { label: "Mentions", icon: AtSign, color: "text-brand-600 bg-brand-50" },
   announcement: { label: "Announcements", icon: Megaphone, color: "text-navy-700 bg-navy-100" },
 };
@@ -50,7 +50,7 @@ export function NotificationCenter() {
     <div className="mx-auto max-w-3xl space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm text-ink/50">Workspace</p>
+          <p className="text-sm text-ink/65">Workspace</p>
           <h1 className="mt-1 flex items-center gap-2 font-display text-3xl font-semibold text-navy-700">
             Notifications
             {unread > 0 && <span className="rounded-full bg-brand-600 px-2 py-0.5 text-xs font-semibold text-white tnum">{unread}</span>}
@@ -80,7 +80,7 @@ export function NotificationCenter() {
         {shown.length === 0 ? (
           <div className="grid place-items-center py-16 text-center">
             <Bell className="h-8 w-8 text-ink/25" />
-            <p className="mt-3 text-sm text-ink/50">Nothing here right now.</p>
+            <p className="mt-3 text-sm text-ink/65">Nothing here right now.</p>
           </div>
         ) : (
           <div className="divide-y divide-ink/[0.06]">
@@ -100,9 +100,9 @@ export function NotificationCenter() {
                       <p className={cn("truncate text-sm", n.read ? "font-medium text-ink/80" : "font-semibold text-ink")}>{n.title}</p>
                       {!n.read && <span className="h-1.5 w-1.5 flex-none rounded-full bg-brand-600" />}
                     </div>
-                    <p className="mt-0.5 line-clamp-2 text-sm text-ink/55">{n.body}</p>
+                    <p className="mt-0.5 line-clamp-2 text-sm text-ink/65">{n.body}</p>
                   </div>
-                  <span className="flex-none text-xs text-ink/40 tnum">{n.time}</span>
+                  <span className="flex-none text-xs text-ink/60 tnum">{n.time}</span>
                 </button>
               );
             })}

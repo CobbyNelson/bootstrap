@@ -27,7 +27,7 @@ export function Testimonials() {
                   </span>
                   <span>
                     <span className="block font-medium text-ink">{t.name}</span>
-                    <span className="block text-sm text-ink/50">{t.role}</span>
+                    <span className="block text-sm text-ink/65">{t.role}</span>
                   </span>
                 </figcaption>
               </figure>

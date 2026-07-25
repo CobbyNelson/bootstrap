@@ -48,7 +48,7 @@ export function OpportunityCard({ o, href }: { o: Opportunity; href?: string }) 
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <h3 className="font-display text-lg font-bold leading-tight text-brand-600">{o.name}</h3>
-            <p className="mt-1 flex items-center gap-1 text-xs text-ink/45">
+            <p className="mt-1 flex items-center gap-1 text-xs text-ink/60">
               <MapPin className="h-3 w-3" /> {o.country} · {o.region}
             </p>
           </div>
@@ -57,13 +57,13 @@ export function OpportunityCard({ o, href }: { o: Opportunity; href?: string }) 
           </span>
         </div>
 
-        <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ink/55">{o.blurb}</p>
+        <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ink/65">{o.blurb}</p>
 
         <div className="mt-auto flex items-center justify-between gap-3 pt-5">
-          <span className="inline-flex items-center gap-1.5 rounded-lg border border-brand-200 px-2.5 py-1.5 text-xs font-semibold text-brand-600">
+          <span className="inline-flex items-center gap-1.5 rounded-lg border border-brand-200 px-2.5 py-1.5 text-xs font-semibold text-brand-700">
             <Tag className="h-3.5 w-3.5" /> {o.sector}
           </span>
-          <span className="text-sm text-ink/50">
+          <span className="text-sm text-ink/65">
             Seeking: <span className="font-bold text-ink"><Money usd={o.ask} /></span>
           </span>
         </div>

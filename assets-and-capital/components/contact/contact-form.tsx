@@ -53,7 +53,7 @@ export function ContactForm() {
     }
   }
 
-  const base = "w-full rounded-xl border bg-paper-2/60 px-3.5 py-2.5 text-sm text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2";
+  const base = "w-full rounded-xl border bg-paper-2/60 px-3.5 py-2.5 text-sm text-ink placeholder:text-ink/60 focus:outline-none focus:ring-2";
   const cls = (f: Field) =>
     cn(base, errors[f] && touched[f] ? "border-brand-300 focus:ring-brand-600/30" : "border-ink/10 focus:ring-brand-600/30");
 

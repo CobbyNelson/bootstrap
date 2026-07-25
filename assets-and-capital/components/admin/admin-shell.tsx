@@ -83,7 +83,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           </span>
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold text-white">Platform Admin</p>
-            <p className="truncate text-[0.7rem] text-white/45">Super admin</p>
+            <p className="truncate text-[0.7rem] text-white/65">Super admin</p>
           </div>
         </div>
 
@@ -103,9 +103,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 </span>
               ))}
             </div>
-            <span className="ml-2 grid h-8 items-center rounded-full bg-white/15 px-2 text-[0.65rem] font-semibold text-white">+12</span>
+            <span className="ml-2 grid h-8 items-center rounded-full bg-navy-500 px-2 text-[0.65rem] font-semibold text-white">+12</span>
           </div>
-          <Link href="/" className="mt-4 flex items-center gap-2 text-sm font-medium text-white/55 hover:text-white">
+          <Link href="/" className="mt-4 flex items-center gap-2 text-sm font-medium text-white/70 hover:text-white">
             <ArrowLeft className="h-4 w-4" /> Back to site
           </Link>
         </div>
@@ -134,7 +134,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               <AdminNavLinks pathname={pathname} onNavigate={() => setMobileOpen(false)} />
             </nav>
             <div className="relative border-t border-white/10 px-5 py-4">
-              <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 text-sm font-medium text-white/55 hover:text-white">
+              <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 text-sm font-medium text-white/70 hover:text-white">
                 <ArrowLeft className="h-4 w-4" /> Back to site
               </Link>
             </div>
@@ -158,10 +158,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             <button
               type="button"
               onClick={() => window.dispatchEvent(new Event("ac-open-search"))}
-              className="hidden items-center gap-2 rounded-full border border-ink/10 bg-white/70 px-3.5 py-2 text-sm text-ink/50 transition-colors hover:border-ink/20 hover:text-ink/70 sm:flex"
+              className="hidden items-center gap-2 rounded-full border border-ink/10 bg-white/70 px-3.5 py-2 text-sm text-ink/65 transition-colors hover:border-ink/20 hover:text-ink/70 sm:flex"
             >
               <Search className="h-4 w-4" /><span className="w-36 text-left">Search admin…</span>
-              <kbd className="rounded border border-ink/15 px-1.5 text-[0.65rem] text-ink/40">⌘K</kbd>
+              <kbd className="rounded border border-ink/15 px-1.5 text-[0.65rem] text-ink/60">⌘K</kbd>
             </button>
             <button className="relative grid h-10 w-10 place-items-center rounded-full border border-ink/10 bg-white text-ink/60 hover:text-ink" aria-label="Notifications">
               <Bell className="h-[18px] w-[18px]" />
@@ -171,7 +171,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-xs font-semibold text-white ring-1 ring-navy-500/50">PA</span>
               <span className="hidden leading-tight sm:block">
                 <span className="block text-xs font-medium text-ink">Platform Admin</span>
-                <span className="block text-[0.65rem] text-ink/50">Super admin</span>
+                <span className="block text-[0.65rem] text-ink/65">Super admin</span>
               </span>
             </div>
           </div>

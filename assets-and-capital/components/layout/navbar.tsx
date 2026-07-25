@@ -78,7 +78,7 @@ export function Navbar() {
                       <div className="grid w-[min(90vw,640px)] grid-cols-2 gap-2 rounded-3xl border border-ink/[0.07] bg-white/95 p-3 shadow-[var(--shadow-lift)] backdrop-blur-xl">
                         {group.columns!.map((col) => (
                           <div key={col.title} className="rounded-2xl p-2">
-                            <p className="px-3 pb-1.5 pt-2 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink/40">
+                            <p className="px-3 pb-1.5 pt-2 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink/60">
                               {col.title}
                             </p>
                             {col.links.map((link) => (
@@ -95,7 +95,7 @@ export function Navbar() {
                                 <span className="min-w-0">
                                   <span className="block text-sm font-medium text-ink">{link.label}</span>
                                   {link.description && (
-                                    <span className="mt-0.5 block text-xs leading-snug text-ink/50">{link.description}</span>
+                                    <span className="mt-0.5 block text-xs leading-snug text-ink/65">{link.description}</span>
                                   )}
                                 </span>
                               </Link>

@@ -62,7 +62,7 @@ export function BarChartDual({
       </div>
       <div className="mt-2.5 flex gap-2.5">
         {labels.map((l, i) => (
-          <span key={i} className="flex-1 text-center text-[0.7rem] text-ink/45">{l}</span>
+          <span key={i} className="flex-1 text-center text-[0.7rem] text-ink/60">{l}</span>
         ))}
       </div>
     </div>
@@ -114,7 +114,7 @@ export function DonutChart({
         <div className="absolute inset-0 grid place-items-center text-center">
           <div>
             <p className="font-grotesk text-2xl font-semibold text-ink tnum">{centerValue}</p>
-            <p className="text-[0.7rem] text-ink/50">{centerLabel}</p>
+            <p className="text-[0.7rem] text-ink/65">{centerLabel}</p>
           </div>
         </div>
       </div>
@@ -198,7 +198,7 @@ export function AreaChart({
       )}
       <div className="mt-1 flex justify-between px-1">
         {labels.map((l, i) => (
-          <span key={i} className="text-[0.7rem] text-ink/45">{l}</span>
+          <span key={i} className="text-[0.7rem] text-ink/60">{l}</span>
         ))}
       </div>
     </div>

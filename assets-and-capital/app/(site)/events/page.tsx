@@ -44,7 +44,7 @@ export default function EventsPage() {
                   <Badge variant="gold" size="sm">{ev.type}</Badge>
                 </div>
                 <h3 className="mt-5 text-lg font-semibold leading-snug text-ink">{ev.title}</h3>
-                <p className="mt-2 inline-flex items-center gap-1 text-sm text-ink/50">
+                <p className="mt-2 inline-flex items-center gap-1 text-sm text-ink/65">
                   <MapPin className="h-3.5 w-3.5" /> {ev.location} · {ev.date}
                 </p>
                 <div className="mt-auto pt-6">

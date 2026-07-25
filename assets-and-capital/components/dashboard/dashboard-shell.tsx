@@ -57,7 +57,7 @@ function SidebarBody({
   return (
     <>
       <nav className="flex-1 space-y-1 overflow-y-auto p-3">
-        <p className="px-3 pb-2 pt-3 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-ink/40">
+        <p className="px-3 pb-2 pt-3 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-ink/60">
           {roleLabel} workspace
         </p>
         {nav.map((item) => {
@@ -149,11 +149,11 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             <button
               type="button"
               onClick={() => window.dispatchEvent(new Event("ac-open-search"))}
-              className="hidden items-center gap-2 rounded-full border border-ink/10 bg-paper-2/60 px-3.5 py-2 text-sm text-ink/50 transition-colors hover:border-ink/20 hover:text-ink/70 sm:flex"
+              className="hidden items-center gap-2 rounded-full border border-ink/10 bg-paper-2/60 px-3.5 py-2 text-sm text-ink/65 transition-colors hover:border-ink/20 hover:text-ink/70 sm:flex"
             >
               <Search className="h-4 w-4" />
               <span className="w-40 text-left">Search…</span>
-              <kbd className="rounded border border-ink/15 px-1.5 text-[0.65rem] text-ink/40">⌘K</kbd>
+              <kbd className="rounded border border-ink/15 px-1.5 text-[0.65rem] text-ink/60">⌘K</kbd>
             </button>
             <Link href="/dashboard/notifications" className="relative grid h-10 w-10 place-items-center rounded-full border border-ink/10 text-ink/60 hover:text-ink" aria-label="Notifications">
               <Bell className="h-[18px] w-[18px]" />
@@ -165,7 +165,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
               </span>
               <span className="hidden leading-tight sm:block">
                 <span className="block text-xs font-medium text-ink">{person.name}</span>
-                <span className="block text-[0.65rem] text-ink/50">{person.sub}</span>
+                <span className="block text-[0.65rem] text-ink/65">{person.sub}</span>
               </span>
             </div>
           </div>

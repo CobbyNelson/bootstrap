@@ -15,7 +15,7 @@ export function Events() {
             title="Meet capital and opportunity in person"
             subtitle="Curated roadshows and forums that put the right people in the same room."
           />
-          <Link href="/events" className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-600 hover:text-brand-700">
+          <Link href="/events" className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-700 hover:text-brand-800">
             View all events <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -34,7 +34,7 @@ export function Events() {
                 <div className="min-w-0">
                   <Badge variant="gold" size="sm">{ev.type}</Badge>
                   <h3 className="mt-2 font-semibold leading-snug text-ink">{ev.title}</h3>
-                  <p className="mt-1 inline-flex items-center gap-1 text-xs text-ink/50">
+                  <p className="mt-1 inline-flex items-center gap-1 text-xs text-ink/65">
                     <MapPin className="h-3 w-3" /> {ev.location}
                   </p>
                 </div>

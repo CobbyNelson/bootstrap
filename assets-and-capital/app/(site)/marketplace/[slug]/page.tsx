@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 function starColor(stars: number): string {
-  if (stars >= 5) return "#059669";
+  if (stars >= 5) return "#047857";
   if (stars >= 4) return "var(--color-brand-600)";
   return "var(--color-navy-600)";
 }
@@ -40,7 +40,7 @@ function ScoreRing({ value, color }: { value: number; color: string }) {
       </svg>
       <div className="absolute text-center">
         <span className="block font-display text-4xl font-semibold text-navy-700 tnum">{value}</span>
-        <span className="block text-[0.62rem] uppercase tracking-widest text-ink/40">% match</span>
+        <span className="block text-[0.62rem] uppercase tracking-widest text-ink/60">% match</span>
       </div>
     </div>
   );
@@ -81,7 +81,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
       <section className="relative overflow-hidden border-b border-ink/[0.06] pt-32 pb-10 md:pt-40 md:pb-14">
         <div className="grid-noise pointer-events-none absolute inset-0 opacity-50" aria-hidden />
         <div className="container-x relative">
-          <div className="flex items-center gap-2 text-sm text-ink/45">
+          <div className="flex items-center gap-2 text-sm text-ink/60">
             <Link href="/marketplace" className="hover:text-ink">Marketplace</Link>
             <span>/</span>
             <span className="text-ink/70">{o.name}</span>
@@ -93,7 +93,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
               </div>
               <div>
                 <h1 className="font-display text-3xl font-semibold text-navy-700 sm:text-4xl">{o.name}</h1>
-                <p className="mt-1.5 flex items-center gap-2 text-ink/55">
+                <p className="mt-1.5 flex items-center gap-2 text-ink/65">
                   <MapPin className="h-4 w-4" /> {o.country} · {o.region}
                   <span className="text-ink/25">|</span> {o.sector}
                 </p>
@@ -127,7 +127,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
               <dl className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
                 {metrics.map((m) => (
                   <div key={m.k} className="rounded-2xl bg-paper-2/60 p-4">
-                    <dt className="text-[0.65rem] uppercase tracking-wide text-ink/45">{m.k}</dt>
+                    <dt className="text-[0.65rem] uppercase tracking-wide text-ink/60">{m.k}</dt>
                     <dd className="mt-1 font-semibold text-ink tnum">{m.v}</dd>
                   </div>
                 ))}
@@ -138,7 +138,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
             <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
               <div className="flex items-center justify-between">
                 <h2 className="font-display text-xl font-semibold text-navy-700">AI fit breakdown</h2>
-                <span className="text-xs text-ink/45">15 weighted criteria</span>
+                <span className="text-xs text-ink/60">15 weighted criteria</span>
               </div>
               <div className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
                 {match.dimensions.map((dim) => (
@@ -158,17 +158,17 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
             {/* business scorecard */}
             <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
               <h2 className="font-display text-xl font-semibold text-navy-700">Business scorecard</h2>
-              <p className="mt-1 text-sm text-ink/55">AI-generated quality signals for this business.</p>
+              <p className="mt-1 text-sm text-ink/65">AI-generated quality signals for this business.</p>
               <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {biz.map((b) => {
                   const good = b.higherIsBetter ? b.value >= 70 : b.value <= 45;
                   const mid = b.higherIsBetter ? b.value >= 55 : b.value <= 60;
-                  const tone = good ? "text-emerald-600" : mid ? "text-navy-600" : "text-brand-600";
+                  const tone = good ? "text-emerald-700" : mid ? "text-navy-600" : "text-brand-600";
                   return (
                     <div key={b.key} className="rounded-2xl border border-ink/[0.06] p-4">
-                      <p className="text-xs text-ink/50">{b.label}</p>
+                      <p className="text-xs text-ink/65">{b.label}</p>
                       <p className={cn("mt-1 font-display text-2xl font-semibold tnum", tone)}>{b.value}</p>
-                      <p className="mt-1 text-[0.7rem] leading-snug text-ink/45">{b.recommendations[0]}</p>
+                      <p className="mt-1 text-[0.7rem] leading-snug text-ink/60">{b.recommendations[0]}</p>
                     </div>
                   );
                 })}
@@ -188,7 +188,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
                   </div>
                 ))}
               </div>
-              <p className="mt-4 text-xs text-ink/40">Match scores are neutral, criteria-based signals against your mandate — not investment advice.</p>
+              <p className="mt-4 text-xs text-ink/60">Match scores are neutral, criteria-based signals against your mandate — not investment advice.</p>
             </div>
           </div>
 
@@ -203,14 +203,14 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
                   ))}
                 </div>
                 <span className="mt-1.5 text-sm font-semibold" style={{ color }}>{match.tier}</span>
-                <p className="mt-1 text-xs text-ink/45">vs. mandate: {DEMO_MANDATE.name}</p>
+                <p className="mt-1 text-xs text-ink/60">vs. mandate: {DEMO_MANDATE.name}</p>
               </div>
 
               <div className="space-y-2 border-t border-ink/[0.06] pt-5">
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/40">Why this match</p>
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/60">Why this match</p>
                 {match.matched.map((r) => (
                   <p key={r} className="flex items-start gap-2 text-sm text-ink/70">
-                    <Check className="mt-0.5 h-4 w-4 flex-none text-emerald-600" /> {r}
+                    <Check className="mt-0.5 h-4 w-4 flex-none text-emerald-700" /> {r}
                   </p>
                 ))}
                 {match.watchouts.map((r) => (

@@ -47,7 +47,7 @@ export default function InvestorsPage() {
                     <s.icon className="h-5 w-5" />
                   </span>
                   <h3 className="mt-5 text-lg font-semibold text-ink">{s.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink/55">{s.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-ink/65">{s.body}</p>
                 </div>
               </Reveal>
             ))}
@@ -66,7 +66,7 @@ export default function InvestorsPage() {
                     <w.icon className="h-5 w-5" />
                   </span>
                   <h3 className="mt-5 text-lg font-semibold text-ink">{w.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink/55">{w.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-ink/65">{w.body}</p>
                 </div>
               </Reveal>
             ))}

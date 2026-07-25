@@ -54,7 +54,7 @@ const STATUS_STYLE: Record<DocStatus, string> = {
   "Awaiting you": "bg-brand-50 text-brand-700 ring-brand-100",
   "Awaiting others": "bg-amber-50 text-amber-700 ring-amber-100",
   Completed: "bg-emerald-50 text-emerald-700 ring-emerald-100",
-  Draft: "bg-ink/[0.05] text-ink/55 ring-ink/10",
+  Draft: "bg-ink/[0.05] text-ink/65 ring-ink/10",
 };
 
 const AUDIT = [
@@ -75,9 +75,9 @@ export function ESign() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-600">Documents &amp; e-signature</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-700">Documents &amp; e-signature</p>
           <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Agreements</h1>
-          <p className="mt-1 text-sm text-ink/55">Legally-binding e-signature with tamper-evident audit trail</p>
+          <p className="mt-1 text-sm text-ink/65">Legally-binding e-signature with tamper-evident audit trail</p>
         </div>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 ring-1 ring-emerald-100">
           <ShieldCheck className="h-3.5 w-3.5" /> eIDAS &amp; ESIGN compliant
@@ -99,12 +99,12 @@ export function ESign() {
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium text-ink">{d.title}</p>
-                  <p className="truncate text-xs text-ink/50">{d.type} · {d.counterparty}</p>
+                  <p className="truncate text-xs text-ink/65">{d.type} · {d.counterparty}</p>
                   <div className="mt-2 flex items-center justify-between">
                     <span className={cn("rounded-full px-2 py-0.5 text-[0.7rem] font-medium ring-1", STATUS_STYLE[d.id === activeId && signed ? "Completed" : d.status])}>
                       {d.id === activeId && signed ? "Completed" : d.status}
                     </span>
-                    <span className="text-[0.7rem] text-ink/40">{d.updated}</span>
+                    <span className="text-[0.7rem] text-ink/60">{d.updated}</span>
                   </div>
                 </div>
               </div>
@@ -119,7 +119,7 @@ export function ESign() {
             <div className="relative border-b border-ink/[0.06] bg-paper-2/40 p-8">
               <div className="mx-auto max-w-lg rounded-xl border border-ink/10 bg-white p-8 shadow-sm">
                 <p className="text-center font-display text-lg font-semibold text-navy-700">{active.title}</p>
-                <p className="mt-1 text-center text-xs text-ink/45">Between Aurora Family Office and {active.counterparty}</p>
+                <p className="mt-1 text-center text-xs text-ink/60">Between Aurora Family Office and {active.counterparty}</p>
                 <div className="mt-6 space-y-2">
                   {[100, 92, 96, 70, 88, 60].map((w, i) => (
                     <div key={i} className="h-2 rounded-full bg-ink/[0.06]" style={{ width: `${w}%` }} />
@@ -128,13 +128,13 @@ export function ESign() {
                 <div className="mt-8 grid grid-cols-2 gap-4">
                   {active.signers.map((s, i) => (
                     <div key={i} className={cn("rounded-lg border-2 border-dashed p-3", s.status === "Signed" ? "border-emerald-300 bg-emerald-50/40" : "border-brand-300 bg-brand-50/30")}>
-                      <p className="text-[0.65rem] uppercase tracking-wider text-ink/40">Signature</p>
+                      <p className="text-[0.65rem] uppercase tracking-wider text-ink/60">Signature</p>
                       {s.status === "Signed" || (i === 1 && signed) ? (
                         <p className="mt-1 font-display text-base italic text-navy-700">{s.name.split(" ").slice(0, 2).join(" ")}</p>
                       ) : (
                         <p className="mt-1 flex items-center gap-1 text-xs font-medium text-brand-600"><PenLine className="h-3.5 w-3.5" /> Sign here</p>
                       )}
-                      <p className="mt-1 truncate text-[0.65rem] text-ink/45">{s.role}</p>
+                      <p className="mt-1 truncate text-[0.65rem] text-ink/60">{s.role}</p>
                     </div>
                   ))}
                 </div>
@@ -143,7 +143,7 @@ export function ESign() {
                 <div className="absolute inset-0 grid place-items-center bg-ink/40 p-6 backdrop-blur-sm">
                   <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
                     <p className="font-display text-lg font-semibold text-navy-700">Adopt your signature</p>
-                    <p className="mt-1 text-xs text-ink/50">Drawn signature is bound to your verified identity.</p>
+                    <p className="mt-1 text-xs text-ink/65">Drawn signature is bound to your verified identity.</p>
                     <div className="mt-4 grid h-24 place-items-center rounded-xl border border-ink/10 bg-paper-2/50">
                       <span className="font-display text-2xl italic text-navy-700">Aurora Family Office</span>
                     </div>
@@ -172,7 +172,7 @@ export function ESign() {
                 </span>
               )}
               <button className="inline-flex items-center gap-2 rounded-full border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-paper-2"><Download className="h-4 w-4" /> Download</button>
-              <div className="ml-auto flex items-center gap-1.5 text-xs text-ink/45"><Lock className="h-3.5 w-3.5" /> 256-bit encrypted</div>
+              <div className="ml-auto flex items-center gap-1.5 text-xs text-ink/60"><Lock className="h-3.5 w-3.5" /> 256-bit encrypted</div>
             </div>
           </div>
 
@@ -184,14 +184,14 @@ export function ESign() {
                 const done = s.status === "Signed" || (i === 1 && signed);
                 return (
                   <div key={i} className="flex items-center gap-3">
-                    <span className={cn("grid h-8 w-8 flex-none place-items-center rounded-full text-xs font-semibold", done ? "bg-emerald-100 text-emerald-700" : "bg-ink/[0.06] text-ink/50")}>
+                    <span className={cn("grid h-8 w-8 flex-none place-items-center rounded-full text-xs font-semibold", done ? "bg-emerald-100 text-emerald-700" : "bg-ink/[0.06] text-ink/65")}>
                       {done ? <CheckCircle2 className="h-4 w-4" /> : <Clock className="h-4 w-4" />}
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium text-ink">{s.name}</p>
-                      <p className="text-xs text-ink/50">{s.role}</p>
+                      <p className="text-xs text-ink/65">{s.role}</p>
                     </div>
-                    <span className="text-right text-xs text-ink/45">
+                    <span className="text-right text-xs text-ink/60">
                       {done ? (s.at ?? "Just now") : s.status}
                     </span>
                   </div>
@@ -207,9 +207,9 @@ export function ESign() {
               <h2 className="font-display text-base font-semibold text-navy-700">Certificate of completion</h2>
             </div>
             <div className="mt-3 grid gap-3 rounded-2xl bg-paper-2/50 p-4 sm:grid-cols-3">
-              <div className="flex items-center gap-2 text-xs text-ink/60"><Hash className="h-3.5 w-3.5 text-ink/40" /> Envelope AC-8F3K-2291</div>
-              <div className="flex items-center gap-2 text-xs text-ink/60"><Calendar className="h-3.5 w-3.5 text-ink/40" /> Created {active.updated}</div>
-              <div className="flex items-center gap-2 text-xs text-ink/60"><MapPin className="h-3.5 w-3.5 text-ink/40" /> Region: EU-West</div>
+              <div className="flex items-center gap-2 text-xs text-ink/60"><Hash className="h-3.5 w-3.5 text-ink/60" /> Envelope AC-8F3K-2291</div>
+              <div className="flex items-center gap-2 text-xs text-ink/60"><Calendar className="h-3.5 w-3.5 text-ink/60" /> Created {active.updated}</div>
+              <div className="flex items-center gap-2 text-xs text-ink/60"><MapPin className="h-3.5 w-3.5 text-ink/60" /> Region: EU-West</div>
             </div>
             <ol className="mt-5 relative space-y-4 border-l border-ink/[0.08] pl-5">
               {AUDIT.map((a, i) => (
@@ -218,7 +218,7 @@ export function ESign() {
                     <a.icon className="h-3 w-3" />
                   </span>
                   <p className="text-sm font-medium text-ink">{a.label}</p>
-                  <p className="mt-0.5 text-xs text-ink/45">{a.who} · {a.meta} · IP {a.ip}</p>
+                  <p className="mt-0.5 text-xs text-ink/60">{a.who} · {a.meta} · IP {a.ip}</p>
                 </li>
               ))}
             </ol>

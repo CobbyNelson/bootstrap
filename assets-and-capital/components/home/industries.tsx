@@ -24,7 +24,7 @@ export function Industries() {
                   <div className="flex items-center gap-2">
                     <h3 className="text-[0.95rem] font-semibold text-ink">{ind.name}</h3>
                   </div>
-                  <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-ink/50">{ind.blurb}</p>
+                  <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-ink/65">{ind.blurb}</p>
                   <p className="mt-2 text-xs font-medium text-brand-600 tnum">{ind.count} opportunities</p>
                 </div>
               </div>

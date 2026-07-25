@@ -25,9 +25,9 @@ export function StatCard({
           <span
             className={cn(
               "text-xs font-medium",
-              trend === "up" && "text-emerald-600",
+              trend === "up" && "text-emerald-700",
               trend === "down" && "text-brand-600",
-              trend === "flat" && "text-ink/40"
+              trend === "flat" && "text-ink/60"
             )}
           >
             {delta}
@@ -35,7 +35,7 @@ export function StatCard({
         )}
       </div>
       <p className="mt-4 font-display text-2xl font-semibold text-navy-700 tnum">{value}</p>
-      <p className="mt-1 text-sm text-ink/55">{label}</p>
+      <p className="mt-1 text-sm text-ink/65">{label}</p>
     </div>
   );
 }
@@ -58,7 +58,7 @@ export function Panel({
       <div className="mb-5 flex items-center justify-between gap-3">
         <h2 className="font-display text-lg font-semibold text-navy-700">{title}</h2>
         {action && (
-          <Link href={action.href} className="inline-flex items-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-700">
+          <Link href={action.href} className="inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:text-brand-800">
             {action.label} <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         )}

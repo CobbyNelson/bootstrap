@@ -29,7 +29,7 @@ export function StatsBand() {
                   className="tnum"
                 />
               </div>
-              <p className="mt-2 text-sm text-white/55">{s.label}</p>
+              <p className="mt-2 text-sm text-white/70">{s.label}</p>
             </Reveal>
           ))}
         </div>

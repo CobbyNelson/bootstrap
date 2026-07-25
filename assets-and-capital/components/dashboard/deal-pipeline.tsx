@@ -76,7 +76,7 @@ export function DealPipeline() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm text-ink/50">Workspace</p>
+          <p className="text-sm text-ink/65">Workspace</p>
           <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">Deal pipeline</h1>
         </div>
         <div className="inline-flex rounded-full border border-ink/10 bg-white p-1">
@@ -108,8 +108,8 @@ export function DealPipeline() {
               </span>
             </div>
             <p className="mt-4 font-display text-2xl font-semibold text-navy-700 tnum">{k.value}</p>
-            <p className="mt-1 text-sm text-ink/55">{k.label}</p>
-            <p className="text-xs text-ink/40">{k.sub}</p>
+            <p className="mt-1 text-sm text-ink/65">{k.label}</p>
+            <p className="text-xs text-ink/60">{k.sub}</p>
           </div>
         ))}
       </div>
@@ -124,7 +124,7 @@ export function DealPipeline() {
                 <div className="flex items-center gap-2 border-b border-ink/[0.06] p-3">
                   <span className="h-3 w-1 rounded-full" style={{ background: stage.color }} />
                   <span className="text-[0.8rem] font-semibold text-ink">{stage.label}</span>
-                  <span className="ml-auto rounded-full bg-paper-2 px-2 py-0.5 text-[0.65rem] font-medium text-ink/50 tnum">{deals.length}</span>
+                  <span className="ml-auto rounded-full bg-paper-2 px-2 py-0.5 text-[0.65rem] font-medium text-ink/65 tnum">{deals.length}</span>
                 </div>
                 <div className="flex flex-col gap-2 p-2.5">
                   {value > 0 && <p className="px-1 text-[0.65rem] font-medium uppercase tracking-wide text-ink/35 tnum">{money(value)}</p>}
@@ -132,12 +132,12 @@ export function DealPipeline() {
                     <div key={d.name} className="rounded-xl border border-ink/[0.06] bg-paper-2/40 p-3 transition-colors hover:border-ink/15">
                       <div className="flex items-start justify-between gap-2">
                         <p className="text-[0.8rem] font-medium leading-snug text-ink">{d.name}</p>
-                        <span className={cn("text-[0.65rem] font-semibold tnum", d.score >= 90 ? "text-emerald-600" : d.score >= 75 ? "text-brand-600" : "text-navy-600")}>{d.score}</span>
+                        <span className={cn("text-[0.65rem] font-semibold tnum", d.score >= 90 ? "text-emerald-700" : d.score >= 75 ? "text-brand-600" : "text-navy-600")}>{d.score}</span>
                       </div>
-                      <p className="mt-0.5 text-[0.68rem] text-ink/45">{d.sector}</p>
+                      <p className="mt-0.5 text-[0.68rem] text-ink/60">{d.sector}</p>
                       <div className="mt-2.5 flex items-center justify-between">
-                        <span className="font-mono text-[0.72rem] font-medium text-ink tnum">{money(d.ticketM)}</span>
-                        <span className="flex items-center gap-1.5 text-[0.65rem] text-ink/40">
+                        <span className="text-[0.72rem] font-medium text-ink tnum">{money(d.ticketM)}</span>
+                        <span className="flex items-center gap-1.5 text-[0.65rem] text-ink/60">
                           {d.days}d
                           <span className="grid h-5 w-5 place-items-center rounded-full bg-gradient-to-br from-ink to-ink-2 text-[0.55rem] font-semibold text-white">{d.owner}</span>
                         </span>
@@ -153,7 +153,7 @@ export function DealPipeline() {
         <div className="overflow-x-auto rounded-3xl border border-ink/[0.07] bg-white">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left text-[0.7rem] uppercase tracking-wide text-ink/40">
+              <tr className="text-left text-[0.7rem] uppercase tracking-wide text-ink/60">
                 <th className="px-5 py-3 font-semibold">Deal</th>
                 <th className="px-5 py-3 font-semibold">Sector</th>
                 <th className="px-5 py-3 font-semibold">Stage</th>
@@ -176,7 +176,7 @@ export function DealPipeline() {
                       </span>
                     </td>
                     <td className="px-5 py-3 text-right font-medium text-ink tnum">{money(d.ticketM)}</td>
-                    <td className="px-5 py-3 text-right font-medium text-emerald-600 tnum">{d.score}</td>
+                    <td className="px-5 py-3 text-right font-medium text-emerald-700 tnum">{d.score}</td>
                     <td className="px-5 py-3 text-right text-ink/60 tnum">{d.days}d</td>
                     <td className="px-5 py-3">
                       <span className="grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-ink to-ink-2 text-[0.6rem] font-semibold text-white">{d.owner}</span>

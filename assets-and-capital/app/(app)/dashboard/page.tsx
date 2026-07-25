@@ -32,11 +32,11 @@ export default function InvestorDashboard() {
       {/* header */}
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm text-ink/50">Investor workspace</p>
+          <p className="text-sm text-ink/65">Investor workspace</p>
           <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">Welcome back, Aurora</h1>
           <div className="mt-2 flex items-center gap-2">
             <Badge variant="gold" size="sm"><ShieldCheck className="h-3.5 w-3.5" /> {inv.badge}</Badge>
-            <span className="text-xs text-ink/50">Trust score <span className="font-semibold text-ink tnum">{inv.score}</span>/100</span>
+            <span className="text-xs text-ink/65">Trust score <span className="font-semibold text-ink tnum">{inv.score}</span>/100</span>
           </div>
         </div>
         <Link href="/marketplace" className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
@@ -68,16 +68,16 @@ export default function InvestorDashboard() {
             <ProgressRing value={82} />
             <div>
               <p className="font-medium text-ink">82% complete</p>
-              <p className="text-sm text-ink/55">Add exit preferences and governance to sharpen your matches.</p>
+              <p className="text-sm text-ink/65">Add exit preferences and governance to sharpen your matches.</p>
             </div>
           </div>
           <Link href="/register/investor" className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full border border-ink/12 py-2.5 text-sm font-medium text-ink hover:border-ink/25">
             Complete profile
           </Link>
           <div className="mt-5 space-y-2 border-t border-ink/[0.06] pt-4 text-sm">
-            <div className="flex justify-between"><span className="text-ink/55">Strategy</span><span className="font-medium text-ink">Private Equity</span></div>
-            <div className="flex justify-between"><span className="text-ink/55">Ticket band</span><span className="font-medium text-ink">$10–40M</span></div>
-            <div className="flex justify-between"><span className="text-ink/55">Markets</span><span className="font-medium text-ink">Sub-Saharan Africa</span></div>
+            <div className="flex justify-between"><span className="text-ink/65">Strategy</span><span className="font-medium text-ink">Private Equity</span></div>
+            <div className="flex justify-between"><span className="text-ink/65">Ticket band</span><span className="font-medium text-ink">$10–40M</span></div>
+            <div className="flex justify-between"><span className="text-ink/65">Markets</span><span className="font-medium text-ink">Sub-Saharan Africa</span></div>
           </div>
         </Panel>
       </div>
@@ -87,7 +87,7 @@ export default function InvestorDashboard() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left text-[0.7rem] uppercase tracking-wide text-ink/40">
+              <tr className="text-left text-[0.7rem] uppercase tracking-wide text-ink/60">
                 <th className="pb-3 font-semibold">Opportunity</th>
                 <th className="pb-3 font-semibold">Sector</th>
                 <th className="pb-3 text-right font-semibold">Ask</th>
@@ -101,9 +101,9 @@ export default function InvestorDashboard() {
                   <td className="py-3 font-medium text-ink">{s.name}</td>
                   <td className="py-3 text-ink/60">{s.sector}</td>
                   <td className="py-3 text-right font-medium text-ink tnum">{s.ask}</td>
-                  <td className="py-3 text-right"><span className="font-medium text-emerald-600 tnum">{s.match}%</span></td>
+                  <td className="py-3 text-right"><span className="font-medium text-emerald-700 tnum">{s.match}%</span></td>
                   <td className="py-3 text-right">
-                    <Link href="/marketplace" className="text-sm font-medium text-brand-600 hover:text-brand-700">View</Link>
+                    <Link href="/marketplace" className="text-sm font-medium text-brand-700 hover:text-brand-800">View</Link>
                   </td>
                 </tr>
               ))}
@@ -124,12 +124,12 @@ export default function InvestorDashboard() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-2">
                     <p className="truncate font-medium text-ink">{m.from}</p>
-                    <span className="flex items-center gap-2 text-xs text-ink/40">
+                    <span className="flex items-center gap-2 text-xs text-ink/60">
                       {m.unread && <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />}
                       {m.time}
                     </span>
                   </div>
-                  <p className="truncate text-sm text-ink/55">{m.preview}</p>
+                  <p className="truncate text-sm text-ink/65">{m.preview}</p>
                 </div>
               </div>
             ))}
@@ -146,9 +146,9 @@ export default function InvestorDashboard() {
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium text-ink">{d.name}</p>
-                  <p className="text-xs text-ink/50">{d.size} · {d.date}</p>
+                  <p className="text-xs text-ink/65">{d.size} · {d.date}</p>
                 </div>
-                <button className="grid h-8 w-8 place-items-center rounded-full text-ink/40 hover:bg-paper-2 hover:text-ink" aria-label="Download">
+                <button className="grid h-8 w-8 place-items-center rounded-full text-ink/60 hover:bg-paper-2 hover:text-ink" aria-label="Download">
                   <Download className="h-4 w-4" />
                 </button>
               </div>
@@ -172,7 +172,7 @@ export default function InvestorDashboard() {
               <div>
                 <Badge variant="gold" size="sm">Roadshow</Badge>
                 <p className="mt-1.5 font-medium text-ink">{ev.title}</p>
-                <p className="text-xs text-ink/50">{ev.loc} · {ev.date}</p>
+                <p className="text-xs text-ink/65">{ev.loc} · {ev.date}</p>
               </div>
             </div>
           ))}

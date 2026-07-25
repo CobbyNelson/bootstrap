@@ -37,7 +37,7 @@ export function NewsletterForm() {
               value={email}
               onChange={(e) => { setEmail(e.target.value); if (error) setError(null); }}
               placeholder="Work email"
-              className="min-w-0 flex-1 bg-transparent px-4 text-sm text-white placeholder:text-white/40 focus:outline-none"
+              className="min-w-0 flex-1 bg-transparent px-4 text-sm text-white placeholder:text-white/65 focus:outline-none"
               aria-label="Email address"
               aria-invalid={!!error}
             />
@@ -57,7 +57,7 @@ export function NewsletterForm() {
           )}
         </>
       )}
-      <p className="mt-2.5 text-xs text-white/40">Market intelligence and curated opportunities. No spam.</p>
+      <p className="mt-2.5 text-xs text-white/65">Market intelligence and curated opportunities. No spam.</p>
     </form>
   );
 }

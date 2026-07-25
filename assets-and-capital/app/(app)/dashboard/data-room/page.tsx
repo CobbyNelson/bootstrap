@@ -42,7 +42,7 @@ export default function DataRoomPage() {
     <div className="mx-auto max-w-6xl space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm text-ink/50">Secure data room</p>
+          <p className="text-sm text-ink/65">Secure data room</p>
           <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">Sahara Solar Grid</h1>
           <div className="mt-2 flex items-center gap-2">
             <Badge variant="success" size="sm"><ShieldCheck className="h-3.5 w-3.5" /> Encrypted</Badge>
@@ -67,7 +67,7 @@ export default function DataRoomPage() {
           <div className="space-y-6">
             {categories.map((cat) => (
               <div key={cat}>
-                <p className="mb-2 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/40">{cat}</p>
+                <p className="mb-2 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/60">{cat}</p>
                 <div className="divide-y divide-ink/[0.06] overflow-hidden rounded-2xl border border-ink/[0.06]">
                   {DOCS.filter((d) => d.category === cat).map((d) => (
                     <div key={d.name} className="flex items-center gap-3 p-3.5">
@@ -76,7 +76,7 @@ export default function DataRoomPage() {
                       </span>
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-medium text-ink">{d.name}</p>
-                        <p className="text-[0.7rem] text-ink/45">{d.size} · {d.views} views · expires {d.expiry}</p>
+                        <p className="text-[0.7rem] text-ink/60">{d.size} · {d.views} views · expires {d.expiry}</p>
                       </div>
                       <div className="hidden items-center gap-1.5 sm:flex">
                         {d.watermark && <Badge variant="neutral" size="sm"><Droplet className="h-3 w-3" /> WM</Badge>}
@@ -102,19 +102,19 @@ export default function DataRoomPage() {
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
                       <p className="truncate text-sm font-medium text-ink">{g.investor}</p>
-                      <p className="text-[0.7rem] text-ink/45">{g.tier} · {g.permission}</p>
+                      <p className="text-[0.7rem] text-ink/60">{g.tier} · {g.permission}</p>
                     </div>
                     {g.status === "Active" ? (
-                      <CheckCircle2 className="h-4 w-4 flex-none text-emerald-600" />
+                      <CheckCircle2 className="h-4 w-4 flex-none text-emerald-700" />
                     ) : (
                       <XCircle className="h-4 w-4 flex-none text-ink/30" />
                     )}
                   </div>
                   <div className="mt-2.5 flex items-center justify-between">
-                    <span className="inline-flex items-center gap-1 text-[0.7rem] text-ink/45">
+                    <span className="inline-flex items-center gap-1 text-[0.7rem] text-ink/60">
                       <Clock className="h-3 w-3" /> {g.status === "Active" ? `Expires ${g.expiry}` : "Access expired"}
                     </span>
-                    <button className="text-[0.7rem] font-medium text-brand-600 hover:text-brand-700">
+                    <button className="text-[0.7rem] font-medium text-brand-700 hover:text-brand-800">
                       {g.status === "Active" ? "Revoke" : "Renew"}
                     </button>
                   </div>
@@ -133,13 +133,13 @@ export default function DataRoomPage() {
                     <p className="text-ink/80">
                       <span className="font-medium text-ink">{a.who}</span> {a.action.toLowerCase()}
                     </p>
-                    <p className="truncate text-[0.7rem] text-ink/45">{a.doc} · {a.meta}</p>
+                    <p className="truncate text-[0.7rem] text-ink/60">{a.doc} · {a.meta}</p>
                   </div>
-                  <span className="text-[0.7rem] text-ink/40 tnum">{a.when}</span>
+                  <span className="text-[0.7rem] text-ink/60 tnum">{a.when}</span>
                 </div>
               ))}
             </div>
-            <p className="mt-4 border-t border-ink/[0.06] pt-3 text-[0.7rem] text-ink/40">
+            <p className="mt-4 border-t border-ink/[0.06] pt-3 text-[0.7rem] text-ink/60">
               Every view, download, and print attempt is logged with viewer, timestamp, and duration.
             </p>
           </Panel>

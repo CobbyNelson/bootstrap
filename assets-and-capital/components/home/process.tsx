@@ -34,7 +34,7 @@ export function Process() {
                   )}
                 </div>
                 <h3 className="mt-5 text-lg font-semibold text-white">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/55">{step.body}</p>
+                <p className="mt-2 text-sm leading-relaxed text-white/70">{step.body}</p>
               </div>
             </Reveal>
           ))}
@@ -43,7 +43,7 @@ export function Process() {
         <div className="mt-12 flex flex-col items-center gap-4 rounded-3xl border border-white/10 bg-white/[0.03] p-8 text-center md:flex-row md:justify-between md:text-left">
           <div>
             <h3 className="text-xl font-semibold text-white">Specialised roadshows</h3>
-            <p className="mt-1 text-sm text-white/55">
+            <p className="mt-1 text-sm text-white/70">
               Meet multiple pre-screened opportunities in curated sessions built around your mandate.
             </p>
           </div>

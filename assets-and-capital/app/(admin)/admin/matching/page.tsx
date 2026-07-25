@@ -41,9 +41,9 @@ export default function AdminMatchingPage() {
     <div className="mx-auto max-w-6xl space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm text-ink/50">Matching engine</p>
+          <p className="text-sm text-ink/65">Matching engine</p>
           <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">Compatibility weighting</h1>
-          <p className="mt-1.5 max-w-xl text-sm text-ink/55">
+          <p className="mt-1.5 max-w-xl text-sm text-ink/65">
             Tune how much each criterion influences the AI match score. Changes re-rank the sample instantly; scores are
             normalised so weights don&apos;t need to sum to 100.
           </p>
@@ -63,7 +63,7 @@ export default function AdminMatchingPage() {
         <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="font-display text-lg font-semibold text-navy-700">Criteria weights</h2>
-            <span className="text-xs text-ink/45">Total <span className="font-semibold text-ink tnum">{total}</span></span>
+            <span className="text-xs text-ink/60">Total <span className="font-semibold text-ink tnum">{total}</span></span>
           </div>
           <div className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
             {KEYS.map((k) => (
@@ -91,24 +91,24 @@ export default function AdminMatchingPage() {
           <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="font-display text-lg font-semibold text-navy-700">Live re-ranking</h2>
-              <span className="text-xs text-ink/45">vs. demo mandate</span>
+              <span className="text-xs text-ink/60">vs. demo mandate</span>
             </div>
             <div className="space-y-2.5">
               {sample.map(({ o, m }, i) => (
                 <div key={o.name} className="flex items-center gap-3 rounded-2xl border border-ink/[0.06] p-3">
-                  <span className="grid h-7 w-7 flex-none place-items-center rounded-lg bg-paper-2 text-xs font-semibold text-ink/50 tnum">{i + 1}</span>
+                  <span className="grid h-7 w-7 flex-none place-items-center rounded-lg bg-paper-2 text-xs font-semibold text-ink/65 tnum">{i + 1}</span>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium text-ink">{o.name}</p>
-                    <p className="truncate text-[0.7rem] text-ink/45">{o.sector} · {o.country}</p>
+                    <p className="truncate text-[0.7rem] text-ink/60">{o.sector} · {o.country}</p>
                   </div>
                   <div className="text-right">
-                    <p className={cn("font-display text-lg font-semibold tnum", m.stars >= 5 ? "text-emerald-600" : m.stars >= 4 ? "text-brand-600" : "text-navy-600")}>{m.score}</p>
-                    <p className="text-[0.6rem] text-ink/40">{"★".repeat(m.stars)}</p>
+                    <p className={cn("font-display text-lg font-semibold tnum", m.stars >= 5 ? "text-emerald-700" : m.stars >= 4 ? "text-brand-600" : "text-navy-600")}>{m.score}</p>
+                    <p className="text-[0.6rem] text-ink/60">{"★".repeat(m.stars)}</p>
                   </div>
                 </div>
               ))}
             </div>
-            <p className="mt-4 text-xs text-ink/40">
+            <p className="mt-4 text-xs text-ink/60">
               In production these weights persist per-tenant and feed the live recommendation engine for every investor.
             </p>
           </div>

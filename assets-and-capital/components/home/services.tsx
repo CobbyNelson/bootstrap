@@ -73,7 +73,7 @@ function ServiceColumn({
                   <p className="font-medium text-ink">{s.title}</p>
                   <ArrowUpRight className="h-3.5 w-3.5 text-ink/30 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-ink/60" />
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-ink/55">{s.body}</p>
+                <p className="mt-1 text-sm leading-relaxed text-ink/65">{s.body}</p>
               </div>
             </Link>
           ))}

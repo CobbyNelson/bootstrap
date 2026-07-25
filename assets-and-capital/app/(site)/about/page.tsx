@@ -52,7 +52,7 @@ export default function AboutPage() {
                   <div className="font-display text-3xl font-semibold text-navy-700">
                     <Counter value={s.value} decimals={s.decimals ?? 0} prefix={s.prefix} suffix={s.suffix} className="tnum" />
                   </div>
-                  <p className="mt-1 text-sm text-ink/55">{s.label}</p>
+                  <p className="mt-1 text-sm text-ink/65">{s.label}</p>
                 </div>
               ))}
             </div>
@@ -71,7 +71,7 @@ export default function AboutPage() {
                     <v.icon className="h-5 w-5" />
                   </span>
                   <h3 className="mt-5 text-lg font-semibold text-ink">{v.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink/55">{v.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-ink/65">{v.body}</p>
                 </div>
               </Reveal>
             ))}
