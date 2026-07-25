@@ -4,8 +4,9 @@ import { Check, TriangleAlert, ShieldCheck, Star, Lock, FileText } from "lucide-
 import { SaveButton } from "@/components/ui/save-button";
 import { Money } from "@/components/ui/money";
 import { Badge } from "@/components/ui/badge";
-import { useAccess } from "@/lib/entitlements";
+import { useAccess, useNDA } from "@/lib/entitlements";
 import { LockPanel, ExpressInterestButton, DemoAccessBar } from "./access";
+import { SignNdaButton } from "./sign-nda";
 import { cn } from "@/lib/utils";
 
 type Dim = { key: string; label: string; weight: number; f: number };
@@ -84,6 +85,9 @@ export function BusinessDetail({
   mandateName: string;
 }) {
   const { subscribed, deal } = useAccess(slug);
+  const { has: hasNda } = useNDA();
+  const ndaSigned = hasNda(slug);
+  const dataRoomOpen = deal && ndaSigned;
   const color = starColor(match.stars);
 
   const coreSnapshot = [
@@ -103,8 +107,8 @@ export function BusinessDetail({
     { k: "Accreditation gate", v: "Cleared", ok: true },
     { k: "Sanctions / PEP screen", v: "Clean", ok: true },
     { k: "Business verification", v: "Verified", ok: true },
-    { k: "NDA status", v: "Required", ok: false },
-    { k: "Data room", v: deal ? "Open" : "Locked", ok: deal },
+    { k: "NDA status", v: ndaSigned ? "Signed" : "Required", ok: ndaSigned },
+    { k: "Data room", v: dataRoomOpen ? "Open" : "Locked", ok: dataRoomOpen },
   ];
 
   return (
@@ -236,29 +240,51 @@ export function BusinessDetail({
               </div>
 
               <div className={card}>
-                <div className="flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-brand-600" />
-                  <h2 className="font-display text-xl font-semibold text-navy-700">Data room</h2>
-                </div>
-                <div className="mt-5 grid gap-2 sm:grid-cols-2">
-                  {["Information memorandum", "Financial model (3-year)", "Cap table", "Management deck", "Legal & KYC pack"].map(
-                    (doc) => (
-                      <a
-                        key={doc}
-                        href="#"
-                        className="flex items-center justify-between rounded-xl border border-ink/[0.06] px-4 py-3 text-sm text-ink/70 transition-colors hover:border-brand-200 hover:text-ink"
-                      >
-                        <span className="flex items-center gap-2">
-                          <FileText className="h-4 w-4 text-ink/40" /> {doc}
-                        </span>
-                        <span className="text-xs font-medium text-brand-700">Open</span>
-                      </a>
-                    )
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <FileText className="h-5 w-5 text-brand-600" />
+                    <h2 className="font-display text-xl font-semibold text-navy-700">Data room</h2>
+                  </div>
+                  {dataRoomOpen && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
+                      <Check className="h-3.5 w-3.5" /> NDA signed
+                    </span>
                   )}
                 </div>
-                <p className="mt-4 text-xs text-ink/60">
-                  Match scores are neutral, criteria-based signals against your mandate — not investment advice.
-                </p>
+                {dataRoomOpen ? (
+                  <>
+                    <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                      {["Information memorandum", "Financial model (3-year)", "Cap table", "Management deck", "Legal & KYC pack"].map(
+                        (doc) => (
+                          <a
+                            key={doc}
+                            href="#"
+                            className="flex items-center justify-between rounded-xl border border-ink/[0.06] px-4 py-3 text-sm text-ink/70 transition-colors hover:border-brand-200 hover:text-ink"
+                          >
+                            <span className="flex items-center gap-2">
+                              <FileText className="h-4 w-4 text-ink/40" /> {doc}
+                            </span>
+                            <span className="text-xs font-medium text-brand-700">Open</span>
+                          </a>
+                        )
+                      )}
+                    </div>
+                    <p className="mt-4 text-xs text-ink/60">
+                      Match scores are neutral, criteria-based signals against your mandate — not investment advice.
+                    </p>
+                  </>
+                ) : (
+                  <div className="mt-5 rounded-2xl border border-dashed border-ink/15 bg-paper-2/40 p-6 text-center">
+                    <div className="mx-auto grid h-11 w-11 place-items-center rounded-2xl bg-white text-brand-600 shadow-sm ring-1 ring-ink/[0.06]">
+                      <ShieldCheck className="h-5 w-5" />
+                    </div>
+                    <p className="mt-3 font-medium text-ink">Sign the mutual NDA to open the data room</p>
+                    <p className="mx-auto mt-1 max-w-sm text-sm text-ink/60">
+                      Documents are released once you&apos;ve signed the non-disclosure agreement for {o.name}.
+                    </p>
+                    <SignNdaButton slug={slug} businessName={o.name} primary className="mt-4" />
+                  </div>
+                )}
               </div>
             </>
           ) : (
@@ -336,9 +362,7 @@ export function BusinessDetail({
               <ExpressInterestButton slug={slug} />
               <div className="grid grid-cols-2 gap-2">
                 <SaveButton slug={slug} variant="detail" />
-                <button className="inline-flex items-center justify-center gap-1.5 rounded-full border border-ink/12 py-2.5 text-sm font-medium text-ink/70 hover:border-ink/25">
-                  Sign NDA
-                </button>
+                <SignNdaButton slug={slug} businessName={o.name} className="w-full" />
               </div>
             </div>
           </div>

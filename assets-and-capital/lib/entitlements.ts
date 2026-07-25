@@ -69,6 +69,9 @@ export function useSubscription() {
 /** Businesses this investor has expressed interest in (by slug). */
 export const useInterest = () => useCollection("ac_interest_v1");
 
+/** Businesses whose mutual NDA this investor has signed (by slug). */
+export const useNDA = () => useCollection("ac_nda_v1");
+
 /** Resolved access level for a single business. */
 export function useAccess(slug: string) {
   const { active, plan } = useSubscription();
