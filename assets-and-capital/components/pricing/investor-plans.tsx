@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { Check, Sparkles, ArrowRight } from "lucide-react";
 import { useSubscription } from "@/lib/entitlements";
+import { CheckoutDialog } from "@/components/payments/checkout-dialog";
 import { cn } from "@/lib/utils";
 
 type Plan = {
@@ -61,10 +63,19 @@ const PLANS: Plan[] = [
 
 export function InvestorPlans() {
   const { active, plan, subscribe, cancel } = useSubscription();
+  const [checkout, setCheckout] = useState<Plan | null>(null);
 
   function isCurrent(p: Plan) {
     if (p.activates === null) return !active;
     return active && plan === p.activates;
+  }
+
+  function choose(p: Plan) {
+    if (p.activates === null) {
+      cancel();
+    } else {
+      setCheckout(p);
+    }
   }
 
   return (
@@ -96,7 +107,7 @@ export function InvestorPlans() {
             <button
               type="button"
               disabled={current}
-              onClick={() => (p.activates === null ? cancel() : subscribe(p.activates))}
+              onClick={() => choose(p)}
               className={cn(
                 "mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition-colors",
                 current
@@ -131,9 +142,17 @@ export function InvestorPlans() {
         );
       })}
       <p className="lg:col-span-3 text-center text-xs text-ink/50">
-        Billing isn&apos;t connected yet — subscribing here previews the full investor experience across the
-        marketplace.
+        Payments run in test mode — checkout is fully simulated (no real charge) and unlocks the complete investor
+        experience across the marketplace.
       </p>
+
+      <CheckoutDialog
+        open={checkout !== null}
+        onClose={() => setCheckout(null)}
+        onSuccess={() => checkout?.activates && subscribe(checkout.activates)}
+        planName={checkout?.name ?? ""}
+        priceLabel={checkout ? `${checkout.price} / ${checkout.cadence}` : ""}
+      />
     </div>
   );
 }
