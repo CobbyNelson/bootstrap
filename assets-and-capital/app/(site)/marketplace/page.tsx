@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { ShieldCheck, Sparkles, Globe } from "lucide-react";
 import { MarketplaceView } from "@/components/marketplace/marketplace-view";
-import { DemoAccessBar } from "@/components/marketplace/access";
 
 export const metadata: Metadata = {
   title: "Marketplace",
@@ -55,9 +54,6 @@ export default function MarketplacePage() {
           </div>
         </div>
       </section>
-      <div className="container-x pt-8">
-        <DemoAccessBar />
-      </div>
       <MarketplaceView />
     </>
   );

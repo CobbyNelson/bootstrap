@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { Check, Sparkles, ArrowRight } from "lucide-react";
-import { useSubscription } from "@/lib/entitlements";
+import { activateSubscription, cancelSubscription } from "@/lib/actions/entitlements";
 import { CheckoutDialog } from "@/components/payments/checkout-dialog";
 import { cn } from "@/lib/utils";
 
@@ -61,9 +62,19 @@ const PLANS: Plan[] = [
   },
 ];
 
-export function InvestorPlans() {
-  const { active, plan, subscribe, cancel } = useSubscription();
+export function InvestorPlans({
+  signedIn = false,
+  active = false,
+  plan = null,
+}: {
+  signedIn?: boolean;
+  active?: boolean;
+  plan?: string | null;
+}) {
+  const router = useRouter();
   const [checkout, setCheckout] = useState<Plan | null>(null);
+  const [, startTransition] = useTransition();
+  const [error, setError] = useState("");
 
   function isCurrent(p: Plan) {
     if (p.activates === null) return !active;
@@ -71,11 +82,29 @@ export function InvestorPlans() {
   }
 
   function choose(p: Plan) {
+    setError("");
+    if (!signedIn) {
+      router.push("/login?next=/pricing");
+      return;
+    }
     if (p.activates === null) {
-      cancel();
+      startTransition(async () => {
+        const res = await cancelSubscription();
+        if (!res.ok) setError(res.error || "Something went wrong.");
+        else router.refresh();
+      });
     } else {
       setCheckout(p);
     }
+  }
+
+  function onPaid() {
+    if (!checkout?.activates) return;
+    startTransition(async () => {
+      const res = await activateSubscription(checkout.activates!);
+      if (!res.ok) setError(res.error || "We couldn't activate your subscription.");
+      else router.refresh();
+    });
   }
 
   return (
@@ -141,6 +170,7 @@ export function InvestorPlans() {
           </div>
         );
       })}
+      {error && <p className="lg:col-span-3 text-center text-sm font-medium text-brand-700">{error}</p>}
       <p className="lg:col-span-3 text-center text-xs text-ink/50">
         Payments run in test mode — checkout is fully simulated (no real charge) and unlocks the complete investor
         experience across the marketplace.
@@ -149,7 +179,7 @@ export function InvestorPlans() {
       <CheckoutDialog
         open={checkout !== null}
         onClose={() => setCheckout(null)}
-        onSuccess={() => checkout?.activates && subscribe(checkout.activates)}
+        onSuccess={onPaid}
         planName={checkout?.name ?? ""}
         priceLabel={checkout ? `${checkout.price} / ${checkout.cadence}` : ""}
       />

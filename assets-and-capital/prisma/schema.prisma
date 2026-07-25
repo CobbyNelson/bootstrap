@@ -115,10 +115,61 @@ model User {
   messages      Message[]     @relation("MessageSender")
   notifications Notification[]
   auditLogs     AuditLog[]
+  subscription  InvestorSubscription?
+  interests     ListingInterest[]
+  ndaSignatures NdaSignature[]
+  savedListings SavedListing[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   @@index([orgId])
+}
+
+// ------------------------------------------------------------ per-user entitlements
+// Slug-keyed to the current marketplace data. When listings move fully into the
+// DB (Tier 2) these gain a Listing FK; the resolver stays the same.
+
+model InvestorSubscription {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan      String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ListingInterest {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  slug      String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, slug])
+  @@index([userId])
+}
+
+model NdaSignature {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  slug      String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, slug])
+  @@index([userId])
+}
+
+model SavedListing {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  slug      String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, slug])
+  @@index([userId])
 }
 
 model Organization {

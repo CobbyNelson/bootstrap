@@ -6,6 +6,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { InvestorPlans } from "@/components/pricing/investor-plans";
+import { getAccess } from "@/lib/entitlements-server";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -21,7 +22,8 @@ const FAQ = [
   { q: "What's included in a roadshow?", a: "A specialised roadshow puts your opportunity in front of multiple pre-screened, mandate-matched investors in a curated session, organised end to end by our team." },
 ];
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const access = await getAccess();
   return (
     <>
       <PageHeader
@@ -87,7 +89,7 @@ export default function PricingPage() {
             className="mx-auto"
           />
           <div className="mt-12">
-            <InvestorPlans />
+            <InvestorPlans signedIn={access.signedIn} active={access.subscribed} plan={access.plan} />
           </div>
         </div>
       </section>

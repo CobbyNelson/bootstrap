@@ -4,12 +4,9 @@ import { notFound } from "next/navigation";
 import { MapPin } from "lucide-react";
 import { getOpportunityBySlug, allOpportunitySlugs, scoreOpportunity, DEMO_MANDATE, derive } from "@/lib/matching";
 import { scoreBusiness } from "@/lib/business-scoring";
+import { getAccess } from "@/lib/entitlements-server";
 import { Badge } from "@/components/ui/badge";
 import { BusinessDetail } from "@/components/marketplace/business-detail";
-
-export function generateStaticParams() {
-  return allOpportunitySlugs().map((slug) => ({ slug }));
-}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -18,14 +15,50 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: `${o.name} — ${o.sector}`, description: o.blurb };
 }
 
+export function generateStaticParams() {
+  return allOpportunitySlugs().map((slug) => ({ slug }));
+}
+
 export default async function OpportunityPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const o = getOpportunityBySlug(slug);
   if (!o) notFound();
 
-  const match = scoreOpportunity(DEMO_MANDATE, o);
-  const d = derive(o);
-  const biz = scoreBusiness(o);
+  // Access is resolved on the server; gated payloads are only computed and sent
+  // when the viewer is entitled to them.
+  const access = await getAccess(slug);
+
+  const full = access.full
+    ? (() => {
+        const d = derive(o);
+        return {
+          targetReturn: o.targetReturn,
+          revenueM: d.revenueM,
+          ebitdaMargin: d.ebitdaMargin,
+          employees: d.employees,
+          riskLevel: d.riskLevel,
+        };
+      })()
+    : null;
+
+  const deal = access.deal
+    ? (() => {
+        const m = scoreOpportunity(DEMO_MANDATE, o);
+        return {
+          score: m.score,
+          stars: m.stars,
+          tier: m.tier,
+          matched: m.matched,
+          watchouts: m.watchouts,
+          dimensions: m.dimensions.map((x) => ({ key: x.key, label: x.label, weight: x.weight, f: x.f })),
+          scorecard: scoreBusiness(o),
+        };
+      })()
+    : null;
+
+  const documents = access.docs
+    ? ["Information memorandum", "Financial model (3-year)", "Cap table", "Management deck", "Legal & KYC pack"]
+    : null;
 
   return (
     <>
@@ -63,14 +96,32 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
         </div>
       </section>
 
-      {/* body — tiered access (core / subscription / expressed-interest) */}
+      {/* body — tiered access enforced server-side */}
       <section className="py-12 md:py-16">
         <div className="container-x">
-          <BusinessDetail o={o} slug={slug} match={match} d={d} biz={biz} mandateName={DEMO_MANDATE.name} />
+          <BusinessDetail
+            o={{
+              name: o.name,
+              sector: o.sector,
+              ask: o.ask,
+              instrument: o.instrument,
+              stage: o.stage,
+              tier: o.tier,
+              blurb: o.blurb,
+              region: o.region,
+            }}
+            slug={slug}
+            access={access}
+            full={full}
+            deal={deal}
+            documents={documents}
+            mandateName={DEMO_MANDATE.name}
+          />
         </div>
       </section>
     </>
   );
 }
 
-export const dynamicParams = false;
+// Access varies per viewer, so this page renders per request.
+export const dynamic = "force-dynamic";

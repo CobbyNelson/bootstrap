@@ -1,13 +1,15 @@
 "use client";
 
+import { useState, useTransition } from "react";
 import Link from "next/link";
-import { Lock, Sparkles, Check, ArrowRight, Eye, RotateCcw } from "lucide-react";
-import { useInterest, useSubscription } from "@/lib/entitlements";
+import { useRouter } from "next/navigation";
+import { Lock, Sparkles, Check, ArrowRight, Loader2 } from "lucide-react";
+import { expressInterest } from "@/lib/actions/entitlements";
 import { cn } from "@/lib/utils";
 
 /**
- * Locked placeholder rendered IN PLACE OF gated content. The real content is not
- * rendered at all while locked (so it isn't just visually hidden).
+ * Locked placeholder rendered IN PLACE OF gated content. The gated data never
+ * reaches the client — the server omits it entirely (see entitlements-server).
  */
 export function LockPanel({
   variant,
@@ -15,7 +17,6 @@ export function LockPanel({
   desc,
   cta,
   href,
-  onCta,
   action,
   className,
 }: {
@@ -24,13 +25,10 @@ export function LockPanel({
   desc: string;
   cta?: string;
   href?: string;
-  onCta?: () => void;
   action?: React.ReactNode;
   className?: string;
 }) {
   const Icon = variant === "subscribe" ? Sparkles : Lock;
-  const btn =
-    "inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700";
   return (
     <div
       className={cn(
@@ -50,19 +48,16 @@ export function LockPanel({
         <p className="mt-4 font-display text-lg font-semibold text-navy-700">{title}</p>
         <p className="mx-auto mt-1.5 max-w-md text-sm leading-relaxed text-ink/65">{desc}</p>
         <div className="mt-5 flex justify-center">
-          {action
-            ? action
-            : href
-            ? (
-              <Link href={href} className={btn}>
+          {action ?? (
+            href && (
+              <Link
+                href={href}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+              >
                 {cta} <ArrowRight className="h-4 w-4" />
               </Link>
             )
-            : (
-              <button onClick={onCta} className={btn}>
-                {cta} <ArrowRight className="h-4 w-4" />
-              </button>
-            )}
+          )}
         </div>
       </div>
     </div>
@@ -70,99 +65,77 @@ export function LockPanel({
 }
 
 /**
- * Express-interest control. Requires an active subscription; without one it
- * routes to the investor plans. With one, it toggles interest for `slug`,
- * unlocking that business's deal layer.
+ * Express-interest control. Requires an active subscription (enforced again in
+ * the server action); without one it routes to plans or sign-in.
  */
-export function ExpressInterestButton({ slug, className }: { slug: string; className?: string }) {
-  const { active } = useSubscription();
-  const { has, toggle } = useInterest();
-  const interested = has(slug);
+export function ExpressInterestButton({
+  slug,
+  subscribed,
+  interested,
+  signedIn = true,
+  className,
+}: {
+  slug: string;
+  subscribed: boolean;
+  interested: boolean;
+  signedIn?: boolean;
+  className?: string;
+}) {
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+  const [error, setError] = useState("");
 
-  if (!active) {
+  if (!subscribed) {
+    const href = signedIn ? "/pricing#investor" : `/login?next=/marketplace/${slug}`;
     return (
       <Link
-        href="/pricing#investor"
+        href={href}
         className={cn(
           "inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-700",
           className
         )}
       >
-        Subscribe to express interest <ArrowRight className="h-4 w-4" />
+        {signedIn ? "Subscribe to express interest" : "Sign in to express interest"} <ArrowRight className="h-4 w-4" />
       </Link>
     );
   }
 
-  return (
-    <button
-      onClick={() => toggle(slug)}
-      className={cn(
-        "inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition-colors",
-        interested
-          ? "border border-emerald-600/30 bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
-          : "bg-brand-600 text-white hover:bg-brand-700",
-        className
-      )}
-    >
-      {interested ? (
-        <>
-          <Check className="h-4 w-4" /> Interest expressed
-        </>
-      ) : (
-        <>
-          Express interest <ArrowRight className="h-4 w-4" />
-        </>
-      )}
-    </button>
-  );
-}
-
-/**
- * Preview-mode switcher. Billing isn't connected yet, so this lets anyone flip
- * between the free and subscribed investor views to see the gating in action.
- */
-export function DemoAccessBar({ className }: { className?: string }) {
-  const { active, plan, subscribe, cancel } = useSubscription();
-  const { count, clear } = useInterest();
+  function onClick() {
+    setError("");
+    startTransition(async () => {
+      const res = await expressInterest(slug);
+      if (!res.ok) setError(res.error || "Something went wrong.");
+      else router.refresh();
+    });
+  }
 
   return (
-    <div
-      className={cn(
-        "flex flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl border border-ink/10 bg-white px-4 py-3",
-        className
-      )}
-    >
-      <span className="inline-flex items-center gap-1.5 rounded-full bg-navy-50 px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-wide text-navy-700">
-        <Eye className="h-3.5 w-3.5" /> Preview mode
-      </span>
-      <span className="text-sm text-ink/70">
-        Browsing as{" "}
-        <strong className="font-semibold text-ink">{active ? plan ?? "Investor Pro" : "a free investor"}</strong>
-        {active && count > 0 && <span className="text-ink/50"> · interest in {count}</span>}
-      </span>
-      <span className="ml-auto flex items-center gap-2">
-        {active ? (
-          <button
-            onClick={() => {
-              cancel();
-              clear();
-            }}
-            className="inline-flex items-center gap-1 rounded-full border border-ink/12 px-3 py-1.5 text-xs font-medium text-ink/70 transition-colors hover:border-ink/25 hover:text-ink"
-          >
-            <RotateCcw className="h-3.5 w-3.5" /> Reset to free
-          </button>
-        ) : (
-          <button
-            onClick={() => subscribe("Investor Pro")}
-            className="inline-flex items-center gap-1 rounded-full bg-brand-600 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-700"
-          >
-            <Sparkles className="h-3.5 w-3.5" /> Simulate subscription
-          </button>
+    <div className={cn("w-full", className)}>
+      <button
+        onClick={onClick}
+        disabled={pending}
+        className={cn(
+          "inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition-colors disabled:opacity-60",
+          interested
+            ? "border border-emerald-600/30 bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+            : "bg-brand-600 text-white hover:bg-brand-700"
         )}
-      </span>
-      <p className="w-full text-[0.7rem] text-ink/50">
-        Billing isn&apos;t connected yet — this switch previews what each investor tier sees.
-      </p>
+      >
+        {pending ? (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" /> Saving…
+          </>
+        ) : interested ? (
+          <>
+            <Check className="h-4 w-4" /> Interest expressed
+          </>
+        ) : (
+          <>
+            Express interest <ArrowRight className="h-4 w-4" />
+          </>
+        )}
+      </button>
+      {error && <p className="mt-2 text-center text-xs font-medium text-brand-700">{error}</p>}
     </div>
   );
 }

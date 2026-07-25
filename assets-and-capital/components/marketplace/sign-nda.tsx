@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { X, FileSignature, Check, ShieldCheck } from "lucide-react";
-import { useNDA } from "@/lib/entitlements";
+import { useEffect, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { X, FileSignature, Check, ShieldCheck, Loader2 } from "lucide-react";
+import { signNda } from "@/lib/actions/entitlements";
 import { cn } from "@/lib/utils";
 
 /**
@@ -13,16 +14,19 @@ import { cn } from "@/lib/utils";
 export function SignNdaButton({
   slug,
   businessName,
+  signed,
   primary = false,
   className,
 }: {
   slug: string;
   businessName: string;
+  signed: boolean;
   primary?: boolean;
   className?: string;
 }) {
-  const { has, toggle } = useNDA();
-  const signed = has(slug);
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+  const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
   const [agreed, setAgreed] = useState(false);
 
@@ -34,9 +38,17 @@ export function SignNdaButton({
   }, [open]);
 
   function sign() {
-    if (!signed) toggle(slug);
-    setOpen(false);
-    setAgreed(false);
+    setError("");
+    startTransition(async () => {
+      const res = await signNda(slug);
+      if (!res.ok) {
+        setError(res.error || "We couldn't record your signature.");
+        return;
+      }
+      setOpen(false);
+      setAgreed(false);
+      router.refresh();
+    });
   }
 
   const base =
@@ -126,6 +138,7 @@ export function SignNdaButton({
                 />
                 I have read and agree to the terms of this NDA for {businessName}.
               </label>
+              {error && <p className="mt-3 text-sm font-medium text-brand-700">{error}</p>}
               <div className="mt-4 flex justify-end gap-2">
                 <button
                   onClick={() => setOpen(false)}
@@ -135,10 +148,14 @@ export function SignNdaButton({
                 </button>
                 <button
                   onClick={sign}
-                  disabled={!agreed}
+                  disabled={!agreed || pending}
                   className="inline-flex items-center gap-1.5 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 disabled:opacity-50"
                 >
-                  <FileSignature className="h-4 w-4" /> Agree &amp; sign
+                  {pending ? (
+                    <><Loader2 className="h-4 w-4 animate-spin" /> Signing…</>
+                  ) : (
+                    <><FileSignature className="h-4 w-4" /> Agree &amp; sign</>
+                  )}
                 </button>
               </div>
             </div>
