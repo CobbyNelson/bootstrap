@@ -9,8 +9,11 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  // Names match the Vercel↔Supabase integration defaults (pooled for queries,
+  // non-pooling for migrations). If you set the DB URLs manually, use these
+  // same names or tell me and I'll switch them.
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 // ------------------------------------------------------------ enums
