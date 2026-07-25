@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
+import { InvestorPlans } from "@/components/pricing/investor-plans";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 const FAQ = [
   { q: "How does the success fee work?", a: "For businesses raising capital, we charge a success fee only when a deal closes through the platform. Our incentives are aligned with yours — we win when you do." },
   { q: "Can I upgrade my listing later?", a: "Yes. You can upgrade from Standard to Silver, Gold, or Platinum at any time and only pay the difference for the remainder of your listing window." },
-  { q: "Do investors pay to join?", a: "Investors register for free by completing an investment mandate. Fees apply only to requested roadshows and successful partnerships created at their request." },
+  { q: "Do investors pay to join?", a: "Registering and browsing core listing details is free. An investor subscription (Pro or Elite) unlocks full business details across the marketplace, and expressing interest in a business opens its data room, AI profile and your personalised match rate. Roadshows and partnerships created at your request are billed separately." },
   { q: "What's included in a roadshow?", a: "A specialised roadshow puts your opportunity in front of multiple pre-screened, mandate-matched investors in a curated session, organised end to end by our team." },
 ];
 
@@ -72,6 +73,22 @@ export default function PricingPage() {
               </div>
             </Reveal>
           ))}
+        </div>
+      </section>
+
+      {/* investor membership */}
+      <section id="investor" className="scroll-mt-28 border-t border-ink/[0.06] py-14 md:py-20">
+        <div className="container-x">
+          <SectionHeading
+            align="center"
+            eyebrow="For investors"
+            title="Free to join. Subscribe to go deep."
+            subtitle="Registering and browsing core details is always free. An investor subscription unlocks full business details across the marketplace — then expressing interest opens each business's data room, AI profile and your personalised match rate."
+            className="mx-auto"
+          />
+          <div className="mt-12">
+            <InvestorPlans />
+          </div>
         </div>
       </section>
 

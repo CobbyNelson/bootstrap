@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MapPin, ArrowRight, FileSignature, Check, TriangleAlert, ShieldCheck, Star } from "lucide-react";
-import { SaveButton } from "@/components/ui/save-button";
+import { MapPin } from "lucide-react";
 import { getOpportunityBySlug, allOpportunitySlugs, scoreOpportunity, DEMO_MANDATE, derive } from "@/lib/matching";
 import { scoreBusiness } from "@/lib/business-scoring";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Money } from "@/components/ui/money";
-import { cn } from "@/lib/utils";
+import { BusinessDetail } from "@/components/marketplace/business-detail";
 
 export function generateStaticParams() {
   return allOpportunitySlugs().map((slug) => ({ slug }));
@@ -21,31 +18,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: `${o.name} — ${o.sector}`, description: o.blurb };
 }
 
-function starColor(stars: number): string {
-  if (stars >= 5) return "#047857";
-  if (stars >= 4) return "var(--color-brand-600)";
-  return "var(--color-navy-600)";
-}
-
-function ScoreRing({ value, color }: { value: number; color: string }) {
-  const size = 132;
-  const stroke = 10;
-  const r = (size - stroke) / 2;
-  const c = 2 * Math.PI * r;
-  return (
-    <div className="relative grid place-items-center" style={{ width: size, height: size }}>
-      <svg width={size} height={size} className="-rotate-90">
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(12,13,16,0.07)" strokeWidth={stroke} />
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c - (value / 100) * c} />
-      </svg>
-      <div className="absolute text-center">
-        <span className="block font-display text-4xl font-semibold text-navy-700 tnum">{value}</span>
-        <span className="block text-[0.62rem] uppercase tracking-widest text-ink/60">% match</span>
-      </div>
-    </div>
-  );
-}
-
 export default async function OpportunityPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const o = getOpportunityBySlug(slug);
@@ -54,35 +26,17 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
   const match = scoreOpportunity(DEMO_MANDATE, o);
   const d = derive(o);
   const biz = scoreBusiness(o);
-  const color = starColor(match.stars);
-
-  const metrics = [
-    { k: "Ask", v: <Money usd={o.ask} /> },
-    { k: "Instrument", v: o.instrument },
-    { k: "Target return", v: o.targetReturn },
-    { k: "Est. revenue", v: <Money usd={`$${d.revenueM}M`} /> },
-    { k: "Est. EBITDA margin", v: `${d.ebitdaMargin}%` },
-    { k: "Est. headcount", v: `${d.employees}` },
-    { k: "Stage", v: o.stage },
-    { k: "Risk", v: d.riskLevel },
-    { k: "Listing tier", v: o.tier },
-  ];
-  const compliance = [
-    { k: "Accreditation gate", v: "Cleared", ok: true },
-    { k: "Sanctions / PEP screen", v: "Clean", ok: true },
-    { k: "Business verification", v: "Verified", ok: true },
-    { k: "NDA status", v: "Required", ok: false },
-    { k: "Data room", v: "Locked", ok: false },
-  ];
 
   return (
     <>
-      {/* header */}
+      {/* header — core, always visible */}
       <section className="relative overflow-hidden border-b border-ink/[0.06] pt-32 pb-10 md:pt-40 md:pb-14">
         <div className="grid-noise pointer-events-none absolute inset-0 opacity-50" aria-hidden />
         <div className="container-x relative">
           <div className="flex items-center gap-2 text-sm text-ink/60">
-            <Link href="/marketplace" className="hover:text-ink">Marketplace</Link>
+            <Link href="/marketplace" className="hover:text-ink">
+              Marketplace
+            </Link>
             <span>/</span>
             <span className="text-ink/70">{o.name}</span>
           </div>
@@ -100,139 +54,19 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
-              <Badge variant={o.tier === "Platinum" ? "brand" : o.tier === "Gold" ? "gold" : "neutral"}>{o.tier} listing</Badge>
+              <Badge variant={o.tier === "Platinum" ? "brand" : o.tier === "Gold" ? "gold" : "neutral"}>
+                {o.tier} listing
+              </Badge>
               <Badge variant="success">Verified</Badge>
             </div>
           </div>
         </div>
       </section>
 
-      {/* body */}
+      {/* body — tiered access (core / subscription / expressed-interest) */}
       <section className="py-12 md:py-16">
-        <div className="container-x grid gap-8 lg:grid-cols-[1fr_380px]">
-          {/* left */}
-          <div className="space-y-6">
-            <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
-              <h2 className="font-display text-xl font-semibold text-navy-700">Overview</h2>
-              <p className="mt-3 leading-relaxed text-ink/65">{o.blurb}</p>
-              <p className="mt-3 leading-relaxed text-ink/65">
-                {o.name} is seeking {o.ask} in {o.instrument.toLowerCase()} to accelerate growth across {o.region}. The
-                opportunity has been screened and verified by the Assets &amp; Capital team and is presented with an
-                explainable AI match score against your active mandate.
-              </p>
-            </div>
-
-            <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
-              <h2 className="font-display text-xl font-semibold text-navy-700">Key metrics</h2>
-              <dl className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
-                {metrics.map((m) => (
-                  <div key={m.k} className="rounded-2xl bg-paper-2/60 p-4">
-                    <dt className="text-[0.65rem] uppercase tracking-wide text-ink/60">{m.k}</dt>
-                    <dd className="mt-1 font-semibold text-ink tnum">{m.v}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-
-            {/* fit breakdown — full 15 criteria */}
-            <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
-              <div className="flex items-center justify-between">
-                <h2 className="font-display text-xl font-semibold text-navy-700">AI fit breakdown</h2>
-                <span className="text-xs text-ink/60">15 weighted criteria</span>
-              </div>
-              <div className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-                {match.dimensions.map((dim) => (
-                  <div key={dim.key}>
-                    <div className="mb-1 flex items-center justify-between text-xs">
-                      <span className="text-ink/70">{dim.label} <span className="text-ink/30">· {dim.weight}%</span></span>
-                      <span className="font-medium text-ink tnum">{Math.round(dim.f * 100)}</span>
-                    </div>
-                    <div className="h-1.5 overflow-hidden rounded-full bg-ink/[0.06]">
-                      <div className={cn("h-full rounded-full", dim.f >= 0.85 ? "bg-emerald-500" : dim.f >= 0.6 ? "bg-brand-600" : "bg-navy-500")} style={{ width: `${Math.round(dim.f * 100)}%` }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* business scorecard */}
-            <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
-              <h2 className="font-display text-xl font-semibold text-navy-700">Business scorecard</h2>
-              <p className="mt-1 text-sm text-ink/65">AI-generated quality signals for this business.</p>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {biz.map((b) => {
-                  const good = b.higherIsBetter ? b.value >= 70 : b.value <= 45;
-                  const mid = b.higherIsBetter ? b.value >= 55 : b.value <= 60;
-                  const tone = good ? "text-emerald-700" : mid ? "text-navy-600" : "text-brand-600";
-                  return (
-                    <div key={b.key} className="rounded-2xl border border-ink/[0.06] p-4">
-                      <p className="text-xs text-ink/65">{b.label}</p>
-                      <p className={cn("mt-1 font-display text-2xl font-semibold tnum", tone)}>{b.value}</p>
-                      <p className="mt-1 text-[0.7rem] leading-snug text-ink/60">{b.recommendations[0]}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="h-5 w-5 text-brand-600" />
-                <h2 className="font-display text-xl font-semibold text-navy-700">Compliance readiness</h2>
-              </div>
-              <div className="mt-5 grid gap-2 sm:grid-cols-2">
-                {compliance.map((c) => (
-                  <div key={c.k} className="flex items-center justify-between rounded-xl border border-ink/[0.06] px-4 py-3 text-sm">
-                    <span className="text-ink/60">{c.k}</span>
-                    <Badge variant={c.ok ? "success" : "gold"} size="sm">{c.v}</Badge>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-4 text-xs text-ink/60">Match scores are neutral, criteria-based signals against your mandate — not investment advice.</p>
-            </div>
-          </div>
-
-          {/* right — match panel */}
-          <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="space-y-4 rounded-3xl border border-ink/[0.07] bg-white p-7 shadow-[var(--shadow-soft)]">
-              <div className="flex flex-col items-center text-center">
-                <ScoreRing value={match.score} color={color} />
-                <div className="mt-3 flex items-center gap-0.5">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className="h-4 w-4" style={{ color, fill: i <= match.stars ? color : "transparent" }} strokeWidth={1.5} />
-                  ))}
-                </div>
-                <span className="mt-1.5 text-sm font-semibold" style={{ color }}>{match.tier}</span>
-                <p className="mt-1 text-xs text-ink/60">vs. mandate: {DEMO_MANDATE.name}</p>
-              </div>
-
-              <div className="space-y-2 border-t border-ink/[0.06] pt-5">
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/60">Why this match</p>
-                {match.matched.map((r) => (
-                  <p key={r} className="flex items-start gap-2 text-sm text-ink/70">
-                    <Check className="mt-0.5 h-4 w-4 flex-none text-emerald-700" /> {r}
-                  </p>
-                ))}
-                {match.watchouts.map((r) => (
-                  <p key={r} className="flex items-start gap-2 text-sm text-ink/70">
-                    <TriangleAlert className="mt-0.5 h-4 w-4 flex-none text-navy-600" /> {r}
-                  </p>
-                ))}
-              </div>
-
-              <div className="flex flex-col gap-2 border-t border-ink/[0.06] pt-5">
-                <Button href="/register/investor" variant="primary" size="md" className="w-full">
-                  Express interest <ArrowRight className="h-4 w-4" />
-                </Button>
-                <div className="grid grid-cols-2 gap-2">
-                  <SaveButton slug={slug} variant="detail" />
-                  <button className="inline-flex items-center justify-center gap-1.5 rounded-full border border-ink/12 py-2.5 text-sm font-medium text-ink/70 hover:border-ink/25">
-                    <FileSignature className="h-4 w-4" /> Sign NDA
-                  </button>
-                </div>
-              </div>
-            </div>
-          </aside>
+        <div className="container-x">
+          <BusinessDetail o={o} slug={slug} match={match} d={d} biz={biz} mandateName={DEMO_MANDATE.name} />
         </div>
       </section>
     </>

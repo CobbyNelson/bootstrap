@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
-import { MapPin, Tag } from "lucide-react";
+import { MapPin, Tag, Lock } from "lucide-react";
 import type { Opportunity } from "@/lib/content";
 import { slugify } from "@/lib/matching";
+import { useAccess } from "@/lib/entitlements";
 import { Money } from "./money";
 import { SaveButton } from "./save-button";
 
@@ -22,7 +25,9 @@ function pickGradient(name: string) {
 }
 
 export function OpportunityCard({ o, href }: { o: Opportunity; href?: string }) {
-  const to = href ?? `/marketplace/${slugify(o.name)}`;
+  const slug = slugify(o.name);
+  const to = href ?? `/marketplace/${slug}`;
+  const { deal } = useAccess(slug);
   return (
     <Link
       href={to}
@@ -37,10 +42,19 @@ export function OpportunityCard({ o, href }: { o: Opportunity; href?: string }) 
         <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[0.62rem] kicker text-ink shadow-sm">
           {o.tier}
         </span>
-        <SaveButton slug={slugify(o.name)} className="absolute right-3 top-3" />
-        <span className="absolute bottom-3 left-3 rounded-full bg-brand-600 px-2.5 py-1 text-[0.65rem] font-semibold text-white tnum">
-          {o.match}% match
-        </span>
+        <SaveButton slug={slug} className="absolute right-3 top-3" />
+        {deal ? (
+          <span className="absolute bottom-3 left-3 rounded-full bg-brand-600 px-2.5 py-1 text-[0.65rem] font-semibold text-white tnum">
+            {o.match}% match
+          </span>
+        ) : (
+          <span
+            className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full bg-ink/70 px-2.5 py-1 text-[0.62rem] font-semibold text-white backdrop-blur-sm"
+            title="Express interest to reveal your match rate"
+          >
+            <Lock className="h-3 w-3" /> Match locked
+          </span>
+        )}
       </div>
 
       {/* body */}

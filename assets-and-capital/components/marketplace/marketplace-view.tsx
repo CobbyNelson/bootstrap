@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Search, SlidersHorizontal, LayoutGrid, List, X, MapPin, Tag } from "lucide-react";
+import { Search, SlidersHorizontal, LayoutGrid, List, X, MapPin, Tag, Lock } from "lucide-react";
 import { REGIONS, SECTORS_FILTER, STAGES, INSTRUMENTS, TIERS, SORTS } from "@/lib/marketplace-data";
 import { SCORED_MARKETPLACE as MARKETPLACE, slugify } from "@/lib/matching";
 import { OpportunityCard } from "@/components/ui/opportunity-card";
 import { Money } from "@/components/ui/money";
 import { CurrencySwitcher } from "@/components/layout/currency-switcher";
+import { useSubscription, useInterest } from "@/lib/entitlements";
 import { cn } from "@/lib/utils";
 
 const LIST_GRADIENTS = [
@@ -34,6 +35,8 @@ function askValue(ask: string): number {
 type Facet = "region" | "sector" | "stage" | "instrument" | "tier";
 
 export function MarketplaceView() {
+  const { active: subscribed } = useSubscription();
+  const { has: hasInterest } = useInterest();
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<(typeof SORTS)[number]["key"]>("match");
   const [view, setView] = useState<"grid" | "list">("grid");
@@ -229,7 +232,13 @@ export function MarketplaceView() {
                   <div className="absolute inset-0 grid place-items-center">
                     <span className="font-display text-lg font-extrabold tracking-tight text-white/90">{rowInitials(o.name)}</span>
                   </div>
-                  <span className="absolute left-1.5 top-1.5 rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.55rem] font-semibold text-white tnum">{o.match}%</span>
+                  {subscribed && hasInterest(slugify(o.name)) ? (
+                    <span className="absolute left-1.5 top-1.5 rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.55rem] font-semibold text-white tnum">{o.match}%</span>
+                  ) : (
+                    <span className="absolute left-1.5 top-1.5 inline-flex items-center gap-0.5 rounded-full bg-ink/70 px-1.5 py-0.5 text-[0.55rem] font-semibold text-white backdrop-blur-sm">
+                      <Lock className="h-2.5 w-2.5" />
+                    </span>
+                  )}
                 </div>
 
                 {/* title + meta */}
