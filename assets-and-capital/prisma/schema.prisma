@@ -119,6 +119,7 @@ model User {
   interests     ListingInterest[]
   ndaSignatures NdaSignature[]
   savedListings SavedListing[]
+  paymentIntents PaymentIntent[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -137,6 +138,26 @@ model InvestorSubscription {
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+/// A checkout attempt. Subscriptions are only ever activated from an intent
+/// this server marked SUCCEEDED — never from a client call.
+model PaymentIntent {
+  id          String        @id @default(cuid())
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reference   String        @unique
+  provider    String
+  plan        String
+  amountLabel String
+  status      PaymentStatus @default(PENDING)
+  testMode    Boolean       @default(true)
+  providerRef String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([status])
 }
 
 model ListingInterest {

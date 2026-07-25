@@ -8,23 +8,11 @@ export type ActionResult = { ok: boolean; error?: string; value?: boolean };
 
 const NEEDS_AUTH = "Please sign in to continue.";
 
-/** Activate a subscription. Called after a confirmed payment. */
-export async function activateSubscription(plan: string): Promise<ActionResult> {
-  const user = await getCurrentUser();
-  if (!user) return { ok: false, error: NEEDS_AUTH };
-  try {
-    await prisma.investorSubscription.upsert({
-      where: { userId: user.id },
-      create: { userId: user.id, plan, active: true },
-      update: { plan, active: true },
-    });
-    revalidatePath("/", "layout");
-    return { ok: true, value: true };
-  } catch (e) {
-    console.error("activateSubscription failed", e);
-    return { ok: false, error: "We couldn't activate your subscription." };
-  }
-}
+/**
+ * NOTE: there is deliberately no client-callable "activate subscription" action.
+ * Subscriptions are only activated by lib/payments-server after it verifies a
+ * PaymentIntent it created (test mode) or a signed provider webhook (live).
+ */
 
 export async function cancelSubscription(): Promise<ActionResult> {
   const user = await getCurrentUser();

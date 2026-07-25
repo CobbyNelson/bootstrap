@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Check, Sparkles, ArrowRight } from "lucide-react";
-import { activateSubscription, cancelSubscription } from "@/lib/actions/entitlements";
+import { cancelSubscription } from "@/lib/actions/entitlements";
 import { CheckoutDialog } from "@/components/payments/checkout-dialog";
 import { cn } from "@/lib/utils";
 
@@ -98,13 +98,10 @@ export function InvestorPlans({
     }
   }
 
+  // The server already activated the subscription when it settled the payment;
+  // just pull the fresh state.
   function onPaid() {
-    if (!checkout?.activates) return;
-    startTransition(async () => {
-      const res = await activateSubscription(checkout.activates!);
-      if (!res.ok) setError(res.error || "We couldn't activate your subscription.");
-      else router.refresh();
-    });
+    startTransition(() => router.refresh());
   }
 
   return (

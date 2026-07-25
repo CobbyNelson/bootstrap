@@ -63,25 +63,34 @@ export function CheckoutDialog({
       return;
     }
     setStatus("processing");
-    const digits = card.number.replace(/\D/g, "");
     try {
-      const res = await fetch("/api/checkout", {
+      // 1) create a server-side payment intent
+      const created = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ provider: providerId, plan: planName, amount: priceLabel }),
+        body: JSON.stringify({ provider: providerId, plan: planName }),
       });
-      const data = await res.json().catch(() => ({ ok: false }));
-      // Give the flow a realistic beat.
-      await new Promise((r) => setTimeout(r, 1100));
-
-      if (provider.kind === "card" && digits === TEST_CARDS.decline.replace(/\s/g, "")) {
+      const intent = await created.json().catch(() => ({ ok: false }));
+      if (!intent.ok) {
         setStatus("declined");
-        setError("Your card was declined. (This is the test decline card.)");
+        setError(intent.error || "Payment could not be started.");
         return;
       }
-      if (!data.ok) {
+
+      // Give the flow a realistic beat.
+      await new Promise((r) => setTimeout(r, 900));
+
+      // 2) confirm it — the server validates and settles; the client cannot
+      //    grant itself a subscription.
+      const confirmed = await fetch("/api/checkout/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reference: intent.reference, cardNumber: card.number }),
+      });
+      const result = await confirmed.json().catch(() => ({ ok: false }));
+      if (!result.ok) {
         setStatus("declined");
-        setError(data.error || "Payment could not be completed.");
+        setError(result.error || "Payment could not be completed.");
         return;
       }
       setStatus("success");

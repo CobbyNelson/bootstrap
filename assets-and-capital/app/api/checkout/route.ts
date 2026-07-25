@@ -1,47 +1,34 @@
+import { getCurrentUser } from "@/lib/session";
+import { createIntent } from "@/lib/payments-server";
 import { paymentsTestMode } from "@/lib/payments";
 
 /**
- * Checkout seam. In TEST MODE it returns a simulated success (no real charge)
- * so the whole flow is exercisable. In live mode this is where each provider's
- * server SDK creates a real session/transaction:
+ * Start checkout. Records a PENDING PaymentIntent server-side and returns its
+ * reference; the client cannot mint or settle one itself.
  *
- *   stripe    → stripe.checkout.sessions.create(...)      → return session.url
- *   paystack  → POST transaction/initialize              → return authorization_url
- *   paypal    → POST /v2/checkout/orders                 → return approve link
- *   googlepay → confirm the token via the underlying PSP (Stripe/Paystack)
- *
- * Secrets stay server-side (see .env.example). A matching webhook route would
- * then confirm payment and flip the subscription in the database.
+ * In live mode this is where each provider's server SDK creates the real
+ * session/transaction, passing `reference` so the webhook can match it back:
+ *   stripe   → checkout.sessions.create({ client_reference_id: reference })
+ *   paystack → transaction/initialize { reference }
+ *   paypal   → orders create { custom_id: reference }
  */
 export async function POST(req: Request) {
-  let body: { provider?: string; plan?: string; amount?: string } = {};
+  const user = await getCurrentUser();
+  if (!user) return Response.json({ ok: false, error: "Please sign in to continue." }, { status: 401 });
+
+  let body: { provider?: string; plan?: string } = {};
   try {
     body = await req.json();
   } catch {
     /* ignore */
   }
-  const { provider, plan, amount } = body;
-
+  const { provider, plan } = body;
   if (!provider || !plan) {
     return Response.json({ ok: false, error: "Missing provider or plan." }, { status: 400 });
   }
 
-  if (paymentsTestMode()) {
-    const reference = `TEST-${provider}-${plan}`.toUpperCase().replace(/[^A-Z0-9]+/g, "-");
-    return Response.json({
-      ok: true,
-      testMode: true,
-      provider,
-      plan,
-      amount: amount ?? null,
-      reference,
-      message: "Test-mode payment — no real charge was made.",
-    });
-  }
+  const result = await createIntent(user.id, provider, plan);
+  if (!result.ok) return Response.json(result, { status: 400 });
 
-  // Live mode: no server keys configured on this deployment yet.
-  return Response.json(
-    { ok: false, error: "Live payments are not configured on this deployment." },
-    { status: 501 }
-  );
+  return Response.json({ ok: true, reference: result.reference, testMode: paymentsTestMode() });
 }
