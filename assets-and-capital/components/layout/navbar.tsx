@@ -7,12 +7,32 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { NAV } from "@/lib/content";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { logoutUser } from "@/lib/actions/auth";
 import { Logo } from "./logo";
+
+type NavUser = { name: string | null; email: string; role: string };
+const ADMIN_ROLES = new Set(["ADMIN", "SUPER_ADMIN", "STAFF"]);
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [user, setUser] = useState<NavUser | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/me")
+      .then((r) => r.json())
+      .then((d) => {
+        if (active) setUser(d.user ?? null);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const dashHref = user && ADMIN_ROLES.has(user.role) ? "/admin" : "/dashboard";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -113,12 +133,30 @@ export function Navbar() {
 
         {/* desktop CTAs */}
         <div className="hidden items-center gap-2 lg:flex">
-          <Button href="/login" variant="ghost" size="sm">
-            Sign in
-          </Button>
-          <Button href="/register" variant="primary" size="sm">
-            Get started
-          </Button>
+          {user ? (
+            <>
+              <Button href={dashHref} variant="ghost" size="sm">
+                Dashboard
+              </Button>
+              <form action={logoutUser}>
+                <button
+                  type="submit"
+                  className="inline-flex h-9 items-center gap-2 rounded-full border border-ink/15 bg-white/60 px-4 text-sm font-medium text-ink transition-colors hover:border-ink/30 hover:bg-white"
+                >
+                  Sign out
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              <Button href="/login" variant="ghost" size="sm">
+                Sign in
+              </Button>
+              <Button href="/register" variant="primary" size="sm">
+                Get started
+              </Button>
+            </>
+          )}
         </div>
 
         {/* mobile toggle */}
@@ -174,12 +212,31 @@ export function Navbar() {
               ))}
             </div>
             <div className="mt-6 flex flex-col gap-3">
-              <Button href="/register" variant="primary" size="lg" onClick={() => setMobileOpen(false)}>
-                Get started
-              </Button>
-              <Button href="/login" variant="outline" size="lg" onClick={() => setMobileOpen(false)}>
-                Sign in
-              </Button>
+              {user ? (
+                <>
+                  <Button href={dashHref} variant="primary" size="lg" onClick={() => setMobileOpen(false)}>
+                    Dashboard
+                  </Button>
+                  <form action={logoutUser} className="contents">
+                    <button
+                      type="submit"
+                      onClick={() => setMobileOpen(false)}
+                      className="inline-flex h-13 items-center justify-center rounded-full border border-ink/15 bg-white px-8 text-base font-medium text-ink"
+                    >
+                      Sign out
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <>
+                  <Button href="/register" variant="primary" size="lg" onClick={() => setMobileOpen(false)}>
+                    Get started
+                  </Button>
+                  <Button href="/login" variant="outline" size="lg" onClick={() => setMobileOpen(false)}>
+                    Sign in
+                  </Button>
+                </>
+              )}
             </div>
           </motion.div>
         )}

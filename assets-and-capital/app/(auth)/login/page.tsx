@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { ShieldCheck } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { LoginForm } from "@/components/auth/login-form";
@@ -18,7 +19,9 @@ export default function LoginPage() {
           <h1 className="mt-10 font-display text-3xl font-semibold text-navy-700">Welcome back</h1>
           <p className="mt-2 text-ink/65">Sign in to access your marketplace and matches.</p>
           <div className="mt-8">
-            <LoginForm />
+            <Suspense fallback={<div className="h-64" />}>
+              <LoginForm />
+            </Suspense>
           </div>
         </div>
       </div>
