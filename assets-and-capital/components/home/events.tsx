@@ -4,16 +4,24 @@ import { EVENTS } from "@/lib/content";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { Badge } from "@/components/ui/badge";
+import { ImageLayer } from "@/components/ui/image-layer";
+import { IMAGERY } from "@/lib/imagery";
 
 export function Events() {
   return (
-    <section className="bg-paper-2/60 py-20 md:py-28">
-      <div className="container-x">
+    <section className="relative overflow-hidden bg-paper-2/60 py-20 md:py-28">
+      <ImageLayer
+        src={IMAGERY.forum.src}
+        opacity={0.1}
+        position="center"
+        className="[mask-image:linear-gradient(to_bottom,black,transparent_70%)]"
+      />
+      <div className="container-x relative">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
             eyebrow="Events & roadshows"
             title="Meet capital and opportunity in person"
-            subtitle="Roadshows and forums where investors and business owners meet in person."
+            subtitle="Roadshows built around a mandate, and forums where the introductions happen face to face."
           />
           <Link href="/events" className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-700 hover:text-brand-800">
             View all events <ArrowRight className="h-4 w-4" />

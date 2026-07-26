@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { ArrowRight, TrendingUp, ShieldCheck, MapPin, Asterisk } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ImageLayer } from "@/components/ui/image-layer";
+import { IMAGERY } from "@/lib/imagery";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -10,6 +12,12 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
       {/* ambient background */}
+      <ImageLayer
+        src={IMAGERY.heroTower.src}
+        opacity={0.16}
+        position="right top"
+        className="[mask-image:linear-gradient(to_bottom_left,black,transparent_65%)]"
+      />
       <div className="grid-noise pointer-events-none absolute inset-0 opacity-60" aria-hidden />
       <div
         className="pointer-events-none absolute -top-40 right-[-10%] h-[560px] w-[560px] rounded-full opacity-50 blur-3xl"
