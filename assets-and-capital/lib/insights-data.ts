@@ -110,7 +110,7 @@ export const ARTICLES: Article[] = [
     body: [
       { p: "Accra FinPay reached a signed term sheet eleven weeks after listing. The speed was not luck; it was the product of three decisions made before the first investor conversation." },
       { h: "Decision one: get investor-ready first", p: "Before matching, the team completed a professional financial model and a permissioned data room. When investors arrived, diligence flowed instead of stalling." },
-      { h: "Decision two: match on mandate, not volume", p: "Rather than broadcast to hundreds, the company was routed to the handful of investors whose mandate genuinely fit — turning a numbers game into a fit game." },
+      { h: "Decision two: match on mandate, not volume", p: "Rather than broadcast to hundreds, the company was routed to the eleven investors whose mandate actually matched the raise. Three took a first meeting." },
       { h: "Decision three: run a real process", p: "A structured pipeline with enforced stages kept momentum and created healthy competitive tension, which surfaced in the final terms." },
     ],
   },

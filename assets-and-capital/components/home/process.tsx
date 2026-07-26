@@ -44,7 +44,7 @@ export function Process() {
           <div>
             <h3 className="text-xl font-semibold text-white">Specialised roadshows</h3>
             <p className="mt-1 text-sm text-white/70">
-              Meet multiple pre-screened opportunities in curated sessions built around your mandate.
+              Meet several pre-screened opportunities in one session built around your mandate.
             </p>
           </div>
           <Button href="/services/roadshows" variant="primary" size="lg" className="shrink-0">

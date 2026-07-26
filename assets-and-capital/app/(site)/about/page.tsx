@@ -34,14 +34,13 @@ export default function AboutPage() {
             <div>
               <h2 className="font-display text-2xl font-semibold text-navy-700">Our mission</h2>
               <p className="mt-4 leading-relaxed text-ink/60">
-                To create a trusted platform that seamlessly connects investors with vetted business opportunities —
-                providing value through transparency, personalised services, and expert support for successful
-                deal-making.
+                To give growing businesses a credible route to capital outside the stock market and bank lending, and to
+                give investors opportunities that have already been checked before they arrive.
               </p>
               <p className="mt-4 leading-relaxed text-ink/60">
-                For investors, we give access to an extensive portfolio of high-quality opportunities, curated to meet
-                your mandate and financial goals. For businesses, we promote your opportunity to the right investors and
-                partners.
+                For investors, that means deals scored against your written mandate with the reasoning shown, not a feed
+                to sort through. For businesses, it means your raise put in front of the investors whose criteria it
+                actually meets.
               </p>
             </div>
           </Reveal>

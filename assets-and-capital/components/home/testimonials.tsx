@@ -4,6 +4,9 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 
 export function Testimonials() {
+  // Nothing to show until real, attributed quotes exist.
+  if (TESTIMONIALS.length === 0) return null;
+
   return (
     <section className="bg-paper-2/60 py-20 md:py-28">
       <div className="container-x">

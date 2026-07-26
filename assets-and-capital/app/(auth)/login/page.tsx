@@ -37,13 +37,13 @@ export default function LoginPage() {
         <div className="relative flex h-full flex-col justify-center px-16 text-white">
           <ShieldCheck className="h-10 w-10 text-navy-400" />
           <blockquote className="mt-8 max-w-md font-display text-3xl font-medium leading-snug">
-            “The connection between quality assets and ready capital — made simple, credible, and impactful.”
+            Businesses are screened before they are listed. Opportunities are scored before they reach you.
           </blockquote>
           <div className="mt-10 grid max-w-md grid-cols-3 gap-6">
             {[
-              { v: "$2.4B", k: "Connected" },
-              { v: "1,200+", k: "Opportunities" },
-              { v: "46", k: "Countries" },
+              { v: "15", k: "Match criteria" },
+              { v: "14", k: "Sectors" },
+              { v: "4", k: "Listing tiers" },
             ].map((s) => (
               <div key={s.k}>
                 <p className="font-display text-2xl font-semibold tnum">{s.v}</p>

@@ -13,7 +13,7 @@ const PATHS = [
     href: "/register/investor",
     icon: TrendingUp,
     title: "I'm an investor",
-    body: "Build your investment mandate and receive curated, mandate-matched opportunities from around the world.",
+    body: "Build your investment mandate and receive opportunities scored against it, wherever they come from.",
     points: ["Free to register", "Mandate-based matching", "First-hand deal notifications"],
     cta: "Build my mandate",
   },

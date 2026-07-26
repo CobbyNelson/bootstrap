@@ -35,7 +35,7 @@ export function Hero() {
                 <span className="h-1.5 w-1.5 rounded-full bg-navy-500" />
                 <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
               </span>
-              Global marketplace · 46 countries
+              A marketplace for private capital
             </span>
           </motion.div>
 
@@ -158,10 +158,10 @@ function FloatingCard() {
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
         className="absolute -left-10 -bottom-12 hidden rounded-2xl border border-ink/[0.07] bg-white/95 p-4 shadow-[var(--shadow-card)] backdrop-blur sm:block"
       >
-        <p className="text-[0.65rem] uppercase tracking-wide text-ink/60">Capital connected</p>
-        <p className="font-display text-2xl font-semibold text-navy-700 tnum">$2.4B</p>
+        <p className="text-[0.65rem] uppercase tracking-wide text-ink/60">Match criteria</p>
+        <p className="font-display text-2xl font-semibold text-navy-700 tnum">15</p>
         <div className="mt-1.5 flex items-center gap-1 text-xs font-medium text-emerald-700">
-          <TrendingUp className="h-3.5 w-3.5" /> +18% this quarter
+          <TrendingUp className="h-3.5 w-3.5" /> Weighted &amp; explained
         </div>
       </motion.div>
 

@@ -70,7 +70,7 @@ export function scoreBusiness(o: Opportunity): Metric[] {
     {
       key: "growth", label: "Growth Potential", value: growth, higherIsBetter: true,
       summary: `${stageEarly ? "Early-stage" : "Established"} business with ${o.targetReturn} upside.`,
-      recommendations: growth < 75 ? ["Quantify the expansion roadmap and TAM", "Show a repeatable go-to-market motion"] : ["Compelling growth trajectory"],
+      recommendations: growth < 75 ? ["Quantify the expansion roadmap and TAM", "Show a repeatable go-to-market motion"] : ["Growth trajectory is well evidenced"],
     },
   ];
 }

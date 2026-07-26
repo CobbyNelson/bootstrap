@@ -57,7 +57,7 @@ export function NewsletterForm() {
           )}
         </>
       )}
-      <p className="mt-2.5 text-xs text-white/65">Market intelligence and curated opportunities. No spam.</p>
+      <p className="mt-2.5 text-xs text-white/65">Market intelligence and new opportunities. No spam.</p>
     </form>
   );
 }

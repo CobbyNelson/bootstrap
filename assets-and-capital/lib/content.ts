@@ -31,8 +31,8 @@ export const NAV: NavGroup[] = [
       {
         title: "For Investors",
         links: [
-          { label: "Why invest with us", href: "/investors", description: "Curated, mandate-matched deal flow", icon: ShieldCheck },
-          { label: "Browse the marketplace", href: "/marketplace", description: "1,200+ vetted opportunities", icon: Search },
+          { label: "Why invest with us", href: "/investors", description: "Deals scored against your mandate", icon: ShieldCheck },
+          { label: "Browse the marketplace", href: "/marketplace", description: "Screened and verified listings", icon: Search },
           { label: "Build your mandate", href: "/register/investor", description: "Get matched automatically", icon: LineChart },
         ],
       },
@@ -89,11 +89,16 @@ export const NAV: NavGroup[] = [
 
 export type Stat = { value: number; prefix?: string; suffix?: string; label: string; decimals?: number };
 
+/**
+ * Facts about how the platform works — verifiable from the product itself.
+ * Traction figures (capital raised, investor counts) belong here only once
+ * they are real and can be substantiated.
+ */
 export const STATS: Stat[] = [
-  { value: 2.4, prefix: "$", suffix: "B", label: "Capital connected", decimals: 1 },
-  { value: 1200, suffix: "+", label: "Vetted opportunities" },
-  { value: 480, suffix: "+", label: "Active investors" },
-  { value: 46, label: "Countries covered" },
+  { value: 15, label: "Weighted match criteria" },
+  { value: 14, label: "Sectors covered" },
+  { value: 5, label: "Business score signals" },
+  { value: 4, label: "Listing tiers" },
 ];
 
 /* ---------------------------------------------------------------- Industries (from questionnaire taxonomy) */
@@ -122,26 +127,26 @@ export const INDUSTRIES: Industry[] = [
 export type Step = { title: string; body: string };
 
 export const HOW_INVESTOR: Step[] = [
-  { title: "Register your mandate", body: "Tell us your objectives, strategy, geographies, sectors and ticket size. Our guided form builds a structured investment mandate in minutes." },
-  { title: "Get matched", body: "Our matching engine screens every incoming opportunity against your mandate and surfaces only mandate-fit deals — with an explainable match score." },
-  { title: "Diligence & connect", body: "Access data rooms, request roadshows to pre-screened opportunities, and connect with businesses through a secure, audited workflow." },
-  { title: "Deploy capital", body: "Move from introduction to allocation with document workflows and on-the-ground support from our global team." },
+  { title: "Register your mandate", body: "Set out your objectives, strategy, geographies, sectors and ticket size. The guided form turns that into a structured mandate in a few minutes." },
+  { title: "Get matched", body: "New opportunities are scored against that mandate as they arrive. You see the ones that fit, along with why each one scored the way it did." },
+  { title: "Diligence & connect", body: "Open data rooms once the NDA is signed, request a roadshow, and message businesses directly. Every document opened is logged." },
+  { title: "Deploy capital", body: "Commit, receive your allocation and sign the subscription agreement, with our team in-market throughout." },
 ];
 
 export const HOW_BUSINESS: Step[] = [
-  { title: "List your opportunity", body: "Create a verified profile with your ask, instrument, and financials. Choose a listing tier from Standard to Platinum." },
-  { title: "Get investor-ready", body: "Optional services — business plan writing, financial modelling, and teaser preparation — sharpen your materials before investors see them." },
-  { title: "Reach the right investors", body: "We actively route your opportunity to investors whose mandate fits, backed by personalised roadshows and outreach." },
-  { title: "Close the raise", body: "Progress through diligence and negotiation to a closed deal. We charge a success fee only when you succeed." },
+  { title: "List your opportunity", body: "Build a verified profile covering your ask, instrument and financials, then choose a listing tier from Standard to Platinum." },
+  { title: "Get investor-ready", body: "Business plan writing, financial modelling and teaser preparation are available separately if your materials need work first." },
+  { title: "Reach the right investors", body: "We route your listing to investors whose mandate matches it, and arrange roadshows where the room justifies one." },
+  { title: "Close the raise", body: "Work through diligence and negotiation to signed terms. The success fee applies only if the raise closes." },
 ];
 
 /* ---------------------------------------------------------------- Investment process */
 
 export const PROCESS: Step[] = [
-  { title: "Screen", body: "Every business is vetted and verified before it reaches an investor." },
-  { title: "Match", body: "Mandate-aware matching connects capital to opportunity, not noise." },
-  { title: "Engage", body: "Secure data rooms, messaging, and curated roadshows move deals forward." },
-  { title: "Close", body: "Document workflows and expert support carry a match to a closed allocation." },
+  { title: "Screen", body: "Financials, ownership and documents are verified before a listing goes live." },
+  { title: "Match", body: "Each opportunity is scored against your written mandate before it reaches you." },
+  { title: "Engage", body: "Data rooms open once the NDA is signed. Messaging and roadshows run in one place." },
+  { title: "Close", body: "Term sheets, agreements and allocation are tracked through to funding." },
 ];
 
 /* ---------------------------------------------------------------- Listing tiers */
@@ -160,14 +165,14 @@ export const LISTING_TIERS: Tier[] = [
     name: "Standard",
     price: "$490",
     cadence: "per listing",
-    tagline: "Get discovered by our investor network.",
+    tagline: "Be visible to investors searching the marketplace.",
     features: ["Verified business listing", "Appears in marketplace search", "Basic performance analytics", "Secure messaging with investors", "90-day listing window"],
   },
   {
     name: "Silver",
     price: "$1,200",
     cadence: "per listing",
-    tagline: "Stand out with enhanced visibility.",
+    tagline: "Higher placement, plus a data room for your documents.",
     features: ["Everything in Standard", "Priority search placement", "Featured-opportunity badge", "Data room (up to 25 documents)", "Extended 180-day window"],
   },
   {
@@ -182,7 +187,7 @@ export const LISTING_TIERS: Tier[] = [
     name: "Platinum",
     price: "Custom",
     cadence: "engagement",
-    tagline: "White-glove capital raising, end to end.",
+    tagline: "A managed raise, run by our team end to end.",
     features: ["Everything in Gold", "Multiple targeted roadshows", "Business plan & financial modelling", "Shadow investor search", "Priority success-fee terms"],
   },
 ];
@@ -192,12 +197,12 @@ export const LISTING_TIERS: Tier[] = [
 export type Service = { title: string; body: string; icon: LucideIcon; audience: "investor" | "business" };
 
 export const SERVICES: Service[] = [
-  { title: "Specialised roadshows", body: "Meet multiple pre-screened opportunities in curated sessions built around your mandate.", icon: Presentation, audience: "investor" },
-  { title: "Local events access", body: "On-the-ground events that deliver real market insight in the geographies you target.", icon: Users, audience: "investor" },
-  { title: "Market access support", body: "Connect with suppliers, buyers, and partners to grow beyond the initial investment.", icon: Search, audience: "investor" },
-  { title: "Business plan writing", body: "Investor-ready plans that frame your opportunity with clarity and credibility.", icon: FileText, audience: "business" },
-  { title: "Financial modelling", body: "Defensible, assumption-driven models and financial statements that stand up to diligence.", icon: LineChart, audience: "business" },
-  { title: "Teaser & pitch preparation", body: "A compelling teaser and pitch that earns a second meeting.", icon: Presentation, audience: "business" },
+  { title: "Specialised roadshows", body: "Sessions built around your mandate, with every business screened against it before the invitation goes out.", icon: Presentation, audience: "investor" },
+  { title: "Local events access", body: "Events in the markets you are targeting, hosted alongside operators and advisers who work there.", icon: Users, audience: "investor" },
+  { title: "Market access support", body: "Introductions to suppliers, buyers and partners once the investment is made.", icon: Search, audience: "investor" },
+  { title: "Business plan writing", body: "Plans built around what investors read first: the market, the model, the numbers and the team.", icon: FileText, audience: "business" },
+  { title: "Financial modelling", body: "Models where every assumption is stated and can be traced back to its source.", icon: LineChart, audience: "business" },
+  { title: "Teaser & pitch preparation", body: "A teaser and deck written to earn the second meeting.", icon: Presentation, audience: "business" },
 ];
 
 /* ---------------------------------------------------------------- Featured opportunities (illustrative) */
@@ -229,11 +234,13 @@ export const FEATURED_OPPORTUNITIES: Opportunity[] = [
 
 export type Testimonial = { quote: string; name: string; role: string };
 
-export const TESTIMONIALS: Testimonial[] = [
-  { quote: "Assets & Capital brought us three mandate-fit opportunities in a month that our own network hadn't surfaced in a year. The roadshow was flawless.", name: "Aisha Bello", role: "CIO, Family Office · Dubai" },
-  { quote: "We raised our Series A in eleven weeks. Their team didn't just list us — they put us in front of the exact investors who understood our market.", name: "David Mensah", role: "Founder & CEO · Accra FinPay" },
-  { quote: "The mandate matching is genuinely intelligent. It filters out the noise and lets my team spend diligence hours where they count.", name: "Marcus Lindqvist", role: "Partner, Growth Equity · London" },
-];
+/**
+ * Client quotes must be real and attributed with permission — invented
+ * endorsements are a compliance risk for a regulated financial business, so
+ * this stays empty until we have consented quotes to publish. The Testimonials
+ * section renders nothing while it is empty.
+ */
+export const TESTIMONIALS: Testimonial[] = [];
 
 /* ---------------------------------------------------------------- Insights */
 
@@ -258,8 +265,8 @@ export const EVENTS: EventItem[] = [
 /* ---------------------------------------------------------------- Why choose us */
 
 export const WHY: { title: string; body: string; icon: LucideIcon }[] = [
-  { title: "Vetted, not listed", body: "Every opportunity is screened and verified before an investor ever sees it. Quality over volume, always.", icon: ShieldCheck },
-  { title: "Mandate-aware matching", body: "We match capital to opportunity on written mandate fit — with explainable scores, not guesswork.", icon: LineChart },
-  { title: "On-the-ground partner", body: "A global team that engages business owners in-market and delivers real, local intelligence.", icon: Users },
-  { title: "Aligned incentives", body: "Success fees mean we win when you do. Our interests are pointed the same direction as yours.", icon: Landmark },
+  { title: "Screened before listed", body: "Financials, ownership and documents are checked before a business goes live. Listings that fail that check never reach the marketplace.", icon: ShieldCheck },
+  { title: "Scored against your mandate", body: "Every opportunity is scored on fifteen weighted criteria drawn from your written mandate, and each score shows the reasoning behind it.", icon: LineChart },
+  { title: "People in the market", body: "Our team meets business owners where they operate, so what reaches you is informed by more than a data room.", icon: Users },
+  { title: "Paid on outcomes", body: "Businesses pay a success fee when a raise closes. If it doesn't close, there's no fee to collect.", icon: Landmark },
 ];

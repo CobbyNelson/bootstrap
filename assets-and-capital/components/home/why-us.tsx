@@ -9,7 +9,7 @@ export function WhyUs() {
         <SectionHeading
           align="center"
           eyebrow="Why choose us"
-          title="A trusted partner, not just a listing site"
+          title="What we do beyond listing a business"
           subtitle="We combine modern technology with a global, on-the-ground team to deliver quality — for both sides of the deal."
           className="mx-auto"
         />

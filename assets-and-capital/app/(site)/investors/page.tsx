@@ -8,12 +8,12 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "For Investors",
   description:
-    "Access curated, mandate-matched investment opportunities. Assets & Capital is your trusted local partner for identifying the right deals worldwide.",
+    "Opportunities scored against your written mandate, screened before they reach you, with people on the ground in the markets you invest in.",
 };
 
 const SERVICES = [
   { icon: Users, title: "Local events access", body: "Gain valuable, on-the-ground market insight in the geographies you target." },
-  { icon: Presentation, title: "Specialised roadshows", body: "Meet multiple pre-screened investment opportunities in curated sessions." },
+  { icon: Presentation, title: "Specialised roadshows", body: "Meet several pre-screened opportunities in a single session built around your mandate." },
   { icon: Search, title: "Market access support", body: "Connect with suppliers, buyers, and partners to grow your investments." },
 ];
 

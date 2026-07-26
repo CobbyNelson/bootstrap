@@ -13,7 +13,7 @@ export function Events() {
           <SectionHeading
             eyebrow="Events & roadshows"
             title="Meet capital and opportunity in person"
-            subtitle="Curated roadshows and forums that put the right people in the same room."
+            subtitle="Roadshows and forums where investors and business owners meet in person."
           />
           <Link href="/events" className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-700 hover:text-brand-800">
             View all events <ArrowRight className="h-4 w-4" />

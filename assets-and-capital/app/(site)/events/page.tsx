@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Events & Roadshows",
-  description: "Curated roadshows, forums, and networking events that connect capital with opportunity.",
+  description: "Roadshows, forums and networking events where investors and business owners meet in person.",
 };
 
 const ALL_EVENTS = [

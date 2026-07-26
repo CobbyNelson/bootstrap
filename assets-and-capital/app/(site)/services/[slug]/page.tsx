@@ -18,11 +18,11 @@ const SERVICES: Record<string, ServiceContent> = {
   roadshows: {
     eyebrow: "Investor & business service",
     title: "Specialised roadshows",
-    subtitle: "Meet multiple pre-screened opportunities — or reach targeted investors — in curated sessions.",
+    subtitle: "Meet several pre-screened opportunities, or reach targeted investors, in one session.",
     audience: "investor",
     intro:
       "Our roadshows put the right people in the same room. For investors, we assemble a slate of pre-screened, mandate-matched opportunities. For businesses, we secure meetings with investors whose mandate fits your raise — organised end to end by our team.",
-    features: ["Pre-screened, mandate-matched participants", "Curated agendas built around your criteria", "In-person and virtual formats", "Full logistics handled by our team", "Follow-up and introductions after the event"],
+    features: ["Pre-screened, mandate-matched participants", "Agendas built around your stated criteria", "In-person and virtual formats", "Full logistics handled by our team", "Follow-up and introductions after the event"],
     cta: { label: "Request a roadshow", href: "/contact" },
   },
   "market-access": {
@@ -31,38 +31,38 @@ const SERVICES: Record<string, ServiceContent> = {
     subtitle: "Connect with suppliers, buyers, and partners to grow beyond the initial investment.",
     audience: "investor",
     intro:
-      "Deploying capital is the beginning, not the end. Our on-the-ground team helps you build the local relationships — suppliers, buyers, distribution partners — that turn an investment into a thriving business.",
+      "The work continues after the money lands. Our team in-market makes the introductions a new investment needs early: suppliers, buyers, distribution partners and the advisers who know the terrain.",
     features: ["Local partner introductions", "Supplier and buyer connections", "Market-entry guidance", "Regulatory and operational context", "Ongoing relationship support"],
     cta: { label: "Talk to our team", href: "/contact" },
   },
   "business-plan": {
     eyebrow: "Business service",
     title: "Business plan writing",
-    subtitle: "Investor-ready plans that frame your opportunity with clarity and credibility.",
+    subtitle: "Plans built around what investors read first.",
     audience: "business",
     intro:
-      "The right narrative earns the meeting. Our team crafts a rigorous, investor-ready business plan that positions your opportunity, substantiates your ask, and anticipates the questions diligence will bring.",
+      "A plan earns the meeting when it answers the obvious questions before they are asked. We write yours to set out the market, substantiate the ask, and address what diligence will raise.",
     features: ["Market and competitive analysis", "Clear articulation of the ask and use of funds", "Growth strategy and milestones", "Risk assessment and mitigation", "Investor-ready formatting and design"],
     cta: { label: "Get started", href: "/register/business" },
   },
   "financial-modelling": {
     eyebrow: "Business service",
     title: "Financial modelling",
-    subtitle: "Defensible, assumption-driven models and statements that stand up to diligence.",
+    subtitle: "Models where every assumption is stated and sourced.",
     audience: "business",
     intro:
-      "Numbers win trust. We build transparent, assumption-driven financial models and statements — the kind investors can interrogate and believe — so your raise rests on a credible foundation.",
+      "Investors will pull your model apart, so it should be built to survive that. We write three-statement models where each assumption is visible, sourced and easy to test against a different view.",
     features: ["Three-statement financial models", "Scenario and sensitivity analysis", "Valuation support", "Unit economics and cohort analysis", "Clear, auditable assumptions"],
     cta: { label: "Get started", href: "/register/business" },
   },
   teaser: {
     eyebrow: "Business service",
     title: "Teaser & pitch preparation",
-    subtitle: "A compelling teaser and pitch that earns a second meeting.",
+    subtitle: "A teaser and deck written to earn the second meeting.",
     audience: "business",
     intro:
-      "First impressions decide who reads on. We prepare a sharp, professional teaser and pitch deck that captures your opportunity at a glance and compels the right investors to lean in.",
-    features: ["Concise, high-impact teaser", "Full investor pitch deck", "Compelling narrative and design", "Key metrics presented clearly", "Aligned to what investors read first"],
+      "Most investors decide whether to read on within a page. We prepare a teaser that states the opportunity plainly, and a deck that holds up when it gets forwarded round the table.",
+    features: ["Concise, high-impact teaser", "Full investor pitch deck", "Narrative and design handled together", "Key metrics presented clearly", "Aligned to what investors read first"],
     cta: { label: "Get started", href: "/register/business" },
   },
 };

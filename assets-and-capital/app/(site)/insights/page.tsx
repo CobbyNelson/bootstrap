@@ -52,7 +52,7 @@ export default function InsightsPage() {
               <div className="grid-noise pointer-events-none absolute inset-0 opacity-20" aria-hidden />
               <div className="relative mx-auto max-w-xl">
                 <h2 className="font-display text-2xl font-semibold md:text-3xl">The Assets &amp; Capital briefing</h2>
-                <p className="mt-3 text-white/65">Transaction-derived benchmarks and curated opportunities, delivered monthly. No noise.</p>
+                <p className="mt-3 text-white/65">Benchmarks drawn from real transactions, plus new opportunities, once a month.</p>
                 <Button href="/register/investor" variant="gold" size="lg" className="mt-7">
                   Subscribe <ArrowRight className="h-4 w-4" />
                 </Button>

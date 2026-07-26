@@ -11,7 +11,7 @@ export function Featured() {
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
             eyebrow="Featured opportunities"
-            title="A live window into curated deal flow"
+            title="Opportunities on the marketplace now"
             subtitle="Every opportunity is screened and verified. Match scores are illustrative of how mandate-aware ranking surfaces the right deals."
           />
           <Button href="/marketplace" variant="outline" size="md" className="shrink-0">

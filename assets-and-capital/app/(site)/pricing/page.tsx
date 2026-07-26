@@ -16,10 +16,10 @@ export const metadata: Metadata = {
 };
 
 const FAQ = [
-  { q: "How does the success fee work?", a: "For businesses raising capital, we charge a success fee only when a deal closes through the platform. Our incentives are aligned with yours — we win when you do." },
+  { q: "How does the success fee work?", a: "For businesses raising capital, the success fee is charged only when a deal closes through the platform. If the raise does not complete, there is no fee." },
   { q: "Can I upgrade my listing later?", a: "Yes. You can upgrade from Standard to Silver, Gold, or Platinum at any time and only pay the difference for the remainder of your listing window." },
   { q: "Do investors pay to join?", a: "Registering and browsing core listing details is free. An investor subscription (Pro or Elite) unlocks full business details across the marketplace, and expressing interest in a business opens its data room, AI profile and your personalised match rate. Roadshows and partnerships created at your request are billed separately." },
-  { q: "What's included in a roadshow?", a: "A specialised roadshow puts your opportunity in front of multiple pre-screened, mandate-matched investors in a curated session, organised end to end by our team." },
+  { q: "What's included in a roadshow?", a: "A specialised roadshow puts your opportunity in front of several pre-screened investors whose mandates match it, organised end to end by our team." },
 ];
 
 export default async function PricingPage() {
@@ -108,8 +108,7 @@ export default async function PricingPage() {
                   <h2 className="mt-4 font-display text-3xl font-semibold md:text-4xl">Pay a success fee only when you close</h2>
                   <p className="mt-4 max-w-xl text-white/65">
                     Beyond the listing fee, businesses pay a success fee on capital successfully raised through the
-                    platform. Investors pay only for roadshows they request and partnerships created at their request.
-                    We&apos;re invested in your outcome.
+                    platform. Investors pay only for roadshows and partnerships they ask us to arrange.
                   </p>
                   <Button href="/contact" variant="gold" size="lg" className="mt-7">
                     Talk to our team <ArrowRight className="h-4 w-4" />
