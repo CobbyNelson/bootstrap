@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Figtree, Manrope } from "next/font/google";
+import { Figtree, Inter } from "next/font/google";
 import { SITE } from "@/lib/content";
 import { CommandPalette } from "@/components/search/command-palette";
 import { CurrencyProvider } from "@/components/providers/currency-provider";
@@ -14,12 +14,12 @@ const figtree = Figtree({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-// Content — clean modern sans.
-const manrope = Manrope({
+// Body & UI — Inter.
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-manrope",
+  variable: "--font-inter",
   display: "swap",
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -63,7 +63,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${figtree.variable} ${manrope.variable}`}>
+    <html lang="en" className={`${figtree.variable} ${inter.variable}`}>
       <body className="min-h-dvh antialiased">
         <CurrencyProvider>
           {children}
