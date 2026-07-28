@@ -1,10 +1,7 @@
-"use client";
-
 import Link from "next/link";
 import { MapPin, Tag, Lock } from "lucide-react";
 import type { Opportunity } from "@/lib/content";
 import { slugify } from "@/lib/matching";
-import { useAccess } from "@/lib/entitlements";
 import { Money } from "./money";
 import { SaveButton } from "./save-button";
 
@@ -24,10 +21,18 @@ function pickGradient(name: string) {
   return GRADIENTS[sum % GRADIENTS.length];
 }
 
-export function OpportunityCard({ o, href }: { o: Opportunity; href?: string }) {
+export function OpportunityCard({
+  o,
+  href,
+  unlocked = false,
+}: {
+  o: Opportunity;
+  href?: string;
+  /** Viewer has deal access to this listing (subscribed + expressed interest). */
+  unlocked?: boolean;
+}) {
   const slug = slugify(o.name);
   const to = href ?? `/marketplace/${slug}`;
-  const { deal } = useAccess(slug);
   return (
     <Link
       href={to}
@@ -43,7 +48,7 @@ export function OpportunityCard({ o, href }: { o: Opportunity; href?: string }) 
           {o.tier}
         </span>
         <SaveButton slug={slug} className="absolute right-3 top-3" />
-        {deal ? (
+        {unlocked ? (
           <span className="absolute bottom-3 left-3 rounded-full bg-brand-600 px-2.5 py-1 text-[0.65rem] font-semibold text-white tnum">
             {o.match}% match
           </span>

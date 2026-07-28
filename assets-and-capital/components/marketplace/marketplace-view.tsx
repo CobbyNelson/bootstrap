@@ -8,7 +8,6 @@ import { SCORED_MARKETPLACE as MARKETPLACE, slugify } from "@/lib/matching";
 import { OpportunityCard } from "@/components/ui/opportunity-card";
 import { Money } from "@/components/ui/money";
 import { CurrencySwitcher } from "@/components/layout/currency-switcher";
-import { useSubscription, useInterest } from "@/lib/entitlements";
 import { cn } from "@/lib/utils";
 
 const LIST_GRADIENTS = [
@@ -34,9 +33,8 @@ function askValue(ask: string): number {
 
 type Facet = "region" | "sector" | "stage" | "instrument" | "tier";
 
-export function MarketplaceView() {
-  const { active: subscribed } = useSubscription();
-  const { has: hasInterest } = useInterest();
+export function MarketplaceView({ unlockedSlugs = [] }: { unlockedSlugs?: string[] }) {
+  const unlocked = new Set(unlockedSlugs);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<(typeof SORTS)[number]["key"]>("match");
   const [view, setView] = useState<"grid" | "list">("grid");
@@ -215,7 +213,7 @@ export function MarketplaceView() {
         ) : view === "grid" ? (
           <div className="mt-6 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {results.map((o) => (
-              <OpportunityCard key={o.name} o={o} />
+              <OpportunityCard key={o.name} o={o} unlocked={unlocked.has(slugify(o.name))} />
             ))}
           </div>
         ) : (
@@ -232,7 +230,7 @@ export function MarketplaceView() {
                   <div className="absolute inset-0 grid place-items-center">
                     <span className="font-display text-lg font-extrabold tracking-tight text-white/90">{rowInitials(o.name)}</span>
                   </div>
-                  {subscribed && hasInterest(slugify(o.name)) ? (
+                  {unlocked.has(slugify(o.name)) ? (
                     <span className="absolute left-1.5 top-1.5 rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.55rem] font-semibold text-white tnum">{o.match}%</span>
                   ) : (
                     <span className="absolute left-1.5 top-1.5 inline-flex items-center gap-0.5 rounded-full bg-ink/70 px-1.5 py-0.5 text-[0.55rem] font-semibold text-white backdrop-blur-sm">

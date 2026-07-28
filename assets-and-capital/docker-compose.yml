@@ -1,0 +1,24 @@
+name: assets-and-capital
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ac-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ac
+      POSTGRES_PASSWORD: ac_local_dev
+      POSTGRES_DB: assets_and_capital
+    ports:
+      # Host 5433 so it never collides with a Postgres you already run on 5432.
+      - "5433:5432"
+    volumes:
+      - ac_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ac -d assets_and_capital"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  ac_pgdata:

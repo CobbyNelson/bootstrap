@@ -36,6 +36,27 @@ const FREE: Access = {
   docs: false,
 };
 
+/**
+ * Slugs whose deal layer this viewer has unlocked (subscribed AND interested).
+ * Used to decide which marketplace cards may show a match rate.
+ */
+export async function getUnlockedSlugs(): Promise<string[]> {
+  const user = await getCurrentUser();
+  if (!user) return [];
+  try {
+    const sub = await prisma.investorSubscription.findUnique({ where: { userId: user.id } });
+    if (!sub?.active) return [];
+    const interests = await prisma.listingInterest.findMany({
+      where: { userId: user.id },
+      select: { slug: true },
+    });
+    return interests.map((i) => i.slug);
+  } catch (e) {
+    console.error("getUnlockedSlugs failed", e);
+    return [];
+  }
+}
+
 export async function getAccess(slug?: string): Promise<Access> {
   const user = await getCurrentUser();
   if (!user) return FREE;

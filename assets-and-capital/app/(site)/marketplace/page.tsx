@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ShieldCheck, Sparkles, Globe } from "lucide-react";
 import { MarketplaceView } from "@/components/marketplace/marketplace-view";
+import { getUnlockedSlugs } from "@/lib/entitlements-server";
 
 export const metadata: Metadata = {
   title: "Marketplace",
@@ -14,7 +15,8 @@ const TRUST = [
   { icon: Globe, label: "Global coverage" },
 ];
 
-export default function MarketplacePage() {
+export default async function MarketplacePage() {
+  const unlockedSlugs = await getUnlockedSlugs();
   return (
     <>
       <section className="relative overflow-hidden border-b border-ink/[0.06] pt-32 pb-12 md:pt-40 md:pb-16">
@@ -54,7 +56,7 @@ export default function MarketplacePage() {
           </div>
         </div>
       </section>
-      <MarketplaceView />
+      <MarketplaceView unlockedSlugs={unlockedSlugs} />
     </>
   );
 }
