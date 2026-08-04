@@ -14,12 +14,15 @@ export function ImageLayer({
   opacity = 0.28,
   position = "center",
   blend,
+  mask,
 }: {
   src: string;
   className?: string;
   opacity?: number;
   position?: string;
   blend?: "overlay" | "soft-light" | "luminosity" | "screen";
+  /** CSS mask-image value — use to fade the layer out towards adjacent content. */
+  mask?: string;
 }) {
   return (
     <div
@@ -29,6 +32,15 @@ export function ImageLayer({
         backgroundPosition: position,
         opacity,
         mixBlendMode: blend,
+        // Multiple mask layers default to a union; intersect so every fade applies.
+        ...(mask
+          ? {
+              maskImage: mask,
+              WebkitMaskImage: mask,
+              maskComposite: "intersect",
+              WebkitMaskComposite: "source-in",
+            }
+          : null),
       }}
       aria-hidden
     />

@@ -1,40 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Figtree, Fraunces, Source_Sans_3 } from "next/font/google";
+import { Figtree, Inter } from "next/font/google";
 import { SITE } from "@/lib/content";
 import { CommandPalette } from "@/components/search/command-palette";
 import { CurrencyProvider } from "@/components/providers/currency-provider";
 import { CookieConsent } from "@/components/layout/cookie-consent";
 import "./globals.css";
 
-/*
- * Type system from the brand sheet — three roles.
- * Coconat and Air are commercial licences, so the closest open equivalents are
- * used: Fraunces for the display serif, Figtree for the uppercase label face.
- * Source Sans is the original and is used as-is.
- */
-
-// Headings — display serif (Coconat role).
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
-  display: "swap",
-  axes: ["SOFT", "WONK"],
-});
-
-// Body copy — Source Sans (as specified).
-const sourceSans = Source_Sans_3({
-  subsets: ["latin"],
-  variable: "--font-source-sans",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
-
-// Labels, eyebrows and buttons — uppercase, letterspaced (Air role).
+// Headings and labels.
 const figtree = Figtree({
   subsets: ["latin"],
   variable: "--font-figtree",
   display: "swap",
-  weight: ["500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+// Body & UI.
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -78,7 +63,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${sourceSans.variable} ${figtree.variable}`}>
+    <html lang="en" className={`${figtree.variable} ${inter.variable}`}>
       <body className="min-h-dvh antialiased">
         <CurrencyProvider>
           {children}

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { NAV } from "@/lib/content";
@@ -19,9 +18,6 @@ export function Navbar() {
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<NavUser | null>(null);
-  const pathname = usePathname();
-  // The home hero is a dark field, so the transparent navbar must invert there.
-  const onDark = pathname === "/" && !scrolled;
 
   useEffect(() => {
     let active = true;
@@ -71,7 +67,7 @@ export function Navbar() {
                 {group.href ? (
                   <Link
                     href={group.href}
-                    className={cn("inline-flex items-center gap-1 rounded-full px-4 py-2 text-[0.925rem] font-medium transition-colors", onDark ? "text-white/80 hover:text-white" : "text-ink/75 hover:text-ink")}
+                    className="inline-flex items-center gap-1 rounded-full px-4 py-2 text-[0.925rem] font-medium text-ink/75 transition-colors hover:text-ink"
                   >
                     {group.label}
                   </Link>
@@ -79,9 +75,7 @@ export function Navbar() {
                   <button
                     className={cn(
                       "inline-flex items-center gap-1 rounded-full px-4 py-2 text-[0.925rem] font-medium transition-colors",
-                      onDark
-                        ? open === group.label ? "text-white" : "text-white/80 hover:text-white"
-                        : open === group.label ? "text-ink" : "text-ink/75 hover:text-ink"
+                      open === group.label ? "text-ink" : "text-ink/75 hover:text-ink"
                     )}
                     aria-expanded={open === group.label}
                   >
@@ -141,7 +135,7 @@ export function Navbar() {
         <div className="hidden items-center gap-2 lg:flex">
           {user ? (
             <>
-              <Button href={dashHref} variant="ghost" size="sm" className={onDark ? "text-white/85 hover:bg-white/10 hover:text-white" : undefined}>
+              <Button href={dashHref} variant="ghost" size="sm">
                 Dashboard
               </Button>
               <form action={logoutUser}>
@@ -155,7 +149,7 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <Button href="/login" variant="ghost" size="sm" className={onDark ? "text-white/85 hover:bg-white/10 hover:text-white" : undefined}>
+              <Button href="/login" variant="ghost" size="sm">
                 Sign in
               </Button>
               <Button href="/register" variant="primary" size="sm">
@@ -167,7 +161,7 @@ export function Navbar() {
 
         {/* mobile toggle */}
         <button
-          className={cn("inline-flex h-11 w-11 items-center justify-center rounded-full lg:hidden", onDark ? "text-white" : "text-ink")}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink lg:hidden"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
         >

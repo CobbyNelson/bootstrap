@@ -3,7 +3,7 @@
 /* ============================================================
    Assets & Capital — Design System
    Brand: vivid red + deep navy, on cool white/grey.
-   Headings: Fraunces (display serif) · Body: Source Sans · Labels: Figtree
+   Headings: Figtree · Body & UI: Inter · Labels: Figtree (uppercase)
    ============================================================ */
 
 @theme {
@@ -41,10 +41,9 @@
   --color-paper-3: #e3e8ee;  /* panel grey */
   --color-line: #dfe4ea;
 
-  /* Three roles, per the brand sheet:
-     display serif (headings) · humanist sans (body) · uppercase label face. */
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
-  --font-sans: var(--font-source-sans), ui-sans-serif, system-ui, sans-serif;
+  /* Headings: Figtree · Body & UI: Inter · Labels: Figtree, uppercase. */
+  --font-display: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-label: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
   /* kept so existing .font-grotesk / .kicker call sites keep working */
   --font-grotesk: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
@@ -59,8 +58,8 @@
   --fs-h6: 1rem;
 
   /* Tracking: tighter as type gets larger. */
-  --tracking-display: -0.02em;
-  --tracking-heading: -0.015em;
+  --tracking-display: -0.03em;
+  --tracking-heading: -0.02em;
   --tracking-body: 0em;
   --tracking-kicker: 0.18em;
 
@@ -97,7 +96,7 @@ body {
   letter-spacing: var(--tracking-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: "kern", "liga";
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 ::selection {
   background: var(--color-brand-600);
@@ -112,7 +111,7 @@ body {
   /* Headings share one system; utilities can still override any of it. */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 600;
     line-height: var(--leading-heading);
     letter-spacing: var(--tracking-heading);
     text-wrap: balance;
