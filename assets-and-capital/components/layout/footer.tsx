@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Mail, Globe } from "lucide-react";
+import { Logo } from "./logo";
 import { SITE } from "@/lib/content";
 import { NewsletterForm } from "./newsletter-form";
 import { CurrencySwitcher } from "./currency-switcher";
@@ -66,15 +67,7 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.3fr_2fr]">
           {/* brand + newsletter */}
           <div className="max-w-sm">
-            <div className="flex items-center gap-2.5">
-              <span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-[10px] bg-gradient-to-br from-brand-500 to-brand-800">
-                <span className="font-display text-[15px] font-bold text-white">A</span>
-                <span className="absolute bottom-1 right-1.5 h-1.5 w-1.5 rounded-full bg-navy-400" aria-hidden />
-              </span>
-              <span className="font-display text-[17px] font-semibold">
-                Assets <span className="text-navy-500">&amp;</span> Capital
-              </span>
-            </div>
+            <Logo invert />
             <p className="mt-5 text-[0.95rem] leading-relaxed text-white/60">
               {SITE.tagline} We connect vetted businesses with a global network of ready investors — for
               capital raising, partnerships, and market expansion.
