@@ -37,8 +37,8 @@ function AdminNavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?
             href={item.href}
             onClick={onNavigate}
             className={cn(
-              "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
-              active ? "bg-white text-ink shadow-sm" : "text-white/65 hover:bg-white/[0.06] hover:text-white"
+              "flex items-center gap-3 rounded-full px-4 py-2.5 label-cta text-[0.68rem] transition-colors",
+              active ? "bg-paper text-navy-900 shadow-sm" : "text-white/60 hover:bg-white/[0.06] hover:text-white"
             )}
           >
             <item.icon className={cn("h-4 w-4", active ? "text-brand-600" : "text-navy-300")} />
@@ -63,9 +63,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   }, [mobileOpen]);
 
   return (
-    <div className="min-h-dvh bg-paper-2/60 lg:grid lg:grid-cols-[264px_1fr]">
+    <div className="min-h-dvh bg-paper-2/60 lg:grid lg:grid-cols-[280px_1fr]">
       {/* dark sidebar */}
-      <aside className="sticky top-0 hidden h-dvh flex-col overflow-hidden bg-navy-900 text-white lg:flex">
+      <aside className="sticky top-0 hidden h-dvh flex-col overflow-hidden bg-navy-900 text-white lg:flex lg:m-3 lg:h-[calc(100dvh-1.5rem)] lg:rounded-[1.75rem]">
         <div
           className="pointer-events-none absolute inset-0 opacity-80"
           style={{ background: "radial-gradient(120% 60% at 0% 0%, rgba(229,50,43,0.22), transparent 60%)" }}

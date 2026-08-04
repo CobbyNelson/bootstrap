@@ -1,55 +1,64 @@
-import { ArrowRight } from "lucide-react";
 import { PROCESS } from "@/lib/content";
-import { SectionHeading } from "@/components/ui/section-heading";
+import { SplitHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
-import { Button } from "@/components/ui/button";
+import { PillButton } from "@/components/ui/button";
 
+/**
+ * Process section built on the "Designed to Work at Scale" reference: a single
+ * large rounded panel, a split header, and numbered steps set as 01/04.
+ */
 export function Process() {
+  const total = String(PROCESS.length).padStart(2, "0");
+
   return (
-    <section className="relative overflow-hidden bg-navy-800 py-20 text-white md:py-28">
-      <div className="grid-noise pointer-events-none absolute inset-0 opacity-20" aria-hidden />
-      <div
-        className="pointer-events-none absolute right-[-5%] top-1/2 h-[400px] w-[400px] -translate-y-1/2 rounded-full opacity-40 blur-3xl"
-        style={{ background: "radial-gradient(circle, rgba(229,50,43,0.45), transparent 60%)" }}
-        aria-hidden
-      />
-      <div className="container-x relative">
-        <SectionHeading
-          invert
-          eyebrow="The investment process"
-          title="Screen. Match. Engage. Close."
-          subtitle={<span className="text-white/60">A disciplined pipeline that turns capital–opportunity fit into closed allocations, with expert support at every stage.</span>}
-        />
+    <section className="bg-paper-2/60 py-20 md:py-28">
+      <div className="container-x">
+        <div className="rounded-[2.5rem] bg-white p-8 shadow-[var(--shadow-soft)] md:p-14">
+          <SplitHeading
+            eyebrow="The investment process"
+            title={<>Designed to<br className="hidden sm:block" /> work at scale</>}
+            description="A disciplined pipeline that turns capital–opportunity fit into closed allocations, with expert support at every stage."
+          />
 
-        <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/5 md:grid-cols-4">
-          {PROCESS.map((step, i) => (
-            <Reveal key={step.title} delay={i * 0.1}>
-              <div className="group relative h-full bg-navy-900/40 p-8 transition-colors hover:bg-white/[0.04]">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-9 w-9 place-items-center rounded-full border border-brand-500/50 font-grotesk text-sm font-semibold text-brand-400">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  {i < PROCESS.length - 1 && (
-                    <ArrowRight className="h-4 w-4 text-white/20" aria-hidden />
-                  )}
-                </div>
-                <h3 className="mt-5 text-lg font-semibold text-white">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/70">{step.body}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+          <div className="mt-14 grid gap-10 lg:grid-cols-[minmax(0,240px)_1fr] lg:gap-16">
+            {/* leading step, called out large */}
+            <div>
+              <p className="flex items-baseline text-navy-700">
+                <span className="text-[3.5rem] leading-none">01</span>
+                <span className="text-xl text-ink/40">/{total}</span>
+              </p>
+              <p className="mt-4 max-w-[15rem] text-sm leading-relaxed text-ink/65">{PROCESS[0]?.body}</p>
+            </div>
 
-        <div className="mt-12 flex flex-col items-center gap-4 rounded-3xl border border-white/10 bg-white/[0.03] p-8 text-center md:flex-row md:justify-between md:text-left">
-          <div>
-            <h3 className="text-xl font-semibold text-white">Specialised roadshows</h3>
-            <p className="mt-1 text-sm text-white/70">
-              Meet several pre-screened opportunities in one session built around your mandate.
-            </p>
+            {/* the remaining steps */}
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+              {PROCESS.slice(1).map((step, i) => (
+                <Reveal key={step.title} delay={i * 0.08}>
+                  <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-paper-2/50 p-6 transition-all hover:-translate-y-1 hover:border-brand-200 hover:shadow-[var(--shadow-card)]">
+                    <span className="inline-flex w-fit rounded-full bg-white px-3 py-1 label-cta text-[0.6rem] text-ink/70 ring-1 ring-ink/[0.06]">
+                      {step.title}
+                    </span>
+                    <p className="mt-auto pt-10 text-[0.95rem] leading-relaxed text-ink/70">{step.body}</p>
+                    <span className="mt-4 text-sm text-ink/35 tnum">
+                      {String(i + 2).padStart(2, "0")}/{total}
+                    </span>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
-          <Button href="/services/roadshows" variant="primary" size="lg" className="shrink-0">
-            Request a roadshow <ArrowRight className="h-4 w-4" />
-          </Button>
+
+          <div className="mt-14 flex flex-col items-start gap-5 border-t border-ink/[0.07] pt-8 md:flex-row md:items-center md:justify-between">
+            <div>
+              <h3 className="text-xl text-navy-700">Specialised roadshows</h3>
+              <p className="mt-1 text-sm text-ink/65">
+                Meet several pre-screened opportunities in one session built around your mandate.
+              </p>
+            </div>
+            <PillButton href="/services/roadshows" tone="brand" className="shrink-0">
+              Request a roadshow
+            </PillButton>
+          </div>
         </div>
       </div>
     </section>

@@ -3,7 +3,7 @@
 /* ============================================================
    Assets & Capital — Design System
    Brand: vivid red + deep navy, on cool white/grey.
-   Titles: Figtree · Body & UI: Inter
+   Headings: Fraunces (display serif) · Body: Source Sans · Labels: Figtree
    ============================================================ */
 
 @theme {
@@ -41,9 +41,12 @@
   --color-paper-3: #e3e8ee;  /* panel grey */
   --color-line: #dfe4ea;
 
-  /* Two families only: Figtree for headings, Inter for body & UI. */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  /* Three roles, per the brand sheet:
+     display serif (headings) · humanist sans (body) · uppercase label face. */
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-source-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-label: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  /* kept so existing .font-grotesk / .kicker call sites keep working */
   --font-grotesk: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
 
   /* Heading scale (fluid). Named --fs-* deliberately: redefining Tailwind's
@@ -56,10 +59,10 @@
   --fs-h6: 1rem;
 
   /* Tracking: tighter as type gets larger. */
-  --tracking-display: -0.03em;
-  --tracking-heading: -0.02em;
+  --tracking-display: -0.02em;
+  --tracking-heading: -0.015em;
   --tracking-body: 0em;
-  --tracking-kicker: 0.14em;
+  --tracking-kicker: 0.18em;
 
   /* Leading */
   --leading-display: 1.04;
@@ -94,8 +97,7 @@ body {
   letter-spacing: var(--tracking-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Inter: contextual alternates + proper apostrophes/quotes. */
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  font-feature-settings: "kern", "liga";
 }
 ::selection {
   background: var(--color-brand-600);
@@ -110,7 +112,7 @@ body {
   /* Headings share one system; utilities can still override any of it. */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 400;
     line-height: var(--leading-heading);
     letter-spacing: var(--tracking-heading);
     text-wrap: balance;
@@ -135,12 +137,19 @@ body {
 /* Display accent utility for kickers, tags, numerals */
 .font-grotesk { font-family: var(--font-grotesk); }
 .kicker {
-  font-family: var(--font-grotesk);
+  font-family: var(--font-label);
   text-transform: uppercase;
   letter-spacing: var(--tracking-kicker);
-  font-weight: 600;
-  font-size: 0.75rem;
+  font-weight: 500;
+  font-size: 0.72rem;
   line-height: 1.2;
+}
+/* Uppercase button/CTA lettering (the "AIR SEMIBOLD" role). */
+.label-cta {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
 }
 /* Lead paragraph — the one under a page or section heading. */
 .lead {

@@ -49,3 +49,47 @@ export function Button({ className, variant, size, ...props }: ButtonProps) {
 }
 
 export { buttonVariants };
+
+/**
+ * Pill CTA with a circular chevron badge on the right — the button style used
+ * throughout the consulting reference.
+ */
+export function PillButton({
+  href,
+  children,
+  tone = "brand",
+  className,
+}: {
+  href: string;
+  children: React.ReactNode;
+  tone?: "brand" | "dark" | "light";
+  className?: string;
+}) {
+  const tones = {
+    brand: "bg-brand-600 text-white hover:bg-brand-700",
+    dark: "bg-navy-800 text-white hover:bg-navy-900",
+    light: "border border-ink/12 bg-white text-ink hover:border-ink/25",
+  } as const;
+  const badges = {
+    brand: "bg-white/20 text-white",
+    dark: "bg-white/15 text-white",
+    light: "bg-brand-600 text-white",
+  } as const;
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "group inline-flex items-center gap-3 rounded-full py-1.5 pl-6 pr-1.5 transition-colors",
+        tones[tone],
+        className
+      )}
+    >
+      <span className="label-cta text-[0.72rem]">{children}</span>
+      <span className={cn("grid h-9 w-9 place-items-center rounded-full transition-transform group-hover:translate-x-0.5", badges[tone])}>
+        <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+          <path d="M2 8h11M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+    </Link>
+  );
+}
