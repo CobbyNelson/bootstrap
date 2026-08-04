@@ -1,49 +1,42 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, TrendingUp, ShieldCheck, MapPin, Asterisk } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Phone, ShieldCheck, TrendingUp, MapPin } from "lucide-react";
+import { PillButton } from "@/components/ui/button";
 import { ImageLayer } from "@/components/ui/image-layer";
 import { IMAGERY } from "@/lib/imagery";
+import { SITE } from "@/lib/content";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
+/**
+ * Hero in the consulting-reference composition: a dark full-bleed field, an
+ * oversized uppercase headline with one accented word, short supporting copy,
+ * and a pill CTA paired with a call link. The right side carries the imagery.
+ */
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
-      {/* ambient background */}
+    <section className="relative overflow-hidden bg-navy-900 pt-32 pb-16 text-white md:pt-40 md:pb-24">
+      {/* photographic layer — falls back to the field below if absent */}
       <ImageLayer
         src={IMAGERY.heroTower.src}
-        opacity={0.16}
-        position="right top"
-        className="[mask-image:linear-gradient(to_bottom_left,black,transparent_65%)]"
-      />
-      <div className="grid-noise pointer-events-none absolute inset-0 opacity-60" aria-hidden />
-      <div
-        className="pointer-events-none absolute -top-40 right-[-10%] h-[560px] w-[560px] rounded-full opacity-50 blur-3xl"
-        style={{ background: "radial-gradient(circle, rgba(185,28,28,0.18), transparent 65%)" }}
-        aria-hidden
+        opacity={0.3}
+        position="right center"
+        className="hidden lg:block lg:left-[46%] [mask-image:linear-gradient(to_right,transparent,black_22%)]"
       />
       <div
-        className="pointer-events-none absolute bottom-[-20%] left-[-10%] h-[460px] w-[460px] rounded-full opacity-40 blur-3xl"
-        style={{ background: "radial-gradient(circle, rgba(194,160,74,0.20), transparent 65%)" }}
+        className="pointer-events-none absolute -left-[10%] top-0 h-[520px] w-[520px] rounded-full opacity-60 blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(223,45,37,0.28), transparent 65%)" }}
         aria-hidden
       />
+      <div className="grid-noise pointer-events-none absolute inset-0 opacity-[0.07]" aria-hidden />
 
-      <div className="container-x relative grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
-        {/* left */}
+      <div className="container-x relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease }}
-          >
-            <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/70 px-3 py-1 text-[0.7rem] kicker text-brand-700 backdrop-blur">
-              <span className="flex items-center gap-0.5" aria-hidden>
-                <span className="h-1.5 w-1.5 rounded-full bg-navy-500" />
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
-              </span>
-              A marketplace for private capital
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }}>
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 text-[0.7rem] kicker text-white/80 backdrop-blur">
+              <span className="text-brand-400" aria-hidden>&#10033;</span>
+              Screened before listed · scored against your mandate
             </span>
           </motion.div>
 
@@ -51,163 +44,106 @@ export function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease, delay: 0.06 }}
-            className="mt-6 font-display text-[2.7rem] font-medium leading-[1.02] tracking-[-0.02em] text-navy-700 sm:text-6xl md:text-[4.2rem]"
+            className="mt-6 max-w-[15ch] text-[2.6rem] uppercase leading-[0.98] text-white sm:text-5xl md:text-[3.9rem]"
           >
-            Where quality assets
-            <br className="hidden sm:block" /> meet{" "}
-            <span className="italic text-gradient-brand">ready capital.</span>
+            Where quality assets meet <span className="text-brand-500">ready capital</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease, delay: 0.12 }}
-            className="mt-6 max-w-xl text-lg leading-relaxed text-ink/60"
+            className="mt-6 max-w-lg text-[0.95rem] leading-relaxed text-white/65"
           >
-            We connect vetted businesses with a global network of ready investors — matching capital to
-            opportunity on mandate fit, then carrying the deal to close with expert, on-the-ground support.
+            We connect vetted businesses with investors whose mandate actually fits, then carry the deal
+            through diligence to close with a team in-market.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease, delay: 0.18 }}
-            className="mt-9 flex flex-col gap-3 sm:flex-row"
+            className="mt-9 flex flex-wrap items-center gap-5"
           >
-            <Button href="/register/investor" variant="primary" size="lg">
-              I&apos;m an investor <ArrowRight className="h-4 w-4" />
-            </Button>
-            <Button href="/register/business" variant="dark" size="lg">
-              I&apos;m raising capital
-            </Button>
+            <PillButton href="/register/investor" tone="brand">
+              I&apos;m an investor
+            </PillButton>
+            <a href={`tel:${SITE.phone.replace(/\s/g, "")}`} className="group inline-flex items-center gap-3">
+              <span className="grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/15 transition-colors group-hover:bg-brand-600">
+                <Phone className="h-4 w-4" />
+              </span>
+              <span className="leading-tight">
+                <span className="block kicker text-[0.62rem] text-white/50">Call us</span>
+                <span className="block text-sm font-medium text-white">{SITE.phone}</span>
+              </span>
+            </a>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-ink/65"
+            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/60"
           >
             <span className="inline-flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-brand-600" /> Vetted opportunities
+              <ShieldCheck className="h-4 w-4 text-brand-400" /> Verified listings
             </span>
             <span className="inline-flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-brand-600" /> Mandate-matched
+              <TrendingUp className="h-4 w-4 text-brand-400" /> 15 weighted criteria
             </span>
             <span className="inline-flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-brand-600" /> On-the-ground team
+              <MapPin className="h-4 w-4 text-brand-400" /> Teams in-market
             </span>
           </motion.div>
         </div>
 
-        {/* right — floating product cards */}
-        <div className="relative mx-auto w-full max-w-md lg:mx-0">
-          <motion.div
-            initial={{ opacity: 0, y: 30, rotate: -1 }}
-            animate={{ opacity: 1, y: 0, rotate: 0 }}
-            transition={{ duration: 0.8, ease, delay: 0.15 }}
-          >
-            <FloatingCard />
-          </motion.div>
-        </div>
+        {/* right — live deal card */}
+        <motion.div
+          initial={{ opacity: 0, y: 26 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease, delay: 0.15 }}
+          className="relative mx-auto w-full max-w-md lg:mx-0"
+        >
+          <DealCard />
+        </motion.div>
       </div>
     </section>
   );
 }
 
-function FloatingCard() {
+function DealCard() {
   return (
-    <motion.div
-      animate={{ y: [0, -10, 0] }}
-      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      className="relative"
-    >
-      {/* decorative sparkle accent */}
-      <Asterisk className="absolute -left-6 -top-8 hidden h-10 w-10 text-navy-500 sm:block" strokeWidth={2.5} aria-hidden />
-      {/* main opportunity card */}
-      <div className="rounded-3xl border border-ink/[0.07] bg-white p-6 shadow-[var(--shadow-lift)]">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 text-sm font-bold text-white">
-              SS
-            </div>
-            <div>
-              <p className="font-semibold text-ink">Sahara Solar Grid</p>
-              <p className="text-xs text-ink/65">Renewable Energy · Kenya</p>
-            </div>
+    <div className="rounded-3xl border border-white/10 bg-white/[0.07] p-6 backdrop-blur-md">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 text-sm font-bold text-white">
+            SS
           </div>
-          <MatchRing value={94} />
+          <div>
+            <p className="font-medium text-white">Sahara Solar Grid</p>
+            <p className="text-xs text-white/55">Renewable Energy · Kenya</p>
+          </div>
         </div>
-
-        <div className="mt-5 grid grid-cols-3 gap-3">
-          {[
-            { k: "Ask", v: "$18M" },
-            { k: "Instrument", v: "Equity" },
-            { k: "Target", v: "22% IRR" },
-          ].map((s) => (
-            <div key={s.k} className="rounded-xl bg-paper-2 p-3">
-              <p className="text-[0.65rem] uppercase tracking-wide text-ink/60">{s.k}</p>
-              <p className="mt-1 font-semibold text-ink tnum">{s.v}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-4 flex items-center justify-between rounded-xl bg-brand-50 px-4 py-3">
-          <span className="text-xs font-medium text-brand-700">Matches your mandate</span>
-          <span className="inline-flex items-center gap-1 text-xs font-semibold text-brand-700">
-            View deal <ArrowRight className="h-3.5 w-3.5" />
-          </span>
-        </div>
+        <span className="rounded-full bg-white/10 px-2.5 py-1 kicker text-[0.6rem] text-white/70">Platinum</span>
       </div>
 
-      {/* floating stat chip */}
-      <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-        className="absolute -left-10 -bottom-12 hidden rounded-2xl border border-ink/[0.07] bg-white/95 p-4 shadow-[var(--shadow-card)] backdrop-blur sm:block"
-      >
-        <p className="text-[0.65rem] uppercase tracking-wide text-ink/60">Match criteria</p>
-        <p className="font-display text-2xl font-semibold text-navy-700 tnum">15</p>
-        <div className="mt-1.5 flex items-center gap-1 text-xs font-medium text-emerald-700">
-          <TrendingUp className="h-3.5 w-3.5" /> Weighted &amp; explained
-        </div>
-      </motion.div>
+      <div className="mt-5 grid grid-cols-3 gap-2.5">
+        {[
+          { k: "Ask", v: "$18M" },
+          { k: "Instrument", v: "Equity" },
+          { k: "Stage", v: "Growth" },
+        ].map((s) => (
+          <div key={s.k} className="rounded-xl bg-white/[0.06] p-3">
+            <p className="kicker text-[0.55rem] text-white/45">{s.k}</p>
+            <p className="mt-1 text-sm font-medium text-white tnum">{s.v}</p>
+          </div>
+        ))}
+      </div>
 
-      {/* floating notification */}
-      <motion.div
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute -right-4 -top-6 hidden items-center gap-2 rounded-full border border-ink/[0.07] bg-white/90 px-3.5 py-2 shadow-[var(--shadow-card)] backdrop-blur md:flex"
-      >
-        <span className="h-2 w-2 animate-pulse rounded-full bg-navy-500" />
-        <span className="text-xs font-medium text-ink">New mandate match</span>
-      </motion.div>
-    </motion.div>
-  );
-}
-
-function MatchRing({ value }: { value: number }) {
-  const r = 20;
-  const c = 2 * Math.PI * r;
-  return (
-    <div className="relative grid h-14 w-14 place-items-center">
-      <svg viewBox="0 0 48 48" className="h-14 w-14 -rotate-90">
-        <circle cx="24" cy="24" r={r} fill="none" stroke="rgba(12,13,16,0.08)" strokeWidth="4" />
-        <motion.circle
-          cx="24"
-          cy="24"
-          r={r}
-          fill="none"
-          stroke="var(--color-brand-600)"
-          strokeWidth="4"
-          strokeLinecap="round"
-          strokeDasharray={c}
-          initial={{ strokeDashoffset: c }}
-          animate={{ strokeDashoffset: c - (value / 100) * c }}
-          transition={{ duration: 1.4, ease, delay: 0.6 }}
-        />
-      </svg>
-      <span className="absolute text-sm font-bold text-ink tnum">{value}</span>
+      <div className="mt-4 flex items-center justify-between rounded-xl bg-brand-600/15 px-4 py-3 ring-1 ring-brand-500/25">
+        <span className="text-xs font-medium text-brand-200">Matches your mandate</span>
+        <span className="kicker text-[0.6rem] text-white/80">View deal</span>
+      </div>
     </div>
   );
 }
