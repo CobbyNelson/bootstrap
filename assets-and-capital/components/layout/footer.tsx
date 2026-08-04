@@ -61,14 +61,14 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-ink text-white">
-      <div className="grid-noise pointer-events-none absolute inset-0 opacity-40" aria-hidden />
+    <footer className="relative overflow-hidden border-t border-ink/10 bg-paper-2 text-ink">
+      <div className="grid-noise pointer-events-none absolute inset-0 opacity-60" aria-hidden />
       <div className="container-x relative py-16 md:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.3fr_2fr]">
           {/* brand + newsletter */}
           <div className="max-w-sm">
-            <Logo invert />
-            <p className="mt-5 text-[0.95rem] leading-relaxed text-white/60">
+            <Logo />
+            <p className="mt-5 text-[0.95rem] leading-relaxed text-ink/70">
               {SITE.tagline} We connect vetted businesses with a global network of ready investors — for
               capital raising, partnerships, and market expansion.
             </p>
@@ -84,7 +84,7 @@ export function Footer() {
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="grid h-9 w-9 place-items-center rounded-full border border-white/10 text-white/60 transition-colors hover:border-white/25 hover:text-white"
+                  className="grid h-9 w-9 place-items-center rounded-full border border-ink/15 text-ink/60 transition-colors hover:border-ink/35 hover:text-ink"
                 >
                   <s.icon className="h-4 w-4" />
                 </a>
@@ -96,11 +96,11 @@ export function Footer() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {COLUMNS.map((col) => (
               <div key={col.title}>
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-white/65">{col.title}</p>
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-ink/60">{col.title}</p>
                 <ul className="mt-4 space-y-3">
                   {col.links.map((l) => (
                     <li key={l.href}>
-                      <Link href={l.href} className="text-sm text-white/65 transition-colors hover:text-white">
+                      <Link href={l.href} className="text-sm text-ink/70 transition-colors hover:text-brand-700">
                         {l.label}
                       </Link>
                     </li>
@@ -111,15 +111,15 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-8 text-sm text-white/65 sm:flex-row sm:items-center">
+        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-ink/10 pt-8 text-sm text-ink/65 sm:flex-row sm:items-center">
           <p>
             © {new Date().getFullYear()} {SITE.legalName}. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <p className="hidden text-white/65 md:block">
+            <p className="hidden text-ink/65 md:block">
               {SITE.domain} · Capital-raising & deal-making platform.
             </p>
-            <CurrencySwitcher variant="dark" />
+            <CurrencySwitcher />
           </div>
         </div>
       </div>

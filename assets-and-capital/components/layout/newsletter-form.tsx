@@ -26,18 +26,18 @@ export function NewsletterForm() {
   return (
     <form onSubmit={onSubmit} noValidate className="mt-4">
       {status === "done" ? (
-        <p className="inline-flex items-center gap-2 rounded-full bg-emerald-500/15 px-4 py-2.5 text-sm font-medium text-emerald-300">
+        <p className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-2.5 text-sm font-medium text-emerald-700 ring-1 ring-emerald-600/20">
           <Check className="h-4 w-4" /> You&apos;re on the list.
         </p>
       ) : (
         <>
-          <div className="flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] p-1.5 focus-within:border-white/30">
+          <div className="flex items-center gap-2 rounded-full border border-ink/15 bg-white p-1.5 focus-within:border-brand-600/40">
             <input
               type="email"
               value={email}
               onChange={(e) => { setEmail(e.target.value); if (error) setError(null); }}
               placeholder="Work email"
-              className="min-w-0 flex-1 bg-transparent px-4 text-sm text-white placeholder:text-white/65 focus:outline-none"
+              className="min-w-0 flex-1 bg-transparent px-4 text-sm text-ink placeholder:text-ink/55 focus:outline-none"
               aria-label="Email address"
               aria-invalid={!!error}
             />
@@ -57,7 +57,7 @@ export function NewsletterForm() {
           )}
         </>
       )}
-      <p className="mt-2.5 text-xs text-white/65">Market intelligence and new opportunities. No spam.</p>
+      <p className="mt-2.5 text-xs text-ink/60">Market intelligence and new opportunities. No spam.</p>
     </form>
   );
 }
