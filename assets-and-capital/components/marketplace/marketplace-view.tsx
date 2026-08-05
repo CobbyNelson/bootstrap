@@ -132,14 +132,14 @@ export function MarketplaceView({
   ];
 
   return (
-    <div className="container-x grid gap-8 py-12 lg:grid-cols-[260px_1fr]">
+    <div className="grid gap-8 px-5 py-12 md:px-8 lg:grid-cols-[268px_1fr]">
       {/* filter rail */}
       <aside className={cn("lg:block", showFilters ? "block" : "hidden")}>
-        <div className="sticky top-24 rounded-3xl border border-ink/[0.07] bg-white p-5">
+        <div className="sticky top-24 rounded-3xl border border-white/10 bg-navy-900 p-5 text-white">
           <div className="flex items-center justify-between">
-            <p className="font-medium text-ink">Filters</p>
+            <p className="label-cta text-[0.68rem] text-white/60">Filters</p>
             {activeCount > 0 && (
-              <button onClick={clearAll} className="text-xs font-medium text-brand-700 hover:text-brand-800">
+              <button onClick={clearAll} className="text-xs font-medium text-brand-400 hover:text-brand-300">
                 Clear all ({activeCount})
               </button>
             )}
@@ -147,16 +147,16 @@ export function MarketplaceView({
           <div className="mt-4 space-y-6">
             {facetGroups.map((g) => (
               <div key={g.key}>
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/60">{g.label}</p>
+                <p className="label-cta text-[0.68rem] text-white/55">{g.label}</p>
                 <div className="mt-2.5 space-y-1.5">
                   {g.options.map((opt) => {
                     const checked = filters[g.key].has(opt);
                     return (
-                      <label key={opt} className="flex cursor-pointer items-center gap-2.5 text-sm text-ink/70 hover:text-ink">
+                      <label key={opt} className="flex cursor-pointer items-center gap-2.5 text-sm text-white/75 transition-colors hover:text-white">
                         <span
                           className={cn(
                             "grid h-4 w-4 place-items-center rounded border transition-colors",
-                            checked ? "border-brand-600 bg-brand-600 text-white" : "border-ink/25"
+                            checked ? "border-brand-600 bg-brand-600 text-white" : "border-white/30"
                           )}
                         >
                           {checked && (
@@ -252,7 +252,7 @@ export function MarketplaceView({
             </button>
           </div>
         ) : view === "grid" ? (
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
             {results.map((o) => (
               <OpportunityCard key={o.name} o={o} unlocked={unlocked.has(slugify(o.name))} hero={heroes[slugify(o.name)] ?? null} />
             ))}
@@ -284,7 +284,7 @@ export function MarketplaceView({
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <h3 className="truncate font-display text-base font-bold text-brand-600">{o.name}</h3>
-                    <span className="hidden flex-none rounded-full bg-paper-2 px-2 py-0.5 text-[0.58rem] kicker text-ink md:inline">{o.tier}</span>
+                    <span className="hidden flex-none rounded-full bg-paper-2 px-2 py-0.5 text-[0.68rem] kicker text-ink md:inline">{o.tier}</span>
                   </div>
                   <p className="flex items-center gap-1 text-xs text-ink/60">
                     <MapPin className="h-3 w-3" /> {o.country} · {o.region}

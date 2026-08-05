@@ -148,7 +148,7 @@ export function Navbar() {
                       transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                       className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3"
                     >
-                      <div className="glass grid w-[min(90vw,640px)] grid-cols-2 gap-2 rounded-[var(--radius-button)] border border-ink/[0.08] p-3">
+                      <div className="glass-panel grid w-[min(90vw,640px)] grid-cols-2 gap-2 rounded-[var(--radius-button)] border border-ink/[0.08] p-3">
                         {group.columns!.map((col) => (
                           <div key={col.title} className="rounded-2xl p-2">
                             <p className="label-cta px-3 pb-1.5 pt-2 text-[0.62rem] text-ink/60">

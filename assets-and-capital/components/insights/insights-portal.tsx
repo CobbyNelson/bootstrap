@@ -49,7 +49,7 @@ function Cover({
         </>
       )}
       <div className="grid-noise absolute inset-0 opacity-30" aria-hidden />
-      <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[0.62rem] kicker text-ink">{type}</span>
+      <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[0.68rem] kicker text-ink">{type}</span>
     </div>
   );
 }

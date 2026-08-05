@@ -193,7 +193,10 @@ body {
   text-transform: uppercase;
   letter-spacing: var(--tracking-kicker);
   font-weight: 600;
-  font-size: 0.72rem;
+  /* Matches the menu/button label size. This is a plain class, so it wins over
+     any `text-[…]` utility on the same element — setting it here is the only
+     way the card labels actually change size. */
+  font-size: 0.68rem;
   line-height: 1.2;
 }
 /* Uppercase button/CTA lettering (the "AIR SEMIBOLD" role). */
@@ -229,6 +232,17 @@ body {
   background: color-mix(in srgb, white 72%, transparent);
   backdrop-filter: saturate(180%) blur(14px);
   -webkit-backdrop-filter: saturate(180%) blur(14px);
+}
+.glass-panel {
+  /* Frosted, but opaque enough to read against. A dropdown holds paragraphs of
+     text over arbitrary page content, so it needs far more coverage than the
+     72% used for the navbar strip. */
+  background: color-mix(in srgb, white 94%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+.dark .glass-panel {
+  background: color-mix(in srgb, #1c202a 94%, transparent);
 }
 .glass-dark {
   background: color-mix(in srgb, var(--color-ink) 55%, transparent);

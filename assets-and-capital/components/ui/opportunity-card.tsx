@@ -66,7 +66,7 @@ export function OpportunityCard({
           </div>
         )}
         <div className="grid-noise absolute inset-0 opacity-20" aria-hidden />
-        <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[0.62rem] kicker text-ink shadow-sm">
+        <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[0.68rem] kicker text-ink shadow-sm">
           {o.tier}
         </span>
         <SaveButton slug={slug} className="absolute right-3 top-3" />

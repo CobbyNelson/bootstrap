@@ -78,7 +78,7 @@ function Kpi({
       </div>
       <p className="mt-4 font-grotesk text-[1.75rem] font-semibold leading-none tnum">{value}</p>
       <div className="mt-1.5 flex items-end justify-between gap-2">
-        <p className={cn("kicker text-[0.62rem]", t.label)}>{label}</p>
+        <p className={cn("kicker text-[0.68rem]", t.label)}>{label}</p>
         <Sparkline data={spark} stroke={t.spark} />
       </div>
     </div>
