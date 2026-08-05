@@ -41,6 +41,19 @@ git -C "$AC/repo" fetch origin "$BRANCH"
 git -C "$AC/repo" reset --hard "origin/$BRANCH"
 COMMIT="$(git -C "$AC/repo" rev-parse --short HEAD)"
 
+# The env file is sourced further down, but check it parses BEFORE anything
+# destructive happens. A value containing < > or & â an EMAIL_FROM like
+# "Name <a@b.com>" â is a redirect and a background operator to bash, so one
+# unquoted line kills the deploy only after node_modules has been deleted and
+# reinstalled. systemd's EnvironmentFile parser is more forgiving, so the
+# running app can be perfectly healthy while every deploy dies here.
+if ! ( set -a; . "$AC/shared/.env" ) >/dev/null 2>&1; then
+  echo "â $AC/shared/.env is not valid shell." >&2
+  echo "  Quote any value containing a space or < > & â e.g." >&2
+  echo '  EMAIL_FROM="Assets & Capital <hello@example.com>"' >&2
+  exit 1
+fi
+
 # Deploy work runs behind the live site, never in front of it. Resolved once
 # here so a box without ionice still deploys instead of failing on every step.
 LOWPRI="nice -n 19"
