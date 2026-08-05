@@ -609,3 +609,15 @@ body {
   width: var(--pill-w, 0);
   transition: transform 0.32s var(--ease-out-expo), width 0.32s var(--ease-out-expo);
 }
+
+/* Login brand panel. The photograph is loaded only where the panel is shown:
+   as an <img> under `hidden lg:block` it downloaded on phones too, for a panel
+   they never see. A media query keeps it out of the stylesheet entirely below
+   the breakpoint, which is what actually prevents the fetch. */
+@media (min-width: 1024px) {
+  .login-art {
+    background-image: url("/img/handshake.webp");
+    background-size: cover;
+    background-position: center;
+  }
+}

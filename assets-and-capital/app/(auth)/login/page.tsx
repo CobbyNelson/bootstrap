@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import { ShieldCheck } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { LoginForm } from "@/components/auth/login-form";
-import { IMAGERY } from "@/lib/imagery";
 
 export const metadata: Metadata = {
   title: "Sign in",
@@ -31,14 +30,16 @@ export default function LoginPage() {
       </div>
 
       {/* brand side */}
-      <div className="relative hidden overflow-hidden bg-ink lg:block">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={IMAGERY.handshake.src}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+      {/* The photograph is a CSS background, not an <img>, and is declared
+          inside a min-width media query.
+
+          As an element it stayed in the DOM under `hidden lg:block`, so every
+          phone visitor downloaded 36KB for a panel they never see — and Next
+          preloaded it, which pulled it to the front of the queue. Display:none
+          does not stop a fetch; not being in the stylesheet does. It is
+          decorative (aria-hidden, empty alt), so nothing is lost by moving it
+          out of the document. */}
+      <div className="login-art relative hidden overflow-hidden bg-ink lg:block">
         {/* Flat wash across the whole frame, then a bottom-up gradient behind
             the copy. The panel has to stay legible wherever the photograph is
             light, so the wash does the work rather than a corner gradient. */}
