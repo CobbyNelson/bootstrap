@@ -9,7 +9,17 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-const PASSWORD = "password123";
+// SEED_PASSWORD lets a real deployment seed without ever creating the
+// well-known demo password. The literal fallback is for local development
+// only — the production deploy path always supplies SEED_PASSWORD, and
+// seeding a public server without it would publish known-credential accounts.
+const PASSWORD = process.env.SEED_PASSWORD ?? "password123";
+if (!process.env.SEED_PASSWORD && process.env.NODE_ENV === "production") {
+  throw new Error(
+    "Refusing to seed production with the default demo password. " +
+      "Set SEED_PASSWORD to a strong value and re-run.",
+  );
+}
 
 async function main() {
   const passwordHash = await bcrypt.hash(PASSWORD, 10);
