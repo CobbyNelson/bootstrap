@@ -1,7 +1,9 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { CurrencyCode, DEFAULT_CURRENCY, getCurrency, type Currency } from "@/lib/i18n";
+import { createContext, useCallback, useContext, useMemo, useSyncExternalStore } from "react";
+import { snapshotOf, subscribeTo } from "@/lib/local-store";
+import { useMounted } from "@/lib/use-mounted";
+import { CURRENCIES, CurrencyCode, DEFAULT_CURRENCY, getCurrency, type Currency } from "@/lib/i18n";
 
 type Ctx = {
   currency: Currency;
@@ -13,31 +15,34 @@ type Ctx = {
 
 const CurrencyContext = createContext<Ctx | null>(null);
 const STORAGE_KEY = "ac_currency";
+const CURRENCY_EVT = "ac-currency";
+
+/** Raw string is already the code; validate it against the known set. */
+function parseCode(raw: string | null): CurrencyCode {
+  return raw && CURRENCIES.some((c) => c.code === raw) ? (raw as CurrencyCode) : DEFAULT_CURRENCY;
+}
 
 export function CurrencyProvider({ children }: { children: React.ReactNode }) {
-  // Start from the default on both server and first client render to avoid a
-  // hydration mismatch; adopt the persisted choice after mount.
-  const [code, setCodeState] = useState<CurrencyCode>(DEFAULT_CURRENCY);
-  const [ready, setReady] = useState(false);
+  // The stored currency is external state, so read it through
+  // useSyncExternalStore: the server and the first client render both yield the
+  // default (no hydration mismatch), and the persisted choice arrives without a
+  // second render scheduled from inside an effect.
+  const subscribe = useMemo(() => subscribeTo(STORAGE_KEY, CURRENCY_EVT), []);
+  const getSnapshot = useCallback(() => snapshotOf(STORAGE_KEY, parseCode), []);
+  const getServerSnapshot = useCallback(() => DEFAULT_CURRENCY, []);
+  const code = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY) as CurrencyCode | null;
-      if (saved && saved !== code) setCodeState(saved);
-    } catch {
-      /* ignore */
-    }
-    setReady(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // `ready` used to mean "the effect has run". It now means "we are past
+  // hydration", which is the same moment without the extra render.
+  const ready = useMounted();
 
   const setCode = useCallback((next: CurrencyCode) => {
-    setCodeState(next);
     try {
       localStorage.setItem(STORAGE_KEY, next);
     } catch {
-      /* ignore */
+      /* quota or privacy mode */
     }
+    window.dispatchEvent(new Event(CURRENCY_EVT));
   }, []);
 
   return (

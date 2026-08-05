@@ -85,31 +85,39 @@ export function DonutChart({
   const r = (size - stroke) / 2;
   const circ = 2 * Math.PI * r;
   const total = data.reduce((s, d) => s + d.value, 0);
-  let offset = 0;
+
+  // Arc lengths and their running start offsets, computed BEFORE the JSX.
+  // This used to accumulate `offset += len` inside the map, mutating a variable
+  // while rendering. React may render a component twice (StrictMode) or discard
+  // and retry a render (concurrent); either would carry the offset over and
+  // draw every segment rotated by a full previous pass.
+  const segments = data.reduce<{ d: (typeof data)[number]; len: number; offset: number }[]>(
+    (acc, d) => {
+      const prev = acc[acc.length - 1];
+      const offset = prev ? prev.offset + prev.len : 0;
+      return [...acc, { d, len: (d.value / total) * circ, offset }];
+    },
+    [],
+  );
+
   return (
     <div className="flex flex-col items-center gap-5 sm:flex-row sm:gap-6">
       <div className="relative flex-none" style={{ width: size, height: size }}>
         <svg width={size} height={size} className="-rotate-90">
-          {data.map((d, i) => {
-            const frac = d.value / total;
-            const len = frac * circ;
-            const el = (
-              <circle
-                key={i}
-                cx={size / 2}
-                cy={size / 2}
-                r={r}
-                fill="none"
-                stroke={C[d.color]}
-                strokeWidth={stroke}
-                strokeDasharray={`${len} ${circ - len}`}
-                strokeDashoffset={-offset}
-                strokeLinecap="butt"
-              />
-            );
-            offset += len;
-            return el;
-          })}
+          {segments.map(({ d, len, offset }, i) => (
+            <circle
+              key={i}
+              cx={size / 2}
+              cy={size / 2}
+              r={r}
+              fill="none"
+              stroke={C[d.color]}
+              strokeWidth={stroke}
+              strokeDasharray={`${len} ${circ - len}`}
+              strokeDashoffset={-offset}
+              strokeLinecap="butt"
+            />
+          ))}
         </svg>
         <div className="absolute inset-0 grid place-items-center text-center">
           <div>

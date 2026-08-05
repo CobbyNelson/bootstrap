@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { useEffect, useMemo, useState } from "react";
 import {
   Briefcase, Building2, PieChart, Check, ArrowRight, ArrowLeft, Cloud, ShieldCheck, PartyPopper,
@@ -185,6 +187,13 @@ export function InvestorWizard() {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
+        /* Seeding editable form state from a saved draft. Not a mirror of an
+           external store (the user edits it afterwards), so useSyncExternalStore
+           does not apply; lazy-initialising would mean rendering the wizard
+           client-only, putting a skeleton flash in front of the registration
+           funnel. Deliberate — the directive must sit on the line directly
+           above the call, so the reasoning lives here instead. */
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setBranch(parsed.branch ?? "");
         setValues(parsed.values ?? {});
         setStepIndex(parsed.stepIndex ?? 0);
@@ -281,9 +290,9 @@ export function InvestorWizard() {
             Thank you. Your investment mandate is being reviewed by our team. You&apos;ll start receiving
             mandate-matched opportunities as soon as your account is verified.
           </p>
-          <a href="/marketplace" className="mt-7 inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-medium text-white hover:bg-brand-700">
+          <Link href="/marketplace" className="mt-7 inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-medium text-white hover:bg-brand-700">
             Explore the marketplace <ArrowRight className="h-4 w-4" />
-          </a>
+          </Link>
         </div>
       </div>
     );

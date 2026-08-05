@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 /**
  * Bypass-code entry for the pre-launch gate.
@@ -11,7 +10,6 @@ import { useRouter } from "next/navigation";
  * be used to probe whether a given code was "close".
  */
 export function UnlockForm() {
-  const router = useRouter();
   const [code, setCode] = useState("");
   const [state, setState] = useState<"idle" | "checking" | "error">("idle");
   const [message, setMessage] = useState("");

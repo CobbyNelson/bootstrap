@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Bookmark, Scale, Trash2 } from "lucide-react";
+import { useMounted } from "@/lib/use-mounted";
 import { useSaved } from "@/lib/use-collection";
 import { getOpportunityBySlug } from "@/lib/matching";
 import { OpportunityCard } from "@/components/ui/opportunity-card";
@@ -10,8 +10,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 
 export default function SavedPage() {
   const { items, clear, count } = useSaved();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useMounted();
 
   const opps = items.map((slug) => getOpportunityBySlug(slug)).filter(Boolean);
   const compareHref = `/marketplace/compare?ids=${items.slice(0, 3).join(",")}`;

@@ -1,54 +1,48 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useSyncExternalStore } from "react";
+import { snapshotOf, subscribeTo, writeTo } from "@/lib/local-store";
 
-function read(key: string): string[] {
+/** Stable empty array: returned on the server and whenever nothing is stored.
+ *  A fresh `[]` here would be a new reference every render and loop React. */
+const EMPTY: string[] = [];
+
+function parseList(raw: string | null): string[] {
+  if (!raw) return EMPTY;
   try {
-    return JSON.parse(localStorage.getItem(key) || "[]");
+    const v = JSON.parse(raw);
+    return Array.isArray(v) ? v : EMPTY;
   } catch {
-    return [];
+    return EMPTY;
   }
 }
 
 /**
  * A localStorage-backed string set that stays in sync across components in the
  * same tab (custom event) and across tabs (storage event).
+ *
+ * Backed by useSyncExternalStore rather than state-plus-effect: the value is
+ * correct on the very first client render instead of flashing empty, and React
+ * can read it safely while rendering concurrently.
  */
 export function useCollection(key: string, max = Number.POSITIVE_INFINITY) {
-  const [items, setItems] = useState<string[]>([]);
   const evt = `ac-collection-${key}`;
 
-  useEffect(() => {
-    setItems(read(key));
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === key) setItems(read(key));
-    };
-    const onCustom = () => setItems(read(key));
-    window.addEventListener("storage", onStorage);
-    window.addEventListener(evt, onCustom);
-    return () => {
-      window.removeEventListener("storage", onStorage);
-      window.removeEventListener(evt, onCustom);
-    };
-  }, [key, evt]);
+  const subscribe = useMemo(() => subscribeTo(key, evt), [key, evt]);
+  const getSnapshot = useCallback(() => snapshotOf(key, parseList), [key]);
+  const getServerSnapshot = useCallback(() => EMPTY, []);
 
-  const persist = useCallback(
-    (next: string[]) => {
-      try {
-        localStorage.setItem(key, JSON.stringify(next));
-      } catch {
-        /* ignore */
-      }
-      window.dispatchEvent(new Event(evt));
-    },
-    [key, evt]
-  );
+  const items = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
+  const persist = useCallback((next: string[]) => writeTo(key, next, evt), [key, evt]);
 
   const has = useCallback((id: string) => items.includes(id), [items]);
 
   const toggle = useCallback(
     (id: string) => {
-      const cur = read(key);
+      // Re-read rather than trusting `items`: two components sharing this key
+      // can both be mid-render with an older snapshot.
+      const cur = snapshotOf(key, parseList);
       if (cur.includes(id)) {
         persist(cur.filter((x) => x !== id));
       } else {
@@ -56,11 +50,14 @@ export function useCollection(key: string, max = Number.POSITIVE_INFINITY) {
         persist([...cur, id]);
       }
     },
-    [key, max, persist]
+    [key, max, persist],
   );
 
-  const remove = useCallback((id: string) => persist(read(key).filter((x) => x !== id)), [key, persist]);
-  const clear = useCallback(() => persist([]), [persist]);
+  const remove = useCallback(
+    (id: string) => persist(snapshotOf(key, parseList).filter((x) => x !== id)),
+    [key, persist],
+  );
+  const clear = useCallback(() => persist(EMPTY), [persist]);
 
   return { items, has, toggle, remove, clear, count: items.length, full: items.length >= max };
 }

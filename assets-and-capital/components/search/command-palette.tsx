@@ -102,17 +102,27 @@ export function CommandPalette() {
     };
   }, []);
 
-  useEffect(() => {
+  // Clear the query during render so the palette opens empty on its first
+  // frame rather than flashing the previous search.
+  const [wasOpen, setWasOpen] = useState(open);
+  if (open !== wasOpen) {
+    setWasOpen(open);
     if (open) {
       setQ("");
       setActive(0);
-      setTimeout(() => inputRef.current?.focus(), 20);
       try {
         setRecent(JSON.parse(localStorage.getItem("ac_recent_search") || "[]"));
       } catch {
         /* ignore */
       }
     }
+  }
+
+  // Focus is a real side effect on the DOM, so it stays in an effect.
+  useEffect(() => {
+    if (!open) return;
+    const id = window.setTimeout(() => inputRef.current?.focus(), 20);
+    return () => window.clearTimeout(id);
   }, [open]);
 
   const results = useMemo(() => {

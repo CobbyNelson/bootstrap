@@ -73,9 +73,15 @@ export function Navbar() {
   // Route changes must dismiss the drawer. Tapping a link to the page you are
   // already on does not fire the link's own onClick close in every case, and a
   // drawer left open over the new page reads as a broken navigation.
-  useEffect(() => {
+  //
+  // Adjusted during render rather than in an effect: React re-runs this pass
+  // immediately with the corrected state, so the drawer is already closed on
+  // the first paint of the new route instead of flashing open for one frame.
+  const [lastPath, setLastPath] = useState(pathname);
+  if (pathname !== lastPath) {
+    setLastPath(pathname);
     setMobileOpen(false);
-  }, [pathname]);
+  }
 
   /**
    * The home hero is now a full-bleed dark photograph, so the unscrolled navbar

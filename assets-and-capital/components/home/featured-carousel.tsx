@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Sparkles, ArrowUpRight, MapPin, Tag } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sparkles, MapPin, Tag } from "lucide-react";
 import { SCORED_MARKETPLACE, slugify } from "@/lib/matching";
 import { Money } from "@/components/ui/money";
 import { listingImage } from "@/lib/imagery";

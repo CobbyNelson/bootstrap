@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useSyncExternalStore } from "react";
 import { useCollection } from "@/lib/use-collection";
+import { snapshotOf, subscribeTo, writeTo } from "@/lib/local-store";
 
 /**
  * Investor access model (front-end demo of the real business rules):
@@ -23,42 +24,30 @@ export type Subscription = { active: boolean; plan: string | null };
 const SUB_KEY = "ac_subscription_v1";
 const SUB_EVT = "ac-subscription";
 
-function readSub(): Subscription {
+/** Stable "not subscribed" object — a fresh literal per read would be a new
+ *  reference every render and send useSyncExternalStore into a loop. */
+const NO_SUB: Subscription = { active: false, plan: null };
+
+function parseSub(raw: string | null): Subscription {
+  if (!raw) return NO_SUB;
   try {
-    const raw = localStorage.getItem(SUB_KEY);
-    if (!raw) return { active: false, plan: null };
     const p = JSON.parse(raw);
     return { active: !!p.active, plan: p.plan ?? null };
   } catch {
-    return { active: false, plan: null };
+    return NO_SUB;
   }
 }
 
 export function useSubscription() {
-  const [sub, setSub] = useState<Subscription>({ active: false, plan: null });
+  // localStorage is an external store; read it through the primitive built for
+  // that instead of mirroring it into state inside an effect, which rendered
+  // "not subscribed" first and the real value a beat later.
+  const subscribe_ = useMemo(() => subscribeTo(SUB_KEY, SUB_EVT), []);
+  const getSnapshot = useCallback(() => snapshotOf(SUB_KEY, parseSub), []);
+  const getServerSnapshot = useCallback(() => NO_SUB, []);
+  const sub = useSyncExternalStore(subscribe_, getSnapshot, getServerSnapshot);
 
-  useEffect(() => {
-    setSub(readSub());
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === SUB_KEY) setSub(readSub());
-    };
-    const onCustom = () => setSub(readSub());
-    window.addEventListener("storage", onStorage);
-    window.addEventListener(SUB_EVT, onCustom);
-    return () => {
-      window.removeEventListener("storage", onStorage);
-      window.removeEventListener(SUB_EVT, onCustom);
-    };
-  }, []);
-
-  const write = useCallback((next: Subscription) => {
-    try {
-      localStorage.setItem(SUB_KEY, JSON.stringify(next));
-    } catch {
-      /* ignore */
-    }
-    window.dispatchEvent(new Event(SUB_EVT));
-  }, []);
+  const write = useCallback((next: Subscription) => writeTo(SUB_KEY, next, SUB_EVT), []);
 
   const subscribe = useCallback((plan: string) => write({ active: true, plan }), [write]);
   const cancel = useCallback(() => write({ active: false, plan: null }), [write]);

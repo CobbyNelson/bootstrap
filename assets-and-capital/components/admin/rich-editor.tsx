@@ -23,7 +23,17 @@ import { cn } from "@/lib/utils";
  * authoring comfort, not security.
  */
 
-type Cmd = { icon: typeof Bold; label: string; run: () => void; state?: string };
+/**
+  * Toolbar entries are data, not closures. They used to carry `run: () => …`
+  * arrows that captured refs through applyCmd; building those during render
+  * made the whole toolbar read as ref-derived. Naming the action instead keeps
+  * this array inert and defers every ref touch to the click handler.
+  */
+type CmdAction =
+  | { kind: "exec"; cmd: string; arg?: string }
+  | { kind: "link" }
+  | { kind: "image" };
+type Cmd = { icon: typeof Bold; label: string; action: CmdAction; state?: string };
 
 /** Serialise the editable area without reaching for innerHTML. */
 function serialize(el: HTMLElement): string {
@@ -137,37 +147,38 @@ export function RichEditor({
 
   const groups: Cmd[][] = [
     [
-      { icon: Bold, label: "Bold", run: () => applyCmd("bold"), state: "bold" },
-      { icon: Italic, label: "Italic", run: () => applyCmd("italic"), state: "italic" },
-      { icon: Underline, label: "Underline", run: () => applyCmd("underline"), state: "underline" },
+      { icon: Bold, label: "Bold", action: { kind: "exec", cmd: "bold" }, state: "bold" },
+      { icon: Italic, label: "Italic", action: { kind: "exec", cmd: "italic" }, state: "italic" },
+      { icon: Underline, label: "Underline", action: { kind: "exec", cmd: "underline" }, state: "underline" },
     ],
     [
-      { icon: Heading2, label: "Heading", run: () => applyCmd("formatBlock", "<h2>") },
-      { icon: Heading3, label: "Subheading", run: () => applyCmd("formatBlock", "<h3>") },
-      { icon: Quote, label: "Quote", run: () => applyCmd("formatBlock", "<blockquote>") },
-      { icon: Pilcrow, label: "Paragraph", run: () => applyCmd("formatBlock", "<p>") },
+      { icon: Heading2, label: "Heading", action: { kind: "exec", cmd: "formatBlock", arg: "<h2>" } },
+      { icon: Heading3, label: "Subheading", action: { kind: "exec", cmd: "formatBlock", arg: "<h3>" } },
+      { icon: Quote, label: "Quote", action: { kind: "exec", cmd: "formatBlock", arg: "<blockquote>" } },
+      { icon: Pilcrow, label: "Paragraph", action: { kind: "exec", cmd: "formatBlock", arg: "<p>" } },
     ],
     [
-      { icon: List, label: "Bulleted list", run: () => applyCmd("insertUnorderedList"), state: "insertUnorderedList" },
-      { icon: ListOrdered, label: "Numbered list", run: () => applyCmd("insertOrderedList"), state: "insertOrderedList" },
+      { icon: List, label: "Bulleted list", action: { kind: "exec", cmd: "insertUnorderedList" }, state: "insertUnorderedList" },
+      { icon: ListOrdered, label: "Numbered list", action: { kind: "exec", cmd: "insertOrderedList" }, state: "insertOrderedList" },
     ],
     [
-      { icon: Link2, label: "Insert link", run: addLink },
-      {
-        icon: ImageIcon,
-        label: "Insert image",
-        run: () => {
-          rememberSelection();
-          setPickerOpen(true);
-        },
-      },
+      { icon: Link2, label: "Insert link", action: { kind: "link" } },
+      { icon: ImageIcon, label: "Insert image", action: { kind: "image" } },
     ],
     [
-      { icon: Undo2, label: "Undo", run: () => applyCmd("undo") },
-      { icon: Redo2, label: "Redo", run: () => applyCmd("redo") },
-      { icon: Eraser, label: "Clear formatting", run: () => applyCmd("removeFormat") },
+      { icon: Undo2, label: "Undo", action: { kind: "exec", cmd: "undo" } },
+      { icon: Redo2, label: "Redo", action: { kind: "exec", cmd: "redo" } },
+      { icon: Eraser, label: "Clear formatting", action: { kind: "exec", cmd: "removeFormat" } },
     ],
   ];
+
+  /** Runs a toolbar entry. Called from onMouseDown, never during render. */
+  function runAction(a: CmdAction) {
+    if (a.kind === "exec") return applyCmd(a.cmd, a.arg);
+    if (a.kind === "link") return addLink();
+    rememberSelection();
+    setPickerOpen(true);
+  }
 
   return (
     <div className="overflow-hidden rounded-xl border border-ink/12 bg-white">
@@ -186,7 +197,7 @@ export function RichEditor({
                 // area and collapses the selection before the command can run.
                 onMouseDown={(e) => {
                   e.preventDefault();
-                  c.run();
+                  runAction(c.action);
                 }}
                 className={cn(
                   "grid h-8 w-8 place-items-center rounded-lg text-ink/70 transition-colors hover:bg-white hover:text-ink",

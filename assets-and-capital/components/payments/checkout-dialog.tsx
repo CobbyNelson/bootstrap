@@ -36,14 +36,21 @@ export function CheckoutDialog({
   }, [open]);
 
   // Reset transient state whenever the dialog is (re)opened.
-  useEffect(() => {
+  //
+  // Adjusted during render rather than in an effect: the dialog then paints its
+  // first frame already cleared, instead of briefly showing the previous
+  // attempt's card digits and error before an effect wipes them. On a payment
+  // form that stale frame is the one that matters.
+  const [wasOpen, setWasOpen] = useState(open);
+  if (open !== wasOpen) {
+    setWasOpen(open);
     if (open) {
       setStatus("idle");
       setError("");
       setCard({ number: "", exp: "", cvc: "", name: "" });
       setProviderId("stripe");
     }
-  }, [open]);
+  }
 
   if (!open) return null;
 

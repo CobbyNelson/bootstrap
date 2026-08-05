@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+
+import { useEffect, useState } from "react";
 import { ArrowRight, ArrowLeft, Check, Cloud, PartyPopper } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FeaturedImageUpload } from "./featured-image-upload";
@@ -62,6 +64,13 @@ export function BusinessIntake() {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const p = JSON.parse(raw);
+        /* Seeding editable form state from a saved draft. Not a mirror of an
+           external store (the user edits it afterwards), so useSyncExternalStore
+           does not apply; lazy-initialising would mean rendering the wizard
+           client-only, putting a skeleton flash in front of the registration
+           funnel. Deliberate — the directive must sit on the line directly
+           above the call, so the reasoning lives here instead. */
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setValues(p.values ?? {});
         setStepIndex(p.stepIndex ?? 0);
       }
@@ -137,9 +146,9 @@ export function BusinessIntake() {
             Thank you. Our team will review your business and reach out to confirm your listing and any services you
             selected. We&apos;ll then start putting your opportunity in front of the right investors.
           </p>
-          <a href="/marketplace" className="mt-7 inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-medium text-white hover:bg-brand-700">
+          <Link href="/marketplace" className="mt-7 inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-medium text-white hover:bg-brand-700">
             See the marketplace <ArrowRight className="h-4 w-4" />
-          </a>
+          </Link>
         </div>
       </div>
     );

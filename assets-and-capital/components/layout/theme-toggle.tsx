@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useMounted } from "@/lib/use-mounted";
 import { Clock, Sun, Moon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -63,12 +64,13 @@ export function ThemeToggle({
     const stored = localStorage.getItem(THEME_KEY);
     return stored === "light" || stored === "dark" ? stored : "auto";
   });
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
 
   useEffect(() => {
-    setMounted(true);
     // Idempotent with the pre-paint script in app/layout.tsx; also covers the
-    // no-script edge (extensions, hard refresh oddities).
+    // no-script edge (extensions, hard refresh oddities). No setState here —
+    // the effect only pushes state OUT to the document, which is what effects
+    // are for.
     applyTheme(mode);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

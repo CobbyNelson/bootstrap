@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useMounted } from "@/lib/use-mounted";
 import { Cookie } from "lucide-react";
 import {
   CONSENT_COOKIE,
@@ -43,33 +44,37 @@ function readConsentCookie(): string | undefined {
 
 export function CookieConsent() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  // The cookie can only be read on the client, and reading it must not happen
+  // during the server render or hydration would mismatch. `mounted` gates that;
+  // the banner then shows on the first client pass rather than after a second
+  // render scheduled from an effect.
+  const mounted = useMounted();
+  const stored = useMemo(() => (mounted ? parseConsent(readConsentCookie()) : null), [mounted]);
+
+  const [reopened, setReopened] = useState(false);
   const [detail, setDetail] = useState(false);
   const [analytics, setAnalytics] = useState(false);
   const [marketing, setMarketing] = useState(false);
 
-  const sync = useCallback(() => {
-    const existing = parseConsent(readConsentCookie());
-    if (existing) {
-      setAnalytics(existing.analytics);
-      setMarketing(existing.marketing);
-    }
-    return existing;
-  }, []);
-
-  useEffect(() => {
-    if (!sync()) setOpen(true);
-  }, [sync]);
+  // Derived, not stored: ask when there is no valid consent yet, or when the
+  // visitor reopened the panel from the footer.
+  const open = mounted && (reopened || !stored);
 
   useEffect(() => {
     const reopen = () => {
-      sync();
+      // Prefill from the saved choice. This runs in an event handler, so
+      // setting state here is exactly what handlers are for.
+      const existing = parseConsent(readConsentCookie());
+      if (existing) {
+        setAnalytics(existing.analytics);
+        setMarketing(existing.marketing);
+      }
       setDetail(true);
-      setOpen(true);
+      setReopened(true);
     };
     window.addEventListener(OPEN_CONSENT_EVENT, reopen);
     return () => window.removeEventListener(OPEN_CONSENT_EVENT, reopen);
-  }, [sync]);
+  }, []);
 
   // The pre-launch gate sets only strictly necessary cookies, so asking for
   // consent there would be asking about nothing.
@@ -78,7 +83,7 @@ export function CookieConsent() {
 
   function decide(a: boolean, m: boolean) {
     writeConsent(a, m);
-    setOpen(false);
+    setReopened(false);
     setDetail(false);
     // Reload so server components re-render with the new consent state and any
     // consent-gated script is emitted (or withheld) correctly.
