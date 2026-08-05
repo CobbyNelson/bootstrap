@@ -41,6 +41,11 @@ git -C "$AC/repo" fetch origin "$BRANCH"
 git -C "$AC/repo" reset --hard "origin/$BRANCH"
 COMMIT="$(git -C "$AC/repo" rev-parse --short HEAD)"
 
+# Deploy work runs behind the live site, never in front of it. Resolved once
+# here so a box without ionice still deploys instead of failing on every step.
+LOWPRI="nice -n 19"
+command -v ionice >/dev/null 2>&1 && LOWPRI="$LOWPRI ionice -c3"
+
 say "Installing dependencies (commit $COMMIT)"
 cd "$APP"
 # Install BEFORE the production env is loaded. NODE_ENV=production makes npm
@@ -58,11 +63,17 @@ rm -rf node_modules
 # then `prisma: not found` when postinstall runs against a half-linked tree.
 # The retry costs ~30s on the rare failure and turns a dead deploy into a slow
 # one, which matters when the deploy is automatic and nobody is watching.
-if ! npm ci --no-audit --no-fund; then
+#
+# Run at the lowest priority the scheduler offers. This box has two cores and
+# the OLD release keeps serving visitors throughout the install and build — at
+# normal priority the compile takes both cores and live requests queue behind
+# it long enough to time out in a browser. `nice`/`ionice` cost the deploy a
+# little wall-clock and give the running site right of way.
+if ! $LOWPRI npm ci --no-audit --no-fund; then
   echo "-- install failed; clearing the npm cache and retrying once" >&2
   npm cache clean --force
   rm -rf node_modules
-  npm ci --no-audit --no-fund
+  $LOWPRI npm ci --no-audit --no-fund
 fi
 
 # From here on the production environment is required: `prisma migrate deploy`
@@ -79,7 +90,7 @@ say "Applying database migrations"
 npx prisma migrate deploy
 
 say "Building"
-NODE_OPTIONS=--max-old-space-size=2048 npm run build
+$LOWPRI env NODE_OPTIONS=--max-old-space-size=2048 npm run build
 
 say "Assembling release"
 TS="$(date +%Y%m%d-%H%M%S)-$COMMIT"

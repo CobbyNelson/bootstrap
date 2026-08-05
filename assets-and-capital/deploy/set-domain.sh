@@ -45,7 +45,25 @@ cat > /etc/caddy/Caddyfile <<EOF
 
 $HOSTS {
 	encode zstd gzip
-	reverse_proxy 127.0.0.1:3000
+
+	# Access log to journald. Without it the only trace of a request is an
+	# ERROR entry, so "nobody can reach the site" and "everything is fine"
+	# look identical from the server. Not a file: the unit's ProtectSystem
+	# hardening makes /var/log read-only to Caddy, and enabling a log is not
+	# worth a service restart.
+	log {
+		output stderr
+		format json
+	}
+
+	reverse_proxy 127.0.0.1:3000 {
+		# A deploy restarts the app, and for a second or two nothing listens
+		# on :3000. Without this Caddy dials once, gets "connection refused"
+		# and returns 502 — so every visitor mid-deploy saw an error page.
+		# Retrying turns that window into a short wait instead of a failure.
+		lb_try_duration 20s
+		lb_try_interval 250ms
+	}
 	request_body {
 		max_size 30MB
 	}
