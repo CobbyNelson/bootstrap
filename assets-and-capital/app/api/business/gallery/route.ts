@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
+import { slugify } from "@/lib/matching";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { getBusinessListing, getOrCreateBusinessListing } from "@/lib/business-listing";
@@ -58,6 +60,17 @@ async function galleryFor(listingId: string, heroId: string | null): Promise<Gal
 }
 
 /* ------------------------------------------------------------------ list */
+
+/**
+ * The pages that render listing heroes are cached, so a gallery change has to
+ * say so or a business would upload a new hero and keep seeing the old one
+ * until the window expired — looking, from their side, like the upload failed.
+ */
+function revalidateHeroPages(title?: string) {
+  revalidatePath("/");
+  revalidatePath("/marketplace");
+  if (title) revalidatePath(`/marketplace/${slugify(title)}`);
+}
 
 export async function GET() {
   const { user, error } = await requireBusiness();
@@ -161,6 +174,8 @@ export async function POST(request: Request) {
     await prisma.listing.update({ where: { id: listing.id }, data: { heroId: asset.id } });
   }
 
+  revalidateHeroPages(listing?.title);
+
   return NextResponse.json({
     ok: true,
     savedPercent: Math.round((1 - processed.bytes / file.size) * 100),
@@ -191,6 +206,7 @@ export async function PATCH(request: Request) {
   }
 
   await prisma.listing.update({ where: { id: listing.id }, data: { heroId: assetId } });
+  revalidateHeroPages(listing?.title);
   return NextResponse.json({ ok: true, images: await galleryFor(listing.id, assetId) });
 }
 
@@ -231,6 +247,8 @@ export async function DELETE(request: Request) {
   await prisma.mediaAsset.delete({ where: { id: asset.id } });
   await remove(asset.storageKey);
   if (asset.thumbKey) await remove(asset.thumbKey);
+
+  revalidateHeroPages(listing?.title);
 
   return NextResponse.json({ ok: true, images: await galleryFor(listing.id, nextHeroId) });
 }

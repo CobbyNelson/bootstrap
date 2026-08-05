@@ -48,14 +48,14 @@ event or place belonging to Assets & Capital.
 
 | File | Used for | Contains people |
 |---|---|---|
-| `hero-tower.png` | Home hero ambience | No |
-| `cta-texture.png` | Dark CTA band background | No |
-| `desk-report.png` | Insights / editorial covers | No |
-| `forum.png` | Events, roadshows | Audience from behind, no faces |
-| `solar-farm.png` | Energy & infrastructure sectors | No |
-| `factory.png` | Industrials & manufacturing sectors | No |
-| `skyline-figure.png` | Investor-facing pages | One figure, from behind |
-| `handshake.png` | Partnerships, deal close | Hands/torsos only, no faces |
+| `hero-tower.webp` | Home hero ambience | No |
+| `cta-texture.webp` | Dark CTA band background | No |
+| `desk-report.webp` | Insights / editorial covers | No |
+| `forum.webp` | Events, roadshows | Audience from behind, no faces |
+| `solar-farm.webp` | Energy & infrastructure sectors | No |
+| `factory.webp` | Industrials & manufacturing sectors | No |
+| `skyline-figure.webp` | Investor-facing pages | One figure, from behind |
+| `handshake.webp` | Partnerships, deal close | Hands/torsos only, no faces |
 
 ### Editorial covers
 
@@ -65,13 +65,13 @@ A type with no entry falls back to the gradient the card already draws.
 
 | File | Article type | Contains people |
 |---|---|---|
-| `cover-market-intelligence.png` | Market Intelligence | No |
-| `cover-country-report.png` | Country Report | No |
-| `cover-investment-guide.png` | Investment Guide · For Businesses | No |
-| `cover-interview.png` | Interview | No — two empty chairs |
-| `desk-report.png` *(reused)* | White Paper · Deal Structuring | No |
-| `handshake.png` *(reused)* | Case Study | Hands/torsos only |
-| `solar-farm.png` *(reused)* | ESG | No |
+| `cover-market-intelligence.webp` | Market Intelligence | No |
+| `cover-country-report.webp` | Country Report | No |
+| `cover-investment-guide.webp` | Investment Guide · For Businesses | No |
+| `cover-interview.webp` | Interview | No — two empty chairs |
+| `desk-report.webp` *(reused)* | White Paper · Deal Structuring | No |
+| `handshake.webp` *(reused)* | Case Study | Hands/torsos only |
+| `solar-farm.webp` *(reused)* | ESG | No |
 
 Nothing readable appears in any of them: the charts, maps and pages are all shot at
 a depth of field that keeps figures illegible, which is rule 3 above — they
@@ -84,19 +84,19 @@ Mapped by `SECTOR_IMAGERY` in `lib/imagery.ts` and resolved through
 
 | File | Sector | Contains people |
 |---|---|---|
-| `solar-farm.png` *(reused)* | Renewable Energy | No |
-| `sector-wind.png` | *(per-listing override — Coastal Wind Partners)* | No |
-| `sector-fintech.png` | FinTech | No |
-| `sector-digital-health.png` | Digital Health | No |
-| `sector-healthcare.png` | Healthcare | No |
-| `sector-logistics.png` | Transport & Logistics | No |
-| `sector-real-estate.png` | Real Estate | No |
-| `sector-natural-resources.png` | Natural Resources | No |
-| `sector-infrastructure.png` | Infrastructure | No |
-| `sector-hospitality.png` | Hospitality | No |
-| `sector-food-beverage.png` | Food & Beverage | No |
-| `sector-education.png` | Education | No |
-| `sector-agriculture.png` | Agriculture | No |
+| `solar-farm.webp` *(reused)* | Renewable Energy | No |
+| `sector-wind.webp` | *(per-listing override — Coastal Wind Partners)* | No |
+| `sector-fintech.webp` | FinTech | No |
+| `sector-digital-health.webp` | Digital Health | No |
+| `sector-healthcare.webp` | Healthcare | No |
+| `sector-logistics.webp` | Transport & Logistics | No |
+| `sector-real-estate.webp` | Real Estate | No |
+| `sector-natural-resources.webp` | Natural Resources | No |
+| `sector-infrastructure.webp` | Infrastructure | No |
+| `sector-hospitality.webp` | Hospitality | No |
+| `sector-food-beverage.webp` | Food & Beverage | No |
+| `sector-education.webp` | Education | No |
+| `sector-agriculture.webp` | Agriculture | No |
 
 None of them contains a person, a readable sign, a legible label or a company
 marking — a deliberate constraint, since anything identifiable would start to
@@ -140,3 +140,14 @@ The route off the scaffolding already exists: businesses upload and star their
 own images at Dashboard → Business → Gallery, which sets the listing hero and
 takes over both the card and the detail page. As real listings arrive, the
 sector maps in `lib/imagery.ts` should shrink, not grow.
+
+## Format
+
+Every photograph is WebP, built at two widths: `<name>.webp` at 1376 and
+`<name>-768.webp` for phones. Use `srcSetFor()` from `lib/imagery.ts` rather
+than pointing an `<img>` at the full-size file directly.
+
+These began as 1376x768 PNGs carrying an unused alpha channel, at roughly 2MB
+each — 43MB across the set, on a site that is mostly pictures. Lossless PNG is
+the wrong container for a photograph; the same frames are about 37KB as WebP.
+Add new imagery as WebP and generate both widths.

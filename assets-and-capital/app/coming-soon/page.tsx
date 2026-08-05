@@ -31,7 +31,7 @@ export default function ComingSoonPage() {
       <div
         aria-hidden
         className="absolute inset-0 bg-cover bg-center opacity-[0.85]"
-        style={{ backgroundImage: "url('/img/hero-tower.png')" }}
+        style={{ backgroundImage: "url('/img/hero-tower.webp')" }}
       />
       {/* Lighter at the top so the bridge actually reads, deepening downward to
           hold the copy. Text contrast is checked against the darkest band. */}

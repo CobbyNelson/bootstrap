@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ArrowLeft, Pause, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroSearch } from "@/components/home/hero-search";
-import { SECTOR_IMAGERY } from "@/lib/imagery";
+import { SECTOR_IMAGERY, srcSetFor } from "@/lib/imagery";
 import { cn } from "@/lib/utils";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -22,7 +22,8 @@ const ease = [0.16, 1, 0.3, 1] as const;
  * variety; the message stays put.
  *
  * Slides reuse the sector imagery already in the library, so this adds no new
- * assets and every frame is a WebP already under 100KB.
+ * assets. Every frame is a WebP built at two widths; the phone variant is
+ * around 13KB against 37KB for the desktop one.
  */
 const SLIDES = [
   { key: "Infrastructure", label: "Infrastructure" },
@@ -85,6 +86,13 @@ export function Hero() {
     const next = SLIDES[(index + 1) % SLIDES.length];
     if (next.image) {
       const img = new Image();
+      // Mirror the rendered element's srcSet/sizes, or the preload fetches the
+      // desktop frame on a phone and warms the wrong file.
+      const set = srcSetFor(next.image.src);
+      if (set) {
+        img.sizes = "100vw";
+        img.srcset = set;
+      }
       img.src = next.image.src;
     }
   }, [index]);
@@ -126,6 +134,10 @@ export function Hero() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={slide.image.src}
+                  srcSet={srcSetFor(slide.image.src)}
+                  // Full-bleed at every breakpoint, so the viewport width IS
+                  // the layout width — no guesswork in this one.
+                  sizes="100vw"
                   alt={slide.image.alt}
                   // The first frame is the LCP element — it must not be lazy.
                   loading={i === 0 ? "eager" : "lazy"}

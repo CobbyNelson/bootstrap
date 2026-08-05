@@ -13,51 +13,51 @@
  */
 export const IMAGERY = {
   heroTower: {
-    src: "/img/hero-tower.png",
+    src: "/img/hero-tower.webp",
     alt: "Abstract upward view of a glass office tower at blue hour",
   },
   ctaTexture: {
-    src: "/img/cta-texture.png",
+    src: "/img/cta-texture.webp",
     alt: "",
   },
   deskReport: {
-    src: "/img/desk-report.png",
+    src: "/img/desk-report.webp",
     alt: "A printed financial report, pen and reading glasses on a desk",
   },
   forum: {
-    src: "/img/forum.png",
+    src: "/img/forum.webp",
     alt: "A business forum auditorium seen from the back of the room",
   },
   solar: {
-    src: "/img/solar-farm.png",
+    src: "/img/solar-farm.webp",
     alt: "Aerial view of rows of solar panels across open landscape",
   },
   factory: {
-    src: "/img/factory.png",
+    src: "/img/factory.webp",
     alt: "Interior of a modern manufacturing facility",
   },
   skylineFigure: {
-    src: "/img/skyline-figure.png",
+    src: "/img/skyline-figure.webp",
     alt: "A person in business dress looking out over a city skyline at dusk",
   },
   handshake: {
-    src: "/img/handshake.png",
+    src: "/img/handshake.webp",
     alt: "Two people shaking hands across a boardroom table",
   },
   coverMarketIntelligence: {
-    src: "/img/cover-market-intelligence.png",
+    src: "/img/cover-market-intelligence.webp",
     alt: "Overlapping printed charts at shallow focus, no figures legible",
   },
   coverCountryReport: {
-    src: "/img/cover-country-report.png",
+    src: "/img/cover-country-report.webp",
     alt: "A folded paper map on a desk with a magnifying glass and pencil",
   },
   coverInvestmentGuide: {
-    src: "/img/cover-investment-guide.png",
+    src: "/img/cover-investment-guide.webp",
     alt: "An open hardback book with a ribbon marker beside a fountain pen",
   },
   coverInterview: {
-    src: "/img/cover-interview.png",
+    src: "/img/cover-interview.webp",
     alt: "Two empty armchairs facing each other in a softly lit studio",
   },
 } as const;
@@ -126,18 +126,18 @@ export const ARTICLE_COVERS: Record<string, { src: string; alt: string }> = {
  * treatment, so this map never has to be exhaustive.
  */
 export const SECTOR_IMAGERY: Record<string, { src: string; alt: string }> = {
-  "Renewable Energy": { src: "/img/solar-farm.png", alt: "Renewable energy sector imagery" },
-  FinTech: { src: "/img/sector-fintech.png", alt: "Financial technology sector imagery" },
-  "Digital Health": { src: "/img/sector-digital-health.png", alt: "Digital health sector imagery" },
-  Healthcare: { src: "/img/sector-healthcare.png", alt: "Healthcare sector imagery" },
-  "Transport & Logistics": { src: "/img/sector-logistics.png", alt: "Transport and logistics sector imagery" },
-  "Real Estate": { src: "/img/sector-real-estate.png", alt: "Real estate sector imagery" },
-  "Natural Resources": { src: "/img/sector-natural-resources.png", alt: "Natural resources sector imagery" },
-  Infrastructure: { src: "/img/sector-infrastructure.png", alt: "Infrastructure sector imagery" },
-  Hospitality: { src: "/img/sector-hospitality.png", alt: "Hospitality sector imagery" },
-  "Food & Beverage": { src: "/img/sector-food-beverage.png", alt: "Food and beverage sector imagery" },
-  Education: { src: "/img/sector-education.png", alt: "Education sector imagery" },
-  Agriculture: { src: "/img/sector-agriculture.png", alt: "Agriculture sector imagery" },
+  "Renewable Energy": { src: "/img/solar-farm.webp", alt: "Renewable energy sector imagery" },
+  FinTech: { src: "/img/sector-fintech.webp", alt: "Financial technology sector imagery" },
+  "Digital Health": { src: "/img/sector-digital-health.webp", alt: "Digital health sector imagery" },
+  Healthcare: { src: "/img/sector-healthcare.webp", alt: "Healthcare sector imagery" },
+  "Transport & Logistics": { src: "/img/sector-logistics.webp", alt: "Transport and logistics sector imagery" },
+  "Real Estate": { src: "/img/sector-real-estate.webp", alt: "Real estate sector imagery" },
+  "Natural Resources": { src: "/img/sector-natural-resources.webp", alt: "Natural resources sector imagery" },
+  Infrastructure: { src: "/img/sector-infrastructure.webp", alt: "Infrastructure sector imagery" },
+  Hospitality: { src: "/img/sector-hospitality.webp", alt: "Hospitality sector imagery" },
+  "Food & Beverage": { src: "/img/sector-food-beverage.webp", alt: "Food and beverage sector imagery" },
+  Education: { src: "/img/sector-education.webp", alt: "Education sector imagery" },
+  Agriculture: { src: "/img/sector-agriculture.webp", alt: "Agriculture sector imagery" },
 };
 
 /**
@@ -166,17 +166,17 @@ export function listingImage(o: { sector: string; image?: string; name: string }
  */
 const SECTOR_IMAGERY_SUPPORTING: Record<string, { src: string; alt: string }[]> = {
   "Renewable Energy": [
-    { src: "/img/sector-wind.png", alt: "Renewable energy sector imagery" },
-    { src: "/img/factory.png", alt: "Industrial operations sector imagery" },
+    { src: "/img/sector-wind.webp", alt: "Renewable energy sector imagery" },
+    { src: "/img/factory.webp", alt: "Industrial operations sector imagery" },
   ],
   Infrastructure: [
-    { src: "/img/hero-tower.png", alt: "Infrastructure sector imagery" },
-    { src: "/img/skyline-figure.png", alt: "Urban development sector imagery" },
+    { src: "/img/hero-tower.webp", alt: "Infrastructure sector imagery" },
+    { src: "/img/skyline-figure.webp", alt: "Urban development sector imagery" },
   ],
-  "Transport & Logistics": [{ src: "/img/factory.png", alt: "Industrial operations sector imagery" }],
-  "Natural Resources": [{ src: "/img/factory.png", alt: "Industrial operations sector imagery" }],
-  "Real Estate": [{ src: "/img/skyline-figure.png", alt: "Urban development sector imagery" }],
-  FinTech: [{ src: "/img/desk-report.png", alt: "Financial analysis sector imagery" }],
+  "Transport & Logistics": [{ src: "/img/factory.webp", alt: "Industrial operations sector imagery" }],
+  "Natural Resources": [{ src: "/img/factory.webp", alt: "Industrial operations sector imagery" }],
+  "Real Estate": [{ src: "/img/skyline-figure.webp", alt: "Urban development sector imagery" }],
+  FinTech: [{ src: "/img/desk-report.webp", alt: "Financial analysis sector imagery" }],
 };
 
 /**
@@ -191,4 +191,20 @@ export function listingImages(o: { sector: string; image?: string; name: string 
   const all = [primary, ...supporting].filter(Boolean) as { src: string; alt: string }[];
   const seen = new Set<string>();
   return all.filter((img) => (seen.has(img.src) ? false : (seen.add(img.src), true)));
+}
+
+/**
+ * Responsive sources for a library image.
+ *
+ * Every /img photograph is built at two widths: the full 1376 and a 768 for
+ * phones. Without a srcSet a phone downloads the desktop frame and throws most
+ * of it away — the single most expensive thing a small screen can do on a slow
+ * connection, and the majority of this site's audience is on one.
+ *
+ * Returns undefined for anything without a companion variant (the logos), so
+ * callers can spread it unconditionally.
+ */
+export function srcSetFor(src: string): string | undefined {
+  if (!src.endsWith(".webp")) return undefined;
+  return `${src.slice(0, -5)}-768.webp 768w, ${src} 1376w`;
 }

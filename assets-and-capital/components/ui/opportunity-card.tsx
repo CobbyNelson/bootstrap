@@ -2,7 +2,7 @@ import Link from "next/link";
 import { MapPin, Tag, Lock } from "lucide-react";
 import type { Opportunity } from "@/lib/content";
 import { slugify } from "@/lib/matching";
-import { listingImage } from "@/lib/imagery";
+import { listingImage, srcSetFor } from "@/lib/imagery";
 import { Money } from "./money";
 import { SaveButton } from "./save-button";
 
@@ -52,6 +52,8 @@ export function OpportunityCard({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={cover.src}
+              srcSet={srcSetFor(cover.src)}
+              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
               alt={cover.alt}
               loading="lazy"
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"

@@ -15,7 +15,19 @@ import { getListingHeroes } from "@/lib/listing-heroes";
  * (it carries the numbered-step treatment). Industries, Services and Events
  * live on their own pages and were cut from here rather than duplicated.
  */
-export const dynamic = "force-dynamic";
+/**
+ * Prerendered and revalidated rather than rendered per request.
+ *
+ * Nothing here is per-visitor: the page awaits only global data, and the navbar
+ * that varies by session is a client component that resolves itself in the
+ * browser. force-dynamic was therefore costing a full server render — and a
+ * no-store header — on every single visit, to produce the same bytes each time.
+ *
+ * Five minutes is the floor on staleness; it is not how long a change waits.
+ * The gallery route revalidates these paths on write, so a business replacing
+ * its hero still sees it immediately.
+ */
+export const revalidate = 300;
 
 export default async function HomePage() {
   const teasers = await listTeasers(3);

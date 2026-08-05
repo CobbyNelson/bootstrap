@@ -57,7 +57,25 @@ const nextConfig: NextConfig = {
     ],
   },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      {
+        // Design imagery in public/. Next serves these with max-age=0 by
+        // default, so every navigation re-requested every photograph — the
+        // repeat-visit cost of a site whose pages are mostly pictures.
+        // Thirty days rather than immutable: the filenames are not
+        // content-hashed, so a replaced image must still be able to win.
+        source: "/img/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" },
+        ],
+      },
+      {
+        // Fonts are content-hashed by the build, so they can be pinned hard.
+        source: "/_next/static/media/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+    ];
   },
 };
 

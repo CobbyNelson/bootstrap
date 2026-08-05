@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight, Sparkles, MapPin, Tag } from "lucide-react";
 import { SCORED_MARKETPLACE, slugify } from "@/lib/matching";
 import { Money } from "@/components/ui/money";
-import { listingImage } from "@/lib/imagery";
+import { listingImage, srcSetFor } from "@/lib/imagery";
 import { cn } from "@/lib/utils";
 
 const GRADIENTS = [
@@ -116,6 +116,8 @@ export function FeaturedCarousel({
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={(heroes[slug] ?? listingImage(o))!.src}
+                        srcSet={srcSetFor((heroes[slug] ?? listingImage(o))!.src)}
+                        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                         alt={(heroes[slug] ?? listingImage(o))!.alt}
                         loading="lazy"
                         className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
