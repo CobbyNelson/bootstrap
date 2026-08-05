@@ -39,6 +39,17 @@ const AUTOPLAY_MS = 6000;
 
 export function Hero() {
   const [index, setIndex] = useState(0);
+  /**
+   * Which frames may fetch their image.
+   *
+   * Every slide is absolutely positioned and merely transparent, so the browser
+   * counts all four as in-viewport and loading="lazy" does nothing — the page
+   * fetched the whole carousel before showing one frame of it. Only the frame
+   * on screen and the one queued behind it are worth bytes; the rest arrive as
+   * the visitor reaches them, which on a slow connection is the difference
+   * between one image and four.
+   */
+  const [mounted, setMounted] = useState<Set<number>>(() => new Set([0, 1]));
   const reduceMotion = useReducedMotion();
 
   /** The visitor's explicit choice, via the pause button. */
@@ -49,7 +60,16 @@ export function Hero() {
   const [tabHidden, setTabHidden] = useState(false);
 
   const go = useCallback((next: number) => {
-    setIndex(((next % SLIDES.length) + SLIDES.length) % SLIDES.length);
+    const i = ((next % SLIDES.length) + SLIDES.length) % SLIDES.length;
+    setIndex(i);
+    setMounted((prev) => {
+      const after = (i + 1) % SLIDES.length;
+      if (prev.has(i) && prev.has(after)) return prev;
+      const grown = new Set(prev);
+      grown.add(i);
+      grown.add(after);
+      return grown;
+    });
   }, []);
 
   useEffect(() => {
@@ -129,7 +149,7 @@ export function Hero() {
               i === index ? "opacity-100" : "pointer-events-none opacity-0"
             )}
           >
-            {slide.image && (
+            {slide.image && mounted.has(i) && (
               <>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -140,6 +160,8 @@ export function Hero() {
                   sizes="100vw"
                   alt={slide.image.alt}
                   // The first frame is the LCP element — it must not be lazy.
+                  // Later frames are gated by `mounted` above rather than by
+                  // loading="lazy", which cannot help an in-viewport element.
                   loading={i === 0 ? "eager" : "lazy"}
                   fetchPriority={i === 0 ? "high" : "low"}
                   className={cn(
