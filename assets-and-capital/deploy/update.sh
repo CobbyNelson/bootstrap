@@ -29,17 +29,17 @@ COMMIT="$(git -C "$AC/repo" rev-parse --short HEAD)"
 
 say "Installing dependencies (commit $COMMIT)"
 cd "$APP"
-# The build is not env-free: Next statically collects /insights/[slug] during
-# `next build`, which queries Postgres through Prisma. So the production env
-# must be loaded BEFORE building — locally the app dir's own .env masks this,
-# which is exactly how it slipped through the first deploy.
-set -a; source "$AC/shared/.env"; set +a
-# --include=dev is REQUIRED: the sourced env sets NODE_ENV=production, under
-# which npm omits devDependencies — and the build toolchain (Tailwind's
-# PostCSS plugin, TypeScript) lives there. They are build-time only; the
-# standalone artifact that actually runs carries just what it traced.
+# Install BEFORE the production env is loaded. NODE_ENV=production makes npm
+# omit devDependencies, and the build toolchain (Tailwind's PostCSS plugin,
+# TypeScript) lives there — a production-only tree cannot build the app.
 # postinstall runs `prisma generate`; the schema needs no database for that.
-npm ci --include=dev --no-audit --no-fund
+npm ci --no-audit --no-fund
+
+# From here on the production environment is required: `prisma migrate deploy`
+# needs the connection string, and the build is NOT env-free — Next statically
+# collects /insights/[slug], which queries Postgres through Prisma. Locally the
+# app dir's own .env masks that, which is how it slipped past the first deploy.
+set -a; source "$AC/shared/.env"; set +a
 
 say "Applying database migrations"
 # Before the build (the build reads these tables — on a fresh database they
