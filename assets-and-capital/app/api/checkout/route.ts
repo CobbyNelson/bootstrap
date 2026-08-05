@@ -1,4 +1,5 @@
 import { getCurrentUser } from "@/lib/session";
+import { rateLimit } from "@/lib/rate-limit";
 import { createIntent } from "@/lib/payments-server";
 import { paymentsTestMode } from "@/lib/payments";
 
@@ -14,6 +15,16 @@ import { paymentsTestMode } from "@/lib/payments";
  */
 export async function POST(req: Request) {
   const user = await getCurrentUser();
+  // Starting a checkout is cheap for the caller and not for us: each one can create a provider session. Metered per account.
+  if (user) {
+    const gate = rateLimit(`checkout:${user.id}`, 12, 60_000);
+    if (!gate.ok) {
+      return Response.json(
+        { error: "Too many attempts. Try again shortly." },
+        { status: 429, headers: { "Retry-After": String(gate.retryAfterSec) } },
+      );
+    }
+  }
   if (!user) return Response.json({ ok: false, error: "Please sign in to continue." }, { status: 401 });
 
   let body: { provider?: string; plan?: string } = {};

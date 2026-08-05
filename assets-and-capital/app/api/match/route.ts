@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { getCurrentUser } from "@/lib/session";
+import { rateLimit } from "@/lib/rate-limit";
 import { MARKETPLACE } from "@/lib/marketplace-data";
 import { DEMO_MANDATE, DEFAULT_WEIGHTS, scoreOpportunity, slugify, type Mandate } from "@/lib/matching";
 
@@ -10,8 +13,28 @@ import { DEMO_MANDATE, DEFAULT_WEIGHTS, scoreOpportunity, slugify, type Mandate 
  *                                        → ranked matches for a supplied mandate
  *
  * This is the real engine (the same one the UI uses), wired as an API seam.
- * Swap MARKETPLACE for a database query to go fully live.
+ *
+ * ACCESS. lib/entitlements-server.ts puts match rate and its reasoning behind
+ * the `deal` tier — a subscription plus expressed interest. This route must not
+ * undercut that:
+ *
+ *   GET  fixed demo mandate over the sample catalogue. A showcase, and the only
+ *        reason scores are public here.
+ *   POST scores an ARBITRARY mandate against the catalogue, which is the paid
+ *        engine itself. Requires a session.
+ *
+ * BEFORE MARKETPLACE becomes a database query, gate the GET too — at that point
+ * the demo stops being a demo and starts being real listings, and this endpoint
+ * would hand out match rates the marketplace charges for.
  */
+
+function clientIp(req: Request): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    "unknown"
+  );
+}
 
 function rank(mandate: Mandate, weights = DEFAULT_WEIGHTS) {
   return MARKETPLACE.map((o) => {
@@ -34,12 +57,33 @@ function rank(mandate: Mandate, weights = DEFAULT_WEIGHTS) {
 }
 
 export function GET(request: Request) {
+  // Scoring walks the whole catalogue per call. Cheap on sample data, not
+  // cheap once this is a database query — and unmetered either way was an
+  // open invitation.
   const limit = Number(new URL(request.url).searchParams.get("limit") ?? 10) || 10;
   const results = rank(DEMO_MANDATE).slice(0, limit);
   return NextResponse.json({ mandate: "demo", count: results.length, results });
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const gate = rateLimit(`match:${clientIp(request)}`, 30, 60_000);
+  if (!gate.ok) {
+    return NextResponse.json(
+      { error: "Too many requests." },
+      { status: 429, headers: { "Retry-After": String(gate.retryAfterSec) } },
+    );
+  }
+
+  // An arbitrary mandate is the paid engine. Anonymous callers get the demo
+  // endpoint; scoring their own mandate is what a subscription buys.
+  const user = await getCurrentUser();
+  if (!user) {
+    return NextResponse.json(
+      { error: "Sign in to score your own mandate." },
+      { status: 401 },
+    );
+  }
+
   let body: { mandate?: Partial<Mandate>; weights?: typeof DEFAULT_WEIGHTS; limit?: number } = {};
   try {
     body = await request.json();
@@ -48,7 +92,7 @@ export async function POST(request: Request) {
   }
   const mandate: Mandate = { ...DEMO_MANDATE, ...(body.mandate ?? {}) };
   const weights = body.weights ?? DEFAULT_WEIGHTS;
-  const limit = body.limit ?? 10;
+  const limit = Math.min(Math.max(Number(body.limit) || 10, 1), 100);
   const results = rank(mandate, weights).slice(0, limit);
   return NextResponse.json({ count: results.length, results });
 }

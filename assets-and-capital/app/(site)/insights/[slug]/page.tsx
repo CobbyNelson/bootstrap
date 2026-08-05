@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/seo/json-ld";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Clock, ArrowLeft, ArrowUpRight } from "lucide-react";
@@ -60,8 +61,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
  return (
  <>
- <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-
+ <JsonLd data={jsonLd} />
  {/* hero */}
  <section className={cn("relative overflow-hidden bg-gradient-to-br pt-32 pb-14 text-white md:pt-40 md:pb-20", GRADIENT[a.type] ?? "from-brand-600 to-brand-900")}>
  <div className="grid-noise pointer-events-none absolute inset-0 opacity-25" aria-hidden />
