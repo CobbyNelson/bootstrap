@@ -1,0 +1,13 @@
+# Daily at 03:15 server time. Persistent=true runs a missed backup at the
+# next boot instead of silently skipping the day.
+
+[Unit]
+Description=Daily Assets & Capital backup
+
+[Timer]
+OnCalendar=*-*-* 03:15:00
+Persistent=true
+RandomizedDelaySec=10m
+
+[Install]
+WantedBy=timers.target

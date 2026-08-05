@@ -1,0 +1,17 @@
+# Caddy vhost — setup-vps.sh substitutes __DOMAIN__ and installs this to
+# /etc/caddy/Caddyfile. TLS is automatic (Let's Encrypt) once the domain's
+# A record points at this VPS; nothing to configure.
+
+__DOMAIN__ {
+	encode zstd gzip
+
+	# The app already sets immutable cache headers on /api/media and Next
+	# fingerprints its own static assets, so no cache rules are needed here.
+	reverse_proxy 127.0.0.1:3000
+
+	# Upload ceiling, slightly above the app's own 25MB limit so the app —
+	# not the proxy — is what produces the friendly error message.
+	request_body {
+		max_size 30MB
+	}
+}

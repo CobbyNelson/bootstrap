@@ -1,0 +1,32 @@
+# Assets & Capital — Next.js standalone server.
+#
+# /srv/ac/current is a symlink to the active release; update.sh swaps it and
+# restarts this unit. The EnvironmentFile carries the secrets, so the unit
+# file itself contains none and is safe to keep in the repo.
+
+[Unit]
+Description=Assets & Capital (Next.js)
+Wants=network-online.target docker.service
+After=network-online.target docker.service
+
+[Service]
+Type=simple
+User=deploy
+Group=deploy
+WorkingDirectory=/srv/ac/current
+EnvironmentFile=/srv/ac/shared/.env
+Environment=PORT=3000
+Environment=HOSTNAME=127.0.0.1
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=3
+
+# Containment: the service can write uploads and its own logs, nothing else.
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/srv/ac/storage
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

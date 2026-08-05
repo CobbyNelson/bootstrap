@@ -57,6 +57,18 @@
   --fs-h5: 1.125rem;
   --fs-h6: 1rem;
 
+  /* Weight scale.
+     Redefining Tailwind's --font-weight-* lifts every font-medium /
+     font-semibold already written across the components in ONE place, instead
+     of editing them file by file and missing some. Each step moves up a notch
+     so the hierarchy between them survives the change.
+     `bold` stays at 700 because that is the heaviest weight loaded for Inter
+     (see app/layout.tsx); pushing it to 800 would make the browser synthesise
+     a fake bold for body and UI text, which looks muddy at small sizes. */
+  --font-weight-normal: 500;
+  --font-weight-medium: 600;
+  --font-weight-semibold: 700;
+
   /* Tracking: tighter as type gets larger. */
   --tracking-display: -0.03em;
   --tracking-heading: -0.02em;
@@ -92,6 +104,10 @@ body {
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  /* Body copy sits a notch above regular so the page reads heavier throughout.
+     Set explicitly rather than relying on the `font-normal` utility, because
+     most copy inherits from here and never names a weight at all. */
+  font-weight: 500;
   line-height: var(--leading-body);
   letter-spacing: var(--tracking-body);
   -webkit-font-smoothing: antialiased;
@@ -111,7 +127,7 @@ body {
   /* Headings share one system; utilities can still override any of it. */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 700;
     line-height: var(--leading-heading);
     letter-spacing: var(--tracking-heading);
     text-wrap: balance;
@@ -139,7 +155,7 @@ body {
   font-family: var(--font-label);
   text-transform: uppercase;
   letter-spacing: var(--tracking-kicker);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.72rem;
   line-height: 1.2;
 }
@@ -148,7 +164,7 @@ body {
   font-family: var(--font-label);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  font-weight: 600;
+  font-weight: 700;
 }
 /* Lead paragraph — the one under a page or section heading. */
 .lead {
@@ -234,4 +250,232 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* ---------- editor output ----------
+   Shared by the public article body and the editor surface itself, so what a
+   writer sees while typing matches what publishes. Scoped to these two classes
+   rather than applied globally: the allowlisted tags (h2, ul, blockquote…) are
+   ordinary elements used all over the site, and styling them globally would
+   restyle the marketing pages too. */
+.article-body,
+.prose-editor {
+  color: color-mix(in oklab, var(--color-ink) 78%, transparent);
+  line-height: var(--leading-body);
+}
+.article-body > * + *,
+.prose-editor > * + * { margin-top: 1.15rem; }
+
+.article-body h2, .prose-editor h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.25;
+  color: var(--color-navy-700);
+  margin-top: 2.25rem;
+}
+.article-body h3, .prose-editor h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--color-navy-700);
+  margin-top: 1.75rem;
+}
+.article-body h4, .prose-editor h4 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--color-navy-700);
+  margin-top: 1.5rem;
+}
+
+.article-body a, .prose-editor a {
+  color: var(--color-brand-700);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.article-body strong, .prose-editor strong { color: var(--color-ink); }
+
+.article-body ul, .prose-editor ul { list-style: disc; padding-left: 1.35rem; }
+.article-body ol, .prose-editor ol { list-style: decimal; padding-left: 1.35rem; }
+.article-body li, .prose-editor li { margin-top: 0.4rem; }
+
+.article-body blockquote, .prose-editor blockquote {
+  border-left: 3px solid var(--color-brand-500);
+  padding-left: 1rem;
+  font-size: 1.05rem;
+  color: color-mix(in oklab, var(--color-ink) 70%, transparent);
+}
+
+/* Images are stored at up to 1600px but the column is ~48rem — cap them so a
+   wide asset cannot blow out the measure. */
+.article-body figure, .prose-editor figure { margin-top: 1.75rem; }
+.article-body img, .prose-editor img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.9rem;
+}
+.article-body figcaption, .prose-editor figcaption {
+  margin-top: 0.55rem;
+  font-size: 0.82rem;
+  color: color-mix(in oklab, var(--color-ink) 55%, transparent);
+}
+
+.article-body hr, .prose-editor hr {
+  border: 0;
+  border-top: 1px solid color-mix(in oklab, var(--color-ink) 12%, transparent);
+  margin-block: 2rem;
+}
+
+/* Placeholder for an empty editor. */
+.prose-editor:empty::before {
+  content: "Write the article…";
+  color: color-mix(in oklab, var(--color-ink) 30%, transparent);
+}
+
+/* Hero slide drift.
+   A very slow scale so a still photograph does not sit dead behind the copy.
+   1.5% over 18s is below the threshold where the movement itself is noticeable
+   — it reads as depth rather than as an animation, and it settles (forwards)
+   instead of looping, so nothing is still moving by the time someone reads. */
+@keyframes heroDrift {
+  from { transform: scale(1.055); }
+  to   { transform: scale(1.0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-\[heroDrift_18s_ease-out_forwards\] { animation: none; }
+}
+
+/* ============================================================
+   Dark mode.
+
+   Activated by a `dark` class on <html> — set by the inline script in
+   app/layout.tsx before first paint (time-of-day: dark 19:00–06:59), and
+   overridden by the toggle in the navbar / shell headers (localStorage
+   `ac-theme`: "light" | "dark", absent = auto).
+
+   STRATEGY — tokens first, patches second:
+
+   • `paper` and `ink` FLIP. Nearly every surface, border, divider, subtle
+     hover fill and line of text derives from them, so the site restyles
+     itself in a handful of declarations. Ink's low-opacity uses (borders at
+     7–15%, hover fills at 5–9%) become faint LIGHT marks on the dark canvas,
+     which is exactly what a dark UI wants — no per-component edits.
+
+   • `navy` and `brand` DO NOT flip. They are fills first (buttons, badges,
+     gradient card fallbacks) and flipping them would invert every primary
+     action. Their text-role uses are re-coloured by the small class
+     overrides below instead.
+
+   • Ink's HIGH-opacity uses are photo scrims and solid dark buttons. Those
+     must stay dark regardless of theme, so each utility the codebase
+     actually uses is pinned back to the original near-black. The pin list
+     is exhaustive for this repo — grep `bg-ink`/`from-ink` before adding a
+     new scrim step, and pin it here if it sits over imagery.
+
+   • `bg-white` is this codebase's card surface, so it flips to an elevated
+     dark gray — EXCEPT the ≤20% glass variants, which live on photographs
+     and stay genuinely white.
+   ============================================================ */
+
+.dark {
+  color-scheme: dark;
+
+  /* canvas + panels — dark gray, deliberately not black */
+  --color-paper: #15171d;
+  --color-paper-2: #1c1f27;
+  --color-paper-3: #252932;
+  --color-line: #2b303b;
+
+  /* text — flipping ink recolours every text-ink*, border-ink* and subtle
+     bg-ink/[0.0x] in one move */
+  --color-ink: #e7eaf1;
+  --color-ink-2: #f3f5f9;
+
+  /* brand TINTS are surfaces (chips, soft borders) and follow the theme;
+     the saturated 500–900 fills stay untouched so buttons keep their red */
+  --color-brand-50: #2b1412;
+  --color-brand-100: #3a1a16;
+  --color-brand-200: #5b2721;
+
+  /* navy tints used as soft chip surfaces */
+  --color-navy-50: #1a2233;
+  --color-navy-100: #223049;
+}
+
+/* --- elevated card surface (the bg-white family) --------------------- */
+.dark .bg-white { background-color: #1c202a; }
+.dark .bg-white\/95 { background-color: rgb(28 32 42 / 0.95); }
+.dark .bg-white\/90 { background-color: rgb(28 32 42 / 0.9); }
+.dark .bg-white\/85 { background-color: rgb(28 32 42 / 0.85); }
+.dark .bg-white\/80 { background-color: rgb(28 32 42 / 0.8); }
+.dark .bg-white\/70 { background-color: rgb(28 32 42 / 0.7); }
+.dark .bg-white\/60 { background-color: rgb(28 32 42 / 0.6); }
+.dark .bg-white\/50 { background-color: rgb(28 32 42 / 0.5); }
+.dark .hover\:bg-white:hover { background-color: #232835; }
+/* bg-white/5 … /20 are glass over photographs — intentionally untouched. */
+
+/* --- ink as a SURFACE stays near-black (scrims, chips, dark buttons) -- */
+.dark .bg-ink { background-color: #10141c; }
+.dark .bg-ink-2, .dark .hover\:bg-ink-2:hover { background-color: #1b2130; }
+.dark .bg-ink\/70 { background-color: rgb(16 20 28 / 0.7); }
+.dark .bg-ink\/60 { background-color: rgb(16 20 28 / 0.6); }
+.dark .bg-ink\/55 { background-color: rgb(16 20 28 / 0.55); }
+.dark .bg-ink\/50 { background-color: rgb(16 20 28 / 0.5); }
+.dark .bg-ink\/40 { background-color: rgb(16 20 28 / 0.4); }
+.dark .bg-ink\/30 { background-color: rgb(16 20 28 / 0.3); }
+.dark .bg-ink\/25 { background-color: rgb(16 20 28 / 0.25); }
+
+/* photo-scrim gradient stops — one custom property per stop, resolved at
+   use time, so overriding the variable is enough */
+.dark .from-ink { --tw-gradient-from: #10141c; }
+.dark .from-ink\/92 { --tw-gradient-from: rgb(16 20 28 / 0.92); }
+.dark .from-ink\/70 { --tw-gradient-from: rgb(16 20 28 / 0.7); }
+.dark .from-ink\/55 { --tw-gradient-from: rgb(16 20 28 / 0.55); }
+.dark .from-ink\/45 { --tw-gradient-from: rgb(16 20 28 / 0.45); }
+.dark .via-ink\/45 { --tw-gradient-via: rgb(16 20 28 / 0.45); }
+.dark .via-ink\/25 { --tw-gradient-via: rgb(16 20 28 / 0.25); }
+.dark .via-ink\/20 { --tw-gradient-via: rgb(16 20 28 / 0.2); }
+.dark .to-ink { --tw-gradient-to: #10141c; }
+.dark .to-ink-2 { --tw-gradient-to: #1b2130; }
+.dark .to-ink\/40 { --tw-gradient-to: rgb(16 20 28 / 0.4); }
+.dark .to-ink\/25 { --tw-gradient-to: rgb(16 20 28 / 0.25); }
+
+/* --- navy / brand in their TEXT roles ------------------------------- */
+.dark :is(h1, h2, h3, h4, h5, h6) { color: #dce4f2; }
+.dark .text-navy-700 { color: #dce4f2; }
+.dark .text-navy-600 { color: #bac9e2; }
+.dark .text-navy-500 { color: #93a9cf; }
+.dark .text-brand-600 { color: var(--color-brand-400); }
+.dark .text-brand-700, .dark .hover\:text-brand-700:hover { color: #f4948a; }
+.dark .hover\:text-brand-800:hover { color: #f7aca4; }
+
+/* --- editor / article prose ----------------------------------------- */
+.dark .article-body :is(h2, h3, h4),
+.dark .prose-editor :is(h2, h3, h4) { color: #dce4f2; }
+.dark .article-body a, .dark .prose-editor a { color: #f4948a; }
+
+/* --- status tints (admin chips, form notices) ------------------------ */
+.dark .bg-emerald-50 { background-color: #10231b; }
+.dark .text-emerald-700 { color: #34d399; }
+.dark .text-emerald-600 { color: #34d399; }
+.dark .bg-amber-50 { background-color: #2a2110; }
+.dark .text-amber-700 { color: #fbbf24; }
+.dark .bg-red-50 { background-color: #2d1512; }
+.dark .text-red-700, .dark .text-red-600, .dark .hover\:text-red-600:hover { color: #f87171; }
+
+/* --- one-off treatments ---------------------------------------------- */
+.dark .glass {
+  background: color-mix(in srgb, #171a21 78%, transparent);
+}
+.dark .text-gradient-navy {
+  background: linear-gradient(100deg, #dce4f2, #b7c7e2 60%, #93a9cf);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* Shadows read as holes on a dark canvas; borders (ink at low opacity,
+   already flipped light) carry the elevation instead. */
+.dark {
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.35), 0 20px 40px -24px rgba(0, 0, 0, 0.6);
+  --shadow-lift: 0 2px 6px rgba(0, 0, 0, 0.4), 0 30px 60px -28px rgba(0, 0, 0, 0.7);
 }

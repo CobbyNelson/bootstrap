@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Figtree, Inter } from "next/font/google";
 import { SITE } from "@/lib/content";
 import { CommandPalette } from "@/components/search/command-palette";
@@ -63,8 +64,18 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${figtree.variable} ${inter.variable}`}>
+    // suppressHydrationWarning: the theme script below adds `dark` to <html>
+    // before React hydrates, so the server and client class attributes are
+    // allowed to differ — that mismatch is the entire point of the script.
+    <html lang="en" className={`${figtree.variable} ${inter.variable}`} suppressHydrationWarning>
       <body className="min-h-dvh antialiased">
+        {/* Theme before first paint: a stored choice wins, otherwise the clock
+            (dark 19:00–06:59). beforeInteractive puts this in <head>, so no
+            light frame flashes ahead of a dark page. Keep the storage key and
+            hour boundaries in lockstep with components/layout/theme-toggle.tsx. */}
+        <Script id="theme-init" strategy="beforeInteractive">
+          {"(function(){try{var m=localStorage.getItem('ac-theme');var h=new Date().getHours();var d=m==='dark'||(m!=='light'&&(h>=19||h<7));document.documentElement.classList.toggle('dark',d);}catch(e){}})();"}
+        </Script>
         <CurrencyProvider>
           {children}
           <CommandPalette />

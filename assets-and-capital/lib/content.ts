@@ -219,6 +219,12 @@ export type Opportunity = {
   match: number;
   tier: "Standard" | "Silver" | "Gold" | "Platinum";
   blurb: string;
+  /**
+   * The business's own image, once it supplies one. Takes priority over the
+   * sector imagery in lib/imagery.ts — a real photograph of a real asset
+   * should always beat a category stand-in.
+   */
+  image?: string;
 };
 
 export const FEATURED_OPPORTUNITIES: Opportunity[] = [

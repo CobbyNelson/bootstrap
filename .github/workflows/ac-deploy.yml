@@ -1,0 +1,47 @@
+# Auto-deploy Assets & Capital to the Hostinger VPS.
+#
+# Fires on every push to the app's branch that touches the app, then simply
+# runs deploy/update.sh ON the VPS over SSH — the same script a manual deploy
+# uses, so CI and by-hand deploys cannot drift apart. The build happens on the
+# server (8GB KVM 2), which also keeps sharp/Prisma binaries native.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   VPS_HOST      server IP or hostname
+#   VPS_SSH_KEY   private key whose public half is in /home/deploy/.ssh
+#
+# Injection-safety: the only ${{ }} interpolations are repository secrets,
+# and they enter the run step through env — never spliced into the script.
+#
+# Rollback: ssh in and point /srv/ac/current at the previous release —
+# update.sh prints the exact command, and old releases are retained.
+
+name: Deploy Assets & Capital
+
+on:
+  push:
+    branches: ["claude/web-finance-software-planning-txpczi"]
+    paths: ["assets-and-capital/**", ".github/workflows/ac-deploy.yml"]
+  workflow_dispatch: {}
+
+concurrency:
+  group: ac-deploy
+  cancel-in-progress: false # never kill a deploy mid-swap
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Deploy over SSH
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh -i ~/.ssh/id_deploy \
+              -o StrictHostKeyChecking=accept-new \
+              -o ConnectTimeout=15 \
+              deploy@"$VPS_HOST" \
+              'bash /srv/ac/repo/assets-and-capital/deploy/update.sh'

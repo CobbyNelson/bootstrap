@@ -3,17 +3,20 @@ import { SplitHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { OpportunityCard } from "@/components/ui/opportunity-card";
 import { PillButton } from "@/components/ui/button";
+import { getListingHeroes } from "@/lib/listing-heroes";
+import { slugify } from "@/lib/matching";
 
 /**
  * Marketplace preview. Alongside the cards sit two small panels borrowed from
  * the reference: a filled stat tile and a tag cloud — here the sectors covered,
  * which stands in for the sector list cut from the home page.
  */
-export function Featured() {
+export async function Featured() {
+  const heroes = await getListingHeroes();
   const sectors = INDUSTRIES.slice(0, 8).map((i) => i.name.split(" & ")[0]);
 
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-14 md:py-20">
       <div className="container-x">
         <SplitHeading
           eyebrow="Featured opportunities"
@@ -25,7 +28,7 @@ export function Featured() {
           <div className="grid gap-6 sm:grid-cols-2">
             {FEATURED_OPPORTUNITIES.slice(0, 4).map((o, i) => (
               <Reveal key={o.name} delay={(i % 2) * 0.08}>
-                <OpportunityCard o={o} />
+                <OpportunityCard o={o} hero={heroes[slugify(o.name)] ?? null} />
               </Reveal>
             ))}
           </div>

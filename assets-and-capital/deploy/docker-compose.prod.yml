@@ -1,0 +1,28 @@
+# Production Postgres — the only container on the box.
+#
+# Bound to 127.0.0.1 on purpose: the app connects over loopback and nothing
+# else should be able to reach the database. The dev compose file publishes on
+# all interfaces, which is fine on a laptop and negligent on a public VPS.
+#
+# Password comes from /srv/ac/shared/.env (docker compose --env-file), written
+# once by setup-vps.sh.
+name: ac-prod
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ac-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ac
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: assets_and_capital
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - /srv/ac/pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ac -d assets_and_capital"]
+      interval: 10s
+      timeout: 5s
+      retries: 10

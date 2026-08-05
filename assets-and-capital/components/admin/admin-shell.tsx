@@ -6,8 +6,10 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Building2, Users, ListChecks, Wallet, Presentation,
   FileText, ScrollText, BadgeCheck, Search, Bell, ArrowLeft, SlidersHorizontal, Mailbox, Menu, X,
+  Image as ImageIcon,
 } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -20,7 +22,8 @@ const NAV = [
   { label: "Payments", href: "/admin#payments", icon: Wallet },
   { label: "Roadshows & events", href: "/admin/events", icon: Presentation },
   { label: "Email automation", href: "/admin/email", icon: Mailbox },
-  { label: "CMS & content", href: "/admin#cms", icon: FileText },
+  { label: "Insights", href: "/admin/insights", icon: FileText },
+  { label: "Media library", href: "/admin/media", icon: ImageIcon },
   { label: "Audit log", href: "/admin#audit", icon: ScrollText },
 ];
 
@@ -163,6 +166,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               <Search className="h-4 w-4" /><span className="w-36 text-left">Search admin…</span>
               <kbd className="rounded border border-ink/15 px-1.5 text-[0.65rem] text-ink/60">⌘K</kbd>
             </button>
+            <ThemeToggle />
             <button className="relative grid h-10 w-10 place-items-center rounded-full border border-ink/10 bg-white text-ink/60 hover:text-ink" aria-label="Notifications">
               <Bell className="h-[18px] w-[18px]" />
               <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-600" />

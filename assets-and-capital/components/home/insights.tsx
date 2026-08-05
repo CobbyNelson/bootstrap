@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Clock } from "lucide-react";
-import { INSIGHTS } from "@/lib/content";
+import type { PublicArticle } from "@/lib/articles";
 import { SectionHeading, CircleArrow } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
@@ -11,9 +11,11 @@ const GRADIENTS = [
   "from-ink to-ink-2",
 ];
 
-export function Insights() {
+export function Insights({ articles }: { articles: PublicArticle[] }) {
+  if (!articles.length) return null;
+
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-14 md:py-20">
       <div className="container-x">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
@@ -27,16 +29,31 @@ export function Insights() {
         </div>
 
         <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {INSIGHTS.map((post, i) => (
-            <Reveal key={post.title} delay={i * 0.08}>
+          {articles.map((post, i) => (
+            <Reveal key={post.slug} delay={i * 0.08}>
               <Link
-                href="/insights"
+                href={`/insights/${post.slug}`}
                 className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
               >
-                <div className={`relative aspect-[16/10] bg-gradient-to-br ${GRADIENTS[i % 3]}`}>
+                <div className={`relative aspect-[16/10] overflow-hidden bg-gradient-to-br ${GRADIENTS[i % 3]}`}>
+                  {post.cover && (
+                    <>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={post.cover.src}
+                        alt={post.cover.alt}
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      />
+                      <div
+                        className="absolute inset-0 bg-gradient-to-br from-ink/55 via-ink/20 to-transparent"
+                        aria-hidden
+                      />
+                    </>
+                  )}
                   <div className="grid-noise absolute inset-0 opacity-30" aria-hidden />
                   <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[0.65rem] kicker text-ink backdrop-blur">
-                    {post.category}
+                    {post.type}
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col p-6">

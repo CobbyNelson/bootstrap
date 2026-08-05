@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MapPin, Tag, Lock } from "lucide-react";
 import type { Opportunity } from "@/lib/content";
 import { slugify } from "@/lib/matching";
+import { listingImage } from "@/lib/imagery";
 import { Money } from "./money";
 import { SaveButton } from "./save-button";
 
@@ -25,14 +26,20 @@ export function OpportunityCard({
   o,
   href,
   unlocked = false,
+  hero = null,
 }: {
   o: Opportunity;
   href?: string;
   /** Viewer has deal access to this listing (subscribed + expressed interest). */
   unlocked?: boolean;
+  /** Business-uploaded hero from the database — wins over sector imagery. */
+  hero?: { src: string; alt: string } | null;
 }) {
   const slug = slugify(o.name);
   const to = href ?? `/marketplace/${slug}`;
+  // A hero the business uploaded for itself (from the database) beats the
+  // static sector stand-in — that is the whole point of letting them upload.
+  const cover = hero ?? listingImage(o);
   return (
     <Link
       href={to}
@@ -40,10 +47,25 @@ export function OpportunityCard({
     >
       {/* image header */}
       <div className={`relative aspect-[16/9] overflow-hidden bg-gradient-to-br ${pickGradient(o.name)}`}>
+        {cover ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={cover.src}
+              alt={cover.alt}
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            />
+            {/* Darkened so the tier, save and match chips stay legible over any
+                part of the photograph. */}
+            <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/25 to-ink/40" aria-hidden />
+          </>
+        ) : (
+          <div className="absolute inset-0 grid place-items-center">
+            <span className="font-display text-4xl font-extrabold tracking-tight text-white/90">{initials(o.name)}</span>
+          </div>
+        )}
         <div className="grid-noise absolute inset-0 opacity-20" aria-hidden />
-        <div className="absolute inset-0 grid place-items-center">
-          <span className="font-display text-4xl font-extrabold tracking-tight text-white/90">{initials(o.name)}</span>
-        </div>
         <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[0.62rem] kicker text-ink shadow-sm">
           {o.tier}
         </span>

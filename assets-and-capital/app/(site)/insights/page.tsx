@@ -3,6 +3,7 @@ import { TrendingUp, ArrowRight } from "lucide-react";
 import { INDICATORS } from "@/lib/insights-data";
 import { PageHeader } from "@/components/layout/page-header";
 import { InsightsPortal } from "@/components/insights/insights-portal";
+import { listPublishedArticles } from "@/lib/articles";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 
@@ -12,7 +13,10 @@ export const metadata: Metadata = {
     "Research, country reports, investment guides, white papers, case studies, and interviews on African and emerging-market private capital.",
 };
 
-export default function InsightsPage() {
+export const dynamic = "force-dynamic";
+
+export default async function InsightsPage() {
+  const articles = await listPublishedArticles();
   return (
     <>
       <PageHeader
@@ -40,7 +44,7 @@ export default function InsightsPage() {
 
       <section className="py-14 md:py-16">
         <div className="container-x">
-          <InsightsPortal />
+          <InsightsPortal articles={articles} />
         </div>
       </section>
 

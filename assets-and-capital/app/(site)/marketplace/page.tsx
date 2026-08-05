@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { ShieldCheck, Sparkles, Globe } from "lucide-react";
 import { MarketplaceView } from "@/components/marketplace/marketplace-view";
 import { getUnlockedSlugs } from "@/lib/entitlements-server";
+import { getListingHeroes } from "@/lib/listing-heroes";
 
 export const metadata: Metadata = {
   title: "Marketplace",
@@ -15,8 +17,35 @@ const TRUST = [
   { icon: Globe, label: "Global coverage" },
 ];
 
+/**
+ * Suspense fallback for the listing area only.
+ *
+ * Deliberately not the route-level loading.tsx: that one carries the hero's own
+ * pt-32, which would stack on top of the hero already rendered above and drop
+ * the grid half a screen down for a frame.
+ */
+function MarketplaceLoading() {
+  return (
+    <div className="container-x py-12">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="overflow-hidden rounded-2xl border border-ink/[0.07] bg-white">
+            <div className="skeleton aspect-[16/9] rounded-none" />
+            <div className="space-y-3 p-5">
+              <div className="skeleton h-5 w-2/3 rounded" />
+              <div className="skeleton h-4 w-full rounded" />
+              <div className="skeleton h-4 w-1/2 rounded" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default async function MarketplacePage() {
   const unlockedSlugs = await getUnlockedSlugs();
+  const heroes = await getListingHeroes();
   return (
     <>
       <section className="relative overflow-hidden border-b border-ink/[0.06] pt-32 pb-12 md:pt-40 md:pb-16">
@@ -56,7 +85,13 @@ export default async function MarketplacePage() {
           </div>
         </div>
       </section>
-      <MarketplaceView unlockedSlugs={unlockedSlugs} />
+      {/* MarketplaceView reads the hero search's query string via
+          useSearchParams, which forces this subtree out of the static prerender.
+          Without the boundary `next build` fails outright — dev never surfaces
+          it, so the fallback is not optional decoration. */}
+      <Suspense fallback={<MarketplaceLoading />}>
+        <MarketplaceView unlockedSlugs={unlockedSlugs} heroes={heroes} />
+      </Suspense>
     </>
   );
 }

@@ -6,6 +6,9 @@ import { getOpportunityBySlug, allOpportunitySlugs, scoreOpportunity, DEMO_MANDA
 import { scoreBusiness } from "@/lib/business-scoring";
 import { getAccess } from "@/lib/entitlements-server";
 import { Badge } from "@/components/ui/badge";
+import { listingImage } from "@/lib/imagery";
+import { getListingHeroes, getListingGallery } from "@/lib/listing-heroes";
+import { ListingGallery } from "@/components/marketplace/listing-gallery";
 import { BusinessDetail } from "@/components/marketplace/business-detail";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -23,6 +26,12 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
   const { slug } = await params;
   const o = getOpportunityBySlug(slug);
   if (!o) notFound();
+
+  // Business-uploaded hero first; the sector stand-in only when they have not
+  // supplied one. Same order as the cards, so the page matches its card.
+  const heroes = await getListingHeroes();
+  const cover = heroes[slug] ?? listingImage(o);
+  const gallery = await getListingGallery(slug);
 
   // Access is resolved on the server; gated payloads are only computed and sent
   // when the viewer is entitled to them.
@@ -64,6 +73,24 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
     <>
       {/* header — core, always visible */}
       <section className="relative overflow-hidden border-b border-ink/[0.06] pt-32 pb-10 md:pt-40 md:pb-14">
+        {/* Featured image sits BEHIND the header rather than above it, so the
+            breadcrumb, name and badges keep their position and the page has no
+            extra vertical jump. Heavily scrimmed because navy-700 body text has
+            to stay readable over whatever the photograph does. */}
+        {cover && (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={cover.src}
+              alt={cover.alt}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <div
+              className="absolute inset-0 bg-gradient-to-r from-paper via-paper/92 to-paper/70"
+              aria-hidden
+            />
+          </>
+        )}
         <div className="grid-noise pointer-events-none absolute inset-0 opacity-50" aria-hidden />
         <div className="container-x relative">
           <div className="flex items-center gap-2 text-sm text-ink/60">
@@ -95,6 +122,19 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
           </div>
         </div>
       </section>
+
+      {/* Business-supplied imagery. Ungated on purpose: this is marketing
+          material the business chose to publish, not data-room content —
+          the same standing as the hero it already shows every visitor. */}
+      {gallery.length > 0 && (
+        <section className="pt-10 md:pt-12">
+          <div className="container-x">
+            <div className="max-w-3xl">
+              <ListingGallery images={gallery} />
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* body — tiered access enforced server-side */}
       <section className="py-12 md:py-16">

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, ArrowLeft, Check, Cloud, PartyPopper } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { FeaturedImageUpload } from "./featured-image-upload";
 
 type FieldType = "text" | "email" | "tel" | "textarea" | "select" | "chips";
 type Field = { name: string; label: string; type: FieldType; options?: string[]; placeholder?: string; required?: boolean; span?: 1 | 2 };
@@ -219,6 +220,14 @@ export function BusinessIntake() {
               );
             })}
           </div>
+
+          {isLast && (
+            <FeaturedImageUpload
+              value={(values.featuredImage as string) || null}
+              companyName={(values.companyName as string) || ""}
+              onUploaded={(src) => setField("featuredImage", src)}
+            />
+          )}
 
           {isLast && (
             <label className="mt-7 flex cursor-pointer items-start gap-3 rounded-2xl bg-paper-2/60 p-4 text-sm text-ink/70">

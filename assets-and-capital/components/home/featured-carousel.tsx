@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight, Sparkles, ArrowUpRight, MapPin, Tag } from "lucide-react";
 import { SCORED_MARKETPLACE, slugify } from "@/lib/matching";
 import { Money } from "@/components/ui/money";
+import { listingImage } from "@/lib/imagery";
 import { cn } from "@/lib/utils";
 
 const GRADIENTS = [
@@ -26,9 +27,38 @@ function gradient(name: string) {
 // real featured placements are wired in.
 const FEATURED = SCORED_MARKETPLACE.filter((o) => o.tier === "Platinum" || o.tier === "Gold").slice(0, 8);
 
-export function FeaturedCarousel() {
+export function FeaturedCarousel({
+  heroes = {},
+}: {
+  /** slug → business-uploaded hero image, resolved server-side. */
+  heroes?: Record<string, { src: string; alt: string }>;
+} = {}) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [paused, setPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  /**
+   * How far the track has been scrolled, 0–1.
+   *
+   * Read from the scroll event rather than tracked as an index, because the
+   * track is a native scroll container: a drag, a trackpad swipe or a keyboard
+   * scroll all move it without going through scrollByCard, and an index would
+   * silently drift out of sync with what is on screen.
+   */
+  const syncProgress = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setProgress(max <= 0 ? 1 : el.scrollLeft / max);
+  }, []);
+
+  useEffect(() => {
+    syncProgress();
+    // Re-measure on resize: the card width is a percentage, so the scrollable
+    // distance changes with the viewport.
+    window.addEventListener("resize", syncProgress);
+    return () => window.removeEventListener("resize", syncProgress);
+  }, [syncProgress]);
 
   const scrollByCard = useCallback((dir: 1 | -1) => {
     const el = trackRef.current;
@@ -60,24 +90,6 @@ export function FeaturedCarousel() {
             <h2 className="mt-3 font-display text-2xl font-semibold text-navy-700 sm:text-3xl">Featured businesses</h2>
             <p className="mt-1 text-sm text-ink/60">Premium placements from businesses raising capital now.</p>
           </div>
-          <div className="hidden items-center gap-2 sm:flex">
-            <button
-              type="button"
-              aria-label="Previous"
-              onClick={() => scrollByCard(-1)}
-              className="grid h-10 w-10 place-items-center rounded-full border border-ink/12 text-ink/70 transition-colors hover:border-ink/30 hover:text-ink"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              aria-label="Next"
-              onClick={() => scrollByCard(1)}
-              className="grid h-10 w-10 place-items-center rounded-full border border-ink/12 text-ink/70 transition-colors hover:border-ink/30 hover:text-ink"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-          </div>
         </div>
 
         <div
@@ -86,6 +98,7 @@ export function FeaturedCarousel() {
           onMouseLeave={() => setPaused(false)}
           onFocusCapture={() => setPaused(true)}
           onBlurCapture={() => setPaused(false)}
+          onScroll={syncProgress}
           className="mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {FEATURED.map((o) => {
@@ -98,12 +111,25 @@ export function FeaturedCarousel() {
                 className="group relative flex w-[85%] shrink-0 snap-start flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-[var(--shadow-card)] sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)]"
               >
                 <div className={cn("relative aspect-[16/9] overflow-hidden bg-gradient-to-br", gradient(o.name))}>
+                  {(heroes[slug] ?? listingImage(o)) ? (
+                    <>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={(heroes[slug] ?? listingImage(o))!.src}
+                        alt={(heroes[slug] ?? listingImage(o))!.alt}
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/25 to-ink/40" aria-hidden />
+                    </>
+                  ) : (
+                    <div className="absolute inset-0 grid place-items-center">
+                      <span className="font-display text-4xl font-extrabold tracking-tight text-white/90">
+                        {initials(o.name)}
+                      </span>
+                    </div>
+                  )}
                   <div className="grid-noise absolute inset-0 opacity-20" aria-hidden />
-                  <div className="absolute inset-0 grid place-items-center">
-                    <span className="font-display text-4xl font-extrabold tracking-tight text-white/90">
-                      {initials(o.name)}
-                    </span>
-                  </div>
                   <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[0.6rem] font-semibold text-brand-700 shadow-sm">
                     <Sparkles className="h-3 w-3" /> Featured
                   </span>
@@ -130,6 +156,42 @@ export function FeaturedCarousel() {
               </Link>
             );
           })}
+        </div>
+
+        {/* Progress rail + nav.
+            The rail is presentational only — it reports how far through the set
+            you are, which a row of dots cannot do once there are eight cards.
+            The buttons carry the accessible labels, so the rail is aria-hidden
+            rather than duplicating them to a screen reader. */}
+        <div className="mt-7 flex items-center gap-6">
+          <div className="h-[3px] flex-1 overflow-hidden rounded-full bg-ink/[0.09]" aria-hidden>
+            <div
+              className="h-full rounded-full bg-brand-600 transition-[width,transform] duration-300 ease-out"
+              style={{
+                // A floor so the indicator is still visible at scroll position 0.
+                width: `${Math.max(12, progress * 100)}%`,
+              }}
+            />
+          </div>
+
+          <div className="flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              aria-label="Previous featured businesses"
+              onClick={() => scrollByCard(-1)}
+              className="grid h-11 w-11 place-items-center rounded-full border border-ink/12 text-ink/70 transition-colors hover:border-ink/30 hover:bg-white hover:text-ink"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              aria-label="Next featured businesses"
+              onClick={() => scrollByCard(1)}
+              className="grid h-11 w-11 place-items-center rounded-full bg-ink text-white transition-colors hover:bg-navy-700"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
         </div>
       </div>
     </section>

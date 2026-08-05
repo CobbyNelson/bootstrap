@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Search, SlidersHorizontal, LayoutGrid, List, X, MapPin, Tag, Lock } from "lucide-react";
 import { REGIONS, SECTORS_FILTER, STAGES, INSTRUMENTS, TIERS, SORTS } from "@/lib/marketplace-data";
 import { SCORED_MARKETPLACE as MARKETPLACE, slugify } from "@/lib/matching";
@@ -33,18 +34,58 @@ function askValue(ask: string): number {
 
 type Facet = "region" | "sector" | "stage" | "instrument" | "tier";
 
-export function MarketplaceView({ unlockedSlugs = [] }: { unlockedSlugs?: string[] }) {
+/** Facets the hero search bar is allowed to preset through the URL. */
+const URL_FACETS: Facet[] = ["region", "sector", "stage", "instrument", "tier"];
+
+export function MarketplaceView({
+  unlockedSlugs = [],
+  heroes = {},
+}: {
+  unlockedSlugs?: string[];
+  /** slug → business-uploaded hero image, resolved server-side. */
+  heroes?: Record<string, { src: string; alt: string }>;
+}) {
   const unlocked = new Set(unlockedSlugs);
-  const [query, setQuery] = useState("");
+  const searchParams = useSearchParams();
+
+  const [query, setQuery] = useState(() => searchParams.get("q") ?? "");
   const [sort, setSort] = useState<(typeof SORTS)[number]["key"]>("match");
   const [view, setView] = useState<"grid" | "list">("grid");
   const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState<Record<Facet, Set<string>>>({
-    region: new Set(),
-    sector: new Set(),
-    stage: new Set(),
-    instrument: new Set(),
-    tier: new Set(),
+
+  /**
+   * Seeded from the URL so the hero search actually lands somewhere.
+   *
+   * A lazy initialiser, not an effect: seeding in useEffect would render the
+   * unfiltered list first and then visibly re-filter, which reads as the page
+   * ignoring the search and then changing its mind.
+   *
+   * Repeated params work (`?sector=FinTech&sector=Healthcare`) because each
+   * facet is a Set. Unknown values are dropped rather than trusted — the query
+   * string is user input, and a value that matches no listing would otherwise
+   * show an empty marketplace with no way to tell why.
+   */
+  const [filters, setFilters] = useState<Record<Facet, Set<string>>>(() => {
+    const valid: Record<Facet, readonly string[]> = {
+      region: REGIONS,
+      sector: SECTORS_FILTER,
+      stage: STAGES,
+      instrument: INSTRUMENTS,
+      tier: TIERS,
+    };
+    const seeded = {
+      region: new Set<string>(),
+      sector: new Set<string>(),
+      stage: new Set<string>(),
+      instrument: new Set<string>(),
+      tier: new Set<string>(),
+    };
+    for (const facet of URL_FACETS) {
+      for (const raw of searchParams.getAll(facet)) {
+        if (valid[facet].includes(raw)) seeded[facet].add(raw);
+      }
+    }
+    return seeded;
   });
 
   function toggle(facet: Facet, value: string) {
@@ -213,7 +254,7 @@ export function MarketplaceView({ unlockedSlugs = [] }: { unlockedSlugs?: string
         ) : view === "grid" ? (
           <div className="mt-6 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {results.map((o) => (
-              <OpportunityCard key={o.name} o={o} unlocked={unlocked.has(slugify(o.name))} />
+              <OpportunityCard key={o.name} o={o} unlocked={unlocked.has(slugify(o.name))} hero={heroes[slugify(o.name)] ?? null} />
             ))}
           </div>
         ) : (

@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 
 type NavItem = { label: string; href: string; icon: typeof LayoutDashboard };
 
@@ -155,6 +156,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
               <span className="w-40 text-left">Search…</span>
               <kbd className="rounded border border-ink/15 px-1.5 text-[0.65rem] text-ink/60">⌘K</kbd>
             </button>
+            <ThemeToggle />
             <Link href="/dashboard/notifications" className="relative grid h-10 w-10 place-items-center rounded-full border border-ink/10 text-ink/60 hover:text-ink" aria-label="Notifications">
               <Bell className="h-[18px] w-[18px]" />
               <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-600" />

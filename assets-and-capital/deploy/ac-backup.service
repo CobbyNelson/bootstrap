@@ -1,0 +1,13 @@
+# One backup run — invoked by ac-backup.timer, or by hand:
+#   systemctl start ac-backup && journalctl -u ac-backup -n 20
+
+[Unit]
+Description=Assets & Capital nightly backup
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+User=deploy
+Group=deploy
+ExecStart=/usr/bin/bash /srv/ac/repo/assets-and-capital/deploy/backup.sh

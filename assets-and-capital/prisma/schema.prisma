@@ -132,6 +132,8 @@ model User {
   commitments   Commitment[]
   kyc           KycRecord?
   docAccess     DocumentAccessLog[]
+  uploads       MediaAsset[]        @relation("MediaUploader")
+  articles      Article[]           @relation("ArticleAuthor")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -283,6 +285,7 @@ model Organization {
   business    BusinessProfile?
   documents   Document[]
   payments    Payment[]
+  media       MediaAsset[] @relation("OrgMedia")
   subscription Subscription?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -364,6 +367,11 @@ model Listing {
   documents    Document[]
   matches      Match[]
   savedBy      SavedOpportunity[]
+  /// Images belonging to this business, uploaded by them or by staff.
+  media        MediaAsset[]  @relation("ListingMedia")
+  /// The card/hero image. Falls back to sector imagery when unset.
+  heroId       String?
+  hero         MediaAsset?   @relation("ListingHero", fields: [heroId], references: [id], onDelete: SetNull)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 
@@ -536,4 +544,89 @@ model AnalyticsEvent {
   createdAt DateTime @default(now())
 
   @@index([name])
+}
+
+// ------------------------------------------------------------ media & editorial
+
+/// Every image on the site, stored once and referenced everywhere.
+///
+/// The bytes live on disk (see lib/media-store.ts), not in the database — a row
+/// here is the catalogue entry. `storageKey` is the filename under that
+/// directory, so moving to object storage later changes one module and no rows.
+///
+/// Everything is WebP under 100KB by the time it reaches this table; the
+/// original is never kept, which is why `originalName` and `originalBytes`
+/// record what was handed in.
+model MediaAsset {
+  id            String   @id @default(cuid())
+  storageKey    String   @unique
+  thumbKey      String?
+  originalName  String
+  originalBytes Int
+  bytes         Int
+  width         Int
+  height        Int
+  quality       Int
+  /// Author-supplied description. Empty string means explicitly decorative.
+  alt           String   @default("")
+  /// Free-text grouping shown in the library filter (e.g. "listings", "insights").
+  folder        String?
+
+  uploadedById  String?
+  uploadedBy    User?    @relation("MediaUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
+
+  /// Optional owner. A business's own image is scoped to it so the library can
+  /// show "belongs to Accra FinPay" rather than an anonymous pile.
+  listingId     String?
+  listing       Listing? @relation("ListingMedia", fields: [listingId], references: [id], onDelete: SetNull)
+  orgId         String?
+  organization  Organization? @relation("OrgMedia", fields: [orgId], references: [id], onDelete: SetNull)
+
+  createdAt     DateTime @default(now())
+
+  articleCovers Article[] @relation("ArticleCover")
+  listingHeroes Listing[] @relation("ListingHero")
+
+  @@index([folder])
+  @@index([listingId])
+  @@index([createdAt])
+}
+
+/// A published insight. Replaces the hardcoded ARTICLES array in
+/// lib/insights-data.ts so the marketing site is editable without a deploy.
+model Article {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  title       String
+  /// Free-text label shown on the card (e.g. "Private Equity").
+  category    String        @default("")
+  /// Editorial type — drives the cover image when no explicit one is set.
+  type        String
+  excerpt     String
+  /// Sanitised HTML from the editor. Never rendered without passing through
+  /// the same allowlist that produced it.
+  bodyHtml    String        @default("")
+  readTime    String        @default("")
+  author      String
+  authorRole  String        @default("")
+  featured    Boolean       @default(false)
+  status      ArticleStatus @default(DRAFT)
+  publishedAt DateTime?
+
+  coverId     String?
+  cover       MediaAsset?   @relation("ArticleCover", fields: [coverId], references: [id], onDelete: SetNull)
+
+  createdById String?
+  createdBy   User?         @relation("ArticleAuthor", fields: [createdById], references: [id], onDelete: SetNull)
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([status, publishedAt])
+  @@index([type])
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
 }

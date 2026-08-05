@@ -17,7 +17,7 @@ const FILLS = [
 
 export function WhyUs() {
   return (
-    <section className="bg-paper-2/60 py-20 md:py-28">
+    <section className="bg-paper-2/60 py-14 md:py-20">
       <div className="container-x">
         <SplitHeading
           eyebrow="Why choose us"

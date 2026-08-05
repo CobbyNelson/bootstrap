@@ -5,6 +5,10 @@ import { FEATURED_OPPORTUNITIES } from "@/lib/content";
 import { scoreBusiness } from "@/lib/business-scoring";
 import { Badge } from "@/components/ui/badge";
 import { StatCard, Panel, ProgressRing } from "@/components/dashboard/widgets";
+import { GalleryCard } from "@/components/dashboard/gallery-card";
+import { getCurrentUser } from "@/lib/session";
+import { getBusinessGallery } from "@/lib/business-listing";
+import { listingImage } from "@/lib/imagery";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Business Dashboard" };
@@ -50,9 +54,15 @@ function AreaChart() {
   );
 }
 
-export default function BusinessDashboard() {
+export default async function BusinessDashboard() {
   const self = FEATURED_OPPORTUNITIES.find((o) => o.name === "Accra FinPay") ?? FEATURED_OPPORTUNITIES[0];
   const scores = scoreBusiness(self);
+
+  // The account's gallery, featured image first. Falls back to the sector
+  // imagery the marketplace card would show anyway, so the card always
+  // previews what visitors actually see.
+  const user = await getCurrentUser();
+  const gallery = user ? await getBusinessGallery(user) : [];
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -85,6 +95,8 @@ export default function BusinessDashboard() {
           <AreaChart />
         </Panel>
 
+        <div className="space-y-6">
+        <GalleryCard initialImages={gallery} fallback={listingImage(self)} />
         <Panel title="Raise progress">
           <div className="flex items-center gap-4">
             <ProgressRing value={64} />
@@ -99,6 +111,7 @@ export default function BusinessDashboard() {
             <div className="flex justify-between"><span className="text-ink/65">Return offer</span><span className="font-medium text-ink">4.0× MOIC</span></div>
           </div>
         </Panel>
+        </div>
       </div>
 
       <Panel id="scorecard" title="AI business scorecard" action={{ label: "Improve score", href: "/register/business" }}>

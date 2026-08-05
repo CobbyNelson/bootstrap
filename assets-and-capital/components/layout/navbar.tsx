@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { NAV } from "@/lib/content";
@@ -9,11 +10,13 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { logoutUser } from "@/lib/actions/auth";
 import { Logo } from "./logo";
+import { ThemeToggle } from "./theme-toggle";
 
 type NavUser = { name: string | null; email: string; role: string };
 const ADMIN_ROLES = new Set(["ADMIN", "SUPER_ADMIN", "STAFF"]);
 
 export function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -48,15 +51,28 @@ export function Navbar() {
     };
   }, [mobileOpen]);
 
+  /**
+   * The home hero is now a full-bleed dark photograph, so the unscrolled navbar
+   * sits on top of it. Its default ink-on-transparent styling measured as
+   * near-black text over that image — invisible.
+   *
+   * Keyed to the route rather than to a scroll threshold because only the home
+   * page has a dark hero; every other page starts on paper and still wants the
+   * dark treatment. Once scrolled anywhere, the glass background takes over and
+   * dark text is correct again.
+   */
+  const onDarkHero = pathname === "/" && !scrolled;
+
   return (
     <header
+      data-tone={onDarkHero ? "light" : "dark"}
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         scrolled ? "glass border-b border-ink/[0.07] shadow-[0_1px_0_rgba(0,0,0,0.02)]" : "bg-transparent"
       )}
     >
       <nav className="container-x flex h-18 items-center justify-between" onMouseLeave={() => setOpen(null)}>
-        <Logo />
+        <Logo invert={onDarkHero} />
 
         {/* desktop nav */}
         <ul className="hidden items-center gap-1 lg:flex">
@@ -67,7 +83,10 @@ export function Navbar() {
                 {group.href ? (
                   <Link
                     href={group.href}
-                    className="inline-flex items-center gap-1 rounded-full px-4 py-2 text-[0.925rem] font-medium text-ink/75 transition-colors hover:text-ink"
+                    className={cn(
+                      "inline-flex items-center gap-1 rounded-full px-4 py-2 text-[0.925rem] font-medium transition-colors",
+                      onDarkHero ? "text-white/85 hover:text-white" : "text-ink/75 hover:text-ink"
+                    )}
                   >
                     {group.label}
                   </Link>
@@ -75,7 +94,9 @@ export function Navbar() {
                   <button
                     className={cn(
                       "inline-flex items-center gap-1 rounded-full px-4 py-2 text-[0.925rem] font-medium transition-colors",
-                      open === group.label ? "text-ink" : "text-ink/75 hover:text-ink"
+                      onDarkHero
+                        ? open === group.label ? "text-white" : "text-white/85 hover:text-white"
+                        : open === group.label ? "text-ink" : "text-ink/75 hover:text-ink"
                     )}
                     aria-expanded={open === group.label}
                   >
@@ -133,15 +154,26 @@ export function Navbar() {
 
         {/* desktop CTAs */}
         <div className="hidden items-center gap-2 lg:flex">
+          <ThemeToggle tone={onDarkHero ? "light" : "ink"} className="mr-1" />
           {user ? (
             <>
-              <Button href={dashHref} variant="ghost" size="sm">
+              <Button
+                href={dashHref}
+                variant="ghost"
+                size="sm"
+                className={onDarkHero ? "text-white/85 hover:bg-white/10 hover:text-white" : undefined}
+              >
                 Dashboard
               </Button>
               <form action={logoutUser}>
                 <button
                   type="submit"
-                  className="inline-flex h-9 items-center gap-2 rounded-full border border-ink/15 bg-white/60 px-4 text-sm font-medium text-ink transition-colors hover:border-ink/30 hover:bg-white"
+                  className={cn(
+                    "inline-flex h-9 items-center gap-2 rounded-full border px-4 text-sm font-medium transition-colors",
+                    onDarkHero
+                      ? "border-white/30 bg-white/10 text-white backdrop-blur hover:bg-white/20"
+                      : "border-ink/15 bg-white/60 text-ink hover:border-ink/30 hover:bg-white"
+                  )}
                 >
                   Sign out
                 </button>
@@ -149,7 +181,12 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <Button href="/login" variant="ghost" size="sm">
+              <Button
+                href="/login"
+                variant="ghost"
+                size="sm"
+                className={onDarkHero ? "text-white/85 hover:bg-white/10 hover:text-white" : undefined}
+              >
                 Sign in
               </Button>
               <Button href="/register" variant="primary" size="sm">
@@ -237,6 +274,10 @@ export function Navbar() {
                   </Button>
                 </>
               )}
+              <div className="flex items-center justify-between pt-1">
+                <span className="text-sm text-ink/60">Appearance</span>
+                <ThemeToggle />
+              </div>
             </div>
           </motion.div>
         )}
