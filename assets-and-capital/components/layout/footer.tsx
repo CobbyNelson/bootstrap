@@ -4,6 +4,7 @@ import { Logo } from "./logo";
 import { SITE } from "@/lib/content";
 import { NewsletterForm } from "./newsletter-form";
 import { CurrencySwitcher } from "./currency-switcher";
+import { CookieSettingsLink } from "./cookie-settings-link";
 
 function LinkedInIcon({ className }: { className?: string }) {
   return (
@@ -105,6 +106,13 @@ export function Footer() {
                       </Link>
                     </li>
                   ))}
+                  {/* Consent withdrawal has to be permanently reachable, so it
+                      lives with the legal links rather than only in the banner. */}
+                  {col.title === "Legal" && (
+                    <li>
+                      <CookieSettingsLink />
+                    </li>
+                  )}
                 </ul>
               </div>
             ))}

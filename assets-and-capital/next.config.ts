@@ -1,15 +1,27 @@
 import type { NextConfig } from "next";
 
-// Baseline security headers. CSP is deliberately omitted here: Next injects
-// inline styles/scripts, so a correct policy needs nonce plumbing — tracked as
-// follow-up rather than shipped in a form that would break the app.
+// Baseline security headers. CSP is NOT here — it needs a per-request nonce, so
+// it is built in middleware.ts where one can be generated.
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "X-Frame-Options", value: "DENY" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "X-DNS-Prefetch-Control", value: "on" },
-  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+  {
+    key: "Permissions-Policy",
+    // Deny the powerful APIs outright. This app needs none of them, and an
+    // explicit denial is what stops an injected iframe or script from asking.
+    value:
+      "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), interest-cohort=()",
+  },
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+  // Isolates this origin's browsing context group: blocks cross-origin window
+  // handles (tabnabbing) and is a precondition for cross-origin isolation.
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+  // Stops other sites embedding our resources (including uploaded media).
+  { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
+  // Legacy Flash/PDF cross-domain policy files — deny explicitly.
+  { key: "X-Permitted-Cross-Domain-Policies", value: "none" },
 ];
 
 const nextConfig: NextConfig = {
