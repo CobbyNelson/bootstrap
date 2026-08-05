@@ -41,8 +41,12 @@ echo "-- media archive"
 tar -czf "$LOCAL/media-$STAMP.tar.gz" -C "$AC/storage" media
 
 echo "-- upload"
-rclone copy "$LOCAL/db-$STAMP.sql.gz"    "$DEST/" --no-traverse
-rclone copy "$LOCAL/media-$STAMP.tar.gz" "$DEST/" --no-traverse
+# --retries: Mega's API drops connections under load more readily than S3-style
+# stores, and a nightly job gets one chance — a transient 500 must not cost the
+# day's backup. --transfers=1 keeps a single session, which Mega prefers.
+RC_OPTS=(--no-traverse --retries 3 --retries-sleep 20s --transfers 1 --timeout 5m)
+rclone copy "$LOCAL/db-$STAMP.sql.gz"    "$DEST/" "${RC_OPTS[@]}"
+rclone copy "$LOCAL/media-$STAMP.tar.gz" "$DEST/" "${RC_OPTS[@]}"
 
 echo "-- verify today's set is really in the cloud"
 rclone lsf "$DEST" | grep -q "db-$STAMP.sql.gz"    || fail "db dump missing from remote after upload"

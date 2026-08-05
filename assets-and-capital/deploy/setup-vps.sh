@@ -33,7 +33,16 @@ step() { printf '\n\033[1m== %s\033[0m\n' "$*"; }
 step "Base packages"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -y
-apt-get install -y curl git ca-certificates gnupg ufw fail2ban rclone unattended-upgrades
+apt-get install -y curl git ca-certificates gnupg ufw fail2ban unattended-upgrades
+
+step "rclone (official build — NOT the distro package)"
+# Ubuntu's rclone is compiled without several backends, Mega among them, so
+# `rclone config create backup mega ...` fails with an unknown-type error on
+# the packaged build. The official installer ships every backend.
+if ! rclone config providers 2>/dev/null | grep -q '"mega"'; then
+  apt-get remove -y rclone >/dev/null 2>&1 || true
+  curl -fsSL https://rclone.org/install.sh | bash
+fi
 
 step "Swap (2G — build headroom; skipped if present)"
 if ! swapon --show | grep -q /swapfile; then

@@ -45,22 +45,31 @@ generates secrets, starts Postgres, builds and serves the first release.
    itself. (The bootstrap fork carries upstream workflows; disable them under
    Actions if their runs bother you — they're unrelated to deploys.)
 
-4. **Backups remote** (once, on the VPS as the deploy user):
+4. **Backups remote — Mega** (once, on the VPS; run it yourself so the
+   password never passes through a transcript or another machine):
 
-   *Mega — simplest, no browser:*
    ```bash
-   sudo -u deploy rclone config create backup mega user you@example.com pass 'YOUR-MEGA-PASSWORD'
+   ssh root@YOUR_VPS_IP
+   sudo -u deploy rclone config create backup mega \
+     user 'YOU@EXAMPLE.COM' pass 'YOUR-MEGA-PASSWORD'
    ```
 
-   *Google Drive — one browser hop:* run `rclone authorize "drive"` on your
-   own computer, then on the VPS `sudo -u deploy rclone config`, new remote
-   named `backup`, type `drive`, answer **n** to auto-config and paste the
-   token from your machine.
+   Notes that will save an hour:
+   - rclone MUST be the official build. Ubuntu's package is compiled without
+     the Mega backend — `setup-vps.sh` now installs the real one, but if you
+     ever see "didn't find backend called mega", that's why.
+   - Use an **app-specific Mega account or password** if you can; this
+     credential sits in `/home/deploy/.config/rclone/rclone.conf` (mode 600),
+     obscured but recoverable, as all rclone passwords are.
+   - Mega's free tier is 20GB — ample for a database dump plus media for a
+     long time, but it is a ceiling that eventually arrives.
 
    Then prove the pipeline end to end:
    ```bash
    systemctl start ac-backup && journalctl -u ac-backup -n 20
    ```
+   Expect `✓ backup <date> shipped`. The script verifies the files really
+   exist on the remote after upload, so success means success.
 
 ## Deploying
 
