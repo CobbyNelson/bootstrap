@@ -70,7 +70,7 @@ export function WhyUs() {
           <div className="border-t border-white/12" />
         </div>
 
-        <Reveal delay={0.1}>
+        <Reveal delay={0.1} className="mt-12 block md:mt-16">
           <Button href="/about" variant="inverse" size="md" className="group">
             How we work with both sides
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
