@@ -12,7 +12,6 @@ export function Testimonials() {
       <div className="container-x">
         <SectionHeading
           align="center"
-          eyebrow="Testimonials"
           title="Trusted by investors and founders"
           className="mx-auto"
         />

@@ -13,7 +13,6 @@ export function Services() {
       <div className="container-x">
         <SectionHeading
           align="center"
-          eyebrow="Services"
           title="Expert support on both sides of the deal"
           subtitle="Beyond the marketplace, our team delivers the services that move a deal forward — for investors and businesses alike."
           className="mx-auto"

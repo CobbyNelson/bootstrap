@@ -19,7 +19,6 @@ export function Insights({ articles }: { articles: PublicArticle[] }) {
       <div className="container-x">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
-            eyebrow="Latest insights"
             title="Intelligence for capital and opportunity"
             subtitle="Research, market views, and practical guides from our team."
           />

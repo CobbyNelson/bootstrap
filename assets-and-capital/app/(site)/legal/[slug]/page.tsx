@@ -24,7 +24,7 @@ export default async function LegalPage({ params }: { params: Promise<{ slug: st
 
   return (
     <>
-      <PageHeader eyebrow="Legal" title={doc.title} subtitle={`Last updated ${doc.updated}.`} />
+      <PageHeader title={doc.title} subtitle={`Last updated ${doc.updated}.`} />
       <section className="py-16 md:py-20">
         <div className="container-x max-w-3xl">
           {doc.intro && <p className="text-lg leading-relaxed text-ink/70">{doc.intro}</p>}

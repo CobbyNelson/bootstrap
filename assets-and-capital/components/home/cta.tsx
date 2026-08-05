@@ -33,7 +33,7 @@ export function FinalCTA() {
             <h2 className="font-display text-4xl font-extrabold uppercase leading-[0.98] text-white sm:text-5xl">
               {p.title}
             </h2>
-            <p className="mt-5 text-lg leading-relaxed text-white/80">{p.body}</p>
+            <p className="mt-5 text-lg leading-relaxed text-white">{p.body}</p>
             <Link
               href={p.href}
               className={`group mt-8 flex items-center justify-between gap-4 rounded-xl px-6 py-4 text-sm font-semibold uppercase tracking-wide text-white transition-colors ${p.btn}`}

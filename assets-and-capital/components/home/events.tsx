@@ -19,7 +19,6 @@ export function Events() {
       <div className="container-x relative">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
-            eyebrow="Events & roadshows"
             title="Meet capital and opportunity in person"
             subtitle="Roadshows built around a mandate, and forums where the introductions happen face to face."
           />

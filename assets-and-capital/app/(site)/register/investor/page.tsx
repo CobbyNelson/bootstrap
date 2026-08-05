@@ -12,7 +12,6 @@ export default function InvestorRegisterPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Investor registration"
         title="Build your investment mandate"
         subtitle="Tell us your objectives, strategy, geographies and ticket size. We'll match you with opportunities that fit — and only notify you when they do."
       />

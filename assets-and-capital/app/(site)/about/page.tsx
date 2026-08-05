@@ -23,7 +23,6 @@ export default function AboutPage() {
   return (
     <>
       <PageHeader
-        eyebrow="About us"
         title="A trusted platform for deal-making"
         subtitle="Assets and Capital Limited is a financing events company. We serve as an alternative capital-raising and deal-making platform to traditional channels like the stock market and bank financing."
       />
@@ -61,7 +60,7 @@ export default function AboutPage() {
 
       <section className="bg-paper-2/60 py-16 md:py-20">
         <div className="container-x">
-          <SectionHeading align="center" eyebrow="Our values" title="What we stand for" className="mx-auto" />
+          <SectionHeading align="center" title="What we stand for" className="mx-auto" />
           <div className="mt-12 grid gap-5 md:grid-cols-3">
             {VALUES.map((v, i) => (
               <Reveal key={v.title} delay={i * 0.08}>

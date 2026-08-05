@@ -19,7 +19,6 @@ export async function Featured() {
     <section className="py-14 md:py-20">
       <div className="container-x">
         <SplitHeading
-          eyebrow="Featured opportunities"
           title="Opportunities on the marketplace now"
           description="Every listing is screened and verified before it appears. Match scores show how mandate-aware ranking surfaces the right deals."
         />
@@ -43,7 +42,7 @@ export async function Featured() {
                   </svg>
                 </span>
                 <p className="mt-5 text-[2.4rem] leading-none tnum">{INDUSTRIES.length}</p>
-                <p className="mt-2 text-sm text-white/80">Sectors covered across the marketplace</p>
+                <p className="mt-2 text-sm text-white">Sectors covered across the marketplace</p>
               </div>
             </Reveal>
 

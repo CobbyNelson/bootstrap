@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
  */
 const FILLS = [
   { card: "bg-white border-ink/[0.07]", title: "text-navy-700", body: "text-ink/65", icon: "bg-paper-2 text-navy-700", pill: "bg-paper-2 text-ink group-hover:bg-navy-700 group-hover:text-white" },
-  { card: "bg-brand-600 border-brand-600", title: "text-white", body: "text-white/80", icon: "bg-white/15 text-white", pill: "bg-white text-brand-700" },
+  { card: "bg-brand-600 border-brand-600", title: "text-white", body: "text-white", icon: "bg-white/15 text-white", pill: "bg-white text-brand-700" },
   { card: "bg-navy-800 border-navy-800", title: "text-white", body: "text-white/70", icon: "bg-white/10 text-white", pill: "bg-white text-navy-800" },
   { card: "bg-white border-ink/[0.07]", title: "text-navy-700", body: "text-ink/65", icon: "bg-paper-2 text-navy-700", pill: "bg-paper-2 text-ink group-hover:bg-navy-700 group-hover:text-white" },
 ] as const;
@@ -20,7 +20,6 @@ export function WhyUs() {
     <section className="bg-paper-2/60 py-14 md:py-20">
       <div className="container-x">
         <SplitHeading
-          eyebrow="Why choose us"
           title="What we do beyond listing a business"
           description="Modern tooling paired with a team in-market, so both sides of a deal get the same standard of scrutiny."
         />

@@ -1,14 +1,11 @@
-import { Eyebrow } from "@/components/ui/section-heading";
 import { cn } from "@/lib/utils";
 
 export function PageHeader({
-  eyebrow,
   title,
   subtitle,
   children,
   className,
 }: {
-  eyebrow?: string;
   title: React.ReactNode;
   subtitle?: React.ReactNode;
   children?: React.ReactNode;
@@ -23,8 +20,7 @@ export function PageHeader({
         aria-hidden
       />
       <div className="container-x relative">
-        {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-        <h1 className="mt-4 max-w-3xl font-display text-4xl font-semibold leading-[1.06] tracking-tight text-navy-700 sm:text-5xl md:text-[3.4rem]">
+        <h1 className="max-w-3xl font-display text-4xl font-semibold leading-[1.06] tracking-tight text-navy-700 sm:text-5xl md:text-[3.4rem]">
           {title}
         </h1>
         {subtitle && <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink/60">{subtitle}</p>}

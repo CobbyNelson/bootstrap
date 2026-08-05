@@ -23,7 +23,6 @@ export default function BusinessesPage() {
   return (
     <>
       <PageHeader
-        eyebrow="For businesses"
         title="We don't just list your business — we get it in front of the right investors"
         subtitle="We represent one of the largest portfolios of global investors ready to deploy capital. When you work with us, our team acts with urgency and precision to deliver tailored solutions."
       >
@@ -34,7 +33,7 @@ export default function BusinessesPage() {
 
       <section className="py-16 md:py-20">
         <div className="container-x">
-          <SectionHeading eyebrow="How it works" title="From listing to closed raise" />
+          <SectionHeading title="From listing to closed raise" />
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {HOW_BUSINESS.map((step, i) => (
               <Reveal key={step.title} delay={i * 0.08}>
@@ -51,7 +50,7 @@ export default function BusinessesPage() {
 
       <section className="bg-paper-2/60 py-16 md:py-20">
         <div className="container-x">
-          <SectionHeading align="center" eyebrow="Our services include" title="Everything you need to raise with confidence" className="mx-auto" />
+          <SectionHeading align="center" title="Everything you need to raise with confidence" className="mx-auto" />
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {SERVICES.map((s, i) => (
               <Reveal key={s.title} delay={(i % 4) * 0.08}>

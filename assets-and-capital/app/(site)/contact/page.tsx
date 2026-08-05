@@ -20,7 +20,6 @@ export default function ContactPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Contact"
         title="Let's make the connection"
         subtitle="Whether you're deploying capital or raising it, our team is ready to help. Send us a note and we'll respond within one business day."
       />

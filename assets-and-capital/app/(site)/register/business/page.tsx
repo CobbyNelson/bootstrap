@@ -12,7 +12,6 @@ export default function BusinessRegisterPage() {
   return (
     <>
       <PageHeader
-        eyebrow="For businesses"
         title="List your business, reach ready capital"
         subtitle="Create a verified profile with your ask and the services you need. We actively put your opportunity in front of the investors whose mandate fits."
       />

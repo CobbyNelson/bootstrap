@@ -119,8 +119,15 @@ export function Messaging() {
           {active.typing && (
             <div className="flex justify-start">
               <div className="flex items-center gap-1 rounded-2xl bg-white px-4 py-3 ring-1 ring-ink/[0.06]">
+                {/* Opacity pulse, not a hopping dot. Springy easing reads as
+                    dated, and translating three dots to imply "typing" is the
+                    tell. Fading says the same thing more quietly. */}
                 {[0, 1, 2].map((i) => (
-                  <span key={i} className="h-1.5 w-1.5 animate-bounce rounded-full bg-ink/30" style={{ animationDelay: `${i * 0.15}s` }} />
+                  <span
+                    key={i}
+                    className="h-1.5 w-1.5 animate-[typingPulse_1.2s_ease-in-out_infinite] rounded-full bg-ink/40 motion-reduce:animate-none"
+                    style={{ animationDelay: `${i * 0.18}s` }}
+                  />
                 ))}
               </div>
             </div>

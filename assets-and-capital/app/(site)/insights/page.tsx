@@ -20,7 +20,6 @@ export default async function InsightsPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Market insights"
         title="Intelligence for capital and opportunity"
         subtitle="Research, country reports, investment guides, and case studies from the Assets & Capital team — built for allocators and founders operating in Africa and emerging markets."
       />

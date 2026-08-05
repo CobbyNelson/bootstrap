@@ -2,7 +2,14 @@ import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Reveal } from "./reveal";
 
-/** Pill label with an asterisk glyph, per the reference layouts. */
+/**
+ * Pill label with an asterisk glyph.
+ *
+ * Kept for the ONE deliberate placement (the home hero kicker). It used to sit
+ * above every section heading, which is the saturated AI-landing-page tell —
+ * a tiny uppercase tracked label repeated as section grammar. Section headings
+ * now carry themselves; this is voice only when it is used once.
+ */
 export function Eyebrow({
   children,
   className,
@@ -61,14 +68,12 @@ export function CircleArrow({
 }
 
 export function SectionHeading({
-  eyebrow,
   title,
   subtitle,
   align = "left",
   className,
   invert = false,
 }: {
-  eyebrow?: string;
   title: React.ReactNode;
   subtitle?: React.ReactNode;
   align?: "left" | "center";
@@ -78,14 +83,9 @@ export function SectionHeading({
   return (
     <div className={cn("max-w-2xl", align === "center" && "mx-auto text-center", className)}>
       <Reveal>
-        {eyebrow && (
-          <div className={cn(align === "center" && "flex justify-center")}>
-            <Eyebrow invert={invert}>{eyebrow}</Eyebrow>
-          </div>
-        )}
         <h2
           className={cn(
-            "mt-4 text-balance text-[2rem] font-medium leading-[1.08] sm:text-4xl md:text-[2.85rem]",
+            "text-balance text-[2rem] font-medium leading-[1.08] sm:text-4xl md:text-[2.85rem]",
             invert ? "text-white" : "text-navy-700"
           )}
         >
@@ -106,13 +106,11 @@ export function SectionHeading({
  * the right, as in the "Designed to Work at Scale" reference.
  */
 export function SplitHeading({
-  eyebrow,
   title,
   description,
   className,
   invert = false,
 }: {
-  eyebrow?: string;
   title: React.ReactNode;
   description?: React.ReactNode;
   className?: string;
@@ -121,10 +119,9 @@ export function SplitHeading({
   return (
     <div className={cn("grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-16", className)}>
       <div>
-        {eyebrow && <Eyebrow invert={invert}>{eyebrow}</Eyebrow>}
         <h2
           className={cn(
-            "mt-5 text-balance text-[2rem] leading-[1.08] sm:text-4xl md:text-[2.85rem]",
+            "text-balance text-[2rem] leading-[1.08] sm:text-4xl md:text-[2.85rem]",
             invert ? "text-white" : "text-navy-700"
           )}
         >

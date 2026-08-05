@@ -27,7 +27,6 @@ export default function InvestorsPage() {
   return (
     <>
       <PageHeader
-        eyebrow="For investors"
         title="Find opportunities that fit your mandate"
         subtitle="Our global team engages business owners and screens opportunities to deliver the best options to our investor network — matched to you with advanced technology."
       >
@@ -38,7 +37,7 @@ export default function InvestorsPage() {
 
       <section className="py-16 md:py-20">
         <div className="container-x">
-          <SectionHeading eyebrow="Our services" title="Everything you need to deploy with an edge" />
+          <SectionHeading title="Everything you need to deploy with an edge" />
           <div className="mt-12 grid gap-5 md:grid-cols-3">
             {SERVICES.map((s, i) => (
               <Reveal key={s.title} delay={i * 0.08}>
@@ -57,7 +56,7 @@ export default function InvestorsPage() {
 
       <section className="bg-paper-2/60 py-16 md:py-20">
         <div className="container-x">
-          <SectionHeading align="center" eyebrow="Why invest with us" title="Your trusted local partner, worldwide" className="mx-auto" />
+          <SectionHeading align="center" title="Your trusted local partner, worldwide" className="mx-auto" />
           <div className="mt-12 grid gap-5 md:grid-cols-3">
             {WHY.map((w, i) => (
               <Reveal key={w.title} delay={i * 0.08}>

@@ -39,7 +39,7 @@ const GROUPS = [
 export default function FaqPage() {
   return (
     <>
-      <PageHeader eyebrow="FAQ" title="Questions, answered" subtitle="Everything you need to know about investing and raising capital on Assets & Capital." />
+      <PageHeader title="Questions, answered" subtitle="Everything you need to know about investing and raising capital on Assets & Capital." />
       <section className="py-16 md:py-20">
         <div className="container-x grid gap-12 lg:grid-cols-[1fr_320px]">
           <div className="space-y-10">

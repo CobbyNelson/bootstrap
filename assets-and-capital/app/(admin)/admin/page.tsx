@@ -51,7 +51,7 @@ function initials(name: string) {
 const TONES = {
   navy: { card: "bg-navy-700 text-white", label: "text-white/60", badge: "bg-white/12 text-white", spark: "var(--color-navy-200)", pill: "bg-white/12 text-white" },
   ink: { card: "bg-ink text-white", label: "text-white/70", badge: "bg-white/10 text-navy-300", spark: "var(--color-navy-300)", pill: "bg-white/10 text-white" },
-  brand: { card: "bg-brand-600 text-white", label: "text-white/70", badge: "bg-white/15 text-white", spark: "#ffffff", pill: "bg-white/15 text-white" },
+  brand: { card: "bg-brand-600 text-white", label: "text-white", badge: "bg-white/15 text-white", spark: "#ffffff", pill: "bg-white/15 text-white" },
   cream: { card: "bg-white text-ink border border-ink/[0.07]", label: "text-ink/65", badge: "bg-brand-50 text-brand-600", spark: "var(--color-brand-600)", pill: "bg-emerald-50 text-emerald-700" },
 } as const;
 

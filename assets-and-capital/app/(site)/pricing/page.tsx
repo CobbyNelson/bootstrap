@@ -27,7 +27,6 @@ export default async function PricingPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Pricing"
         title="Simple tiers. Aligned incentives."
         subtitle="List your business to reach our global investor network, add expert services as you need them, and pay a success fee only when a deal closes."
       />
@@ -83,7 +82,6 @@ export default async function PricingPage() {
         <div className="container-x">
           <SectionHeading
             align="center"
-            eyebrow="For investors"
             title="Free to join. Subscribe to go deep."
             subtitle="Registering and browsing core details is always free. An investor subscription unlocks full business details across the marketplace — then expressing interest opens each business's data room, AI profile and your personalised match rate."
             className="mx-auto"
@@ -135,7 +133,7 @@ export default async function PricingPage() {
       {/* services */}
       <section className="py-12 md:py-16">
         <div className="container-x">
-          <SectionHeading align="center" eyebrow="À la carte services" title="Add expert support as you need it" className="mx-auto" />
+          <SectionHeading align="center" title="Add expert support as you need it" className="mx-auto" />
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {SERVICES.map((s, i) => (
               <Reveal key={s.title} delay={(i % 3) * 0.06}>
@@ -155,7 +153,7 @@ export default async function PricingPage() {
       {/* FAQ */}
       <section className="py-12 md:py-20">
         <div className="container-x max-w-3xl">
-          <SectionHeading align="center" eyebrow="FAQ" title="Questions, answered" className="mx-auto" />
+          <SectionHeading align="center" title="Questions, answered" className="mx-auto" />
           <div className="mt-10 divide-y divide-ink/[0.08] rounded-3xl border border-ink/[0.07] bg-white px-6">
             {FAQ.map((item) => (
               <details key={item.q} className="group py-5">

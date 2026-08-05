@@ -8,7 +8,6 @@ export function Industries() {
       <div className="container-x">
         <SectionHeading
           align="center"
-          eyebrow="Industries"
           title="Depth across every major sector"
           subtitle="From technology and healthcare to energy, real estate and agriculture — opportunities spanning fourteen industry groups."
           className="mx-auto"

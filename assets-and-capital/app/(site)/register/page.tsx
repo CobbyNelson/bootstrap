@@ -30,7 +30,7 @@ const PATHS = [
 export default function RegisterPage() {
   return (
     <>
-      <PageHeader eyebrow="Get started" title="Which side of the deal are you on?" subtitle="Choose your path — it takes just a few minutes to get set up." />
+      <PageHeader title="Which side of the deal are you on?" subtitle="Choose your path — it takes just a few minutes to get set up." />
       <section className="py-12 md:py-16">
         <div className="container-x grid gap-6 md:grid-cols-2">
           {PATHS.map((p) => (

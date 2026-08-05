@@ -5,7 +5,6 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
 
 type ServiceContent = {
-  eyebrow: string;
   title: string;
   subtitle: string;
   audience: "investor" | "business";
@@ -16,7 +15,6 @@ type ServiceContent = {
 
 const SERVICES: Record<string, ServiceContent> = {
   roadshows: {
-    eyebrow: "Investor & business service",
     title: "Specialised roadshows",
     subtitle: "Meet several pre-screened opportunities, or reach targeted investors, in one session.",
     audience: "investor",
@@ -26,7 +24,6 @@ const SERVICES: Record<string, ServiceContent> = {
     cta: { label: "Request a roadshow", href: "/contact" },
   },
   "market-access": {
-    eyebrow: "Investor service",
     title: "Market access support",
     subtitle: "Connect with suppliers, buyers, and partners to grow beyond the initial investment.",
     audience: "investor",
@@ -36,7 +33,6 @@ const SERVICES: Record<string, ServiceContent> = {
     cta: { label: "Talk to our team", href: "/contact" },
   },
   "business-plan": {
-    eyebrow: "Business service",
     title: "Business plan writing",
     subtitle: "Plans built around what investors read first.",
     audience: "business",
@@ -46,7 +42,6 @@ const SERVICES: Record<string, ServiceContent> = {
     cta: { label: "Get started", href: "/register/business" },
   },
   "financial-modelling": {
-    eyebrow: "Business service",
     title: "Financial modelling",
     subtitle: "Models where every assumption is stated and sourced.",
     audience: "business",
@@ -56,7 +51,6 @@ const SERVICES: Record<string, ServiceContent> = {
     cta: { label: "Get started", href: "/register/business" },
   },
   teaser: {
-    eyebrow: "Business service",
     title: "Teaser & pitch preparation",
     subtitle: "A teaser and deck written to earn the second meeting.",
     audience: "business",
@@ -85,7 +79,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
-      <PageHeader eyebrow={s.eyebrow} title={s.title} subtitle={s.subtitle}>
+      <PageHeader title={s.title} subtitle={s.subtitle}>
         <Button href={s.cta.href} variant="primary" size="lg">
           {s.cta.label} <ArrowRight className="h-4 w-4" />
         </Button>

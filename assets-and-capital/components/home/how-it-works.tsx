@@ -19,7 +19,6 @@ export function HowItWorks() {
       <div className="container-x">
         <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
           <SectionHeading
-            eyebrow="How it works"
             title="From first look to closed deal — in one place"
             subtitle="A guided, transparent path whether you're deploying capital or raising it."
           />

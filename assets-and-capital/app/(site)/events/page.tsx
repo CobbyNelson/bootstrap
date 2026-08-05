@@ -22,7 +22,6 @@ export default function EventsPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Events & roadshows"
         title="Where capital meets opportunity"
         subtitle="Specialised roadshows and forums that put pre-screened investors and vetted businesses in the same room."
       >
