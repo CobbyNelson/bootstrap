@@ -1,61 +1,73 @@
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { WHY } from "@/lib/content";
-import { SplitHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
-import { cn } from "@/lib/utils";
 
 /**
- * Alternating-fill card row, following the consulting reference: a light card,
- * a filled accent card, and a dark card, each with a small pill link at the
- * bottom. Brand palette throughout.
+ * The four operating commitments, set as an editorial list on a dark band.
+ *
+ * This replaced a four-up card grid of icon-square + heading + body + pill.
+ * Three things were wrong with it:
+ *
+ *  1. Four equally-weighted cards with a rounded icon tile above each heading is
+ *     the template arrangement; it made four distinct claims look interchangeable.
+ *  2. The "Explore more" pill was a <span> with no href — a hover state and an
+ *     arrow on something that could not be clicked. A fake affordance is worse
+ *     than no affordance, so the section now has ONE real link.
+ *  3. Cards are the right shape for things you open (listings, articles), and
+ *     this page uses them for exactly that elsewhere. Spending them on prose too
+ *     drained the meaning from the ones that are clickable.
+ *
+ * The dark band is also load-bearing for page rhythm: Process → this → Featured
+ * → Insights was an unbroken light stretch between the hero and the closing CTA.
  */
-const FILLS = [
-  { card: "bg-white border-ink/[0.07]", title: "text-navy-700", body: "text-ink/65", icon: "bg-paper-2 text-navy-700", pill: "bg-paper-2 text-ink group-hover:bg-navy-700 group-hover:text-white" },
-  { card: "bg-brand-600 border-brand-600", title: "text-white", body: "text-white", icon: "bg-white/15 text-white", pill: "bg-white text-brand-700" },
-  { card: "bg-navy-800 border-navy-800", title: "text-white", body: "text-white/70", icon: "bg-white/10 text-white", pill: "bg-white text-navy-800" },
-  { card: "bg-white border-ink/[0.07]", title: "text-navy-700", body: "text-ink/65", icon: "bg-paper-2 text-navy-700", pill: "bg-paper-2 text-ink group-hover:bg-navy-700 group-hover:text-white" },
-] as const;
-
 export function WhyUs() {
   return (
-    <section className="bg-paper-2/60 py-14 md:py-20">
-      <div className="container-x">
-        <SplitHeading
-          title="What we do beyond listing a business"
-          description="Modern tooling paired with a team in-market, so both sides of a deal get the same standard of scrutiny."
-        />
+    <section className="relative overflow-hidden bg-navy-900 py-20 md:py-28">
+      <div className="grid-noise pointer-events-none absolute inset-0 opacity-[0.07]" aria-hidden />
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {WHY.map((item, i) => {
-            const f = FILLS[i % FILLS.length];
-            return (
-              <Reveal key={item.title} delay={i * 0.08}>
-                <div
-                  className={cn(
-                    "group flex h-full flex-col rounded-3xl border p-7 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]",
-                    f.card
-                  )}
-                >
-                  <span className={cn("grid h-12 w-12 place-items-center rounded-2xl", f.icon)}>
-                    <item.icon className="h-5 w-5" />
-                  </span>
-                  <h3 className={cn("mt-5 text-lg", f.title)}>{item.title}</h3>
-                  <p className={cn("mt-2 flex-1 text-sm leading-relaxed", f.body)}>{item.body}</p>
-                  <span
-                    className={cn(
-                      "mt-6 inline-flex w-fit items-center gap-2 rounded-full px-3.5 py-1.5 label-cta text-[0.62rem] transition-colors",
-                      f.pill
-                    )}
-                  >
-                    Explore more
-                    <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden>
-                      <path d="M2 8h11M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                </div>
-              </Reveal>
-            );
-          })}
+      <div className="container-x relative">
+        <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-16">
+          <Reveal>
+            <h2 className="text-balance text-[2rem] leading-[1.08] text-white sm:text-4xl md:text-[2.85rem]">
+              What we do beyond listing a business
+            </h2>
+          </Reveal>
+          <Reveal delay={0.06}>
+            <p className="max-w-md text-[0.95rem] leading-relaxed text-white/70 lg:pb-2">
+              Modern tooling paired with a team in-market, so both sides of a deal get
+              the same standard of scrutiny.
+            </p>
+          </Reveal>
         </div>
+
+        <div className="mt-14 md:mt-20">
+          {WHY.map((item, i) => (
+            <Reveal key={item.title} delay={i * 0.07}>
+              {/* Hairline rules rather than card edges: the claims read as one
+                  argument in four parts instead of four separate objects. */}
+              <div className="grid gap-3 border-t border-white/12 py-7 md:grid-cols-[minmax(0,20rem)_1fr] md:gap-12 md:py-9">
+                <h3 className="text-pretty text-xl font-medium leading-snug text-white md:text-[1.35rem]">
+                  {item.title}
+                </h3>
+                <p className="max-w-[65ch] text-[0.95rem] leading-relaxed text-white/70">
+                  {item.body}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+          <div className="border-t border-white/12" />
+        </div>
+
+        <Reveal delay={0.1}>
+          <Link
+            href="/about"
+            className="group mt-10 inline-flex items-center gap-2.5 rounded-full bg-white px-5 py-3 text-sm font-semibold text-navy-900 transition-colors hover:bg-brand-600 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900"
+          >
+            How we work with both sides
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+          </Link>
+        </Reveal>
       </div>
     </section>
   );

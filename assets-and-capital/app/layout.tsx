@@ -4,6 +4,7 @@ import { Figtree, Inter } from "next/font/google";
 import { SITE } from "@/lib/content";
 import { CommandPalette } from "@/components/search/command-palette";
 import { CurrencyProvider } from "@/components/providers/currency-provider";
+import { MotionProvider } from "@/components/providers/motion-provider";
 import { CookieConsent } from "@/components/layout/cookie-consent";
 import "./globals.css";
 
@@ -76,11 +77,21 @@ export default function RootLayout({
         <Script id="theme-init" strategy="beforeInteractive">
           {"(function(){try{var m=localStorage.getItem('ac-theme');var h=new Date().getHours();var d=m==='dark'||(m!=='light'&&(h>=19||h<7));document.documentElement.classList.toggle('dark',d);}catch(e){}})();"}
         </Script>
-        <CurrencyProvider>
-          {children}
-          <CommandPalette />
-          <CookieConsent />
-        </CurrencyProvider>
+        {/* Reveal animations start at opacity:0, and framer-motion bakes that
+            inline style into the server HTML. With JavaScript unavailable the
+            IntersectionObserver never fires and those sections would stay
+            invisible, so restore them for that case. Scoped to <noscript>, so
+            it costs nothing when JS is working. */}
+        <noscript>
+          <style>{`[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+        <MotionProvider>
+          <CurrencyProvider>
+            {children}
+            <CommandPalette />
+            <CookieConsent />
+          </CurrencyProvider>
+        </MotionProvider>
       </body>
     </html>
   );
