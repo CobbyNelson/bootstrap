@@ -139,7 +139,10 @@ const TOPICS: Topic[] = [
   },
   {
     id: "regions",
-    cues: ["region", "country", "where", "africa", "geography", "located", "markets"],
+    cues: [
+      "region", "regions", "country", "countries", "where", "africa", "geography",
+      "located", "markets", "operate in", "which countries",
+    ],
     answer: () => {
       const regions = [...new Set(MARKETPLACE.map((o) => o.region))];
       return `Businesses on the platform are based across ${regions.join(", ")}. Investors join from anywhere.`;
@@ -204,6 +207,73 @@ function score(topic: Topic, n: string): number {
   return s;
 }
 
+/** Words that carry no topic signal, so their presence proves nothing either way. */
+const STOPWORDS = new Set(
+  ("a an and are as at be been by can could do does doing for from get give had has have how i if in "
+    + "is it its me my of on or our so tell that the their them then there these they this to us want "
+    + "was we were what when where which who why will with would you your about please would like just "
+    + "any some more much know need help thanks hello hi").split(" "),
+);
+
+/**
+ * Every word the site itself uses — cue vocabulary plus the marketplace's own
+ * nouns. A question built mostly from words outside this set is about something
+ * this site does not cover, however familiar its opening phrase looks.
+ */
+const VOCABULARY: Set<string> = (() => {
+  const v = new Set<string>();
+  const add = (s: string) => norm(s).split(" ").forEach((w) => w && v.add(w));
+  for (const t of TOPICS) t.cues.forEach(add);
+  for (const o of MARKETPLACE) {
+    add(o.name);
+    add(o.sector);
+    add(o.region);
+    add(o.country);
+    add(o.stage);
+    add(o.instrument);
+  }
+  return v;
+})();
+
+/**
+ * How much of the question the site has no words for.
+ *
+ * `score` only measures what matched; it cannot see what didn't. "What is your
+ * position on quantum tunnelling in cocoa futures" matches the cue "what is"
+ * and scores as a confident question about the company, because the remaining
+ * five words are invisible to it. Measuring the unrecognised share is what
+ * separates a question this site can answer from one that merely starts like
+ * one — and answering the second kind is exactly the confident-but-wrong
+ * behaviour that makes an assistant untrustworthy on a financial marketplace.
+ */
+/** Prefix-tolerant so "matching" is recognised by the cue word "match". Four
+ *  characters is the shortest prefix that is not an accident. */
+function isKnownWord(w: string): boolean {
+  // Crude singular, so a plural in the question meets a singular cue:
+  // countries -> country, fees -> fee. Not a stemmer, and does not need to be
+  // — a word wrongly treated as known only softens the guard, it cannot invent
+  // an answer.
+  const singular = w.endsWith("ies")
+    ? `${w.slice(0, -3)}y`
+    : w.endsWith("es")
+      ? w.slice(0, -2)
+      : w.endsWith("s")
+        ? w.slice(0, -1)
+        : w;
+  if (VOCABULARY.has(w) || VOCABULARY.has(singular)) return true;
+  for (const v of VOCABULARY) {
+    if (v.length >= 4 && (w.startsWith(v) || v.startsWith(w))) return true;
+  }
+  return false;
+}
+
+function foreignShare(n: string): { ratio: number; count: number; content: number } {
+  const content = n.split(" ").filter((w) => w && !STOPWORDS.has(w));
+  if (content.length === 0) return { ratio: 0, count: 0, content: 0 };
+  const foreign = content.filter((w) => !isKnownWord(w));
+  return { ratio: foreign.length / content.length, count: foreign.length, content: content.length };
+}
+
 export function askKwaku(question: string): KwakuReply {
   const n = norm(question);
   if (!n) {
@@ -223,9 +293,20 @@ export function askKwaku(question: string): KwakuReply {
     }
   }
 
-  // Two-word phrase matches (score >= 4) are strong. A single generic word is
-  // not enough to answer on — that is the case that should reach a person.
-  if (best && bestScore >= 2) {
+  // A single cue word is now enough to answer on, because the unrecognised
+  // share below is what actually decides. Requiring two used to send "how do i
+  // contact you" and "how does matching work" to a person — questions the site
+  // answers on its own pages, where a handover is just a slow way of saying
+  // something Kwaku already knew.
+  //
+  // What blocks an answer instead is a question built mostly from words the
+  // site has never heard of, however familiar its opening phrase looks. Erring
+  // towards a person costs a reply; erring the other way means answering a
+  // question nobody asked while appearing to have understood it.
+  const foreign = foreignShare(n);
+  const mostlyUnknown = foreign.content >= 2 && foreign.ratio >= 0.6 && foreign.count >= 2;
+
+  if (best && bestScore >= 1 && !mostlyUnknown) {
     return { confident: true, answer: best.answer(), links: best.links };
   }
 
