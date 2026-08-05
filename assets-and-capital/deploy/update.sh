@@ -29,18 +29,23 @@ COMMIT="$(git -C "$AC/repo" rev-parse --short HEAD)"
 
 say "Installing dependencies (commit $COMMIT)"
 cd "$APP"
+# The build is not env-free: Next statically collects /insights/[slug] during
+# `next build`, which queries Postgres through Prisma. So the production env
+# must be loaded BEFORE building — locally the app dir's own .env masks this,
+# which is exactly how it slipped through the first deploy.
+set -a; source "$AC/shared/.env"; set +a
 # postinstall runs `prisma generate`; the schema needs no database for that.
 npm ci --no-audit --no-fund
 
+say "Applying database migrations"
+# Before the build (the build reads these tables — on a fresh database they
+# would not exist yet) and before the swap (a failed migration must leave the
+# currently-running release untouched). migrate deploy is additive-only and
+# refuses destructive drift — the right failure mode for production.
+npx prisma migrate deploy
+
 say "Building"
 NODE_OPTIONS=--max-old-space-size=2048 npm run build
-
-say "Applying database migrations"
-# migrate deploy is additive-only and refuses destructive drift — the right
-# failure mode for production. Runs BEFORE the swap so a failed migration
-# leaves the currently-running release untouched.
-set -a; source "$AC/shared/.env"; set +a
-npx prisma migrate deploy
 
 say "Assembling release"
 TS="$(date +%Y%m%d-%H%M%S)-$COMMIT"
