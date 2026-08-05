@@ -32,12 +32,16 @@ export async function middleware(req: NextRequest) {
       if (pathname.startsWith("/api/")) {
         return NextResponse.json({ error: "Site is not yet public." }, { status: 503 });
       }
-      // Rewrite, not redirect: the visitor's URL is preserved, so after entering
-      // the code they land where they were originally headed, and the gate never
-      // advertises which paths exist.
+      // Redirect rather than rewrite. A rewrite looks tidier (the visitor's URL
+      // is preserved) but breaks behind a TLS-terminating proxy: nextUrl carries
+      // the external https scheme while the app listens on plain http, so Next
+      // resolves the rewrite to an absolute https://localhost:3000/… and fails
+      // trying to TLS-proxy to itself. Locally, over http, it works — which is
+      // precisely why this only appeared in production.
       const url = req.nextUrl.clone();
       url.pathname = "/coming-soon";
-      const res = NextResponse.rewrite(url);
+      url.search = "";
+      const res = NextResponse.redirect(url);
       res.headers.set("X-Robots-Tag", "noindex, nofollow");
       return res;
     }

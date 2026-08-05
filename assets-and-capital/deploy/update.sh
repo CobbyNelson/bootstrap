@@ -77,6 +77,21 @@ for i in $(seq 1 20); do
   if curl -fsS -o /dev/null http://127.0.0.1:3000/; then ok=1; break; fi
 done
 
+# Then check again THROUGH the public URL. Hitting the app directly over http
+# misses anything that only breaks behind TLS termination — a middleware
+# rewrite resolving to an absolute https:// URL passed the loopback check above
+# and still served 500 to every real visitor. If a public hostname is
+# configured, it is the check that actually represents a user.
+if [[ -n "$ok" ]]; then
+  PUBLIC_HOST="$(grep -oE '^[a-z0-9.-]+' /etc/caddy/Caddyfile | head -1 || true)"
+  if [[ -n "$PUBLIC_HOST" ]]; then
+    if ! curl -fsS -o /dev/null --max-time 20 "https://$PUBLIC_HOST/"; then
+      echo "✗ app answers on loopback but fails through https://$PUBLIC_HOST" >&2
+      ok=""
+    fi
+  fi
+fi
+
 if [[ -z "$ok" ]]; then
   echo "✗ new release failed its health check" >&2
   if [[ -n "$PREVIOUS" && -d "$PREVIOUS" ]]; then
