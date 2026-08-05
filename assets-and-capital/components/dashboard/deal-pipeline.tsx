@@ -139,7 +139,7 @@ export function DealPipeline() {
                         <span className="text-[0.72rem] font-medium text-ink tnum">{money(d.ticketM)}</span>
                         <span className="flex items-center gap-1.5 text-[0.65rem] text-ink/60">
                           {d.days}d
-                          <span className="grid h-5 w-5 place-items-center rounded-full bg-gradient-to-br from-ink to-ink-2 text-[0.55rem] font-semibold text-white">{d.owner}</span>
+                          <span className="grid h-5 w-5 place-items-center rounded-full bg-ink text-[0.55rem] font-semibold text-white">{d.owner}</span>
                         </span>
                       </div>
                     </div>
@@ -179,7 +179,7 @@ export function DealPipeline() {
                     <td className="px-5 py-3 text-right font-medium text-emerald-700 tnum">{d.score}</td>
                     <td className="px-5 py-3 text-right text-ink/60 tnum">{d.days}d</td>
                     <td className="px-5 py-3">
-                      <span className="grid h-6 w-6 place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-[0.6rem] font-semibold text-white">{d.owner}</span>
+                      <span className="grid h-6 w-6 place-items-center rounded-[var(--radius-button)] bg-ink text-[0.6rem] font-semibold text-white">{d.owner}</span>
                     </td>
                   </tr>
                 );

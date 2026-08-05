@@ -163,7 +163,12 @@ body {
     line-height: var(--leading-heading);
     letter-spacing: var(--tracking-heading);
     text-wrap: balance;
-    color: var(--color-navy-700);
+    /* `currentColor`, not a fixed navy. As a direct element rule a hard colour
+       beat the inherited `text-white` of every dark panel, so headings inside
+       them rendered navy-on-near-black — about 1.4:1, effectively invisible.
+       Inheriting means a heading takes its container's colour and the default
+       still resolves to navy through body text. */
+    color: inherit;
   }
   /* Defaults for headings that don't set their own size utility. */
   h1 {
@@ -467,7 +472,9 @@ body {
 .dark .to-ink\/25 { --tw-gradient-to: rgb(16 20 28 / 0.25); }
 
 /* --- navy / brand in their TEXT roles ------------------------------- */
-.dark :is(h1, h2, h3, h4, h5, h6) { color: #dce4f2; }
+/* Headings inherit, so give the light and dark canvases their default. */
+:is(h1, h2, h3, h4, h5, h6):not([class*="text-"]) { color: var(--color-navy-700); }
+.dark :is(h1, h2, h3, h4, h5, h6):not([class*="text-"]) { color: #dce4f2; }
 /* Two logo files, one shown per theme. The reversed artwork flips only the
    black to white and keeps the red mark, which a CSS filter cannot do —
    brightness(0)+invert() turns the whole logo into a white silhouette. */

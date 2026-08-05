@@ -103,7 +103,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           />
 
           <div className="mt-12 flex items-center gap-4 rounded-3xl border border-ink/[0.07] bg-paper-2/50 p-6">
-            <span className="grid h-12 w-12 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-sm font-semibold text-white">
+            <span className="grid h-12 w-12 flex-none place-items-center rounded-[var(--radius-button)] bg-ink text-sm font-semibold text-white">
               {a.author.split(" ").slice(0, 2).map((w) => w[0]).join("")}
             </span>
             <div>

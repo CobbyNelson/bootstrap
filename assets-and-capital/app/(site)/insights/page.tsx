@@ -51,7 +51,7 @@ export default async function InsightsPage() {
       <section className="pb-20">
         <div className="container-x">
           <Reveal>
-            <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-ink to-ink-2 px-8 py-12 text-center text-white md:px-16 md:py-14">
+            <div className="relative overflow-hidden rounded-[2rem] bg-ink px-8 py-12 text-center text-white md:px-16 md:py-14">
               <div className="grid-noise pointer-events-none absolute inset-0 opacity-20" aria-hidden />
               <div className="relative mx-auto max-w-xl">
                 <h2 className="font-display text-2xl font-semibold md:text-3xl">The Assets &amp; Capital briefing</h2>

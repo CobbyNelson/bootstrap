@@ -84,7 +84,7 @@ function ComparisonTable({ opps }: { opps: NonNullable<ReturnType<typeof getOppo
           {cols.map((c) => (
             <div key={c.o.name} className="px-3">
               <div className="overflow-hidden rounded-2xl border border-ink/[0.07] bg-white">
-                <div className="grid h-24 place-items-center bg-gradient-to-br from-navy-700 to-navy-900">
+                <div className="grid h-24 place-items-center bg-navy-700">
                   <span className="font-display text-2xl font-extrabold text-white/90">{initials(c.o.name)}</span>
                 </div>
                 <div className="p-3">

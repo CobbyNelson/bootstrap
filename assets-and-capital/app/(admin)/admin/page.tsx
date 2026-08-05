@@ -133,7 +133,7 @@ export default function AdminOverview() {
                   <tr key={b.name}>
                     <td className="py-3">
                       <div className="flex items-center gap-3">
-                        <span className="grid h-9 w-9 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-brand-600 to-brand-800 text-[0.7rem] font-semibold text-white">
+                        <span className="grid h-9 w-9 flex-none place-items-center rounded-[var(--radius-button)] bg-brand-600 text-[0.7rem] font-semibold text-white">
                           {initials(b.name)}
                         </span>
                         <div className="min-w-0">

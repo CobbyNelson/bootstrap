@@ -57,7 +57,7 @@ export function Meetings() {
       </div>
 
       {live && (
-        <div className="overflow-hidden rounded-3xl border border-brand-200 bg-gradient-to-br from-brand-600 to-brand-800 p-6 text-white">
+        <div className="overflow-hidden rounded-3xl border border-brand-200 bg-brand-600 p-6 text-white">
           <div className="flex flex-wrap items-center gap-4">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-medium">
               <span className="h-2 w-2 animate-pulse rounded-full bg-white" /> Live now

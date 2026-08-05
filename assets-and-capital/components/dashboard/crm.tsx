@@ -137,7 +137,7 @@ export function CRM() {
                     <tr key={c.id} className="group border-b border-ink/[0.04] last:border-0 hover:bg-paper-2/40">
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
-                          <span className="grid h-9 w-9 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-[0.7rem] font-semibold text-white">{initials(c.name)}</span>
+                          <span className="grid h-9 w-9 flex-none place-items-center rounded-[var(--radius-button)] bg-ink text-[0.7rem] font-semibold text-white">{initials(c.name)}</span>
                           <div className="min-w-0">
                             <div className="flex items-center gap-1.5">
                               {c.starred && <Star className="h-3 w-3 flex-none fill-navy-500 text-navy-500" />}
@@ -170,7 +170,7 @@ export function CRM() {
                       {items.map((c) => (
                         <div key={c.id} className="rounded-xl border border-ink/[0.06] bg-white p-3">
                           <div className="flex items-center gap-2">
-                            <span className="grid h-7 w-7 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-[0.6rem] font-semibold text-white">{initials(c.name)}</span>
+                            <span className="grid h-7 w-7 flex-none place-items-center rounded-[var(--radius-button)] bg-ink text-[0.6rem] font-semibold text-white">{initials(c.name)}</span>
                             <p className="truncate text-sm font-medium text-ink">{c.name}</p>
                           </div>
                           <p className="mt-1.5 truncate text-xs text-ink/65">{c.org}</p>

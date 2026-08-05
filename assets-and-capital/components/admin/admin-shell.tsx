@@ -81,7 +81,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
         {/* profile */}
         <div className="relative mx-3 mb-2 flex items-center gap-3 rounded-2xl bg-white/[0.06] p-3">
-          <span className="grid h-11 w-11 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-brand-500 to-brand-800 text-sm font-semibold text-white ring-2 ring-brand-500/60 ring-offset-2 ring-offset-navy-900">
+          <span className="grid h-11 w-11 flex-none place-items-center rounded-[var(--radius-button)] bg-brand-500 text-sm font-semibold text-white ring-2 ring-brand-500/60 ring-offset-2 ring-offset-navy-900">
             PA
           </span>
           <div className="min-w-0">
@@ -101,7 +101,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           <div className="flex items-center">
             <div className="flex -space-x-2">
               {TEAM.map((t) => (
-                <span key={t} className="grid h-8 w-8 place-items-center rounded-full border-2 border-navy-900 bg-gradient-to-br from-brand-500 to-brand-800 text-[0.6rem] font-semibold text-white">
+                <span key={t} className="grid h-8 w-8 place-items-center rounded-full border-2 border-navy-900 bg-brand-500 text-[0.6rem] font-semibold text-white">
                   {t}
                 </span>
               ))}
@@ -176,7 +176,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-600" />
             </button>
             <div className="flex items-center gap-2.5 rounded-[var(--radius-button)] border border-ink/10 bg-white py-1 pl-1 pr-3">
-              <span className="grid h-8 w-8 place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-brand-600 to-brand-800 text-xs font-semibold text-white ring-1 ring-navy-500/50">PA</span>
+              <span className="grid h-8 w-8 place-items-center rounded-[var(--radius-button)] bg-brand-600 text-xs font-semibold text-white ring-1 ring-navy-500/50">PA</span>
               <span className="hidden leading-tight sm:block">
                 <span className="block text-xs font-medium text-ink">Platform Admin</span>
                 <span className="block text-[0.65rem] text-ink/65">Super admin</span>

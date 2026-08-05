@@ -39,7 +39,7 @@ const CONVOS: Convo[] = [
 
 function Avatar({ name, online }: { name: string; online?: boolean }) {
   return (
-    <span className="relative grid h-10 w-10 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-xs font-semibold text-white">
+    <span className="relative grid h-10 w-10 flex-none place-items-center rounded-[var(--radius-button)] bg-ink text-xs font-semibold text-white">
       {name.split(" ").slice(0, 2).map((w) => w[0]).join("")}
       {online && <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-white bg-emerald-500" />}
     </span>

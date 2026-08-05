@@ -159,7 +159,7 @@ export function AccountSettings() {
           <div className="mt-4 divide-y divide-ink/[0.05]">
             {TEAM.map((m) => (
               <div key={m.email} className="flex items-center gap-4 py-4">
-                <span className="grid h-10 w-10 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-xs font-semibold text-white">
+                <span className="grid h-10 w-10 flex-none place-items-center rounded-[var(--radius-button)] bg-ink text-xs font-semibold text-white">
                   {m.name.split(" ").slice(0, 2).map((w) => w[0]).join("")}
                 </span>
                 <div className="min-w-0 flex-1">

@@ -24,7 +24,7 @@ export function Testimonials() {
                   “{t.quote}”
                 </blockquote>
                 <figcaption className="mt-6 flex items-center gap-3 border-t border-ink/[0.06] pt-5">
-                  <span className="grid h-11 w-11 place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-sm font-semibold text-white">
+                  <span className="grid h-11 w-11 place-items-center rounded-[var(--radius-button)] bg-ink text-sm font-semibold text-white">
                     {t.name.split(" ").slice(0, 2).map((w) => w[0]).join("")}
                   </span>
                   <span>

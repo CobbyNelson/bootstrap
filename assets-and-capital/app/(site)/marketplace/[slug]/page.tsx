@@ -102,7 +102,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
           </div>
           <div className="mt-4 flex flex-wrap items-start justify-between gap-6">
             <div className="flex items-start gap-4">
-              <div className="grid h-14 w-14 flex-none place-items-center rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 text-lg font-bold text-white">
+              <div className="grid h-14 w-14 flex-none place-items-center rounded-2xl bg-brand-600 text-lg font-bold text-white">
                 {o.name.split(" ").slice(0, 2).map((w) => w[0]).join("")}
               </div>
               <div>

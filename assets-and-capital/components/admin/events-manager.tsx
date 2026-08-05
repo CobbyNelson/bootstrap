@@ -168,7 +168,7 @@ export function EventsManager() {
             <div className="space-y-1">
               {registrants.map((r, i) => (
                 <div key={i} className="flex items-center gap-3 rounded-lg px-1.5 py-2 hover:bg-paper-2/50">
-                  <span className="grid h-8 w-8 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-[0.65rem] font-semibold text-white">
+                  <span className="grid h-8 w-8 flex-none place-items-center rounded-[var(--radius-button)] bg-ink text-[0.65rem] font-semibold text-white">
                     {r.name.split(" ").slice(0, 2).map((w) => w[0]).join("")}
                   </span>
                   <div className="min-w-0 flex-1">

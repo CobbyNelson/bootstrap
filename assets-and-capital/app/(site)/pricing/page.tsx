@@ -103,19 +103,19 @@ export default async function PricingPage() {
       <section className="py-12">
         <div className="container-x">
           <Reveal>
-            <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-ink to-ink-2 px-8 py-12 text-white md:px-14 md:py-16">
+            <div className="relative overflow-hidden rounded-[2rem] bg-ink px-8 py-12 text-white md:px-14 md:py-16">
               <div className="grid-noise pointer-events-none absolute inset-0 opacity-20" aria-hidden />
               <div className="relative grid items-center gap-8 md:grid-cols-[1.4fr_1fr]">
                 <div>
-                  <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-navy-400">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[0.7rem] kicker text-white">
                     Aligned incentives
                   </span>
                   <h2 className="mt-4 font-display text-3xl font-semibold md:text-4xl">Pay a success fee only when you close</h2>
-                  <p className="mt-4 max-w-xl text-white/65">
+                  <p className="mt-4 max-w-xl text-white/75">
                     Beyond the listing fee, businesses pay a success fee on capital successfully raised through the
                     platform. Investors pay only for roadshows and partnerships they ask us to arrange.
                   </p>
-                  <Button href="/contact" variant="gold" size="lg" className="mt-7">
+                  <Button href="/contact" variant="inverse" size="md" className="mt-7">
                     Talk to our team <ArrowRight className="h-4 w-4" />
                   </Button>
                 </div>
@@ -126,7 +126,7 @@ export default async function PricingPage() {
                     { k: "Investor sign-up", v: "Free" },
                   ].map((row) => (
                     <div key={row.k} className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-4">
-                      <span className="text-sm text-white/60">{row.k}</span>
+                      <span className="text-sm text-white/70">{row.k}</span>
                       <span className="font-semibold">{row.v}</span>
                     </div>
                   ))}

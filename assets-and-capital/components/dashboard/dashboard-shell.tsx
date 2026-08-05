@@ -167,7 +167,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
               <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-600" />
             </Link>
             <div className="flex items-center gap-2.5 rounded-[var(--radius-button)] border border-ink/10 py-1 pl-1 pr-3">
-              <span className="grid h-8 w-8 place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-xs font-semibold text-white">
+              <span className="grid h-8 w-8 place-items-center rounded-[var(--radius-button)] bg-ink text-xs font-semibold text-white">
                 {person.name.split(" ").slice(0, 2).map((w) => w[0]).join("")}
               </span>
               <span className="hidden leading-tight sm:block">
