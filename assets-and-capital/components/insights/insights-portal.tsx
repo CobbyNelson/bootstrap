@@ -129,9 +129,9 @@ export function InsightsPortal({ articles }: { articles: PublicArticle[] }) {
             <div className="flex flex-1 flex-col p-6">
               <h3 className="text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-brand-700">{a.title}</h3>
               <p className="mt-2 line-clamp-2 text-sm text-ink/65">{a.excerpt}</p>
-              <div className="mt-auto flex items-center justify-between pt-6 text-xs text-ink/65">
+              <div className="mt-auto flex items-center justify-between pt-6 text-xs font-medium text-brand-600">
                 <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> {a.readTime} · {a.date}</span>
-                <ArrowUpRight className="h-4 w-4 transition-all group-hover:translate-x-0.5 group- group-hover:text-brand-600" />
+                <ArrowUpRight className="h-4 w-4 text-brand-600 transition-transform group-hover:translate-x-0.5" />
               </div>
             </div>
           </Link>

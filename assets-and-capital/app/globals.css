@@ -73,7 +73,7 @@
   --tracking-display: -0.03em;
   --tracking-heading: -0.02em;
   --tracking-body: 0em;
-  --tracking-kicker: 0.18em;
+  --tracking-kicker: 0.08em; /* tightened — 0.18em read as gappy at label sizes */
 
   /* Leading */
   --leading-display: 1.04;

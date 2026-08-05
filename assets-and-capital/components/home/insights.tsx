@@ -60,10 +60,10 @@ export function Insights({ articles }: { articles: PublicArticle[] }) {
                     {post.title}
                   </h3>
                   <div className="mt-auto flex items-center justify-between pt-6">
-                    <span className="inline-flex items-center gap-1.5 text-xs text-ink/65">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-brand-600">
                       <Clock className="h-3.5 w-3.5" /> {post.readTime} · {post.date}
                     </span>
-                    <CircleArrow tone="ink" size="sm" />
+                    <CircleArrow tone="brand" size="sm" />
                   </div>
                 </div>
               </Link>
