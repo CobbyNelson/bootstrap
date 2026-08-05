@@ -16,6 +16,20 @@
 set -euo pipefail
 
 AC=/srv/ac
+
+# ---------------------------------------------------------------- deploy lock
+# Only one deploy may touch the build workspace at a time. Pushing to the branch
+# triggers the GitHub Actions deploy, so a manual `update.sh` run started in the
+# same minute races it: both `rm -rf node_modules` and `npm ci` in the same
+# directory, and the loser dies with "Directory not empty" mid-install.
+#
+# Waits rather than aborts — a queued deploy still ships the newer commit, while
+# a refusal would leave whoever pushed last thinking their change went out.
+exec 9>/tmp/ac-deploy.lock
+if ! flock -n 9; then
+  echo "-- another deploy is running; waiting for it to finish…"
+  flock 9
+fi
 BRANCH="${BRANCH:-claude/web-finance-software-planning-txpczi}"
 APP="$AC/repo/assets-and-capital"
 KEEP_RELEASES=5
