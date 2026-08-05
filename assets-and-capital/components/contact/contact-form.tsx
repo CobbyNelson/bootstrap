@@ -21,6 +21,20 @@ function validate(v: Values): Errors {
   return e;
 }
 
+/**
+ * Field error. Lives at module scope on purpose: defined inside ContactForm it
+ * was a new component type on every render, so React unmounted and remounted
+ * the message on each keystroke rather than updating it in place.
+ */
+function FieldError({ id, message }: { id: string; message?: string }) {
+  if (!message) return null;
+  return (
+    <p id={id} role="alert" className="mt-1.5 flex items-center gap-1 text-xs font-medium text-brand-600">
+      <AlertCircle className="h-3.5 w-3.5" /> {message}
+    </p>
+  );
+}
+
 export function ContactForm() {
   const [values, setValues] = useState<Values>(EMPTY);
   const [errors, setErrors] = useState<Errors>({});
@@ -69,46 +83,39 @@ export function ContactForm() {
     );
   }
 
-  function Err({ f }: { f: Field }) {
-    if (!errors[f] || !touched[f]) return null;
-    return (
-      <p className="mt-1.5 flex items-center gap-1 text-xs font-medium text-brand-600">
-        <AlertCircle className="h-3.5 w-3.5" /> {errors[f]}
-      </p>
-    );
-  }
+  const errorFor = (f: Field) => (touched[f] ? errors[f] : undefined);
 
   return (
     <form onSubmit={onSubmit} noValidate className="grid gap-4 sm:grid-cols-2">
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-ink/80">Full name</label>
-        <input value={values.name} onChange={set("name")} onBlur={blur("name")} className={cls("name")} placeholder="Jane Doe" />
-        <Err f="name" />
+        <label htmlFor="contact-name" className="mb-1.5 block text-sm font-medium text-ink/80">Full name</label>
+        <input id="contact-name" value={values.name} onChange={set("name")} onBlur={blur("name")} className={cls("name")} placeholder="Jane Doe" aria-invalid={!!errorFor("name")} aria-describedby={errorFor("name") ? "contact-name-error" : undefined} />
+        <FieldError id="contact-name-error" message={errorFor("name")} />
       </div>
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-ink/80">Email</label>
-        <input type="email" value={values.email} onChange={set("email")} onBlur={blur("email")} className={cls("email")} placeholder="you@company.com" />
-        <Err f="email" />
+        <label htmlFor="contact-email" className="mb-1.5 block text-sm font-medium text-ink/80">Email</label>
+        <input id="contact-email" type="email" value={values.email} onChange={set("email")} onBlur={blur("email")} className={cls("email")} placeholder="you@company.com" aria-invalid={!!errorFor("email")} aria-describedby={errorFor("email") ? "contact-email-error" : undefined} />
+        <FieldError id="contact-email-error" message={errorFor("email")} />
       </div>
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-ink/80">Company</label>
-        <input value={values.company} onChange={set("company")} className={cls("company")} placeholder="Company name" />
+        <label htmlFor="contact-company" className="mb-1.5 block text-sm font-medium text-ink/80">Company</label>
+        <input id="contact-company" value={values.company} onChange={set("company")} className={cls("company")} placeholder="Company name" />
       </div>
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-ink/80">I am a(n)</label>
-        <select value={values.role} onChange={set("role")} onBlur={blur("role")} className={cls("role")}>
+        <label htmlFor="contact-role" className="mb-1.5 block text-sm font-medium text-ink/80">I am a(n)</label>
+        <select id="contact-role" aria-invalid={!!errorFor("role")} aria-describedby={errorFor("role") ? "contact-role-error" : undefined} value={values.role} onChange={set("role")} onBlur={blur("role")} className={cls("role")}>
           <option value="" disabled>Select…</option>
           <option>Investor</option>
           <option>Business seeking capital</option>
           <option>Partner / advisor</option>
           <option>Other</option>
         </select>
-        <Err f="role" />
+        <FieldError id="contact-role-error" message={errorFor("role")} />
       </div>
       <div className="sm:col-span-2">
-        <label className="mb-1.5 block text-sm font-medium text-ink/80">How can we help?</label>
-        <textarea value={values.message} onChange={set("message")} onBlur={blur("message")} rows={4} className={cn(cls("message"), "resize-y")} placeholder="Tell us a little about what you're looking for…" />
-        <Err f="message" />
+        <label htmlFor="contact-message" className="mb-1.5 block text-sm font-medium text-ink/80">How can we help?</label>
+        <textarea id="contact-message" aria-invalid={!!errorFor("message")} aria-describedby={errorFor("message") ? "contact-message-error" : undefined} value={values.message} onChange={set("message")} onBlur={blur("message")} rows={4} className={cn(cls("message"), "resize-y")} placeholder="Tell us a little about what you're looking for…" />
+        <FieldError id="contact-message-error" message={errorFor("message")} />
       </div>
       {status === "error" && (
         <div className="sm:col-span-2 flex items-center gap-2 rounded-xl border border-brand-200 bg-brand-50 px-3.5 py-2.5 text-sm font-medium text-brand-700">

@@ -20,10 +20,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
   return (
     <div className="pt-32 pb-20 md:pt-40">
       <div className="container-x">
-        <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/70 px-3 py-1 text-[0.7rem] kicker text-brand-700">
-          <Scale className="h-3.5 w-3.5" /> Compare
-        </span>
-        <h1 className="mt-4 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
+        <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
           <span className="text-navy-700">Compare </span>
           <span className="text-brand-600">opportunities.</span>
         </h1>

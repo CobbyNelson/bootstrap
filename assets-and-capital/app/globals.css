@@ -88,6 +88,18 @@
   --animate-marquee: marquee 34s linear infinite;
   --animate-marquee-slow: marquee 60s linear infinite;
 
+  /* ---------- motion ----------
+     One curve for the whole app. Tailwind's default transition curve is
+     cubic-bezier(0.4, 0, 0.2, 1) — symmetric ease-in-out, which reads as
+     mechanical: the element accelerates away from the pointer as much as it
+     settles. Real objects decelerate. Overriding the default here upgrades
+     every `transition-*` utility that does not name its own curve (143 of
+     them at time of writing) instead of editing each call site, and it matches
+     the curve Button and the scroll reveals already use, so the whole surface
+     shares one motion signature. */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --default-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+
   --shadow-soft: 0 1px 2px rgba(12, 13, 16, 0.04), 0 8px 24px -12px rgba(12, 13, 16, 0.12);
   --shadow-card: 0 1px 3px rgba(12, 13, 16, 0.05), 0 20px 40px -24px rgba(12, 13, 16, 0.22);
   --shadow-lift: 0 2px 6px rgba(12, 13, 16, 0.06), 0 30px 60px -28px rgba(12, 13, 16, 0.30);

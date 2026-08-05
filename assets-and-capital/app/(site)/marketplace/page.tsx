@@ -56,15 +56,7 @@ export default async function MarketplacePage() {
           aria-hidden
         />
         <div className="container-x relative">
-          <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/70 px-3 py-1 text-[0.7rem] kicker text-brand-700 backdrop-blur">
-            <span className="flex items-center gap-0.5" aria-hidden>
-              <span className="h-1.5 w-1.5 rounded-full bg-navy-600" />
-              <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
-            </span>
-            Marketplace
-          </span>
-
-          <h1 className="mt-5 max-w-3xl font-display text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-5xl md:text-[3.6rem]">
+          <h1 className="max-w-3xl font-display text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-5xl md:text-[3.6rem]">
             <span className="text-navy-700">Explore top </span>
             <span className="text-brand-600">businesses.</span>
           </h1>

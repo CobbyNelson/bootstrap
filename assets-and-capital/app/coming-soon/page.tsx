@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { UnlockForm } from "@/components/site-lock/unlock-form";
 
 export const metadata: Metadata = {
@@ -66,9 +67,9 @@ export default function ComingSoonPage() {
             fails WCAG AA (4.5:1). /60 lands around 6:1. */}
         <p className="mt-12 text-xs text-white/60">
           © {new Date().getFullYear()} Assets &amp; Capital Ltd ·{" "}
-          <a href="/legal/privacy" className="underline underline-offset-4 hover:text-white">
+          <Link href="/legal/privacy" className="underline underline-offset-4 hover:text-white">
             Privacy
-          </a>
+          </Link>
         </p>
       </div>
     </main>
