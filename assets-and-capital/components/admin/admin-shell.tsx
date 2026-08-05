@@ -40,14 +40,14 @@ function AdminNavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?
             href={item.href}
             onClick={onNavigate}
             className={cn(
-              "flex items-center gap-3 rounded-full px-4 py-2.5 label-cta text-[0.68rem] transition-colors",
+              "flex items-center gap-3 rounded-[var(--radius-button)] px-4 py-2.5 label-cta text-[0.68rem] transition-colors",
               active ? "bg-paper text-navy-900 shadow-sm" : "text-white/60 hover:bg-white/[0.06] hover:text-white"
             )}
           >
             <item.icon className={cn("h-4 w-4", active ? "text-brand-600" : "text-navy-300")} />
             <span className="flex-1">{item.label}</span>
             {item.badge && (
-              <span className="rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold text-white">{item.badge}</span>
+              <span className="rounded-[var(--radius-button)] bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold text-white">{item.badge}</span>
             )}
           </Link>
         );
@@ -81,7 +81,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
         {/* profile */}
         <div className="relative mx-3 mb-2 flex items-center gap-3 rounded-2xl bg-white/[0.06] p-3">
-          <span className="grid h-11 w-11 flex-none place-items-center rounded-full bg-gradient-to-br from-brand-500 to-brand-800 text-sm font-semibold text-white ring-2 ring-brand-500/60 ring-offset-2 ring-offset-navy-900">
+          <span className="grid h-11 w-11 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-brand-500 to-brand-800 text-sm font-semibold text-white ring-2 ring-brand-500/60 ring-offset-2 ring-offset-navy-900">
             PA
           </span>
           <div className="min-w-0">
@@ -106,7 +106,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 </span>
               ))}
             </div>
-            <span className="ml-2 grid h-8 items-center rounded-full bg-navy-500 px-2 text-[0.65rem] font-semibold text-white">+12</span>
+            <span className="ml-2 grid h-8 items-center rounded-[var(--radius-button)] bg-navy-500 px-2 text-[0.65rem] font-semibold text-white">+12</span>
           </div>
           <Link href="/" className="mt-4 flex items-center gap-2 text-sm font-medium text-white/70 hover:text-white">
             <ArrowLeft className="h-4 w-4" /> Back to site
@@ -129,7 +129,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 <Logo invert />
                 <span className="rounded-md bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-white">Admin</span>
               </div>
-              <button onClick={() => setMobileOpen(false)} className="grid h-9 w-9 place-items-center rounded-full text-white/70 hover:bg-white/10" aria-label="Close menu">
+              <button onClick={() => setMobileOpen(false)} className="grid h-9 w-9 place-items-center rounded-[var(--radius-button)] text-white/70 hover:bg-white/10" aria-label="Close menu">
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -151,7 +151,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           <button
             type="button"
             onClick={() => setMobileOpen(true)}
-            className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-paper-2 lg:hidden"
+            className="grid h-10 w-10 place-items-center rounded-[var(--radius-button)] text-ink/70 hover:bg-paper-2 lg:hidden"
             aria-label="Open menu"
           >
             <Menu className="h-5 w-5" />
@@ -161,18 +161,18 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             <button
               type="button"
               onClick={() => window.dispatchEvent(new Event("ac-open-search"))}
-              className="hidden items-center gap-2 rounded-full border border-ink/10 bg-white/70 px-3.5 py-2 text-sm text-ink/65 transition-colors hover:border-ink/20 hover:text-ink/70 sm:flex"
+              className="hidden items-center gap-2 rounded-[var(--radius-button)] border border-ink/10 bg-white/70 px-3.5 py-2 text-sm text-ink/65 transition-colors hover:border-ink/20 hover:text-ink/70 sm:flex"
             >
               <Search className="h-4 w-4" /><span className="w-36 text-left">Search admin…</span>
               <kbd className="rounded border border-ink/15 px-1.5 text-[0.65rem] text-ink/60">⌘K</kbd>
             </button>
             <ThemeToggle />
-            <button className="relative grid h-10 w-10 place-items-center rounded-full border border-ink/10 bg-white text-ink/60 hover:text-ink" aria-label="Notifications">
+            <button className="relative grid h-10 w-10 place-items-center rounded-[var(--radius-button)] border border-ink/10 bg-white text-ink/60 hover:text-ink" aria-label="Notifications">
               <Bell className="h-[18px] w-[18px]" />
               <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-600" />
             </button>
-            <div className="flex items-center gap-2.5 rounded-full border border-ink/10 bg-white py-1 pl-1 pr-3">
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-xs font-semibold text-white ring-1 ring-navy-500/50">PA</span>
+            <div className="flex items-center gap-2.5 rounded-[var(--radius-button)] border border-ink/10 bg-white py-1 pl-1 pr-3">
+              <span className="grid h-8 w-8 place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-brand-600 to-brand-800 text-xs font-semibold text-white ring-1 ring-navy-500/50">PA</span>
               <span className="hidden leading-tight sm:block">
                 <span className="block text-xs font-medium text-ink">Platform Admin</span>
                 <span className="block text-[0.65rem] text-ink/65">Super admin</span>

@@ -105,7 +105,7 @@ export function GalleryCard({
       <div className="mb-3 flex items-center justify-between gap-2">
         <h2 className="text-sm font-semibold text-ink">Gallery</h2>
         {images.length === 0 && (
-          <span className="rounded-full bg-paper-2 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-wide text-ink/50">
+          <span className="rounded-[var(--radius-button)] bg-paper-2 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-wide text-ink/50">
             Sector default
           </span>
         )}
@@ -187,7 +187,7 @@ export function GalleryCard({
                       title="Set as featured"
                       aria-label="Set as featured"
                       onClick={() => feature(img.id)}
-                      className="grid h-6 w-6 place-items-center rounded-full bg-white text-ink hover:bg-brand-50"
+                      className="grid h-6 w-6 place-items-center rounded-[var(--radius-button)] bg-white text-ink hover:bg-brand-50"
                     >
                       <Star className="h-3 w-3" />
                     </button>
@@ -197,7 +197,7 @@ export function GalleryCard({
                     title="Remove from gallery"
                     aria-label="Remove from gallery"
                     onClick={() => removeImage(img.id)}
-                    className="grid h-6 w-6 place-items-center rounded-full bg-white text-ink hover:text-brand-700"
+                    className="grid h-6 w-6 place-items-center rounded-[var(--radius-button)] bg-white text-ink hover:text-brand-700"
                   >
                     <X className="h-3 w-3" />
                   </button>

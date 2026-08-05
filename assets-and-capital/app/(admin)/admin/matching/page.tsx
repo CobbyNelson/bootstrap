@@ -49,10 +49,10 @@ export default function AdminMatchingPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={reset} className="inline-flex items-center gap-2 rounded-full border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/70 hover:border-ink/25">
+          <button onClick={reset} className="inline-flex items-center gap-2 rounded-[var(--radius-button)] border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/70 hover:border-ink/25">
             <RotateCcw className="h-4 w-4" /> Reset
           </button>
-          <button onClick={save} className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
+          <button onClick={save} className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
             {saved ? <><Check className="h-4 w-4" /> Saved</> : <><Save className="h-4 w-4" /> Save weights</>}
           </button>
         </div>

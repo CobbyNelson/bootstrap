@@ -119,7 +119,7 @@ export function InvestorPlans({
             )}
           >
             {p.featured && (
-              <span className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-brand-600 px-3 py-1 text-xs font-semibold text-white">
+              <span className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-[var(--radius-button)] bg-brand-600 px-3 py-1 text-xs font-semibold text-white">
                 <Sparkles className="h-3 w-3" /> Most popular
               </span>
             )}
@@ -137,7 +137,7 @@ export function InvestorPlans({
               disabled={current}
               onClick={() => choose(p)}
               className={cn(
-                "mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition-colors",
+                "mt-6 inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius-button)] py-3 text-sm font-semibold transition-colors",
                 current
                   ? "cursor-default border border-ink/12 bg-paper-2 text-ink/60"
                   : p.featured

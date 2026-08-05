@@ -146,7 +146,7 @@ export function BusinessIntake() {
             Thank you. Our team will review your business and reach out to confirm your listing and any services you
             selected. We&apos;ll then start putting your opportunity in front of the right investors.
           </p>
-          <Link href="/marketplace" className="mt-7 inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-medium text-white hover:bg-brand-700">
+          <Link href="/marketplace" className="mt-7 inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-6 py-3 text-sm font-medium text-white hover:bg-brand-700">
             See the marketplace <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -169,7 +169,7 @@ export function BusinessIntake() {
             const state = i < stepIndex ? "done" : i === stepIndex ? "now" : "todo";
             return (
               <li key={s.id} className={cn("flex items-center gap-3 rounded-xl px-3 py-2 text-sm", state === "now" ? "bg-brand-50 font-medium text-ink" : "text-ink/65")}>
-                <span className={cn("grid h-6 w-6 place-items-center rounded-full text-xs", state === "done" && "bg-emerald-500 text-white", state === "now" && "bg-brand-600 text-white", state === "todo" && "border border-ink/20 text-ink/60")}>
+                <span className={cn("grid h-6 w-6 place-items-center rounded-[var(--radius-button)] text-xs", state === "done" && "bg-emerald-500 text-white", state === "now" && "bg-brand-600 text-white", state === "todo" && "border border-ink/20 text-ink/60")}>
                   {state === "done" ? <Check className="h-3.5 w-3.5" /> : i + 1}
                 </span>
                 {s.title}
@@ -186,7 +186,7 @@ export function BusinessIntake() {
               <h2 className="font-display text-2xl font-semibold text-navy-700">{step.title}</h2>
               {step.subtitle && <p className="mt-1.5 text-sm text-ink/65">{step.subtitle}</p>}
             </div>
-            <span className={cn("inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs transition-opacity", saved ? "bg-emerald-50 text-emerald-700 opacity-100" : "text-ink/30 opacity-0")}>
+            <span className={cn("inline-flex items-center gap-1.5 rounded-[var(--radius-button)] px-2.5 py-1 text-xs transition-opacity", saved ? "bg-emerald-50 text-emerald-700 opacity-100" : "text-ink/30 opacity-0")}>
               <Cloud className="h-3.5 w-3.5" /> Saved
             </span>
           </div>
@@ -208,7 +208,7 @@ export function BusinessIntake() {
                       {f.options!.map((opt) => {
                         const on = Array.isArray(val) && val.includes(opt);
                         return (
-                          <button key={opt} type="button" onClick={() => toggleChip(f.name, opt)} className={cn("rounded-full border px-3.5 py-1.5 text-sm transition-colors", on ? "border-brand-600 bg-brand-50 text-brand-700" : "border-ink/12 text-ink/60 hover:border-ink/25")}>
+                          <button key={opt} type="button" onClick={() => toggleChip(f.name, opt)} className={cn("rounded-[var(--radius-button)] border px-3.5 py-1.5 text-sm transition-colors", on ? "border-brand-600 bg-brand-50 text-brand-700" : "border-ink/12 text-ink/60 hover:border-ink/25")}>
                             {opt}
                           </button>
                         );
@@ -246,10 +246,10 @@ export function BusinessIntake() {
           )}
 
           <div className="mt-8 flex items-center justify-between border-t border-ink/[0.06] pt-6">
-            <button onClick={() => setStepIndex((i) => Math.max(0, i - 1))} disabled={stepIndex === 0} className="inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium text-ink/60 hover:text-ink disabled:opacity-40">
+            <button onClick={() => setStepIndex((i) => Math.max(0, i - 1))} disabled={stepIndex === 0} className="inline-flex items-center gap-2 rounded-[var(--radius-button)] px-4 py-2.5 text-sm font-medium text-ink/60 hover:text-ink disabled:opacity-40">
               <ArrowLeft className="h-4 w-4" /> Back
             </button>
-            <button onClick={next} disabled={isLast && !consent} className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-50">
+            <button onClick={next} disabled={isLast && !consent} className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-50">
               {isLast ? "Submit listing" : "Continue"} <ArrowRight className="h-4 w-4" />
             </button>
           </div>

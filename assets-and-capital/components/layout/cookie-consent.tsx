@@ -146,14 +146,14 @@ export function CookieConsent() {
         <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-end">
           <button
             onClick={() => setDetail((d) => !d)}
-            className="rounded-full px-4 py-2 text-sm font-medium text-ink/70 underline-offset-2 transition-colors hover:text-ink hover:underline"
+            className="rounded-[var(--radius-button)] px-4 py-2 text-sm font-medium text-ink/70 underline-offset-2 transition-colors hover:text-ink hover:underline"
           >
             {detail ? "Hide options" : "Manage options"}
           </button>
           {detail && (
             <button
               onClick={() => decide(analytics, marketing)}
-              className="rounded-full border border-ink/15 px-4 py-2 text-sm font-medium text-ink/80 transition-colors hover:border-ink/30"
+              className="rounded-[var(--radius-button)] border border-ink/15 px-4 py-2 text-sm font-medium text-ink/80 transition-colors hover:border-ink/30"
             >
               Save choices
             </button>
@@ -162,13 +162,13 @@ export function CookieConsent() {
               "accept" than "reject" is a dark pattern regulators call out. */}
           <button
             onClick={() => decide(false, false)}
-            className="rounded-full border border-ink/15 px-5 py-2 text-sm font-semibold text-ink/80 transition-colors hover:border-ink/30"
+            className="rounded-[var(--radius-button)] border border-ink/15 px-5 py-2 text-sm font-semibold text-ink/80 transition-colors hover:border-ink/30"
           >
             Reject all
           </button>
           <button
             onClick={() => decide(true, true)}
-            className="rounded-full bg-brand-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+            className="rounded-[var(--radius-button)] bg-brand-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
           >
             Accept all
           </button>

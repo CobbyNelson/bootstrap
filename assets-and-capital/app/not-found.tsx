@@ -18,13 +18,13 @@ export default function NotFound() {
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <Link
             href="/"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+            className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
           >
             <Home className="h-4 w-4" /> Back home
           </Link>
           <Link
             href="/marketplace"
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/12 bg-white px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-ink/25"
+            className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-button)] border border-ink/12 bg-white px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-ink/25"
           >
             <Search className="h-4 w-4" /> Explore marketplace <ArrowRight className="h-4 w-4" />
           </Link>

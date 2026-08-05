@@ -95,8 +95,8 @@ export function ArticleForm({ initial }: { initial: ArticleDraft }) {
           <span
             className={
               draft.status === "PUBLISHED"
-                ? "rounded-full bg-emerald-50 px-2.5 py-1 font-semibold text-emerald-700"
-                : "rounded-full bg-amber-50 px-2.5 py-1 font-semibold text-amber-700"
+                ? "rounded-[var(--radius-button)] bg-emerald-50 px-2.5 py-1 font-semibold text-emerald-700"
+                : "rounded-[var(--radius-button)] bg-amber-50 px-2.5 py-1 font-semibold text-amber-700"
             }
           >
             {draft.status === "PUBLISHED" ? "Published" : "Draft"}
@@ -108,7 +108,7 @@ export function ArticleForm({ initial }: { initial: ArticleDraft }) {
           <Link
             href={`/insights/${draft.slug}`}
             target="_blank"
-            className="inline-flex items-center gap-1.5 rounded-full border border-ink/12 px-3 py-1.5 text-sm text-ink/70 hover:text-ink"
+            className="inline-flex items-center gap-1.5 rounded-[var(--radius-button)] border border-ink/12 px-3 py-1.5 text-sm text-ink/70 hover:text-ink"
           >
             View <ExternalLink className="h-3.5 w-3.5" />
           </Link>
@@ -117,7 +117,7 @@ export function ArticleForm({ initial }: { initial: ArticleDraft }) {
         <button
           onClick={() => persist()}
           disabled={busy !== null}
-          className="rounded-full border border-ink/15 px-4 py-2 text-sm font-semibold text-ink hover:bg-white disabled:opacity-50"
+          className="rounded-[var(--radius-button)] border border-ink/15 px-4 py-2 text-sm font-semibold text-ink hover:bg-white disabled:opacity-50"
         >
           {busy === "save" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save"}
         </button>
@@ -125,7 +125,7 @@ export function ArticleForm({ initial }: { initial: ArticleDraft }) {
         <button
           onClick={() => persist(draft.status === "PUBLISHED" ? "DRAFT" : "PUBLISHED")}
           disabled={busy !== null || !draft.title.trim()}
-          className="rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-50"
+          className="rounded-[var(--radius-button)] bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-50"
         >
           {busy === "publish"
             ? <Loader2 className="h-4 w-4 animate-spin" />
@@ -167,7 +167,7 @@ export function ArticleForm({ initial }: { initial: ArticleDraft }) {
                 <img src={draft.coverUrl} alt="" className="aspect-[16/10] w-full rounded-lg object-cover" />
                 <button
                   onClick={() => { set("coverId", null); set("coverUrl", null); }}
-                  className="absolute right-2 top-2 grid h-7 w-7 place-items-center rounded-full bg-white/90 text-ink/60 hover:text-red-600"
+                  className="absolute right-2 top-2 grid h-7 w-7 place-items-center rounded-[var(--radius-button)] bg-white/90 text-ink/60 hover:text-red-600"
                   aria-label="Remove cover image"
                 >
                   <X className="h-3.5 w-3.5" />

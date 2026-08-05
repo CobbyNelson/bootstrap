@@ -39,7 +39,7 @@ export function HeroSearch() {
   return (
     <form
       onSubmit={submit}
-      className="mt-9 w-full max-w-3xl rounded-[1.75rem] border border-ink/[0.08] bg-white/95 p-2 shadow-[var(--shadow-card)] backdrop-blur sm:rounded-full"
+      className="mt-9 w-full max-w-3xl rounded-[1.5rem] border border-ink/[0.08] bg-white/95 p-2 shadow-[var(--shadow-card)] backdrop-blur"
     >
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
         {FIELDS.map((f, i) => (
@@ -58,7 +58,7 @@ export function HeroSearch() {
               onChange={(e) => setValues((v) => ({ ...v, [f.key]: e.target.value }))}
               /* appearance-none + our own chevron: the native arrow sits at a
                  different offset per browser and breaks the pill's rhythm. */
-              className="w-full cursor-pointer appearance-none rounded-full bg-transparent py-3 pl-5 pr-9 text-sm font-medium text-ink outline-none focus-visible:ring-2 focus-visible:ring-brand-600"
+              className="w-full cursor-pointer appearance-none rounded-[var(--radius-button)] bg-transparent py-3 pl-5 pr-9 text-sm font-medium text-ink outline-none focus-visible:ring-2 focus-visible:ring-brand-600"
             >
               <option value="">{f.any}</option>
               {f.options.map((o) => (
@@ -76,12 +76,10 @@ export function HeroSearch() {
 
         <button
           type="submit"
-          className="slant [--slant-bleed:0.625rem] inline-flex shrink-0 items-center justify-center gap-2 bg-ink px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700"
+          className="rounded-[var(--radius-button)] inline-flex shrink-0 items-center justify-center gap-2 bg-ink px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700"
         >
-          <span className="slant-content inline-flex items-center gap-2">
-            <Search className="h-4 w-4" />
-            Find opportunities
-          </span>
+          <Search className="h-4 w-4" />
+          Find opportunities
         </button>
       </div>
     </form>

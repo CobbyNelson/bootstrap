@@ -49,7 +49,7 @@ function Cover({
         </>
       )}
       <div className="grid-noise absolute inset-0 opacity-30" aria-hidden />
-      <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-ink backdrop-blur">{type}</span>
+      <span className="absolute left-4 top-4 rounded-[var(--radius-button)] bg-white/90 px-3 py-1 text-xs font-medium text-ink backdrop-blur">{type}</span>
     </div>
   );
 }
@@ -108,7 +108,7 @@ export function InsightsPortal({ articles }: { articles: PublicArticle[] }) {
             key={c}
             onClick={() => setCat(c)}
             className={cn(
-              "rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors",
+              "rounded-[var(--radius-button)] border px-3.5 py-1.5 text-sm font-medium transition-colors",
               cat === c ? "border-brand-600 bg-brand-50 text-brand-700" : "border-ink/12 text-ink/60 hover:border-ink/25"
             )}
           >

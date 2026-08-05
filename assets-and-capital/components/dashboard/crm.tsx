@@ -96,7 +96,7 @@ export function CRM() {
           <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">CRM &amp; pipeline</h1>
           <p className="mt-1 text-sm text-ink/65">{CONTACTS.length} relationships · {openTasks} open tasks · $61.7M in tracked value</p>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
+        <button className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
           <Plus className="h-4 w-4" /> Add contact
         </button>
       </div>
@@ -105,18 +105,18 @@ export function CRM() {
         <div className="min-w-0 space-y-4">
           {/* toolbar */}
           <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-ink/[0.07] bg-white p-3">
-            <div className="flex min-w-[200px] flex-1 items-center gap-2 rounded-full bg-paper-2 px-3.5">
+            <div className="flex min-w-[200px] flex-1 items-center gap-2 rounded-[var(--radius-button)] bg-paper-2 px-3.5">
               <Search className="h-4 w-4 text-ink/60" />
               <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search relationships…" className="h-9 w-full bg-transparent text-sm text-ink placeholder:text-ink/60 focus:outline-none" />
             </div>
-            <div className="flex items-center gap-1 rounded-full bg-paper-2 p-1">
+            <div className="flex items-center gap-1 rounded-[var(--radius-button)] bg-paper-2 p-1">
               {TYPES.map((t) => (
-                <button key={t} onClick={() => setType(t)} className={cn("rounded-full px-3 py-1.5 text-xs font-medium transition-colors", type === t ? "bg-white text-ink shadow-sm" : "text-ink/65 hover:text-ink")}>{t}</button>
+                <button key={t} onClick={() => setType(t)} className={cn("rounded-[var(--radius-button)] px-3 py-1.5 text-xs font-medium transition-colors", type === t ? "bg-white text-ink shadow-sm" : "text-ink/65 hover:text-ink")}>{t}</button>
               ))}
             </div>
-            <div className="flex items-center gap-1 rounded-full border border-ink/10 p-1">
-              <button onClick={() => setView("table")} className={cn("grid h-8 w-8 place-items-center rounded-full", view === "table" ? "bg-ink text-white" : "text-ink/65 hover:text-ink")} aria-label="Table view"><Rows3 className="h-4 w-4" /></button>
-              <button onClick={() => setView("board")} className={cn("grid h-8 w-8 place-items-center rounded-full", view === "board" ? "bg-ink text-white" : "text-ink/65 hover:text-ink")} aria-label="Board view"><LayoutGrid className="h-4 w-4" /></button>
+            <div className="flex items-center gap-1 rounded-[var(--radius-button)] border border-ink/10 p-1">
+              <button onClick={() => setView("table")} className={cn("grid h-8 w-8 place-items-center rounded-[var(--radius-button)]", view === "table" ? "bg-ink text-white" : "text-ink/65 hover:text-ink")} aria-label="Table view"><Rows3 className="h-4 w-4" /></button>
+              <button onClick={() => setView("board")} className={cn("grid h-8 w-8 place-items-center rounded-[var(--radius-button)]", view === "board" ? "bg-ink text-white" : "text-ink/65 hover:text-ink")} aria-label="Board view"><LayoutGrid className="h-4 w-4" /></button>
             </div>
           </div>
 
@@ -137,7 +137,7 @@ export function CRM() {
                     <tr key={c.id} className="group border-b border-ink/[0.04] last:border-0 hover:bg-paper-2/40">
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
-                          <span className="grid h-9 w-9 flex-none place-items-center rounded-full bg-gradient-to-br from-ink to-ink-2 text-[0.7rem] font-semibold text-white">{initials(c.name)}</span>
+                          <span className="grid h-9 w-9 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-[0.7rem] font-semibold text-white">{initials(c.name)}</span>
                           <div className="min-w-0">
                             <div className="flex items-center gap-1.5">
                               {c.starred && <Star className="h-3 w-3 flex-none fill-navy-500 text-navy-500" />}
@@ -147,7 +147,7 @@ export function CRM() {
                           </div>
                         </div>
                       </td>
-                      <td className="hidden px-4 py-3 md:table-cell"><span className={cn("rounded-full px-2.5 py-1 text-xs font-medium", STAGE_STYLE[c.stage])}>{c.stage}</span></td>
+                      <td className="hidden px-4 py-3 md:table-cell"><span className={cn("rounded-[var(--radius-button)] px-2.5 py-1 text-xs font-medium", STAGE_STYLE[c.stage])}>{c.stage}</span></td>
                       <td className="hidden px-4 py-3 text-ink/70 lg:table-cell tnum">{c.value}</td>
                       <td className="hidden px-4 py-3 text-ink/60 xl:table-cell">{c.owner}</td>
                       <td className="px-4 py-3 text-right text-xs text-ink/60">{c.lastTouch}</td>
@@ -163,14 +163,14 @@ export function CRM() {
                 return (
                   <div key={stage} className="min-w-[220px] rounded-2xl bg-paper-2/60 p-2.5">
                     <div className="mb-2 flex items-center justify-between px-1.5 py-1">
-                      <span className={cn("rounded-full px-2 py-0.5 text-xs font-medium", STAGE_STYLE[stage])}>{stage}</span>
+                      <span className={cn("rounded-[var(--radius-button)] px-2 py-0.5 text-xs font-medium", STAGE_STYLE[stage])}>{stage}</span>
                       <span className="text-xs text-ink/60 tnum">{items.length}</span>
                     </div>
                     <div className="space-y-2">
                       {items.map((c) => (
                         <div key={c.id} className="rounded-xl border border-ink/[0.06] bg-white p-3">
                           <div className="flex items-center gap-2">
-                            <span className="grid h-7 w-7 flex-none place-items-center rounded-full bg-gradient-to-br from-ink to-ink-2 text-[0.6rem] font-semibold text-white">{initials(c.name)}</span>
+                            <span className="grid h-7 w-7 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-[0.6rem] font-semibold text-white">{initials(c.name)}</span>
                             <p className="truncate text-sm font-medium text-ink">{c.name}</p>
                           </div>
                           <p className="mt-1.5 truncate text-xs text-ink/65">{c.org}</p>
@@ -200,7 +200,7 @@ export function CRM() {
           <div className="rounded-2xl border border-ink/[0.07] bg-white p-4">
             <div className="mb-3 flex items-center justify-between">
               <p className="text-xs font-semibold uppercase tracking-wider text-ink/60">Tasks</p>
-              <span className="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700 tnum">{openTasks} open</span>
+              <span className="rounded-[var(--radius-button)] bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700 tnum">{openTasks} open</span>
             </div>
             <div className="space-y-1">
               {tasks.map((t) => (

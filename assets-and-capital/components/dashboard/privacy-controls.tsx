@@ -68,7 +68,7 @@ export function PrivacyControls() {
         >
           <a
             href="/api/account/export"
-            className="rounded-full border border-ink/15 px-4 py-2 text-sm font-medium text-ink/80 transition-colors hover:border-ink/30"
+            className="rounded-[var(--radius-button)] border border-ink/15 px-4 py-2 text-sm font-medium text-ink/80 transition-colors hover:border-ink/30"
           >
             Download
           </a>
@@ -81,7 +81,7 @@ export function PrivacyControls() {
         >
           <button
             onClick={() => window.dispatchEvent(new Event(OPEN_CONSENT_EVENT))}
-            className="rounded-full border border-ink/15 px-4 py-2 text-sm font-medium text-ink/80 transition-colors hover:border-ink/30"
+            className="rounded-[var(--radius-button)] border border-ink/15 px-4 py-2 text-sm font-medium text-ink/80 transition-colors hover:border-ink/30"
           >
             Manage
           </button>
@@ -95,7 +95,7 @@ export function PrivacyControls() {
           {!arming ? (
             <button
               onClick={() => setArming(true)}
-              className="rounded-full border border-brand-200 px-4 py-2 text-sm font-medium text-brand-700 transition-colors hover:border-brand-400"
+              className="rounded-[var(--radius-button)] border border-brand-200 px-4 py-2 text-sm font-medium text-brand-700 transition-colors hover:border-brand-400"
             >
               Close account
             </button>
@@ -106,7 +106,7 @@ export function PrivacyControls() {
                 setPassword("");
                 setError("");
               }}
-              className="rounded-full px-4 py-2 text-sm font-medium text-ink/60 hover:text-ink"
+              className="rounded-[var(--radius-button)] px-4 py-2 text-sm font-medium text-ink/60 hover:text-ink"
             >
               Cancel
             </button>

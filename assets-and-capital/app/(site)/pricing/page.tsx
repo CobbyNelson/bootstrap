@@ -45,7 +45,7 @@ export default async function PricingPage() {
                 )}
               >
                 {tier.featured && (
-                  <span className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-brand-600 px-3 py-1 text-xs font-semibold text-white">
+                  <span className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-[var(--radius-button)] bg-brand-600 px-3 py-1 text-xs font-semibold text-white">
                     <Sparkles className="h-3 w-3" /> Most popular
                   </span>
                 )}
@@ -107,7 +107,7 @@ export default async function PricingPage() {
               <div className="grid-noise pointer-events-none absolute inset-0 opacity-20" aria-hidden />
               <div className="relative grid items-center gap-8 md:grid-cols-[1.4fr_1fr]">
                 <div>
-                  <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-navy-400">
+                  <span className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-white/10 px-3 py-1 text-xs font-medium text-navy-400">
                     Aligned incentives
                   </span>
                   <h2 className="mt-4 font-display text-3xl font-semibold md:text-4xl">Pay a success fee only when you close</h2>
@@ -166,7 +166,7 @@ export default async function PricingPage() {
               <details key={item.q} className="group py-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-ink">
                   {item.q}
-                  <span className="grid h-6 w-6 flex-none place-items-center rounded-full border border-ink/15 text-ink/65 transition-transform group-open:rotate-45">
+                  <span className="grid h-6 w-6 flex-none place-items-center rounded-[var(--radius-button)] border border-ink/15 text-ink/65 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>

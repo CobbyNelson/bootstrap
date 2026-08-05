@@ -26,12 +26,12 @@ export function NewsletterForm() {
   return (
     <form onSubmit={onSubmit} noValidate className="mt-4">
       {status === "done" ? (
-        <p className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-2.5 text-sm font-medium text-emerald-700 ring-1 ring-emerald-600/20">
+        <p className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-emerald-50 px-4 py-2.5 text-sm font-medium text-emerald-700 ring-1 ring-emerald-600/20">
           <Check className="h-4 w-4" /> You&apos;re on the list.
         </p>
       ) : (
         <>
-          <div className="flex items-center gap-2 rounded-full border border-ink/15 bg-white p-1.5 focus-within:border-brand-600/40">
+          <div className="flex items-center gap-2 rounded-[var(--radius-button)] border border-ink/15 bg-white p-1.5 focus-within:border-brand-600/40">
             <input
               type="email"
               value={email}
@@ -44,7 +44,7 @@ export function NewsletterForm() {
             <button
               type="submit"
               disabled={status === "loading"}
-              className="inline-flex h-9 items-center gap-1.5 rounded-full bg-brand-600 px-4 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
+              className="inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-button)] bg-brand-600 px-4 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
             >
               {status === "loading" ? "Joining…" : "Subscribe"}
               {status !== "loading" && <ArrowRight className="h-3.5 w-3.5" />}

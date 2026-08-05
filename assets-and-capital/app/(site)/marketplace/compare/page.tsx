@@ -33,7 +33,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
             </span>
             <h3 className="mt-5 font-display text-lg font-bold text-navy-700">Pick at least two to compare</h3>
             <p className="mt-1.5 max-w-sm text-sm text-ink/65">Save opportunities from the marketplace, then compare your shortlist here.</p>
-            <Link href="/marketplace" className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700">
+            <Link href="/marketplace" className="mt-6 inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700">
               Browse the marketplace <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

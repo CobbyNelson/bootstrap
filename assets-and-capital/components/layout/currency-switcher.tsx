@@ -27,7 +27,7 @@ export function CurrencySwitcher({ variant = "light" }: { variant?: "light" | "d
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
+          "inline-flex items-center gap-1.5 rounded-[var(--radius-button)] border px-3 py-1.5 text-sm font-medium transition-colors",
           isDark
             ? "border-white/15 text-white/70 hover:border-white/30 hover:text-white"
             : "border-ink/12 text-ink/65 hover:border-ink/25 hover:text-ink"

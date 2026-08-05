@@ -39,7 +39,7 @@ export default function InvestorDashboard() {
             <span className="text-xs text-ink/65">Trust score <span className="font-semibold text-ink tnum">{inv.score}</span>/100</span>
           </div>
         </div>
-        <Link href="/marketplace" className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
+        <Link href="/marketplace" className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
           Browse marketplace <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
@@ -71,7 +71,7 @@ export default function InvestorDashboard() {
               <p className="text-sm text-ink/65">Add exit preferences and governance to sharpen your matches.</p>
             </div>
           </div>
-          <Link href="/register/investor" className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full border border-ink/12 py-2.5 text-sm font-medium text-ink hover:border-ink/25">
+          <Link href="/register/investor" className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-ink/12 py-2.5 text-sm font-medium text-ink hover:border-ink/25">
             Complete profile
           </Link>
           <div className="mt-5 space-y-2 border-t border-ink/[0.06] pt-4 text-sm">
@@ -118,7 +118,7 @@ export default function InvestorDashboard() {
           <div className="divide-y divide-ink/[0.06]">
             {MESSAGES.map((m) => (
               <div key={m.from} className="flex items-start gap-3 py-3 first:pt-0">
-                <span className="grid h-9 w-9 flex-none place-items-center rounded-full bg-paper-2 text-xs font-semibold text-ink/60">
+                <span className="grid h-9 w-9 flex-none place-items-center rounded-[var(--radius-button)] bg-paper-2 text-xs font-semibold text-ink/60">
                   {m.from.split(" ").slice(0, 2).map((w) => w[0]).join("")}
                 </span>
                 <div className="min-w-0 flex-1">
@@ -148,7 +148,7 @@ export default function InvestorDashboard() {
                   <p className="truncate font-medium text-ink">{d.name}</p>
                   <p className="text-xs text-ink/65">{d.size} · {d.date}</p>
                 </div>
-                <button className="grid h-8 w-8 place-items-center rounded-full text-ink/60 hover:bg-paper-2 hover:text-ink" aria-label="Download">
+                <button className="grid h-8 w-8 place-items-center rounded-[var(--radius-button)] text-ink/60 hover:bg-paper-2 hover:text-ink" aria-label="Download">
                   <Download className="h-4 w-4" />
                 </button>
               </div>

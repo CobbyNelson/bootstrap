@@ -204,7 +204,7 @@ export function CommandPalette() {
               <p className="px-2 pb-1.5 pt-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink/60">Popular</p>
               <div className="flex flex-wrap gap-2 px-2 pt-1">
                 {POPULAR.map((p) => (
-                  <button key={p} onClick={() => setQ(p)} className="rounded-full border border-ink/12 px-3 py-1.5 text-sm text-ink/60 hover:border-ink/25 hover:text-ink">
+                  <button key={p} onClick={() => setQ(p)} className="rounded-[var(--radius-button)] border border-ink/12 px-3 py-1.5 text-sm text-ink/60 hover:border-ink/25 hover:text-ink">
                     {p}
                   </button>
                 ))}

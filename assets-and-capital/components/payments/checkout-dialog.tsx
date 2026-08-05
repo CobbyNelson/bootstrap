@@ -125,7 +125,7 @@ export function CheckoutDialog({
           </div>
           <button
             onClick={onClose}
-            className="grid h-8 w-8 place-items-center rounded-full text-ink/50 hover:bg-paper-2"
+            className="grid h-8 w-8 place-items-center rounded-[var(--radius-button)] text-ink/50 hover:bg-paper-2"
             aria-label="Close"
           >
             <X className="h-4 w-4" />
@@ -134,7 +134,7 @@ export function CheckoutDialog({
 
         {status === "success" ? (
           <div className="flex flex-col items-center px-6 py-12 text-center">
-            <div className="grid h-16 w-16 place-items-center rounded-full bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200">
+            <div className="grid h-16 w-16 place-items-center rounded-[var(--radius-button)] bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200">
               <Check className="h-8 w-8" />
             </div>
             <p className="mt-4 font-display text-xl font-semibold text-navy-700">Payment successful</p>
@@ -267,7 +267,7 @@ export function CheckoutDialog({
             <button
               onClick={pay}
               disabled={processing}
-              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-brand-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
             >
               {processing ? (
                 <>

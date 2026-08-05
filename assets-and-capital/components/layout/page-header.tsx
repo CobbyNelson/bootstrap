@@ -15,7 +15,7 @@ export function PageHeader({
     <section className={cn("relative overflow-hidden border-b border-ink/[0.06] pt-32 pb-14 md:pt-40 md:pb-20", className)}>
       <div className="grid-noise pointer-events-none absolute inset-0 opacity-50" aria-hidden />
       <div
-        className="pointer-events-none absolute -top-32 right-[-8%] h-[420px] w-[420px] rounded-full opacity-40 blur-3xl"
+        className="pointer-events-none absolute -top-32 right-[-8%] h-[420px] w-[420px] rounded-[var(--radius-button)] opacity-40 blur-3xl"
         style={{ background: "radial-gradient(circle, rgba(185,28,28,0.16), transparent 65%)" }}
         aria-hidden
       />

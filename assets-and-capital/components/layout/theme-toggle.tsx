@@ -111,7 +111,7 @@ export function ThemeToggle({
       role="group"
       aria-label="Colour theme"
       className={cn(
-        "flex items-center gap-0.5 rounded-full border p-0.5",
+        "flex items-center gap-0.5 rounded-[var(--radius-button)] border p-0.5",
         tone === "light" ? "border-white/25 bg-white/10 backdrop-blur" : "border-ink/12 bg-paper-2/60",
         className
       )}
@@ -127,7 +127,7 @@ export function ThemeToggle({
             aria-pressed={active}
             onClick={() => choose(opt.mode)}
             className={cn(
-              "grid h-7 w-7 place-items-center rounded-full transition-colors",
+              "grid h-7 w-7 place-items-center rounded-[var(--radius-button)] transition-colors",
               active
                 ? tone === "light"
                   ? "bg-white text-ink"

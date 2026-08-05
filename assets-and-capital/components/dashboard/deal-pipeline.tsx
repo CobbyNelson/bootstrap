@@ -79,7 +79,7 @@ export function DealPipeline() {
           <p className="text-sm text-ink/65">Workspace</p>
           <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">Deal pipeline</h1>
         </div>
-        <div className="inline-flex rounded-full border border-ink/10 bg-white p-1">
+        <div className="inline-flex rounded-[var(--radius-button)] border border-ink/10 bg-white p-1">
           {[
             { k: "kanban", label: "Board", icon: Columns3 },
             { k: "table", label: "Table", icon: TableProperties },
@@ -88,7 +88,7 @@ export function DealPipeline() {
               key={v.k}
               onClick={() => setView(v.k as "kanban" | "table")}
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
+                "inline-flex items-center gap-1.5 rounded-[var(--radius-button)] px-4 py-1.5 text-sm font-medium transition-colors",
                 view === v.k ? "bg-ink text-white" : "text-ink/60 hover:text-ink"
               )}
             >
@@ -124,7 +124,7 @@ export function DealPipeline() {
                 <div className="flex items-center gap-2 border-b border-ink/[0.06] p-3">
                   <span className="h-3 w-1 rounded-full" style={{ background: stage.color }} />
                   <span className="text-[0.8rem] font-semibold text-ink">{stage.label}</span>
-                  <span className="ml-auto rounded-full bg-paper-2 px-2 py-0.5 text-[0.65rem] font-medium text-ink/65 tnum">{deals.length}</span>
+                  <span className="ml-auto rounded-[var(--radius-button)] bg-paper-2 px-2 py-0.5 text-[0.65rem] font-medium text-ink/65 tnum">{deals.length}</span>
                 </div>
                 <div className="flex flex-col gap-2 p-2.5">
                   {value > 0 && <p className="px-1 text-[0.65rem] font-medium uppercase tracking-wide text-ink/35 tnum">{money(value)}</p>}
@@ -179,7 +179,7 @@ export function DealPipeline() {
                     <td className="px-5 py-3 text-right font-medium text-emerald-700 tnum">{d.score}</td>
                     <td className="px-5 py-3 text-right text-ink/60 tnum">{d.days}d</td>
                     <td className="px-5 py-3">
-                      <span className="grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-ink to-ink-2 text-[0.6rem] font-semibold text-white">{d.owner}</span>
+                      <span className="grid h-6 w-6 place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-[0.6rem] font-semibold text-white">{d.owner}</span>
                     </td>
                   </tr>
                 );

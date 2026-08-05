@@ -290,7 +290,7 @@ export function InvestorWizard() {
             Thank you. Your investment mandate is being reviewed by our team. You&apos;ll start receiving
             mandate-matched opportunities as soon as your account is verified.
           </p>
-          <Link href="/marketplace" className="mt-7 inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-medium text-white hover:bg-brand-700">
+          <Link href="/marketplace" className="mt-7 inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-6 py-3 text-sm font-medium text-white hover:bg-brand-700">
             Explore the marketplace <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -348,7 +348,7 @@ export function InvestorWizard() {
         </div>
         <ol className="mt-6 space-y-1">
           <li className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm text-ink/65">
-            <span className="grid h-6 w-6 place-items-center rounded-full bg-emerald-500 text-white">
+            <span className="grid h-6 w-6 place-items-center rounded-[var(--radius-button)] bg-emerald-500 text-white">
               <Check className="h-3.5 w-3.5" />
             </span>
             {values.investorClass}
@@ -365,7 +365,7 @@ export function InvestorWizard() {
               >
                 <span
                   className={cn(
-                    "grid h-6 w-6 place-items-center rounded-full text-xs",
+                    "grid h-6 w-6 place-items-center rounded-[var(--radius-button)] text-xs",
                     state === "done" && "bg-emerald-500 text-white",
                     state === "now" && "bg-brand-600 text-white",
                     state === "todo" && "border border-ink/20 text-ink/60"
@@ -390,7 +390,7 @@ export function InvestorWizard() {
             </div>
             <span
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs transition-opacity",
+                "inline-flex items-center gap-1.5 rounded-[var(--radius-button)] px-2.5 py-1 text-xs transition-opacity",
                 saved ? "bg-emerald-50 text-emerald-700 opacity-100" : "text-ink/30 opacity-0"
               )}
             >
@@ -416,13 +416,13 @@ export function InvestorWizard() {
           )}
 
           <div className="mt-8 flex items-center justify-between border-t border-ink/[0.06] pt-6">
-            <button onClick={back} className="inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium text-ink/60 hover:text-ink">
+            <button onClick={back} className="inline-flex items-center gap-2 rounded-[var(--radius-button)] px-4 py-2.5 text-sm font-medium text-ink/60 hover:text-ink">
               <ArrowLeft className="h-4 w-4" /> Back
             </button>
             <button
               onClick={next}
               disabled={step.id === "review" && !consent}
-              className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-50"
             >
               {step.id === "review" ? "Submit mandate" : "Continue"} <ArrowRight className="h-4 w-4" />
             </button>
@@ -471,7 +471,7 @@ function FieldControl({
                 type="button"
                 onClick={() => onToggle(opt)}
                 className={cn(
-                  "rounded-full border px-3.5 py-1.5 text-sm transition-colors",
+                  "rounded-[var(--radius-button)] border px-3.5 py-1.5 text-sm transition-colors",
                   on ? "border-brand-600 bg-brand-50 text-brand-700" : "border-ink/12 text-ink/60 hover:border-ink/25"
                 )}
               >

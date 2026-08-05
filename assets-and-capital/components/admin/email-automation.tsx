@@ -75,7 +75,7 @@ export function EmailAutomation() {
           <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Email automation</h1>
           <p className="mt-1 text-sm text-ink/65">Triggered journeys that nurture investors and businesses end-to-end.</p>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> New flow</button>
+        <button className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> New flow</button>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -98,7 +98,7 @@ export function EmailAutomation() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <p className="truncate text-sm font-medium text-ink">{f.name}</p>
-                    <span className={cn("rounded-full px-2 py-0.5 text-[0.65rem] font-medium ring-1", STATUS_STYLE[f.status])}>{f.status}</span>
+                    <span className={cn("rounded-[var(--radius-button)] px-2 py-0.5 text-[0.65rem] font-medium ring-1", STATUS_STYLE[f.status])}>{f.status}</span>
                   </div>
                   <p className="mt-0.5 flex items-center gap-1 truncate text-xs text-ink/65"><Zap className="h-3 w-3" /> {f.trigger} · {f.steps} steps</p>
                 </div>
@@ -113,7 +113,7 @@ export function EmailAutomation() {
                 {f.status !== "Draft" && (
                   <button
                     onClick={() => setFlows((prev) => prev.map((x) => x.id === f.id ? { ...x, status: x.status === "Active" ? "Paused" : "Active" } : x))}
-                    className="grid h-9 w-9 flex-none place-items-center rounded-full border border-ink/12 text-ink/60 hover:bg-paper-2"
+                    className="grid h-9 w-9 flex-none place-items-center rounded-[var(--radius-button)] border border-ink/12 text-ink/60 hover:bg-paper-2"
                     aria-label={f.status === "Active" ? "Pause" : "Activate"}
                   >
                     {f.status === "Active" ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
@@ -133,7 +133,7 @@ export function EmailAutomation() {
           <ol className="mt-5 relative space-y-4 border-l border-ink/[0.08] pl-6">
             {JOURNEY.map((s, i) => (
               <li key={i} className="relative">
-                <span className={cn("absolute -left-[2.1rem] grid h-7 w-7 place-items-center rounded-full ring-4 ring-white", TONE[s.tone])}>
+                <span className={cn("absolute -left-[2.1rem] grid h-7 w-7 place-items-center rounded-[var(--radius-button)] ring-4 ring-white", TONE[s.tone])}>
                   <s.icon className="h-3.5 w-3.5" />
                 </span>
                 <p className="text-sm font-medium text-ink">{s.label}</p>
@@ -141,7 +141,7 @@ export function EmailAutomation() {
               </li>
             ))}
           </ol>
-          <button className="mt-5 inline-flex w-full items-center justify-center gap-1 rounded-full border border-ink/12 py-2.5 text-sm font-medium text-ink/70 hover:bg-paper-2">Open flow builder <ChevronRight className="h-4 w-4" /></button>
+          <button className="mt-5 inline-flex w-full items-center justify-center gap-1 rounded-[var(--radius-button)] border border-ink/12 py-2.5 text-sm font-medium text-ink/70 hover:bg-paper-2">Open flow builder <ChevronRight className="h-4 w-4" /></button>
         </div>
       </div>
     </div>

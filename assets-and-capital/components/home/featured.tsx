@@ -36,7 +36,7 @@ export async function Featured() {
             {/* filled stat tile */}
             <Reveal>
               <div className="rounded-3xl bg-brand-600 p-6 text-white">
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-white/20" aria-hidden>
+                <span className="grid h-10 w-10 place-items-center rounded-[var(--radius-button)] bg-white/20" aria-hidden>
                   <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2">
                     <path d="M3 8.5l3.2 3.2L13 5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -54,7 +54,7 @@ export async function Featured() {
                   {sectors.map((s) => (
                     <span
                       key={s}
-                      className="rounded-full bg-paper-2 px-3 py-1.5 text-[0.72rem] font-medium text-ink/75"
+                      className="rounded-[var(--radius-button)] bg-paper-2 px-3 py-1.5 text-[0.72rem] font-medium text-ink/75"
                     >
                       {s}
                     </span>

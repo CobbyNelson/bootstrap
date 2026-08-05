@@ -247,7 +247,7 @@ export function MarketplaceView({
             </div>
             <p className="mt-4 font-medium text-ink">No opportunities match your filters</p>
             <p className="mt-1 max-w-sm text-sm text-ink/65">Try widening your criteria or clearing a filter to see more of the marketplace.</p>
-            <button onClick={clearAll} className="mt-5 rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white hover:bg-ink-2">
+            <button onClick={clearAll} className="mt-5 rounded-[var(--radius-button)] bg-ink px-5 py-2.5 text-sm font-medium text-white hover:bg-ink-2">
               Clear all filters
             </button>
           </div>
@@ -272,9 +272,9 @@ export function MarketplaceView({
                     <span className="font-display text-lg font-extrabold tracking-tight text-white/90">{rowInitials(o.name)}</span>
                   </div>
                   {unlocked.has(slugify(o.name)) ? (
-                    <span className="absolute left-1.5 top-1.5 rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.55rem] font-semibold text-white tnum">{o.match}%</span>
+                    <span className="absolute left-1.5 top-1.5 rounded-[var(--radius-button)] bg-brand-600 px-1.5 py-0.5 text-[0.55rem] font-semibold text-white tnum">{o.match}%</span>
                   ) : (
-                    <span className="absolute left-1.5 top-1.5 inline-flex items-center gap-0.5 rounded-full bg-ink/70 px-1.5 py-0.5 text-[0.55rem] font-semibold text-white backdrop-blur-sm">
+                    <span className="absolute left-1.5 top-1.5 inline-flex items-center gap-0.5 rounded-[var(--radius-button)] bg-ink/70 px-1.5 py-0.5 text-[0.55rem] font-semibold text-white backdrop-blur-sm">
                       <Lock className="h-2.5 w-2.5" />
                     </span>
                   )}
@@ -284,7 +284,7 @@ export function MarketplaceView({
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <h3 className="truncate font-display text-base font-bold text-brand-600">{o.name}</h3>
-                    <span className="hidden flex-none rounded-full bg-paper-2 px-2 py-0.5 text-[0.58rem] kicker text-ink md:inline">{o.tier}</span>
+                    <span className="hidden flex-none rounded-[var(--radius-button)] bg-paper-2 px-2 py-0.5 text-[0.58rem] kicker text-ink md:inline">{o.tier}</span>
                   </div>
                   <p className="flex items-center gap-1 text-xs text-ink/60">
                     <MapPin className="h-3 w-3" /> {o.country} · {o.region}

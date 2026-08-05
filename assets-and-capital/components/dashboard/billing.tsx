@@ -45,7 +45,7 @@ export function Billing() {
           <p className="text-sm text-ink/65">Business workspace</p>
           <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">Billing &amp; subscription</h1>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-full border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/70 hover:border-ink/25">
+        <button className="inline-flex items-center gap-2 rounded-[var(--radius-button)] border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/70 hover:border-ink/25">
           <CreditCard className="h-4 w-4" /> Manage payment method
         </button>
       </div>
@@ -69,7 +69,7 @@ export function Billing() {
             />
             <button
               onClick={() => setApplied(coupon.trim() ? coupon.trim().toUpperCase() : null)}
-              className="rounded-full bg-ink px-3.5 py-1.5 text-xs font-medium text-white hover:bg-ink-2"
+              className="rounded-[var(--radius-button)] bg-ink px-3.5 py-1.5 text-xs font-medium text-white hover:bg-ink-2"
             >
               Apply
             </button>
@@ -106,9 +106,9 @@ export function Billing() {
       <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="font-display text-lg font-semibold text-navy-700">Plans</h2>
-          <div className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-paper-2/60 p-1 text-sm">
-            <button onClick={() => setAnnual(false)} className={cn("rounded-full px-3 py-1", !annual && "bg-white shadow-sm")}>Monthly</button>
-            <button onClick={() => setAnnual(true)} className={cn("rounded-full px-3 py-1", annual && "bg-white shadow-sm")}>
+          <div className="inline-flex items-center gap-2 rounded-[var(--radius-button)] border border-ink/10 bg-paper-2/60 p-1 text-sm">
+            <button onClick={() => setAnnual(false)} className={cn("rounded-[var(--radius-button)] px-3 py-1", !annual && "bg-white shadow-sm")}>Monthly</button>
+            <button onClick={() => setAnnual(true)} className={cn("rounded-[var(--radius-button)] px-3 py-1", annual && "bg-white shadow-sm")}>
               Annual <span className="text-emerald-700">−17%</span>
             </button>
           </div>
@@ -131,7 +131,7 @@ export function Billing() {
               </ul>
               <button
                 className={cn(
-                  "mt-5 w-full rounded-full py-2 text-sm font-medium transition-colors",
+                  "mt-5 w-full rounded-[var(--radius-button)] py-2 text-sm font-medium transition-colors",
                   p.current ? "cursor-default border border-ink/10 text-ink/60" : p.enterprise ? "border border-ink/15 text-ink hover:border-ink/30" : "bg-brand-600 text-white hover:bg-brand-700"
                 )}
                 disabled={p.current}

@@ -69,10 +69,10 @@ function Kpi({
   return (
     <div className={cn("relative overflow-hidden rounded-3xl p-5", t.card)}>
       <div className="flex items-start justify-between">
-        <span className={cn("grid h-9 w-9 place-items-center rounded-full", t.badge)}>
+        <span className={cn("grid h-9 w-9 place-items-center rounded-[var(--radius-button)]", t.badge)}>
           <Icon className="h-4 w-4" />
         </span>
-        <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[0.7rem] font-medium", t.pill)}>
+        <span className={cn("inline-flex items-center gap-1 rounded-[var(--radius-button)] px-2 py-0.5 text-[0.7rem] font-medium", t.pill)}>
           <ArrowUpRight className="h-3 w-3" /> {delta}
         </span>
       </div>
@@ -97,10 +97,10 @@ export default function AdminOverview() {
           <h1 className="mt-1.5 font-display text-3xl font-medium text-navy-700">Overview</h1>
         </div>
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-3.5 py-2 text-sm text-ink/60">
+          <span className="inline-flex items-center gap-2 rounded-[var(--radius-button)] border border-ink/10 bg-white px-3.5 py-2 text-sm text-ink/60">
             <CalendarDays className="h-4 w-4 text-ink/60" /> Last 30 days
           </span>
-          <button className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-ink-2">
+          <button className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-ink-2">
             <Download className="h-4 w-4" /> Export
           </button>
         </div>
@@ -133,7 +133,7 @@ export default function AdminOverview() {
                   <tr key={b.name}>
                     <td className="py-3">
                       <div className="flex items-center gap-3">
-                        <span className="grid h-9 w-9 flex-none place-items-center rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-[0.7rem] font-semibold text-white">
+                        <span className="grid h-9 w-9 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-brand-600 to-brand-800 text-[0.7rem] font-semibold text-white">
                           {initials(b.name)}
                         </span>
                         <div className="min-w-0">
@@ -144,7 +144,7 @@ export default function AdminOverview() {
                     </td>
                     <td className="hidden py-3 text-ink/60 sm:table-cell">{b.sector}</td>
                     <td className="py-3 text-center">
-                      <span className="inline-grid h-7 w-7 place-items-center rounded-full bg-navy-600 text-[0.7rem] font-semibold text-white tnum">
+                      <span className="inline-grid h-7 w-7 place-items-center rounded-[var(--radius-button)] bg-navy-600 text-[0.7rem] font-semibold text-white tnum">
                         {b.interest}
                       </span>
                     </td>
@@ -207,10 +207,10 @@ export default function AdminOverview() {
                   <Badge variant="neutral" size="sm">{a.type.split(" ")[0]}</Badge>
                 </div>
                 <div className="mt-3 flex items-center gap-2">
-                  <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-ink py-1.5 text-[0.7rem] kicker text-white hover:bg-ink-2">
+                  <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-[var(--radius-button)] bg-ink py-1.5 text-[0.7rem] kicker text-white hover:bg-ink-2">
                     <Check className="h-3.5 w-3.5" /> Approve
                   </button>
-                  <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-ink/12 py-1.5 text-[0.7rem] kicker text-ink/60 hover:border-brand-300 hover:text-brand-700">
+                  <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-[var(--radius-button)] border border-ink/12 py-1.5 text-[0.7rem] kicker text-ink/60 hover:border-brand-300 hover:text-brand-700">
                     <X className="h-3.5 w-3.5" /> Reject
                   </button>
                 </div>

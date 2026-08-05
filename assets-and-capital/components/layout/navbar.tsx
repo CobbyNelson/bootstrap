@@ -116,7 +116,7 @@ export function Navbar() {
                   <Link
                     href={group.href}
                     className={cn(
-                      "inline-flex items-center gap-1 rounded-full px-4 py-2 text-[0.925rem] font-medium transition-colors",
+                      "inline-flex items-center gap-1 rounded-[var(--radius-button)] px-4 py-2 text-[0.925rem] font-medium transition-colors",
                       onDarkHero ? "text-white/85 hover:text-white" : "text-ink/75 hover:text-ink"
                     )}
                   >
@@ -125,7 +125,7 @@ export function Navbar() {
                 ) : (
                   <button
                     className={cn(
-                      "inline-flex items-center gap-1 rounded-full px-4 py-2 text-[0.925rem] font-medium transition-colors",
+                      "inline-flex items-center gap-1 rounded-[var(--radius-button)] px-4 py-2 text-[0.925rem] font-medium transition-colors",
                       onDarkHero
                         ? open === group.label ? "text-white" : "text-white/85 hover:text-white"
                         : open === group.label ? "text-ink" : "text-ink/75 hover:text-ink"
@@ -201,7 +201,7 @@ export function Navbar() {
                 <button
                   type="submit"
                   className={cn(
-                    "inline-flex h-9 items-center gap-2 rounded-full border px-4 text-sm font-medium transition-colors",
+                    "inline-flex h-9 items-center gap-2 rounded-[var(--radius-button)] border px-4 text-sm font-medium transition-colors",
                     onDarkHero
                       ? "border-white/30 bg-white/10 text-white backdrop-blur hover:bg-white/20"
                       : "border-ink/15 bg-white/60 text-ink hover:border-ink/30 hover:bg-white"
@@ -234,7 +234,7 @@ export function Navbar() {
         <button
           ref={toggleRef}
           className={cn(
-            "inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:hidden",
+            "inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-button)] transition-colors lg:hidden",
             onDarkHero ? "text-white hover:bg-white/10" : "text-ink hover:bg-ink/5"
           )}
           onClick={() => setMobileOpen(true)}
@@ -292,7 +292,7 @@ export function Navbar() {
                     toggleRef.current?.focus();
                   }}
                   aria-label="Close menu"
-                  className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-ink/5"
+                  className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-button)] text-ink transition-colors hover:bg-ink/5"
                 >
                   <X className="h-6 w-6" />
                 </button>
@@ -341,7 +341,7 @@ export function Navbar() {
                     <button
                       type="submit"
                       onClick={() => setMobileOpen(false)}
-                      className="inline-flex h-13 items-center justify-center rounded-full border border-ink/15 bg-white px-8 text-base font-medium text-ink"
+                      className="inline-flex h-13 items-center justify-center rounded-[var(--radius-button)] border border-ink/15 bg-white px-8 text-base font-medium text-ink"
                     >
                       Sign out
                     </button>

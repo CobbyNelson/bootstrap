@@ -49,7 +49,7 @@ export default function DataRoomPage() {
             <Badge variant="neutral" size="sm"><Droplet className="h-3.5 w-3.5" /> Watermarking on</Badge>
           </div>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
+        <button className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
           <FileText className="h-4 w-4" /> Upload document
         </button>
       </div>

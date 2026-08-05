@@ -22,7 +22,7 @@ export function Eyebrow({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[0.7rem] kicker",
+        "inline-flex items-center gap-2 rounded-[var(--radius-button)] border px-3 py-1 text-[0.7rem] kicker",
         invert ? "border-white/15 bg-white/5 text-navy-300" : "border-ink/10 bg-white/70 text-brand-700",
         className
       )}
@@ -35,7 +35,13 @@ export function Eyebrow({
   );
 }
 
-/** Filled circular ↗ button used on cards (agency reference). */
+/**
+ * Filled circular ↗ affordance used on cards.
+ *
+ * Stays round while buttons are rectangles: it rotates 45° on hover, and a
+ * rounded square doing that reads as a tilted box rather than a spinning
+ * arrow. This is the "a rectangle cannot describe it" case.
+ */
 export function CircleArrow({
   className,
   tone = "brand",

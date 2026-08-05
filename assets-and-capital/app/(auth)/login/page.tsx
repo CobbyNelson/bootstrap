@@ -30,7 +30,7 @@ export default function LoginPage() {
       <div className="relative hidden overflow-hidden bg-ink lg:block">
         <div className="grid-noise absolute inset-0 opacity-30" aria-hidden />
         <div
-          className="absolute -right-24 top-1/4 h-[420px] w-[420px] rounded-full opacity-40 blur-3xl"
+          className="absolute -right-24 top-1/4 h-[420px] w-[420px] rounded-[var(--radius-button)] opacity-40 blur-3xl"
           style={{ background: "radial-gradient(circle, rgba(185,28,28,0.4), transparent 60%)" }}
           aria-hidden
         />

@@ -152,7 +152,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-600 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
+        className="inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-brand-600 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
       >
         {status === "loading" ? (
           <><Loader2 className="h-4 w-4 animate-spin" /> {mode === "signin" ? "Signing in…" : "Creating account…"}</>

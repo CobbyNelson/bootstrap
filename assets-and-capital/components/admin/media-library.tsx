@@ -132,7 +132,7 @@ export function MediaLibrary({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by file name or description"
-            className="w-full rounded-full border border-ink/12 bg-white py-2 pl-9 pr-4 text-sm outline-none focus:border-brand-400"
+            className="w-full rounded-[var(--radius-button)] border border-ink/12 bg-white py-2 pl-9 pr-4 text-sm outline-none focus:border-brand-400"
           />
         </div>
 
@@ -140,7 +140,7 @@ export function MediaLibrary({
           <select
             value={activeFolder}
             onChange={(e) => setActiveFolder(e.target.value)}
-            className="rounded-full border border-ink/12 bg-white px-4 py-2 text-sm outline-none focus:border-brand-400"
+            className="rounded-[var(--radius-button)] border border-ink/12 bg-white px-4 py-2 text-sm outline-none focus:border-brand-400"
           >
             <option value="">All folders</option>
             {folders.map((f) => (
@@ -152,7 +152,7 @@ export function MediaLibrary({
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
-          className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-navy-700"
+          className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-ink px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-navy-700"
         >
           <UploadCloud className="h-4 w-4" /> Upload
         </button>
@@ -161,7 +161,7 @@ export function MediaLibrary({
           <button
             type="button"
             onClick={onClose}
-            className="grid h-9 w-9 place-items-center rounded-full border border-ink/12 text-ink/60 hover:text-ink"
+            className="grid h-9 w-9 place-items-center rounded-[var(--radius-button)] border border-ink/12 text-ink/60 hover:text-ink"
             aria-label="Close media library"
           >
             <X className="h-4 w-4" />
@@ -287,7 +287,7 @@ export function MediaLibrary({
                     <button
                       onClick={() => setConfirmDelete(a.id)}
                       aria-label={`Delete ${a.originalName}`}
-                      className="absolute right-2 top-2 grid h-7 w-7 place-items-center rounded-full bg-white/90 text-ink/60 opacity-0 shadow-sm transition group-hover:opacity-100 hover:text-red-600"
+                      className="absolute right-2 top-2 grid h-7 w-7 place-items-center rounded-[var(--radius-button)] bg-white/90 text-ink/60 opacity-0 shadow-sm transition group-hover:opacity-100 hover:text-red-600"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>

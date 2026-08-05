@@ -28,13 +28,13 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <button
             onClick={reset}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+            className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
           >
             <RefreshCw className="h-4 w-4" /> Try again
           </button>
           <Link
             href="/"
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/12 bg-white px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-ink/25"
+            className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-button)] border border-ink/12 bg-white px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-ink/25"
           >
             <Home className="h-4 w-4" /> Back home
           </Link>

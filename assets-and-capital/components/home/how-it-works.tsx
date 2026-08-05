@@ -22,12 +22,12 @@ export function HowItWorks() {
             title="From first look to closed deal — in one place"
             subtitle="A guided, transparent path whether you're deploying capital or raising it."
           />
-          <div className="inline-flex rounded-full border border-ink/10 bg-white p-1">
+          <div className="inline-flex rounded-[var(--radius-button)] border border-ink/10 bg-white p-1">
             {TABS.map((t) => (
               <button
                 key={t.key}
                 onClick={() => setTab(t.key)}
-                className={`relative rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+                className={`relative rounded-[var(--radius-button)] px-5 py-2 text-sm font-medium transition-colors ${
                   tab === t.key ? "text-white" : "text-ink/60 hover:text-ink"
                 }`}
               >

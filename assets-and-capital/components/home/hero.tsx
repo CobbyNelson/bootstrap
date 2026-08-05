@@ -163,7 +163,7 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease }}
               >
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[0.7rem] kicker text-white backdrop-blur">
+                <span className="inline-flex items-center gap-2 rounded-[var(--radius-button)] border border-white/25 bg-white/10 px-3 py-1 text-[0.7rem] kicker text-white backdrop-blur">
                   A marketplace for private capital
                 </span>
 
@@ -210,7 +210,7 @@ export function Hero() {
                     type="button"
                     onClick={() => setPlaying((p) => !p)}
                     aria-label={playing ? "Pause sector slideshow" : "Play sector slideshow"}
-                    className="grid h-11 w-11 place-items-center rounded-full border border-white/30 text-white/80 backdrop-blur transition-colors hover:bg-white/15 hover:text-white"
+                    className="grid h-11 w-11 place-items-center rounded-[var(--radius-button)] border border-white/30 text-white/80 backdrop-blur transition-colors hover:bg-white/15 hover:text-white"
                   >
                     {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                   </button>
@@ -219,7 +219,7 @@ export function Hero() {
                   type="button"
                   onClick={() => go(index - 1)}
                   aria-label="Previous sector"
-                  className="grid h-11 w-11 place-items-center rounded-full border border-white/30 text-white/80 backdrop-blur transition-colors hover:bg-white/15 hover:text-white"
+                  className="grid h-11 w-11 place-items-center rounded-[var(--radius-button)] border border-white/30 text-white/80 backdrop-blur transition-colors hover:bg-white/15 hover:text-white"
                 >
                   <ArrowLeft className="h-4 w-4" />
                 </button>
@@ -227,7 +227,7 @@ export function Hero() {
                   type="button"
                   onClick={() => go(index + 1)}
                   aria-label="Next sector"
-                  className="grid h-11 w-11 place-items-center rounded-full bg-white text-ink transition-colors hover:bg-white/90"
+                  className="grid h-11 w-11 place-items-center rounded-[var(--radius-button)] bg-white text-ink transition-colors hover:bg-white/90"
                 >
                   <ArrowRight className="h-4 w-4" />
                 </button>
@@ -260,7 +260,7 @@ export function Hero() {
                         each time the selection moved. */}
                     <span
                       className={cn(
-                        "absolute inset-x-3 bottom-0 h-[3px] rounded-full transition-colors md:inset-x-5",
+                        "absolute inset-x-3 bottom-0 h-[3px] rounded-[var(--radius-button)] transition-colors md:inset-x-5",
                         i === index ? "bg-brand-500" : "bg-transparent"
                       )}
                       aria-hidden

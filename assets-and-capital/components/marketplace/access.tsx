@@ -52,7 +52,7 @@ export function LockPanel({
             href && (
               <Link
                 href={href}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+                className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
               >
                 {cta} <ArrowRight className="h-4 w-4" />
               </Link>
@@ -91,7 +91,7 @@ export function ExpressInterestButton({
       <Link
         href={href}
         className={cn(
-          "inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-700",
+          "inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-brand-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-700",
           className
         )}
       >
@@ -115,7 +115,7 @@ export function ExpressInterestButton({
         onClick={onClick}
         disabled={pending}
         className={cn(
-          "inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition-colors disabled:opacity-60",
+          "inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius-button)] py-3 text-sm font-semibold transition-colors disabled:opacity-60",
           interested
             ? "border border-emerald-600/30 bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
             : "bg-brand-600 text-white hover:bg-brand-700"

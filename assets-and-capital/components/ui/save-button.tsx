@@ -33,7 +33,7 @@ export function SaveButton({
         onClick={onClick}
         aria-pressed={saved}
         className={cn(
-          "inline-flex items-center justify-center gap-1.5 rounded-full border py-2.5 text-sm font-medium transition-colors",
+          "inline-flex items-center justify-center gap-1.5 rounded-[var(--radius-button)] border py-2.5 text-sm font-medium transition-colors",
           saved ? "border-brand-200 bg-brand-50 text-brand-700" : "border-ink/12 text-ink/70 hover:border-ink/25",
           className
         )}
@@ -51,7 +51,7 @@ export function SaveButton({
         onClick={onClick}
         aria-pressed={saved}
         className={cn(
-          "inline-flex items-center justify-center gap-2 rounded-full border px-5 py-3 text-sm font-semibold transition-colors",
+          "inline-flex items-center justify-center gap-2 rounded-[var(--radius-button)] border px-5 py-3 text-sm font-semibold transition-colors",
           saved ? "border-brand-200 bg-brand-50 text-brand-700" : "border-ink/12 bg-white text-ink hover:border-ink/25",
           className
         )}
@@ -69,7 +69,7 @@ export function SaveButton({
       aria-label={saved ? "Remove from saved" : "Save opportunity"}
       aria-pressed={saved}
       className={cn(
-        "grid h-8 w-8 place-items-center rounded-full bg-white/95 text-ink/70 shadow-sm backdrop-blur transition-colors hover:text-brand-600",
+        "grid h-8 w-8 place-items-center rounded-[var(--radius-button)] bg-white/95 text-ink/70 shadow-sm backdrop-blur transition-colors hover:text-brand-600",
         saved && "text-brand-600",
         className
       )}

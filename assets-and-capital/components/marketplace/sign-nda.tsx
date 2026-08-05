@@ -52,7 +52,7 @@ export function SignNdaButton({
   }
 
   const base =
-    "inline-flex items-center justify-center gap-1.5 rounded-full py-2.5 text-sm font-medium transition-colors";
+    "inline-flex items-center justify-center gap-1.5 rounded-[var(--radius-button)] py-2.5 text-sm font-medium transition-colors";
   const btnClass = signed
     ? cn(base, "border border-emerald-600/30 bg-emerald-50 px-4 text-emerald-700", className)
     : primary
@@ -88,7 +88,7 @@ export function SignNdaButton({
               </div>
               <button
                 onClick={() => setOpen(false)}
-                className="grid h-8 w-8 place-items-center rounded-full text-ink/50 hover:bg-paper-2"
+                className="grid h-8 w-8 place-items-center rounded-[var(--radius-button)] text-ink/50 hover:bg-paper-2"
                 aria-label="Close"
               >
                 <X className="h-4 w-4" />
@@ -142,14 +142,14 @@ export function SignNdaButton({
               <div className="mt-4 flex justify-end gap-2">
                 <button
                   onClick={() => setOpen(false)}
-                  className="rounded-full border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/70 hover:border-ink/25"
+                  className="rounded-[var(--radius-button)] border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/70 hover:border-ink/25"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={sign}
                   disabled={!agreed || pending}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 disabled:opacity-50"
+                  className="inline-flex items-center gap-1.5 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 disabled:opacity-50"
                 >
                   {pending ? (
                     <><Loader2 className="h-4 w-4 animate-spin" /> Signing…</>

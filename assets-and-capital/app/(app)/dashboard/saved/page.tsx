@@ -28,11 +28,11 @@ export default function SavedPage() {
         {mounted && count > 0 && (
           <div className="flex items-center gap-2">
             {count >= 2 && (
-              <Link href={compareHref} className="inline-flex items-center gap-2 rounded-full bg-navy-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-navy-800">
+              <Link href={compareHref} className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-navy-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-navy-800">
                 <Scale className="h-4 w-4" /> Compare {count > 3 ? "top 3" : count}
               </Link>
             )}
-            <button onClick={clear} className="inline-flex items-center gap-2 rounded-full border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/60 hover:border-brand-300 hover:text-brand-600">
+            <button onClick={clear} className="inline-flex items-center gap-2 rounded-[var(--radius-button)] border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/60 hover:border-brand-300 hover:text-brand-600">
               <Trash2 className="h-4 w-4" /> Clear all
             </button>
           </div>

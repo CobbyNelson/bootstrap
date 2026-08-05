@@ -69,7 +69,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <Link href="/insights" className="inline-flex items-center gap-1.5 text-sm text-white/70 hover:text-white">
             <ArrowLeft className="h-4 w-4" /> Market insights
           </Link>
-          <span className="mt-6 inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur">{a.type} · {a.category}</span>
+          <span className="mt-6 inline-block rounded-[var(--radius-button)] bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur">{a.type} · {a.category}</span>
           {/* text-white explicitly: the base layer in globals.css colours every
               h1–h6 navy-700, which beats the section's inherited white and left
               this heading at 2.92:1 on the crimson hero — under the 3:1 floor
@@ -103,7 +103,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           />
 
           <div className="mt-12 flex items-center gap-4 rounded-3xl border border-ink/[0.07] bg-paper-2/50 p-6">
-            <span className="grid h-12 w-12 flex-none place-items-center rounded-full bg-gradient-to-br from-ink to-ink-2 text-sm font-semibold text-white">
+            <span className="grid h-12 w-12 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-sm font-semibold text-white">
               {a.author.split(" ").slice(0, 2).map((w) => w[0]).join("")}
             </span>
             <div>
@@ -135,7 +135,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     </>
                   )}
                   <div className="grid-noise absolute inset-0 opacity-30" aria-hidden />
-                  <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-ink backdrop-blur">{r.type}</span>
+                  <span className="absolute left-4 top-4 rounded-[var(--radius-button)] bg-white/90 px-3 py-1 text-xs font-medium text-ink backdrop-blur">{r.type}</span>
                 </div>
                 <div className="flex flex-1 flex-col p-6">
                   <h3 className="text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-brand-700">{r.title}</h3>

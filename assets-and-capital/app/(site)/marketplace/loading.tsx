@@ -2,7 +2,7 @@ export default function Loading() {
   return (
     <div className="pt-32 md:pt-40">
       <div className="container-x">
-        <div className="skeleton h-6 w-32 rounded-full" />
+        <div className="skeleton h-6 w-32 rounded-[var(--radius-button)]" />
         <div className="skeleton mt-5 h-14 w-[28rem] max-w-full rounded-2xl" />
         <div className="skeleton mt-4 h-5 w-96 max-w-full rounded-lg" />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">

@@ -126,7 +126,7 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
         >
           {status === "loading" ? (
             <><Loader2 className="h-4 w-4 animate-spin" /> Sending…</>

@@ -66,17 +66,17 @@ export function OpportunityCard({
           </div>
         )}
         <div className="grid-noise absolute inset-0 opacity-20" aria-hidden />
-        <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[0.62rem] kicker text-ink shadow-sm">
+        <span className="absolute left-3 top-3 rounded-[var(--radius-button)] bg-white/95 px-2.5 py-1 text-[0.62rem] kicker text-ink shadow-sm">
           {o.tier}
         </span>
         <SaveButton slug={slug} className="absolute right-3 top-3" />
         {unlocked ? (
-          <span className="absolute bottom-3 left-3 rounded-full bg-brand-600 px-2.5 py-1 text-[0.65rem] font-semibold text-white tnum">
+          <span className="absolute bottom-3 left-3 rounded-[var(--radius-button)] bg-brand-600 px-2.5 py-1 text-[0.65rem] font-semibold text-white tnum">
             {o.match}% match
           </span>
         ) : (
           <span
-            className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full bg-ink/70 px-2.5 py-1 text-[0.62rem] font-semibold text-white backdrop-blur-sm"
+            className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-[var(--radius-button)] bg-ink/70 px-2.5 py-1 text-[0.62rem] font-semibold text-white backdrop-blur-sm"
             title="Express interest to reveal your match rate"
           >
             <Lock className="h-3 w-3" /> Match locked

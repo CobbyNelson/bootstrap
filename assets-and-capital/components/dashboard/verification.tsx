@@ -59,7 +59,7 @@ export function VerificationFlow({
               const m = STATUS_META[s.status];
               return (
                 <li key={s.label} className="flex items-start gap-3 rounded-xl px-2 py-2.5">
-                  <span className={cn("mt-0.5 grid h-7 w-7 flex-none place-items-center rounded-full text-xs", m.ring)}>
+                  <span className={cn("mt-0.5 grid h-7 w-7 flex-none place-items-center rounded-[var(--radius-button)] text-xs", m.ring)}>
                     {s.status === "Approved" ? <Check className="h-3.5 w-3.5" /> : s.status === "Under Review" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : s.status === "Rejected" ? <X className="h-3.5 w-3.5" /> : i + 1}
                   </span>
                   <div className="min-w-0 flex-1">
@@ -80,7 +80,7 @@ export function VerificationFlow({
       <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="font-display text-lg font-semibold text-navy-700">Documents</h2>
-          <button className="inline-flex items-center gap-2 rounded-full border border-ink/12 px-3.5 py-2 text-sm font-medium text-ink/70 hover:border-ink/25">
+          <button className="inline-flex items-center gap-2 rounded-[var(--radius-button)] border border-ink/12 px-3.5 py-2 text-sm font-medium text-ink/70 hover:border-ink/25">
             <Upload className="h-4 w-4" /> Upload
           </button>
         </div>

@@ -51,7 +51,7 @@ export default async function MarketplacePage() {
       <section className="relative overflow-hidden border-b border-ink/[0.06] pt-32 pb-12 md:pt-40 md:pb-16">
         <div className="grid-noise pointer-events-none absolute inset-0 opacity-50" aria-hidden />
         <div
-          className="pointer-events-none absolute -top-32 right-[-8%] h-[420px] w-[420px] rounded-full opacity-40 blur-3xl"
+          className="pointer-events-none absolute -top-32 right-[-8%] h-[420px] w-[420px] rounded-[var(--radius-button)] opacity-40 blur-3xl"
           style={{ background: "radial-gradient(circle, rgba(229,50,43,0.16), transparent 65%)" }}
           aria-hidden
         />
@@ -69,7 +69,7 @@ export default async function MarketplacePage() {
             {TRUST.map((t) => (
               <span
                 key={t.label}
-                className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-white px-3.5 py-1.5 text-sm font-medium text-ink/70"
+                className="inline-flex items-center gap-1.5 rounded-[var(--radius-button)] border border-ink/10 bg-white px-3.5 py-1.5 text-sm font-medium text-ink/70"
               >
                 <t.icon className="h-4 w-4 text-brand-600" /> {t.label}
               </span>

@@ -74,7 +74,7 @@ export default async function BusinessDashboard() {
             <Badge variant="success" size="sm">Verified</Badge>
           </div>
         </div>
-        <Link href="/dashboard/business/billing" className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
+        <Link href="/dashboard/business/billing" className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
           Upgrade listing <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
@@ -167,7 +167,7 @@ export default async function BusinessDashboard() {
               { from: "Meridian Growth", preview: "Please share the FY25 audited financials.", time: "1d", unread: false },
             ].map((m) => (
               <div key={m.from} className="flex items-start gap-3 py-3 first:pt-0">
-                <span className="grid h-9 w-9 flex-none place-items-center rounded-full bg-paper-2 text-xs font-semibold text-ink/60">
+                <span className="grid h-9 w-9 flex-none place-items-center rounded-[var(--radius-button)] bg-paper-2 text-xs font-semibold text-ink/60">
                   {m.from.split(" ").slice(0, 2).map((w) => w[0]).join("")}
                 </span>
                 <div className="min-w-0 flex-1">

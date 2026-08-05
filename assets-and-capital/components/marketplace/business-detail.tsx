@@ -250,7 +250,7 @@ export function BusinessDetail({
                   <h2 className="font-display text-xl font-semibold text-navy-700">Data room</h2>
                 </div>
                 {documents && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
+                  <span className="inline-flex items-center gap-1 rounded-[var(--radius-button)] bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
                     <Check className="h-3.5 w-3.5" /> NDA signed
                   </span>
                 )}
@@ -347,7 +347,7 @@ export function BusinessDetail({
             </>
           ) : (
             <div className="flex flex-col items-center px-2 py-4 text-center">
-              <div className="grid h-16 w-16 place-items-center rounded-full bg-paper-2 text-ink/40">
+              <div className="grid h-16 w-16 place-items-center rounded-[var(--radius-button)] bg-paper-2 text-ink/40">
                 <Lock className="h-6 w-6" />
               </div>
               <p className="mt-4 font-display text-lg font-semibold text-navy-700">Your match rate is locked</p>

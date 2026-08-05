@@ -39,7 +39,7 @@ const ROLE_STYLE: Record<string, string> = {
 
 function Toggle({ on, onClick }: { on: boolean; onClick: () => void }) {
   return (
-    <button onClick={onClick} className={cn("relative h-6 w-11 flex-none rounded-full transition-colors", on ? "bg-brand-600" : "bg-ink/15")} role="switch" aria-checked={on}>
+    <button onClick={onClick} className={cn("relative h-6 w-11 flex-none rounded-[var(--radius-button)] transition-colors", on ? "bg-brand-600" : "bg-ink/15")} role="switch" aria-checked={on}>
       <span className={cn("absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all", on ? "left-[1.375rem]" : "left-0.5")} />
     </button>
   );
@@ -59,9 +59,9 @@ export function AccountSettings() {
         <p className="mt-1 text-sm text-ink/65">Protect your account and manage who can access your workspace.</p>
       </div>
 
-      <div className="flex flex-wrap gap-1 rounded-full border border-ink/[0.07] bg-white p-1">
+      <div className="flex flex-wrap gap-1 rounded-[var(--radius-button)] border border-ink/[0.07] bg-white p-1">
         {TABS.map((t) => (
-          <button key={t} onClick={() => setTab(t)} className={cn("rounded-full px-4 py-2 text-sm font-medium transition-colors", tab === t ? "bg-ink text-white" : "text-ink/65 hover:text-ink")}>{t}</button>
+          <button key={t} onClick={() => setTab(t)} className={cn("rounded-[var(--radius-button)] px-4 py-2 text-sm font-medium transition-colors", tab === t ? "bg-ink text-white" : "text-ink/65 hover:text-ink")}>{t}</button>
         ))}
       </div>
 
@@ -99,7 +99,7 @@ export function AccountSettings() {
               <p className="text-sm font-medium text-ink">Password</p>
               <p className="text-xs text-ink/65">Last changed 3 days ago · 24 characters</p>
             </div>
-            <button className="rounded-full border border-ink/12 px-4 py-2 text-sm font-medium text-ink/70 hover:bg-paper-2">Change</button>
+            <button className="rounded-[var(--radius-button)] border border-ink/12 px-4 py-2 text-sm font-medium text-ink/70 hover:bg-paper-2">Change</button>
           </div>
 
           <div className="rounded-2xl border border-ink/[0.07] bg-white p-6">
@@ -107,7 +107,7 @@ export function AccountSettings() {
             <div className="mt-4 space-y-3">
               {LOGINS.map((l, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <span className={cn("grid h-8 w-8 flex-none place-items-center rounded-full", l.ok ? "bg-emerald-50 text-emerald-700" : "bg-brand-50 text-brand-600")}>
+                  <span className={cn("grid h-8 w-8 flex-none place-items-center rounded-[var(--radius-button)]", l.ok ? "bg-emerald-50 text-emerald-700" : "bg-brand-50 text-brand-600")}>
                     {l.ok ? <CheckCircle2 className="h-4 w-4" /> : <AlertTriangle className="h-4 w-4" />}
                   </span>
                   <div className="min-w-0 flex-1">
@@ -126,7 +126,7 @@ export function AccountSettings() {
         <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
           <div className="flex items-center justify-between">
             <h2 className="font-display text-base font-semibold text-navy-700">Active sessions</h2>
-            <button className="inline-flex items-center gap-1.5 rounded-full border border-brand-200 px-3.5 py-2 text-sm font-medium text-brand-700 hover:bg-brand-50"><LogOut className="h-4 w-4" /> Sign out all others</button>
+            <button className="inline-flex items-center gap-1.5 rounded-[var(--radius-button)] border border-brand-200 px-3.5 py-2 text-sm font-medium text-brand-700 hover:bg-brand-50"><LogOut className="h-4 w-4" /> Sign out all others</button>
           </div>
           <div className="mt-4 divide-y divide-ink/[0.05]">
             {SESSIONS.map((s, i) => (
@@ -135,12 +135,12 @@ export function AccountSettings() {
                 <div className="min-w-0 flex-1">
                   <p className="flex items-center gap-2 text-sm font-medium text-ink">
                     {s.device}
-                    {s.current && <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[0.65rem] font-medium text-emerald-700">This device</span>}
+                    {s.current && <span className="rounded-[var(--radius-button)] bg-emerald-50 px-2 py-0.5 text-[0.65rem] font-medium text-emerald-700">This device</span>}
                   </p>
                   <p className="text-xs text-ink/65">{s.where} · {s.ip}</p>
                 </div>
                 <span className={cn("text-xs", s.current ? "font-medium text-emerald-700" : "text-ink/60")}>{s.when}</span>
-                {!s.current && <button className="rounded-full border border-ink/12 px-3 py-1.5 text-xs font-medium text-ink/60 hover:bg-paper-2">Revoke</button>}
+                {!s.current && <button className="rounded-[var(--radius-button)] border border-ink/12 px-3 py-1.5 text-xs font-medium text-ink/60 hover:bg-paper-2">Revoke</button>}
               </div>
             ))}
           </div>
@@ -154,19 +154,19 @@ export function AccountSettings() {
               <Users className="h-4 w-4 text-brand-600" />
               <h2 className="font-display text-base font-semibold text-navy-700">Team &amp; role-based access</h2>
             </div>
-            <button className="rounded-full bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700">Invite member</button>
+            <button className="rounded-[var(--radius-button)] bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700">Invite member</button>
           </div>
           <div className="mt-4 divide-y divide-ink/[0.05]">
             {TEAM.map((m) => (
               <div key={m.email} className="flex items-center gap-4 py-4">
-                <span className="grid h-10 w-10 flex-none place-items-center rounded-full bg-gradient-to-br from-ink to-ink-2 text-xs font-semibold text-white">
+                <span className="grid h-10 w-10 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-xs font-semibold text-white">
                   {m.name.split(" ").slice(0, 2).map((w) => w[0]).join("")}
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium text-ink">{m.name} {m.you && <span className="text-ink/60">(you)</span>}</p>
                   <p className="truncate text-xs text-ink/65">{m.email} · {m.access}</p>
                 </div>
-                <span className={cn("rounded-full px-2.5 py-1 text-xs font-medium ring-1", ROLE_STYLE[m.role])}>{m.role}</span>
+                <span className={cn("rounded-[var(--radius-button)] px-2.5 py-1 text-xs font-medium ring-1", ROLE_STYLE[m.role])}>{m.role}</span>
               </div>
             ))}
           </div>

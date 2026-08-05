@@ -79,7 +79,7 @@ export function ESign() {
           <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Agreements</h1>
           <p className="mt-1 text-sm text-ink/65">Legally-binding e-signature with tamper-evident audit trail</p>
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 ring-1 ring-emerald-100">
+        <span className="inline-flex items-center gap-1.5 rounded-[var(--radius-button)] bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 ring-1 ring-emerald-100">
           <ShieldCheck className="h-3.5 w-3.5" /> eIDAS &amp; ESIGN compliant
         </span>
       </div>
@@ -101,7 +101,7 @@ export function ESign() {
                   <p className="truncate text-sm font-medium text-ink">{d.title}</p>
                   <p className="truncate text-xs text-ink/65">{d.type} · {d.counterparty}</p>
                   <div className="mt-2 flex items-center justify-between">
-                    <span className={cn("rounded-full px-2 py-0.5 text-[0.7rem] font-medium ring-1", STATUS_STYLE[d.id === activeId && signed ? "Completed" : d.status])}>
+                    <span className={cn("rounded-[var(--radius-button)] px-2 py-0.5 text-[0.7rem] font-medium ring-1", STATUS_STYLE[d.id === activeId && signed ? "Completed" : d.status])}>
                       {d.id === activeId && signed ? "Completed" : d.status}
                     </span>
                     <span className="text-[0.7rem] text-ink/60">{d.updated}</span>
@@ -152,8 +152,8 @@ export function ESign() {
                       I agree this electronic signature is the legal equivalent of my handwritten signature.
                     </label>
                     <div className="mt-4 flex gap-2">
-                      <button onClick={() => setSigning(false)} className="flex-1 rounded-full border border-ink/12 py-2.5 text-sm font-medium text-ink/70 hover:bg-paper-2">Cancel</button>
-                      <button onClick={() => { setSigning(false); setSigned(true); }} className="flex-1 rounded-full bg-brand-600 py-2.5 text-sm font-medium text-white hover:bg-brand-700">Adopt &amp; sign</button>
+                      <button onClick={() => setSigning(false)} className="flex-1 rounded-[var(--radius-button)] border border-ink/12 py-2.5 text-sm font-medium text-ink/70 hover:bg-paper-2">Cancel</button>
+                      <button onClick={() => { setSigning(false); setSigned(true); }} className="flex-1 rounded-[var(--radius-button)] bg-brand-600 py-2.5 text-sm font-medium text-white hover:bg-brand-700">Adopt &amp; sign</button>
                     </div>
                   </div>
                 </div>
@@ -163,15 +163,15 @@ export function ESign() {
             {/* action bar */}
             <div className="flex flex-wrap items-center gap-3 p-4">
               {isSignable ? (
-                <button onClick={() => setSigning(true)} className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
+                <button onClick={() => setSigning(true)} className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
                   <PenLine className="h-4 w-4" /> Review &amp; sign
                 </button>
               ) : (
-                <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-2.5 text-sm font-medium text-emerald-700">
+                <span className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-emerald-50 px-4 py-2.5 text-sm font-medium text-emerald-700">
                   <CheckCircle2 className="h-4 w-4" /> {signed || active.status === "Completed" ? "You have signed" : "No action required"}
                 </span>
               )}
-              <button className="inline-flex items-center gap-2 rounded-full border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-paper-2"><Download className="h-4 w-4" /> Download</button>
+              <button className="inline-flex items-center gap-2 rounded-[var(--radius-button)] border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-paper-2"><Download className="h-4 w-4" /> Download</button>
               <div className="ml-auto flex items-center gap-1.5 text-xs text-ink/60"><Lock className="h-3.5 w-3.5" /> 256-bit encrypted</div>
             </div>
           </div>
@@ -184,7 +184,7 @@ export function ESign() {
                 const done = s.status === "Signed" || (i === 1 && signed);
                 return (
                   <div key={i} className="flex items-center gap-3">
-                    <span className={cn("grid h-8 w-8 flex-none place-items-center rounded-full text-xs font-semibold", done ? "bg-emerald-100 text-emerald-700" : "bg-ink/[0.06] text-ink/65")}>
+                    <span className={cn("grid h-8 w-8 flex-none place-items-center rounded-[var(--radius-button)] text-xs font-semibold", done ? "bg-emerald-100 text-emerald-700" : "bg-ink/[0.06] text-ink/65")}>
                       {done ? <CheckCircle2 className="h-4 w-4" /> : <Clock className="h-4 w-4" />}
                     </span>
                     <div className="min-w-0 flex-1">

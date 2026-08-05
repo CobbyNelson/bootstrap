@@ -53,13 +53,13 @@ export function Meetings() {
           <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Calls &amp; scheduling</h1>
           <p className="mt-1 text-sm text-ink/65">Host secure calls or connect your calendar and conferencing tools.</p>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> New meeting</button>
+        <button className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> New meeting</button>
       </div>
 
       {live && (
         <div className="overflow-hidden rounded-3xl border border-brand-200 bg-gradient-to-br from-brand-600 to-brand-800 p-6 text-white">
           <div className="flex flex-wrap items-center gap-4">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-medium">
+            <span className="inline-flex items-center gap-1.5 rounded-[var(--radius-button)] bg-white/15 px-3 py-1 text-xs font-medium">
               <span className="h-2 w-2 animate-pulse rounded-full bg-white" /> Live now
             </span>
             <div className="min-w-0 flex-1">
@@ -71,7 +71,7 @@ export function Meetings() {
                 <span key={a} className="grid h-9 w-9 place-items-center rounded-full border-2 border-brand-700 bg-white/20 text-[0.7rem] font-semibold backdrop-blur">{initials(a)}</span>
               ))}
             </div>
-            <button className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand-700 hover:bg-white/90"><Play className="h-4 w-4 fill-brand-700" /> Join call</button>
+            <button className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-white px-5 py-2.5 text-sm font-semibold text-brand-700 hover:bg-white/90"><Play className="h-4 w-4 fill-brand-700" /> Join call</button>
           </div>
         </div>
       )}
@@ -92,16 +92,16 @@ export function Meetings() {
                 <div className="mt-1.5 flex flex-wrap items-center gap-2 text-[0.7rem] text-ink/65">
                   <span className="inline-flex items-center gap-1"><Clock className="h-3 w-3" /> {m.duration}</span>
                   <span className="inline-flex items-center gap-1"><Users className="h-3 w-3" /> {m.attendees.length}</span>
-                  <span className={cn("rounded-full px-2 py-0.5 font-medium", PROVIDER_STYLE[m.provider])}>{m.provider}</span>
+                  <span className={cn("rounded-[var(--radius-button)] px-2 py-0.5 font-medium", PROVIDER_STYLE[m.provider])}>{m.provider}</span>
                 </div>
               </div>
               <div className="flex flex-none items-center gap-2">
                 {m.status === "Pending" ? (
-                  <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[0.7rem] font-medium text-amber-700">Pending</span>
+                  <span className="rounded-[var(--radius-button)] bg-amber-50 px-2.5 py-1 text-[0.7rem] font-medium text-amber-700">Pending</span>
                 ) : (
                   <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[0.7rem] font-medium text-emerald-700"><CheckCircle2 className="h-3 w-3" /> Confirmed</span>
                 )}
-                <button className="grid h-9 w-9 place-items-center rounded-full text-ink/60 hover:bg-paper-2 hover:text-ink"><ChevronRight className="h-4 w-4" /></button>
+                <button className="grid h-9 w-9 place-items-center rounded-[var(--radius-button)] text-ink/60 hover:bg-paper-2 hover:text-ink"><ChevronRight className="h-4 w-4" /></button>
               </div>
             </div>
           ))}
@@ -135,7 +135,7 @@ export function Meetings() {
                 ))}
               </div>
             </div>
-            <button className="mt-5 w-full rounded-full bg-brand-600 py-2.5 text-sm font-medium text-white hover:bg-brand-700">Send invite for {slot} · {provider}</button>
+            <button className="mt-5 w-full rounded-[var(--radius-button)] bg-brand-600 py-2.5 text-sm font-medium text-white hover:bg-brand-700">Send invite for {slot} · {provider}</button>
           </div>
 
           <div className="rounded-3xl border border-ink/[0.07] bg-white p-5">
@@ -152,7 +152,7 @@ export function Meetings() {
                   {c.connected ? (
                     <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700"><CheckCircle2 className="h-3.5 w-3.5" /> Connected</span>
                   ) : (
-                    <button className="rounded-full border border-ink/12 px-3 py-1 text-xs font-medium text-ink/60 hover:bg-paper-2">Connect</button>
+                    <button className="rounded-[var(--radius-button)] border border-ink/12 px-3 py-1 text-xs font-medium text-ink/60 hover:bg-paper-2">Connect</button>
                   )}
                 </div>
               ))}

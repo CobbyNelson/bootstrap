@@ -88,16 +88,12 @@
   --animate-marquee: marquee 34s linear infinite;
   --animate-marquee-slow: marquee 60s linear infinite;
 
-  /* ---------- brand geometry ----------
-     The logo mark is built from rounded parallelograms: horizontal top and
-     bottom edges, verticals leaning ~24.5° (measured off public/img/logo.png,
-     not eyeballed). Buttons borrow that shape instead of the generic pill, so
-     the CTA and the mark share one geometry.
-
-     Applied as a skew on the button with an equal counter-skew on the label,
-     which keeps the text upright while the box leans. */
-  --brand-slant: -24.5deg;
-  --brand-slant-radius: 0.65rem;
+  /* ---------- control geometry ----------
+     One radius for every button, so nothing on the site is shaped differently
+     from anything else it sits beside. Pills are reserved for elements a
+     rectangle genuinely cannot describe — a circular progress ring, an avatar,
+     a dot indicator. */
+  --radius-button: 0.625rem;
 
   /* ---------- motion ----------
      One curve for the whole app. Tailwind's default transition curve is
@@ -500,28 +496,3 @@ body {
 }
 
 
-/* ---------- brand slant ----------
-   The logo's rounded-parallelogram geometry as a utility. The box skews;
-   `.slant-content` cancels it so the label stays upright.
-
-   The margin is not cosmetic. Skewing by θ pushes the top edge right and the
-   bottom edge left by (height · tanθ)/2 each — about 12px on a large button.
-   Layout still measures the UNSKEWED box, so two buttons with a 12px flex gap
-   ended up visually overlapping by 12px. The inline margin reserves that bleed
-   so ordinary gaps and card padding behave as they look. */
-.slant {
-  border-radius: var(--brand-slant-radius);
-  transform: skewX(var(--brand-slant));
-  /* tan(24.5°)/2 ≈ 0.2279 of the element's own height. */
-  margin-inline: calc(var(--slant-bleed, 0.625rem));
-}
-.slant-content {
-  transform: skewX(calc(var(--brand-slant) * -1));
-}
-/* Icon-only and text-link buttons keep their own geometry: skewing a square
-   icon target makes it unpredictable to hit, and a text link is not a shape. */
-.slant-none {
-  transform: none;
-  border-radius: 9999px;
-  margin-inline: 0;
-}

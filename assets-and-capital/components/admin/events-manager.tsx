@@ -78,7 +78,7 @@ export function EventsManager() {
           <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Event management</h1>
           <p className="mt-1 text-sm text-ink/65">Registration, ticketing, QR check-in and live attendance.</p>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> Create event</button>
+        <button className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> Create event</button>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -100,7 +100,7 @@ export function EventsManager() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <p className="truncate text-sm font-medium text-ink">{e.title}</p>
-                    <span className={cn("rounded-full px-2 py-0.5 text-[0.65rem] font-medium ring-1", STATUS_STYLE[e.status])}>{e.status}</span>
+                    <span className={cn("rounded-[var(--radius-button)] px-2 py-0.5 text-[0.65rem] font-medium ring-1", STATUS_STYLE[e.status])}>{e.status}</span>
                   </div>
                   <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink/65">
                     <span className="inline-flex items-center gap-1"><Calendar className="h-3 w-3" /> {e.date}</span>
@@ -130,7 +130,7 @@ export function EventsManager() {
                 <p className="text-xs font-medium uppercase tracking-wider text-ink/60">{active.type}</p>
                 <h3 className="mt-1 font-display text-lg font-semibold text-navy-700">{active.title}</h3>
               </div>
-              <span className={cn("rounded-full px-2.5 py-1 text-xs font-medium ring-1", STATUS_STYLE[active.status])}>{active.status}</span>
+              <span className={cn("rounded-[var(--radius-button)] px-2.5 py-1 text-xs font-medium ring-1", STATUS_STYLE[active.status])}>{active.status}</span>
             </div>
 
             <div className="mt-5 grid grid-cols-3 gap-3 text-center">
@@ -161,14 +161,14 @@ export function EventsManager() {
               <h3 className="font-display text-base font-semibold text-navy-700">Registrants</h3>
               <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700"><TrendingUp className="h-3.5 w-3.5" /> {checkedIn} checked in</span>
             </div>
-            <div className="mb-3 flex items-center gap-2 rounded-full bg-paper-2 px-3.5">
+            <div className="mb-3 flex items-center gap-2 rounded-[var(--radius-button)] bg-paper-2 px-3.5">
               <Search className="h-4 w-4 text-ink/60" />
               <input placeholder="Search registrants…" className="h-8 w-full bg-transparent text-sm text-ink placeholder:text-ink/60 focus:outline-none" />
             </div>
             <div className="space-y-1">
               {registrants.map((r, i) => (
                 <div key={i} className="flex items-center gap-3 rounded-lg px-1.5 py-2 hover:bg-paper-2/50">
-                  <span className="grid h-8 w-8 flex-none place-items-center rounded-full bg-gradient-to-br from-ink to-ink-2 text-[0.65rem] font-semibold text-white">
+                  <span className="grid h-8 w-8 flex-none place-items-center rounded-[var(--radius-button)] bg-gradient-to-br from-ink to-ink-2 text-[0.65rem] font-semibold text-white">
                     {r.name.split(" ").slice(0, 2).map((w) => w[0]).join("")}
                   </span>
                   <div className="min-w-0 flex-1">
@@ -179,7 +179,7 @@ export function EventsManager() {
                   {r.checkedIn ? (
                     <span className="inline-flex items-center gap-1 text-[0.7rem] font-medium text-emerald-700"><CheckCircle2 className="h-3.5 w-3.5" /> {r.time}</span>
                   ) : (
-                    <button onClick={() => setRegistrants((prev) => prev.map((x, xi) => xi === i ? { ...x, checkedIn: true, time: "Now" } : x))} className="rounded-full border border-ink/12 px-2.5 py-1 text-[0.7rem] font-medium text-ink/60 hover:bg-paper-2">Check in</button>
+                    <button onClick={() => setRegistrants((prev) => prev.map((x, xi) => xi === i ? { ...x, checkedIn: true, time: "Now" } : x))} className="rounded-[var(--radius-button)] border border-ink/12 px-2.5 py-1 text-[0.7rem] font-medium text-ink/60 hover:bg-paper-2">Check in</button>
                   )}
                 </div>
               ))}
