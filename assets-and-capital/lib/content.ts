@@ -13,7 +13,7 @@ export const SITE = {
   short: "A&C",
   domain: "assetsandcapitalltd.com",
   email: "hello@assetsandcapitalltd.com",
-  phone: "+44 20 3900 0000",
+  phone: "+971 52 680 1658",
   tagline: "Where quality assets meet ready capital.",
   description:
     "Assets & Capital is a digital investment marketplace connecting vetted businesses seeking capital with a global network of ready investors — for capital raising, partnerships, and market expansion.",
