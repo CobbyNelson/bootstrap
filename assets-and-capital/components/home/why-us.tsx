@@ -62,7 +62,7 @@ export function WhyUs() {
         <Reveal delay={0.1}>
           <Link
             href="/about"
-            className="btn-skew-right rounded-[var(--radius-button)] label-cta group mt-10 inline-flex h-11 items-center gap-2.5 bg-white pl-5 pr-9 text-[0.72rem] text-navy-900 transition-colors hover:bg-brand-600 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900"
+            className="rounded-[var(--radius-button)] label-cta group mt-10 inline-flex h-11 items-center gap-2.5 bg-white pl-5 pr-6 text-[0.72rem] text-navy-900 transition-colors hover:bg-brand-600 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900"
           >
             How we work with both sides
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />

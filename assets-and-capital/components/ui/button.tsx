@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const buttonVariants = cva(
   // One shape for every button on the site — see --radius-button in
   // globals.css. Pills are reserved for things a rectangle cannot describe.
-  "btn-skew-right label-cta rounded-[var(--radius-button)] inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none",
+  "label-cta rounded-[var(--radius-button)] inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none",
   {
     variants: {
       variant: {
@@ -24,11 +24,11 @@ const buttonVariants = cva(
         // Two heights only, matching the buttons the brand already reads well
         // at: 36px (nav "Get started") and 44px (section CTAs). The old 52px
         // `lg` made a third size that nothing else on the page shared.
-        // Extra right padding: the slanted edge eats horizontal room at the
-        // bottom, so symmetric padding would crowd the label against it.
-        sm: "h-9 pl-4 pr-7 text-[0.68rem] [--btn-skew-run:16px]",
-        md: "h-11 pl-5 pr-9 text-[0.72rem]",
-        lg: "h-11 pl-6 pr-10 text-[0.72rem]",
+        // One shape and two heights, taking the "Start with a mandate"
+        // proportions as the reference: 44px tall, generous horizontal padding.
+        sm: "h-9 px-5 text-[0.68rem]",
+        md: "h-11 px-6 text-[0.72rem]",
+        lg: "h-11 px-7 text-[0.72rem]",
         // Square footprint, same corner radius — an icon button is still a
         // button, so it should not be the one round thing in a row of them.
         icon: "h-11 w-11",
@@ -98,7 +98,7 @@ export function PillButton({
     <Link
       href={href}
       className={cn(
-        "btn-skew-right rounded-[var(--radius-button)] group inline-flex h-11 items-center gap-3 pl-6 pr-3 transition-colors",
+        "rounded-[var(--radius-button)] group inline-flex h-11 items-center gap-3 pl-6 pr-3 transition-colors",
         tones[tone],
         className
       )}

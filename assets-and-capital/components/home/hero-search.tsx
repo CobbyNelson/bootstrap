@@ -58,7 +58,7 @@ export function HeroSearch() {
               onChange={(e) => setValues((v) => ({ ...v, [f.key]: e.target.value }))}
               /* appearance-none + our own chevron: the native arrow sits at a
                  different offset per browser and breaks the pill's rhythm. */
-              className="w-full cursor-pointer appearance-none rounded-[var(--radius-button)] bg-transparent py-3 pl-5 pr-9 text-sm font-medium text-ink outline-none focus-visible:ring-2 focus-visible:ring-brand-600"
+              className="w-full cursor-pointer appearance-none rounded-[var(--radius-button)] bg-transparent py-3 pl-5 pr-6 text-sm font-medium text-ink outline-none focus-visible:ring-2 focus-visible:ring-brand-600"
             >
               <option value="">{f.any}</option>
               {f.options.map((o) => (
@@ -76,7 +76,7 @@ export function HeroSearch() {
 
         <button
           type="submit"
-          className="btn-skew-right rounded-[var(--radius-button)] label-cta inline-flex h-11 shrink-0 items-center justify-center gap-2 bg-ink pl-6 pr-10 text-[0.72rem] text-white transition-colors hover:bg-navy-700"
+          className="rounded-[var(--radius-button)] label-cta inline-flex h-11 shrink-0 items-center justify-center gap-2 bg-ink pl-6 pr-6 text-[0.72rem] text-white transition-colors hover:bg-navy-700"
         >
           <Search className="h-4 w-4" />
           Find opportunities

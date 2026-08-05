@@ -116,7 +116,7 @@ export function Navbar() {
                   <Link
                     href={group.href}
                     className={cn(
-                      "inline-flex items-center gap-1 rounded-[var(--radius-button)] px-4 py-2 text-[0.925rem] font-medium transition-colors",
+                      "label-cta inline-flex items-center gap-1 rounded-[var(--radius-button)] px-3.5 py-2 text-[0.68rem] transition-colors",
                       onDarkHero ? "text-white/85 hover:text-white" : "text-ink/75 hover:text-ink"
                     )}
                   >
@@ -125,7 +125,7 @@ export function Navbar() {
                 ) : (
                   <button
                     className={cn(
-                      "inline-flex items-center gap-1 rounded-[var(--radius-button)] px-4 py-2 text-[0.925rem] font-medium transition-colors",
+                      "label-cta inline-flex items-center gap-1 rounded-[var(--radius-button)] px-3.5 py-2 text-[0.68rem] transition-colors",
                       onDarkHero
                         ? open === group.label ? "text-white" : "text-white/85 hover:text-white"
                         : open === group.label ? "text-ink" : "text-ink/75 hover:text-ink"
@@ -151,7 +151,7 @@ export function Navbar() {
                       <div className="grid w-[min(90vw,640px)] grid-cols-2 gap-2 rounded-3xl border border-ink/[0.07] bg-white/95 p-3 shadow-[var(--shadow-lift)] backdrop-blur-xl">
                         {group.columns!.map((col) => (
                           <div key={col.title} className="rounded-2xl p-2">
-                            <p className="px-3 pb-1.5 pt-2 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink/60">
+                            <p className="label-cta px-3 pb-1.5 pt-2 text-[0.62rem] text-ink/60">
                               {col.title}
                             </p>
                             {col.links.map((link) => (
@@ -306,13 +306,13 @@ export function Navbar() {
                     <Link
                       href={group.href}
                       onClick={() => setMobileOpen(false)}
-                      className="block font-display text-xl font-semibold text-navy-700"
+                      className="label-cta block text-[0.8rem] text-navy-700"
                     >
                       {group.label}
                     </Link>
                   ) : (
                     <>
-                      <p className="font-display text-xl font-semibold text-navy-700">{group.label}</p>
+                      <p className="label-cta text-[0.8rem] text-navy-700">{group.label}</p>
                       <div className="mt-3 grid gap-1">
                         {group.columns!.flatMap((c) => c.links).map((link) => (
                           <Link

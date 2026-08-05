@@ -93,7 +93,7 @@ export function OpportunityCard({
               <MapPin className="h-3 w-3" /> {o.country} · {o.region}
             </p>
           </div>
-          <span className="flex-none rounded-lg bg-paper-2 px-3.5 py-1.5 text-xs font-semibold text-ink transition-colors group-hover:bg-brand-600 group-hover:text-white">
+          <span className="label-cta flex-none rounded-[var(--radius-button)] bg-paper-2 px-3.5 py-1.5 text-[0.62rem] text-ink transition-colors group-hover:bg-brand-600 group-hover:text-white">
             Invest
           </span>
         </div>

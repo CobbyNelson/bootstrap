@@ -142,15 +142,14 @@ export function Hero() {
           </div>
         ))}
 
-        {/* Scrim. Two gradients: one bottom-up so the lower third can carry
-            white text over any photograph, one from the left so the headline
-            has a darker bed than the right-hand search panel needs. */}
+        {/* Scrim. A flat wash across the WHOLE frame so every photograph sits
+            at the same weight and the navbar has a consistent bed at the top,
+            plus a bottom-up gradient that deepens behind the copy. The old
+            version faded to 25% at the top, so each slide lightened the header
+            by a different amount. */}
+        <div className="absolute inset-0 bg-ink/55" aria-hidden />
         <div
-          className="absolute inset-0 bg-gradient-to-t from-ink/92 via-ink/45 to-ink/25"
-          aria-hidden
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-ink/70 via-transparent to-transparent"
+          className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/30 to-transparent"
           aria-hidden
         />
 
@@ -170,7 +169,7 @@ export function Hero() {
                 <h1 className="mt-5 max-w-2xl font-display text-[2.4rem] font-bold leading-[1.03] tracking-[-0.02em] text-white sm:text-5xl md:text-[3.6rem]">
                   Where quality assets
                   <br className="hidden sm:block" /> meet{" "}
-                  <span className="italic text-brand-400">ready capital.</span>
+                  <span className="italic text-brand-500">ready capital.</span>
                 </h1>
 
                 <p className="mt-4 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
@@ -273,8 +272,11 @@ export function Hero() {
         </div>
       </div>
 
-      {/* ── search, overlapping the slider ───────────────────────────────── */}
-      <div className="container-x relative z-10 -mt-8 flex justify-center pb-14 md:-mt-9">
+      {/* ── search, in its own band below the hero ───────────────────────── */}
+      {/* It used to hang off the bottom edge of the slider on a negative
+          margin, which meant it sat half on the photograph and half on the
+          page. Given its own space it reads as a distinct step. */}
+      <div className="container-x relative z-10 flex justify-center py-10 md:py-12">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
