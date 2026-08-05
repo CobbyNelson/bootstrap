@@ -6,6 +6,8 @@ import { CommandPalette } from "@/components/search/command-palette";
 import { CurrencyProvider } from "@/components/providers/currency-provider";
 import { MotionProvider } from "@/components/providers/motion-provider";
 import { CookieConsent } from "@/components/layout/cookie-consent";
+import { ChatBox } from "@/components/chat/chat-box";
+import { StaffPresence } from "@/components/chat/staff-presence";
 import "./globals.css";
 
 // Headings and labels.

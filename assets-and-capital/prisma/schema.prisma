@@ -134,6 +134,12 @@ model User {
   docAccess     DocumentAccessLog[]
   uploads       MediaAsset[]        @relation("MediaUploader")
   articles      Article[]           @relation("ArticleAuthor")
+  /** Last heartbeat from a signed-in staff member. Drives the live/away badge
+   *  visitors see — presence is derived from recency, not a boolean someone
+   *  has to remember to switch off. */
+  staffSeenAt   DateTime?
+  chats         ChatConversation[]  @relation("ChatVisitor")
+  chatReplies   ChatMessage[]       @relation("ChatAuthor")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -629,4 +635,66 @@ model Article {
 enum ArticleStatus {
   DRAFT
   PUBLISHED
+}
+
+
+/* ─────────────────────────────── live chat ─────────────────────────────────
+ * Kwaku answers from the site's own content. When he cannot, the conversation
+ * escalates: to a live staff member if one is online, otherwise it waits as a
+ * message for an admin, and the reply is emailed to the visitor with a link
+ * back into the same thread.
+ * ------------------------------------------------------------------------- */
+
+enum ChatStatus {
+  /** Kwaku is handling it. */
+  BOT
+  /** Escalated, nobody has picked it up yet. */
+  WAITING
+  /** A staff member is in the conversation. */
+  LIVE
+  CLOSED
+}
+
+enum ChatRole {
+  VISITOR
+  KWAKU
+  STAFF
+}
+
+model ChatConversation {
+  id     String @id @default(cuid())
+  /** Anonymous visitors are identified by a cookie value; signed-in users also
+   *  carry userId so staff can see who they are talking to. */
+  visitorKey String @unique
+  userId String?
+  user   User?   @relation("ChatVisitor", fields: [userId], references: [id])
+  /** Captured when a visitor leaves a message for a reply by email. */
+  email  String?
+  name   String?
+  status ChatStatus @default(BOT)
+  /** Drives "are they still here?" when staff reply — if the visitor has gone,
+   *  the reply is emailed instead of only landing in a panel nobody is reading. */
+  visitorSeenAt DateTime @default(now())
+  messages  ChatMessage[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, updatedAt])
+}
+
+model ChatMessage {
+  id             String   @id @default(cuid())
+  conversationId String
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           ChatRole
+  body           String
+  /** Set when role is STAFF. */
+  authorId String?
+  author   User?   @relation("ChatAuthor", fields: [authorId], references: [id])
+  /** Stamped when this message was emailed to an offline visitor, so a retry
+   *  or a second poll can never send it twice. */
+  emailedAt DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([conversationId, createdAt])
 }
