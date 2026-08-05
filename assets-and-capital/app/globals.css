@@ -535,5 +535,77 @@ body {
 .dark {
 }
 
+/* ============================================================
+   Motion.
 
+   These replace framer-motion, which cost 43KB gzipped on the critical path
+   to do work the platform does for free. Because they are real CSS, the
+   prefers-reduced-motion block above neutralises them automatically — the
+   JavaScript-driven transforms it replaced were invisible to it.
+   ============================================================ */
 
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes menuIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes menuOut {
+  from { opacity: 1; transform: none; }
+  to   { opacity: 0; transform: translateY(8px); }
+}
+@keyframes drawerIn {
+  from { transform: translateX(100%); }
+  to   { transform: none; }
+}
+@keyframes drawerOut {
+  from { transform: none; }
+  to   { transform: translateX(100%); }
+}
+
+/* Scroll reveal. The element is laid out from the start and only paints when
+   it has been seen, so nothing reflows as the page scrolls. */
+.reveal { opacity: 0; }
+.reveal[data-shown="true"] {
+  animation: riseIn 0.6s var(--ease-out-expo) both;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+/* Mount-time entrance for above-the-fold content, which is on screen already
+   and so has nothing to wait for. */
+.rise-in { animation: riseIn 0.7s var(--ease-out-expo) both; }
+.rise-in-delayed { animation: riseIn 0.7s var(--ease-out-expo) 0.2s both; }
+
+/* Enter/exit pairs driven by data-state from usePresence(). */
+[data-state="open"].anim-menu   { animation: menuIn 0.18s var(--ease-out-expo) both; }
+[data-state="closed"].anim-menu { animation: menuOut 0.18s var(--ease-out-expo) both; }
+[data-state="open"].anim-fade   { animation: fadeIn 0.24s ease both; }
+[data-state="closed"].anim-fade { animation: fadeOut 0.24s ease both; }
+[data-state="open"].anim-drawer   { animation: drawerIn 0.34s var(--ease-out-expo) both; }
+[data-state="closed"].anim-drawer { animation: drawerOut 0.34s var(--ease-out-expo) both; }
+
+/* Tab panel swap. Keyed on the active tab so it replays on change. */
+.tab-panel { animation: riseIn 0.4s var(--ease-out-expo) both; }
+
+/* The sliding pill behind the active tab. Position and width are measured
+   from the button, so tabs keep their natural widths. */
+.tab-pill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 9999px;
+  transform: translateX(var(--pill-x, 0));
+  width: var(--pill-w, 0);
+  transition: transform 0.32s var(--ease-out-expo), width 0.32s var(--ease-out-expo);
+}

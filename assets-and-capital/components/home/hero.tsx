@@ -1,14 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ArrowLeft, Pause, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroSearch } from "@/components/home/hero-search";
 import { SECTOR_IMAGERY, srcSetFor } from "@/lib/imagery";
+import { usePrefersReducedMotion } from "@/lib/use-motion";
 import { cn } from "@/lib/utils";
-
-const ease = [0.16, 1, 0.3, 1] as const;
 
 /**
  * Hero slider.
@@ -50,7 +48,7 @@ export function Hero() {
    * between one image and four.
    */
   const [mounted, setMounted] = useState<Set<number>>(() => new Set([0, 1]));
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
 
   /** The visitor's explicit choice, via the pause button. */
   const [playing, setPlaying] = useState(true);
@@ -191,11 +189,7 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0">
           <div className="container-x pb-8 md:pb-10">
             <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_auto]">
-              <motion.div
-                initial={{ opacity: 0, y: 22 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease }}
-              >
+              <div className="rise-in">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[0.7rem] kicker text-white backdrop-blur">
                   A marketplace for private capital
                 </span>
@@ -219,7 +213,7 @@ export function Hero() {
                     I&apos;m raising capital
                   </Button>
                 </div>
-              </motion.div>
+              </div>
 
               {/* Controls sit with the copy, not floating over the middle of the
                   photograph where they would fight the subject. */}
@@ -308,14 +302,9 @@ export function Hero() {
       <div className="relative">
         <div className="grid-noise pointer-events-none absolute inset-0" aria-hidden />
         <div className="container-x relative z-10 flex justify-center py-10 md:py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease, delay: 0.2 }}
-          className="w-full max-w-3xl"
-        >
+        <div className="rise-in-delayed w-full max-w-3xl">
           <HeroSearch />
-        </motion.div>
+        </div>
         </div>
       </div>
     </section>

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useInViewOnce, usePrefersReducedMotion } from "@/lib/use-motion";
 
 export function Counter({
   value,
@@ -18,9 +18,8 @@ export function Counter({
   duration?: number;
   className?: string;
 }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  const prefersReduced = useReducedMotion();
+  const [ref, inView] = useInViewOnce<HTMLSpanElement>("-60px");
+  const prefersReduced = usePrefersReducedMotion();
   const [display, setDisplay] = useState(0);
   // Someone who asked for reduced motion sees the number, not a count-up.
   const shown = prefersReduced ? value : display;

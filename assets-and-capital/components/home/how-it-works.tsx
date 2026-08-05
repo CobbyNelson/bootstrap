@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { useCssVars } from "@/lib/use-motion";
 import { HOW_INVESTOR, HOW_BUSINESS } from "@/lib/content";
 import { SectionHeading } from "@/components/ui/section-heading";
 
@@ -14,6 +14,30 @@ export function HowItWorks() {
   const [tab, setTab] = useState<"investor" | "business">("investor");
   const active = TABS.find((t) => t.key === tab)!;
 
+  const listRef = useRef<HTMLDivElement>(null);
+  const btnRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const [pillRef, setPillVars] = useCssVars<HTMLSpanElement>();
+
+  // Measured from the active button and written straight to the pill, so the
+  // tabs keep their natural widths — a fixed grid-column pill would not.
+  // Re-measured on resize: the labels reflow, and a pill pinned to stale
+  // coordinates is worse than no pill at all.
+  useEffect(() => {
+    const measure = () => {
+      const el = btnRefs.current[tab];
+      const list = listRef.current;
+      if (!el || !list) return;
+      setPillVars({
+        "--pill-x": `${el.offsetLeft - list.clientLeft}px`,
+        "--pill-w": `${el.offsetWidth}px`,
+        opacity: "1",
+      });
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [tab, setPillVars]);
+
   return (
     <section className="py-20 md:py-28">
       <div className="container-x">
@@ -22,37 +46,37 @@ export function HowItWorks() {
             title="From first look to closed deal — in one place"
             subtitle="A guided, transparent path whether you're deploying capital or raising it."
           />
-          <div className="inline-flex rounded-[var(--radius-button)] border border-ink/10 bg-white p-1">
+          {/* One pill, moved and resized to sit behind the active tab.
+              framer-motion did this with layoutId; measuring the button is
+              what keeps the tabs at their natural widths, which a fixed
+              grid-column pill would not. */}
+          <div
+            ref={listRef}
+            className="relative inline-flex rounded-[var(--radius-button)] border border-ink/10 bg-white p-1"
+          >
+            <span ref={pillRef} aria-hidden className="tab-pill bg-brand-600 opacity-0" />
             {TABS.map((t) => (
               <button
                 key={t.key}
+                ref={(el) => {
+                  btnRefs.current[t.key] = el;
+                }}
                 onClick={() => setTab(t.key)}
-                className={`relative rounded-[var(--radius-button)] px-5 py-2 text-sm font-medium transition-colors ${
+                className={`relative z-10 rounded-[var(--radius-button)] px-5 py-2 text-sm font-medium transition-colors ${
                   tab === t.key ? "text-white" : "text-ink/60 hover:text-ink"
                 }`}
               >
-                {tab === t.key && (
-                  <motion.span
-                    layoutId="how-tab"
-                    className="absolute inset-0 rounded-full bg-brand-600"
-                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                  />
-                )}
-                <span className="relative z-10">{t.label}</span>
+                {t.label}
               </button>
             ))}
           </div>
         </div>
 
-        <AnimatePresence mode="wait">
-          <motion.ol
-            key={tab}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4"
-          >
+        {/* Keyed on the tab so React remounts it and the entrance replays.
+            The old exit animation is gone: mode="wait" held the incoming panel
+            back until the outgoing one finished, which read as lag on a
+            control the visitor just clicked. */}
+        <ol key={tab} className="tab-panel mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {active.steps.map((step, i) => (
               <li
                 key={step.title}
@@ -73,8 +97,7 @@ export function HowItWorks() {
                 </div>
               </li>
             ))}
-          </motion.ol>
-        </AnimatePresence>
+        </ol>
       </div>
     </section>
   );

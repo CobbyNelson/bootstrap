@@ -4,7 +4,6 @@ import { Figtree, Inter } from "next/font/google";
 import { SITE } from "@/lib/content";
 import { CommandPalette } from "@/components/search/command-palette";
 import { CurrencyProvider } from "@/components/providers/currency-provider";
-import { MotionProvider } from "@/components/providers/motion-provider";
 import { CookieConsent } from "@/components/layout/cookie-consent";
 // ChatBox is mounted in the (site) layout, not here — it has no place on the
 // pre-launch gate, which this layout also wraps.
@@ -80,25 +79,27 @@ export default function RootLayout({
         <Script id="theme-init" strategy="beforeInteractive">
           {"(function(){try{var m=localStorage.getItem('ac-theme');var h=new Date().getHours();var d=m==='dark'||(m!=='light'&&(h>=19||h<7));document.documentElement.classList.toggle('dark',d);}catch(e){}})();"}
         </Script>
-        {/* Reveal animations start at opacity:0, and framer-motion bakes that
-            inline style into the server HTML. With JavaScript unavailable the
-            IntersectionObserver never fires and those sections would stay
-            invisible, so restore them for that case. Scoped to <noscript>, so
-            it costs nothing when JS is working. */}
+        {/* Revealed sections start at opacity:0 and are switched on by an
+            IntersectionObserver. With JavaScript unavailable that observer
+            never runs and the content would stay invisible, so show it. Scoped
+            to <noscript>, so it costs nothing when JS is working.
+
+            This targets .reveal, not an inline style: framer-motion used to
+            bake opacity:0 into the server HTML as an attribute, and the rule
+            that matched it silently stopped applying the moment the animation
+            moved into CSS. */}
         <noscript>
-          <style>{`[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
+          <style>{`.reveal,.rise-in,.rise-in-delayed{opacity:1!important;transform:none!important;animation:none!important}`}</style>
         </noscript>
-        <MotionProvider>
-          <CurrencyProvider>
-            {children}
-            <CommandPalette />
-            <CookieConsent />
-            {/* Global on purpose: a staff member reading the marketplace is
-                still reachable, so presence must not be scoped to the admin
-                area. Non-staff get one refusal and it stops. */}
-            <StaffPresence />
-          </CurrencyProvider>
-        </MotionProvider>
+        <CurrencyProvider>
+          {children}
+          <CommandPalette />
+          <CookieConsent />
+          {/* Global on purpose: a staff member reading the marketplace is
+              still reachable, so presence must not be scoped to the admin
+              area. Non-staff get one refusal and it stops. */}
+          <StaffPresence />
+        </CurrencyProvider>
       </body>
     </html>
   );

@@ -3,13 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { NAV } from "@/lib/content";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { logoutUser } from "@/lib/actions/auth";
 import { Logo } from "./logo";
+import { usePresence } from "@/lib/use-motion";
 import { ThemeToggle } from "./theme-toggle";
 
 type NavUser = { name: string | null; email: string; role: string };
@@ -20,6 +20,20 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Keeps each panel mounted while it animates out. React unmounts on state
+  // change, so without this the exit transition never gets a frame to run in
+  // and both simply vanish.
+  const menu = usePresence(open !== null, 180);
+  const drawer = usePresence(mobileOpen, 340);
+
+  // Which menu to keep on screen while it closes. `open` is already null by
+  // then, so rendering on `open` alone would unmount the panel a frame before
+  // its exit animation could run. Held as state and set alongside `open`
+  // rather than assigned during render, which is not allowed to read or write
+  // a ref.
+  const [lastMenu, setLastMenu] = useState<string | null>(null);
+  const visibleMenu = open ?? lastMenu;
   const [user, setUser] = useState<NavUser | null>(null);
 
   useEffect(() => {
@@ -111,7 +125,10 @@ export function Navbar() {
           {NAV.map((group) => {
             const hasMenu = !!group.columns;
             return (
-              <li key={group.label} className="relative" onMouseEnter={() => setOpen(hasMenu ? group.label : null)}>
+              <li key={group.label} className="relative" onMouseEnter={() => {
+                  setOpen(hasMenu ? group.label : null);
+                  if (hasMenu) setLastMenu(group.label);
+                }}>
                 {group.href ? (
                   <Link
                     href={group.href}
@@ -139,15 +156,11 @@ export function Navbar() {
                   </button>
                 )}
 
-                <AnimatePresence>
-                  {hasMenu && open === group.label && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 8 }}
-                      transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                      className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3"
-                    >
+                {hasMenu && menu.mounted && visibleMenu === group.label && (
+                  <div
+                    data-state={menu.state}
+                    className="anim-menu absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3"
+                  >
                       <div className="glass-panel grid w-[min(90vw,640px)] grid-cols-2 gap-2 rounded-[var(--radius-button)] border border-ink/[0.08] p-3">
                         {group.columns!.map((col) => (
                           <div key={col.title} className="rounded-2xl p-2">
@@ -176,9 +189,8 @@ export function Navbar() {
                           </div>
                         ))}
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                  </div>
+                )}
               </li>
             );
           })}
@@ -250,35 +262,29 @@ export function Navbar() {
           home page it opened against a transparent header and the hero photo
           showed through the seam; a full-height panel has no seam to get wrong
           and no dependency on the header's height staying in sync. */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <>
+      {drawer.mounted && (
+        <>
             {/* Scrim: dims the page so the drawer reads as above it, and gives
                 a large tap target for dismissing without hunting for the X. */}
-            <motion.button
+            <button
               type="button"
               aria-label="Close menu"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.24 }}
+              data-state={drawer.state}
               onClick={() => {
                 setMobileOpen(false);
                 toggleRef.current?.focus();
               }}
-              className="fixed inset-0 z-40 cursor-default bg-ink/50 backdrop-blur-[2px] lg:hidden"
+              className="anim-fade fixed inset-0 z-40 cursor-default bg-ink/50 backdrop-blur-[2px] lg:hidden"
             />
 
-            <motion.div
+            <div
               role="dialog"
               aria-modal="true"
               aria-label="Site menu"
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              // ease-out-expo: fast to start, settling rather than bouncing.
-              transition={{ duration: 0.34, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed right-0 top-0 z-50 flex h-dvh w-[min(88vw,22rem)] flex-col bg-paper shadow-[var(--shadow-lift)] lg:hidden"
+              data-state={drawer.state}
+              // anim-drawer carries ease-out-expo: fast to start, settling
+              // rather than bouncing.
+              className="anim-drawer fixed right-0 top-0 z-50 flex h-dvh w-[min(88vw,22rem)] flex-col bg-paper shadow-[var(--shadow-lift)] lg:hidden"
             >
               {/* The drawer covers the site header, so it carries its own. */}
               <div className="flex h-18 flex-none items-center justify-between border-b border-ink/[0.07] px-5">
@@ -362,10 +368,9 @@ export function Navbar() {
               </div>
             </div>
               </div>
-            </motion.div>
+            </div>
           </>
-        )}
-      </AnimatePresence>
+      )}
     </header>
   );
 }
