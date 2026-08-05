@@ -121,15 +121,21 @@ export async function middleware(req: NextRequest) {
   // the /fr URL in the address bar, which is the whole point of having it.
   const pass = () => {
     if (!localised) return withCsp(NextResponse.next());
-    // Built from req.url, NOT req.nextUrl.clone().
+    // The origin is pinned, not inherited.
     //
-    // Behind Caddy, nextUrl carries the EXTERNAL https origin while the app
-    // listens on plain http, so a rewrite target cloned from it resolves to
-    // https://localhost:3000 and the proxy fails the TLS handshake against a
-    // plaintext socket — every localised page 500s. req.url is the internal
-    // origin. This is the same trap the gate hit; it is written down twice
-    // because it costs a deploy to rediscover.
-    const url = new URL(`${pathname}${req.nextUrl.search}`, req.url);
+    // Behind Caddy, BOTH req.nextUrl and req.url report the external https
+    // origin — nextUrl by construction, req.url because Next rebuilds it from
+    // Host and X-Forwarded-Proto. A rewrite target taken from either resolves
+    // to https://<public-host>/, which Next then tries to proxy over TLS to a
+    // plaintext socket: EPROTO, and every localised page 500s while English is
+    // fine, because English never rewrites.
+    //
+    // Verified by testing the app directly on :3000, where the same URLs
+    // returned 200 — which is what proved the app was right and the proxy was
+    // the variable. INTERNAL_ORIGIN lets a different deployment move the port
+    // without editing this.
+    const internal = process.env.INTERNAL_ORIGIN || "http://127.0.0.1:3000";
+    const url = new URL(`${pathname}${req.nextUrl.search}`, internal);
     return withCsp(NextResponse.rewrite(url, { request: { headers: localeHeaders(req) } }));
   };
 
