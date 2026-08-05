@@ -57,7 +57,7 @@ const CURVE = [
 
 export function Process() {
   return (
-    <section className="overflow-hidden py-14 md:py-20">
+    <section className="overflow-hidden py-14 md:py-20 lg:pt-28">
       {/* On lg the heading is lifted out of the flow and pinned top-left, so the
           curve occupies the whole band instead of starting underneath it. That
           is what puts the last step level with the headline and reclaims the
@@ -85,8 +85,14 @@ export function Process() {
             together — changing this compresses the curve without knocking any
             marker off the line. */}
         <div className="relative mt-14 lg:mt-0 lg:h-[500px]">
+          {/* The curve is clipped on its OWN wrapper, not on the box. Drawn
+              with preserveAspectRatio="none" and a non-scaling stroke, its
+              painted bounds run about 17px past the content column on each
+              side; clipping the box instead would also cut the oversized step
+              numerals, which sit above it deliberately. */}
+          <div className="pointer-events-none absolute inset-0 hidden overflow-hidden lg:block">
           <svg
-            className="pointer-events-none absolute inset-0 hidden h-full w-full lg:block"
+            className="absolute inset-0 h-full w-full"
             viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
             preserveAspectRatio="none"
             fill="none"
@@ -100,6 +106,7 @@ export function Process() {
               vectorEffect="non-scaling-stroke"
             />
           </svg>
+          </div>
 
           <ol className="relative lg:h-full">
             {PROCESS.map((step, i) => {
