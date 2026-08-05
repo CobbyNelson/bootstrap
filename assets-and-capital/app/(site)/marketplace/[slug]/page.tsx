@@ -73,24 +73,6 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
     <>
       {/* header — core, always visible */}
       <section className="relative overflow-hidden border-b border-ink/[0.06] pt-32 pb-10 md:pt-40 md:pb-14">
-        {/* Featured image sits BEHIND the header rather than above it, so the
-            breadcrumb, name and badges keep their position and the page has no
-            extra vertical jump. Heavily scrimmed because navy-700 body text has
-            to stay readable over whatever the photograph does. */}
-        {cover && (
-          <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={cover.src}
-              alt={cover.alt}
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-            <div
-              className="absolute inset-0 bg-gradient-to-r from-paper via-paper/92 to-paper/70"
-              aria-hidden
-            />
-          </>
-        )}
         <div className="grid-noise pointer-events-none absolute inset-0 opacity-50" aria-hidden />
         <div className="container-x relative">
           <div className="flex items-center gap-2 text-sm text-ink/60">
@@ -122,6 +104,25 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
           </div>
         </div>
       </section>
+
+      {/* Featured image — the same one the marketplace card uses. Businesses
+          replace it from Dashboard → Business → Gallery: starring an upload
+          sets the listing hero, and getListingHeroes() picks it up here. The
+          sector stand-in only shows until they upload their own. */}
+      {cover && (
+        <section className="pt-10 md:pt-12">
+          <div className="container-x">
+            <div className="relative aspect-[21/9] overflow-hidden rounded-3xl border border-ink/[0.07]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={cover.src}
+                alt={cover.alt}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Business-supplied imagery. Ungated on purpose: this is marketing
           material the business chose to publish, not data-room content —
