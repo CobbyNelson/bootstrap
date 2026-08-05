@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { WHY } from "@/lib/content";
 import { Reveal } from "@/components/ui/reveal";
 
@@ -45,12 +46,22 @@ export function WhyUs() {
           {WHY.map((item, i) => (
             <Reveal key={item.title} delay={i * 0.07}>
               {/* Hairline rules rather than card edges: the claims read as one
-                  argument in four parts instead of four separate objects. */}
-              <div className="grid gap-3 border-t border-white/12 py-7 md:grid-cols-[minmax(0,20rem)_1fr] md:gap-12 md:py-9">
+                  argument in four parts instead of four separate objects.
+                  Alternating rows give the eye a rhythm to scan down, and the
+                  row lights red on hover so it is obvious which one you are on.
+                  The negative inline margin lets the fill run wider than the
+                  text column, so a highlighted row reads as a band. */}
+              <div
+                className={cn(
+                  "group grid gap-3 border-t border-white/12 px-4 py-7 transition-colors md:-mx-4 md:grid-cols-[minmax(0,20rem)_1fr] md:gap-12 md:py-9",
+                  "hover:bg-brand-600",
+                  i % 2 === 1 && "bg-white/[0.035]"
+                )}
+              >
                 <h3 className="text-pretty text-xl font-medium leading-snug text-white md:text-[1.35rem]">
                   {item.title}
                 </h3>
-                <p className="max-w-[65ch] text-[0.95rem] leading-relaxed text-white/70">
+                <p className="max-w-[65ch] text-[0.95rem] leading-relaxed text-white/70 transition-colors group-hover:text-white">
                   {item.body}
                 </p>
               </div>
