@@ -116,3 +116,27 @@ recorded in the script's source history and in `lib/imagery.ts`.
 Keep to the palette (navy base, one crimson accent, muted cool grade) and the
 rules above. Register the file in `lib/imagery.ts` with meaningful `alt` text —
 decorative backgrounds take `alt: ""` so screen readers skip them.
+
+## Listing imagery: the standing rule
+
+**Imagery on a business listing must be specific to that business. Sector
+imagery is a temporary stand-in, used only until real listings supply their
+own — it is scaffolding, not the destination.**
+
+What that means in practice, and why each part exists:
+
+- A business's own uploads **replace** the stand-in outright. Never a mix: a
+  real photograph shown beside generic sector imagery reads as if both depict
+  the same company. See `images` in `app/(site)/marketplace/[slug]/page.tsx`.
+- Stand-ins are keyed by **sector, never by company**, so nothing can be
+  generated from a business's name and read as a photograph of its assets.
+- Every stand-in alt text names the **sector**, not the business, so a screen
+  reader announces it as category imagery.
+- A sector with no entry shows **one** frame, or none. Padding a listing with
+  unrelated photos to manufacture a carousel is worse than a single honest
+  frame.
+
+The route off the scaffolding already exists: businesses upload and star their
+own images at Dashboard → Business → Gallery, which sets the listing hero and
+takes over both the card and the detail page. As real listings arrive, the
+sector maps in `lib/imagery.ts` should shrink, not grow.

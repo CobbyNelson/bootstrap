@@ -97,7 +97,14 @@ export const ARTICLE_COVERS: Record<string, { src: string; alt: string }> = {
   "Deal Structuring": IMAGERY.deskReport,
 };
 
-/* ─────────────────────────── listing imagery ─────────────────────────────── */
+/* ─────────────────────────── listing imagery ───────────────────────────────
+ *
+ * STANDING RULE — listing imagery must be SPECIFIC to the business. Everything
+ * in this section is a temporary stand-in used only until real listings supply
+ * their own images, and a business's uploads replace it outright rather than
+ * mixing with it. See docs/IMAGERY.md. As real listings arrive these maps
+ * should SHRINK, not grow.
+ * ------------------------------------------------------------------------- */
 
 /**
  * Sector imagery for listing cards.
@@ -145,4 +152,43 @@ export function listingImage(o: { sector: string; image?: string; name: string }
   // only claim that stays true whoever set it.
   if (o.image) return { src: o.image, alt: `${o.sector} imagery` };
   return SECTOR_IMAGERY[o.sector] ?? null;
+}
+
+/**
+ * Supporting sector imagery, so a listing that has not uploaded its own gallery
+ * still has more than one frame to show.
+ *
+ * Same rule as SECTOR_IMAGERY and for the same reason: keyed by SECTOR, and
+ * every alt names the sector rather than the business, so nothing here can be
+ * read as a photograph of that company's assets. Sectors with no entry simply
+ * show a single image instead of a slider — padding a listing with unrelated
+ * photos to manufacture a carousel would be worse than one honest frame.
+ */
+const SECTOR_IMAGERY_SUPPORTING: Record<string, { src: string; alt: string }[]> = {
+  "Renewable Energy": [
+    { src: "/img/sector-wind.png", alt: "Renewable energy sector imagery" },
+    { src: "/img/factory.png", alt: "Industrial operations sector imagery" },
+  ],
+  Infrastructure: [
+    { src: "/img/hero-tower.png", alt: "Infrastructure sector imagery" },
+    { src: "/img/skyline-figure.png", alt: "Urban development sector imagery" },
+  ],
+  "Transport & Logistics": [{ src: "/img/factory.png", alt: "Industrial operations sector imagery" }],
+  "Natural Resources": [{ src: "/img/factory.png", alt: "Industrial operations sector imagery" }],
+  "Real Estate": [{ src: "/img/skyline-figure.png", alt: "Urban development sector imagery" }],
+  FinTech: [{ src: "/img/desk-report.png", alt: "Financial analysis sector imagery" }],
+};
+
+/**
+ * Every frame a listing should show, in priority order. A business's own
+ * uploads (passed in) always win outright; otherwise the sector set is used.
+ * Deduplicated by src so an override that matches the sector image does not
+ * appear twice.
+ */
+export function listingImages(o: { sector: string; image?: string; name: string }) {
+  const primary = listingImage(o);
+  const supporting = SECTOR_IMAGERY_SUPPORTING[o.sector] ?? [];
+  const all = [primary, ...supporting].filter(Boolean) as { src: string; alt: string }[];
+  const seen = new Set<string>();
+  return all.filter((img) => (seen.has(img.src) ? false : (seen.add(img.src), true)));
 }

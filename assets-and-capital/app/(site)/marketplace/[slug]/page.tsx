@@ -6,7 +6,7 @@ import { getOpportunityBySlug, allOpportunitySlugs, scoreOpportunity, DEMO_MANDA
 import { scoreBusiness } from "@/lib/business-scoring";
 import { getAccess } from "@/lib/entitlements-server";
 import { Badge } from "@/components/ui/badge";
-import { listingImage } from "@/lib/imagery";
+import { listingImage, listingImages } from "@/lib/imagery";
 import { getListingHeroes, getListingGallery } from "@/lib/listing-heroes";
 import { ListingGallery } from "@/components/marketplace/listing-gallery";
 import { BusinessDetail } from "@/components/marketplace/business-detail";
@@ -32,6 +32,10 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
   const heroes = await getListingHeroes();
   const cover = heroes[slug] ?? listingImage(o);
   const gallery = await getListingGallery(slug);
+  // A business's own uploads replace the stand-in outright — never a mix, so a
+  // real photograph is never shown beside generic sector imagery as if both
+  // depicted the same company.
+  const images = gallery.length > 0 ? gallery : listingImages(o);
 
   // Access is resolved on the server; gated payloads are only computed and sent
   // when the viewer is entitled to them.
@@ -105,38 +109,6 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
         </div>
       </section>
 
-      {/* Featured image — the same one the marketplace card uses. Businesses
-          replace it from Dashboard → Business → Gallery: starring an upload
-          sets the listing hero, and getListingHeroes() picks it up here. The
-          sector stand-in only shows until they upload their own. */}
-      {cover && (
-        <section className="pt-10 md:pt-12">
-          <div className="container-x">
-            <div className="relative aspect-[21/9] overflow-hidden rounded-3xl border border-ink/[0.07]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={cover.src}
-                alt={cover.alt}
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Business-supplied imagery. Ungated on purpose: this is marketing
-          material the business chose to publish, not data-room content —
-          the same standing as the hero it already shows every visitor. */}
-      {gallery.length > 0 && (
-        <section className="pt-10 md:pt-12">
-          <div className="container-x">
-            <div className="max-w-3xl">
-              <ListingGallery images={gallery} />
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* body — tiered access enforced server-side */}
       <section className="py-12 md:py-16">
         <div className="container-x">
@@ -157,6 +129,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
             deal={deal}
             documents={documents}
             mandateName={DEMO_MANDATE.name}
+            images={images}
           />
         </div>
       </section>

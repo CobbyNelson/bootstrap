@@ -2,6 +2,7 @@
 
 import { Check, TriangleAlert, ShieldCheck, Star, Lock, FileText } from "lucide-react";
 import { SaveButton } from "@/components/ui/save-button";
+import { ListingGallery } from "@/components/marketplace/listing-gallery";
 import { Money } from "@/components/ui/money";
 import { Badge } from "@/components/ui/badge";
 import type { Access } from "@/lib/entitlements-server";
@@ -83,6 +84,7 @@ export function BusinessDetail({
   deal,
   documents,
   mandateName,
+  images,
 }: {
   o: Biz;
   slug: string;
@@ -91,6 +93,8 @@ export function BusinessDetail({
   deal: DealData | null;
   documents: string[] | null;
   mandateName: string;
+  /** The business's own uploads when it has them, otherwise sector imagery. */
+  images: { src: string; alt: string }[];
 }) {
   const { signedIn, subscribed, ndaSigned } = access;
 
@@ -116,6 +120,23 @@ export function BusinessDetail({
     <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
       {/* left */}
       <div className="space-y-6">
+        {/* Imagery sits in the left column, aligned with the copy it belongs to,
+            rather than spanning the page. More than one frame becomes a slider;
+            a single frame stays a plain figure — a carousel with one slide is
+            just a picture with extra controls. */}
+        {images.length > 1 ? (
+          <ListingGallery images={images} />
+        ) : images.length === 1 ? (
+          <div className="relative aspect-[16/9] overflow-hidden rounded-3xl border border-ink/[0.07]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={images[0].src}
+              alt={images[0].alt}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </div>
+        ) : null}
+
         {/* Overview — core, always visible */}
         <div className={card}>
           <h2 className="font-display text-xl font-semibold text-navy-700">Overview</h2>
