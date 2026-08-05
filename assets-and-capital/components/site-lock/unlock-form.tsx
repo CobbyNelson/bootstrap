@@ -54,8 +54,16 @@ export function UnlockForm() {
         <input
           id="unlock-code"
           name="code"
-          type="password"
+          // Not a password field. This code is handed round by message and
+          // retyped, so masking it hides the typo that caused the rejection
+          // and makes browsers offer to save it as a credential. The mobile
+          // keyboard hints matter as much: autocapitalize would otherwise
+          // reshape the first character of a code the visitor typed correctly.
+          type="text"
           autoComplete="off"
+          autoCapitalize="off"
+          autoCorrect="off"
+          spellCheck={false}
           value={code}
           onChange={(e) => {
             setCode(e.target.value);

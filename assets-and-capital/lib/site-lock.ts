@@ -42,8 +42,13 @@ export function isLockEnabled(): boolean {
 export function codeMatches(input: string): boolean {
   const expected = process.env.SITE_UNLOCK_CODE?.trim() ?? "";
   if (!expected) return false;
-  const a = new TextEncoder().encode(input.trim());
-  const b = new TextEncoder().encode(expected);
+  // Case-insensitive on purpose. The code is passed round by message and typed
+  // on phones, where the keyboard decides the case of the first character — a
+  // rejection the person typing cannot see the cause of. Generated codes are
+  // uppercase and digits, so folding case removes no keyspace; the 8-attempts-
+  // per-10-minutes limit is what actually makes the code unguessable.
+  const a = new TextEncoder().encode(input.trim().toUpperCase());
+  const b = new TextEncoder().encode(expected.toUpperCase());
   let diff = a.length ^ b.length;
   for (let i = 0; i < Math.max(a.length, b.length); i++) {
     diff |= (a[i] ?? 0) ^ (b[i] ?? 0);
