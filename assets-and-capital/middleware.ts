@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { splitLocale, DEFAULT_LOCALE } from "@/lib/i18n/config";
 import type { NextRequest } from "next/server";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session-core";
 import {
@@ -52,12 +53,30 @@ function buildCsp(isDev: boolean): string {
 }
 
 export async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
+  const { pathname: rawPath } = req.nextUrl;
   const csp = buildCsp(process.env.NODE_ENV === "development");
+
+  // ---- Locale ------------------------------------------------------------
+  // /fr/pricing is rewritten to /pricing with the locale carried in a header,
+  // so every route exists in four languages without four copies of the route
+  // tree. The URL stays distinct, which is what hreflang and a crawler need;
+  // a cookie-switched site serves every language from one URL and gets indexed
+  // in whichever one the crawler happened to see.
+  //
+  // Everything below this point works on the STRIPPED path. Doing it here
+  // rather than later is what stops /fr/admin bypassing the admin check and
+  // /fr/anything bypassing the pre-launch gate — both of which are exactly the
+  // kind of hole a prefix scheme introduces if it is applied too late.
+  const { locale, path: pathname } = splitLocale(rawPath);
+  const localised = locale !== DEFAULT_LOCALE;
 
   /** Attach CSP (and the nonce Next needs) to any response we return. */
   const withCsp = <T extends NextResponse>(res: T): T => {
     res.headers.set("Content-Security-Policy", csp);
+    // Read by the layouts to pick a dictionary and set dir/lang. A header
+    // rather than a cookie: it is per-request, so two languages open in two
+    // tabs cannot overwrite each other.
+    res.headers.set("x-locale", locale);
     return res;
   };
 
@@ -97,7 +116,23 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  const pass = () => withCsp(NextResponse.next());
+  // A localised URL is rewritten to the unprefixed route, so /fr/pricing
+  // renders the pricing page. Rewrite rather than redirect: the visitor keeps
+  // the /fr URL in the address bar, which is the whole point of having it.
+  const pass = () => {
+    if (!localised) return withCsp(NextResponse.next());
+    const url = req.nextUrl.clone();
+    url.pathname = pathname;
+    return withCsp(NextResponse.rewrite(url, { request: { headers: localeHeaders(req) } }));
+  };
+
+  function localeHeaders(request: NextRequest): Headers {
+    // Server components read the locale from the REQUEST headers, so it has to
+    // be set here as well as on the response.
+    const h = new Headers(request.headers);
+    h.set("x-locale", locale);
+    return h;
+  }
 
   // ---- Authenticated areas -------------------------------------------------
   const guarded = pathname.startsWith("/dashboard") || pathname.startsWith("/admin");

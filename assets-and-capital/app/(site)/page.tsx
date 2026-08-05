@@ -1,4 +1,6 @@
 import { Hero } from "@/components/home/hero";
+import type { Metadata } from "next";
+import { SITE } from "@/lib/content";
 import { FeaturedCarousel } from "@/components/home/featured-carousel";
 import { WhyUs } from "@/components/home/why-us";
 import { Process } from "@/components/home/process";
@@ -28,6 +30,21 @@ import { getListingHeroes } from "@/lib/listing-heroes";
  * its hero still sees it immediately.
  */
 export const revalidate = 300;
+
+/**
+ * The root layout's template appends "· Assets & Capital" to every title; the
+ * homepage says the whole thing itself, so `absolute` stops it doubling up.
+ */
+export const metadata: Metadata = {
+  title: { absolute: `${SITE.name} — ${SITE.tagline}` },
+  description: SITE.description,
+  openGraph: {
+    title: `${SITE.name} — ${SITE.tagline}`,
+    description: SITE.description,
+    url: `https://${SITE.domain}`,
+    type: "website",
+  },
+};
 
 export default async function HomePage() {
   const teasers = await listTeasers(3);

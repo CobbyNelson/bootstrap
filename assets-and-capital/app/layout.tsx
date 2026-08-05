@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import { getLocale } from "@/lib/i18n/server";
+import { isRtl } from "@/lib/i18n/config";
 import Script from "next/script";
 import { Figtree, Inter } from "next/font/google";
 import { SITE } from "@/lib/content";
@@ -63,14 +65,25 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const locale = await getLocale();
+
   return (
     // suppressHydrationWarning: the theme script below adds `dark` to <html>
     // before React hydrates, so the server and client class attributes are
     // allowed to differ — that mismatch is the entire point of the script.
-    <html lang="en" className={`${figtree.variable} ${inter.variable}`} suppressHydrationWarning>
+    <html
+      lang={locale}
+      // dir on <html> is what flips the whole document: Tailwind's logical
+      // properties (ms/me, start/end, text-start) follow it, so Arabic mirrors
+      // without a parallel stylesheet. Anything still using left/right will
+      // not flip — those are the places to fix, not to special-case here.
+      dir={isRtl(locale) ? "rtl" : "ltr"}
+      className={`${figtree.variable} ${inter.variable}`}
+      suppressHydrationWarning
+    >
       <body className="min-h-dvh antialiased">
         {/* Theme before first paint: a stored choice wins, otherwise the clock
             (dark 19:00–06:59). beforeInteractive puts this in <head>, so no

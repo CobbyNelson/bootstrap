@@ -11,6 +11,7 @@ import { logoutUser } from "@/lib/actions/auth";
 import { Logo } from "./logo";
 import { usePresence } from "@/lib/use-motion";
 import { ThemeToggle } from "./theme-toggle";
+import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 
 type NavUser = { name: string | null; email: string; role: string };
 const ADMIN_ROLES = new Set(["ADMIN", "SUPER_ADMIN", "STAFF"]);
@@ -198,6 +199,7 @@ export function Navbar() {
 
         {/* desktop CTAs */}
         <div className="hidden items-center gap-2 lg:flex">
+          <LanguageSwitcher />
           {user ? (
             <>
               <Button
@@ -365,6 +367,10 @@ export function Navbar() {
               <div className="flex items-center justify-between pt-1">
                 <span className="text-sm text-ink/70">Appearance</span>
                 <ThemeToggle />
+              </div>
+              <div className="flex items-center justify-between px-5 py-3">
+                <span className="text-sm text-ink/70">Language</span>
+                <LanguageSwitcher />
               </div>
             </div>
               </div>
