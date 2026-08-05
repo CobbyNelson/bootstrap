@@ -90,6 +90,12 @@ function SidebarBody({
         <Link href="/" onClick={onNavigate} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
           <ArrowLeft className="h-4 w-4" /> Back to site
         </Link>
+        {/* Appearance sits with the other preferences at the foot of the rail
+            rather than in the topbar beside search and notifications. */}
+        <div className="mt-2 flex items-center justify-between gap-3 px-3 pt-2">
+          <span className="text-sm font-medium text-ink/60">Appearance</span>
+          <ThemeToggle />
+        </div>
       </div>
     </>
   );
@@ -156,7 +162,6 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
               <span className="w-40 text-left">Search…</span>
               <kbd className="rounded border border-ink/15 px-1.5 text-[0.65rem] text-ink/60">⌘K</kbd>
             </button>
-            <ThemeToggle />
             <Link href="/dashboard/notifications" className="relative grid h-10 w-10 place-items-center rounded-[var(--radius-button)] border border-ink/10 text-ink/60 hover:text-ink" aria-label="Notifications">
               <Bell className="h-[18px] w-[18px]" />
               <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-600" />

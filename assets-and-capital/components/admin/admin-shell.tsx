@@ -111,6 +111,11 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           <Link href="/" className="mt-4 flex items-center gap-2 text-sm font-medium text-white/70 hover:text-white">
             <ArrowLeft className="h-4 w-4" /> Back to site
           </Link>
+          {/* Appearance at the foot of the rail, not in the topbar. */}
+          <div className="mt-4 flex items-center justify-between gap-3">
+            <span className="text-sm font-medium text-white/70">Appearance</span>
+            <ThemeToggle tone="light" />
+          </div>
         </div>
       </aside>
 
@@ -166,7 +171,6 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               <Search className="h-4 w-4" /><span className="w-36 text-left">Search admin…</span>
               <kbd className="rounded border border-ink/15 px-1.5 text-[0.65rem] text-ink/60">⌘K</kbd>
             </button>
-            <ThemeToggle />
             <button className="relative grid h-10 w-10 place-items-center rounded-[var(--radius-button)] border border-ink/10 bg-white text-ink/60 hover:text-ink" aria-label="Notifications">
               <Bell className="h-[18px] w-[18px]" />
               <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-600" />

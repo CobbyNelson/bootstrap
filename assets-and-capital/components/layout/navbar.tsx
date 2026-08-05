@@ -186,7 +186,6 @@ export function Navbar() {
 
         {/* desktop CTAs */}
         <div className="hidden items-center gap-2 lg:flex">
-          <ThemeToggle tone={onDarkHero ? "light" : "ink"} className="mr-1" />
           {user ? (
             <>
               <Button

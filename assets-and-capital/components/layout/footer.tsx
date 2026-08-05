@@ -4,6 +4,7 @@ import { Logo } from "./logo";
 import { SITE } from "@/lib/content";
 import { NewsletterForm } from "./newsletter-form";
 import { CurrencySwitcher } from "./currency-switcher";
+import { ThemeToggle } from "./theme-toggle";
 import { CookieSettingsLink } from "./cookie-settings-link";
 
 function LinkedInIcon({ className }: { className?: string }) {
@@ -123,10 +124,14 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {SITE.legalName}. All rights reserved.
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-3">
             <p className="hidden text-ink/65 md:block">
               {SITE.domain} · Capital-raising & deal-making platform.
             </p>
+            {/* Appearance lives here rather than in the header: it is a
+                preference set once, not a navigation control, and the header
+                was carrying it beside the primary CTAs. */}
+            <ThemeToggle />
             <CurrencySwitcher />
           </div>
         </div>
