@@ -132,10 +132,16 @@ export function MarketplaceView({
   ];
 
   return (
-    <div className="grid gap-8 px-5 py-12 md:px-8 lg:grid-cols-[268px_1fr]">
+    /* No padding or gap on the wrapper: the filter rail is a block flush to
+       the window edge and to the header rule above it, so the content column
+       carries its own spacing instead. */
+    <div className="grid lg:grid-cols-[280px_1fr]">
       {/* filter rail */}
       <aside className={cn("lg:block", showFilters ? "block" : "hidden")}>
-        <div className="sticky top-24 rounded-3xl border border-white/10 bg-navy-900 p-5 text-white">
+        {/* Square, edge-to-edge. sticky top-18 parks it under the 72px navbar
+            once the page header scrolls away; the rail scrolls internally so a
+            long facet list never gets clipped. */}
+        <div className="sticky top-18 border-r border-white/10 bg-navy-900 p-5 text-white lg:max-h-[calc(100dvh-4.5rem)] lg:overflow-y-auto">
           <div className="flex items-center justify-between">
             <p className="label-cta text-[0.68rem] text-white/60">Filters</p>
             {activeCount > 0 && (
@@ -178,7 +184,7 @@ export function MarketplaceView({
       </aside>
 
       {/* results */}
-      <div>
+      <div className="min-w-0 px-5 py-10 md:px-8">
         <div className="flex flex-col gap-3 rounded-2xl border border-ink/[0.07] bg-white p-3 sm:flex-row sm:items-center">
           <div className="flex flex-1 items-center gap-2 rounded-xl bg-paper-2 px-3.5">
             <Search className="h-4 w-4 text-ink/60" />
@@ -252,7 +258,7 @@ export function MarketplaceView({
             </button>
           </div>
         ) : view === "grid" ? (
-          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {results.map((o) => (
               <OpportunityCard key={o.name} o={o} unlocked={unlocked.has(slugify(o.name))} hero={heroes[slugify(o.name)] ?? null} />
             ))}
