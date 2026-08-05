@@ -268,7 +268,12 @@ export function Hero() {
       {/* It used to hang off the bottom edge of the slider on a negative
           margin, which meant it sat half on the photograph and half on the
           page. Given its own space it reads as a distinct step. */}
-      <div className="container-x relative z-10 flex justify-center py-10 md:py-12">
+      {/* The pattern sits on a full-width wrapper, not on container-x, so the
+          grid runs edge to edge behind the band rather than stopping at the
+          text column. */}
+      <div className="relative">
+        <div className="grid-noise pointer-events-none absolute inset-0" aria-hidden />
+        <div className="container-x relative z-10 flex justify-center py-10 md:py-12">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -277,6 +282,7 @@ export function Hero() {
         >
           <HeroSearch />
         </motion.div>
+        </div>
       </div>
     </section>
   );
