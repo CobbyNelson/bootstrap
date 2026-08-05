@@ -468,12 +468,12 @@ body {
 
 /* --- navy / brand in their TEXT roles ------------------------------- */
 .dark :is(h1, h2, h3, h4, h5, h6) { color: #dce4f2; }
-/* The wordmark is black artwork, so on the dark canvas it has to knock out to
-   white — otherwise it is black-on-near-black in the header, the mobile drawer
-   and the footer. Placements that already invert via the prop (over dark hero
-   photography) carry data-invert="true" and are excluded, or they would flip
-   back to black. */
-.dark [data-logo][data-invert="false"] { filter: brightness(0) invert(1); }
+/* Two logo files, one shown per theme. The reversed artwork flips only the
+   black to white and keeps the red mark, which a CSS filter cannot do —
+   brightness(0)+invert() turns the whole logo into a white silhouette. */
+[data-logo-dark] { display: none; }
+.dark [data-logo-light] { display: none; }
+.dark [data-logo-dark] { display: inline-block; }
 
 .dark .text-navy-700 { color: #dce4f2; }
 .dark .text-navy-600 { color: #bac9e2; }
