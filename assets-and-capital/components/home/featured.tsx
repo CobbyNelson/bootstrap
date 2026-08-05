@@ -54,7 +54,7 @@ export async function Featured() {
                   {sectors.map((s) => (
                     <span
                       key={s}
-                      className="rounded-[var(--radius-button)] bg-paper-2 px-3 py-1.5 text-[0.72rem] font-medium text-ink/75"
+                      className="rounded-full bg-paper-2 px-3 py-1.5 text-[0.72rem] font-medium text-ink/75"
                     >
                       {s}
                     </span>

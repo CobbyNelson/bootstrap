@@ -84,7 +84,7 @@ export function FeaturedCarousel({
       <div className="container-x">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <span className="inline-flex items-center gap-1.5 rounded-[var(--radius-button)] border border-ink/10 bg-white/70 px-3 py-1 text-[0.7rem] kicker text-brand-700 backdrop-blur">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-white/70 px-3 py-1 text-[0.7rem] kicker text-brand-700 backdrop-blur">
               <Sparkles className="h-3.5 w-3.5" /> Featured
             </span>
             <h2 className="mt-3 font-display text-2xl font-semibold text-navy-700 sm:text-3xl">Featured businesses</h2>
@@ -130,10 +130,10 @@ export function FeaturedCarousel({
                     </div>
                   )}
                   <div className="grid-noise absolute inset-0 opacity-20" aria-hidden />
-                  <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-[var(--radius-button)] bg-white/95 px-2.5 py-1 text-[0.6rem] font-semibold text-brand-700 shadow-sm">
+                  <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[0.6rem] font-semibold text-brand-700 shadow-sm">
                     <Sparkles className="h-3 w-3" /> Featured
                   </span>
-                  <span className="absolute right-3 top-3 rounded-[var(--radius-button)] bg-ink/70 px-2.5 py-1 text-[0.6rem] font-semibold text-white backdrop-blur-sm">
+                  <span className="absolute right-3 top-3 rounded-full bg-ink/70 px-2.5 py-1 text-[0.6rem] font-semibold text-white backdrop-blur-sm">
                     {o.tier}
                   </span>
                 </div>

@@ -135,7 +135,7 @@ export function AccountSettings() {
                 <div className="min-w-0 flex-1">
                   <p className="flex items-center gap-2 text-sm font-medium text-ink">
                     {s.device}
-                    {s.current && <span className="rounded-[var(--radius-button)] bg-emerald-50 px-2 py-0.5 text-[0.65rem] font-medium text-emerald-700">This device</span>}
+                    {s.current && <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[0.65rem] font-medium text-emerald-700">This device</span>}
                   </p>
                   <p className="text-xs text-ink/65">{s.where} · {s.ip}</p>
                 </div>
@@ -166,7 +166,7 @@ export function AccountSettings() {
                   <p className="text-sm font-medium text-ink">{m.name} {m.you && <span className="text-ink/60">(you)</span>}</p>
                   <p className="truncate text-xs text-ink/65">{m.email} · {m.access}</p>
                 </div>
-                <span className={cn("rounded-[var(--radius-button)] px-2.5 py-1 text-xs font-medium ring-1", ROLE_STYLE[m.role])}>{m.role}</span>
+                <span className={cn("rounded-full px-2.5 py-1 text-xs font-medium ring-1", ROLE_STYLE[m.role])}>{m.role}</span>
               </div>
             ))}
           </div>

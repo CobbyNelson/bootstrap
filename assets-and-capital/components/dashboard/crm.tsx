@@ -147,7 +147,7 @@ export function CRM() {
                           </div>
                         </div>
                       </td>
-                      <td className="hidden px-4 py-3 md:table-cell"><span className={cn("rounded-[var(--radius-button)] px-2.5 py-1 text-xs font-medium", STAGE_STYLE[c.stage])}>{c.stage}</span></td>
+                      <td className="hidden px-4 py-3 md:table-cell"><span className={cn("rounded-full px-2.5 py-1 text-xs font-medium", STAGE_STYLE[c.stage])}>{c.stage}</span></td>
                       <td className="hidden px-4 py-3 text-ink/70 lg:table-cell tnum">{c.value}</td>
                       <td className="hidden px-4 py-3 text-ink/60 xl:table-cell">{c.owner}</td>
                       <td className="px-4 py-3 text-right text-xs text-ink/60">{c.lastTouch}</td>
@@ -163,7 +163,7 @@ export function CRM() {
                 return (
                   <div key={stage} className="min-w-[220px] rounded-2xl bg-paper-2/60 p-2.5">
                     <div className="mb-2 flex items-center justify-between px-1.5 py-1">
-                      <span className={cn("rounded-[var(--radius-button)] px-2 py-0.5 text-xs font-medium", STAGE_STYLE[stage])}>{stage}</span>
+                      <span className={cn("rounded-full px-2 py-0.5 text-xs font-medium", STAGE_STYLE[stage])}>{stage}</span>
                       <span className="text-xs text-ink/60 tnum">{items.length}</span>
                     </div>
                     <div className="space-y-2">
@@ -200,7 +200,7 @@ export function CRM() {
           <div className="rounded-2xl border border-ink/[0.07] bg-white p-4">
             <div className="mb-3 flex items-center justify-between">
               <p className="text-xs font-semibold uppercase tracking-wider text-ink/60">Tasks</p>
-              <span className="rounded-[var(--radius-button)] bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700 tnum">{openTasks} open</span>
+              <span className="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700 tnum">{openTasks} open</span>
             </div>
             <div className="space-y-1">
               {tasks.map((t) => (

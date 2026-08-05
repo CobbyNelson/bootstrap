@@ -49,7 +49,7 @@ function Cover({
         </>
       )}
       <div className="grid-noise absolute inset-0 opacity-30" aria-hidden />
-      <span className="absolute left-4 top-4 rounded-[var(--radius-button)] bg-white/90 px-3 py-1 text-xs font-medium text-ink backdrop-blur">{type}</span>
+      <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-ink backdrop-blur">{type}</span>
     </div>
   );
 }

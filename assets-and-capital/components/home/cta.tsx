@@ -36,10 +36,10 @@ export function FinalCTA() {
             <p className="mt-5 text-lg leading-relaxed text-white">{p.body}</p>
             <Link
               href={p.href}
-              className={`group mt-8 flex items-center justify-between gap-4 rounded-xl px-6 py-4 text-sm font-semibold uppercase tracking-wide text-white transition-colors ${p.btn}`}
+              className={`btn-skew-right label-cta group mt-8 flex h-11 items-center justify-between gap-4 rounded-[var(--radius-button)] pl-6 pr-10 text-[0.72rem] text-white transition-colors ${p.btn}`}
             >
               Register now
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </div>

@@ -79,7 +79,7 @@ export function ESign() {
           <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Agreements</h1>
           <p className="mt-1 text-sm text-ink/65">Legally-binding e-signature with tamper-evident audit trail</p>
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-[var(--radius-button)] bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 ring-1 ring-emerald-100">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 ring-1 ring-emerald-100">
           <ShieldCheck className="h-3.5 w-3.5" /> eIDAS &amp; ESIGN compliant
         </span>
       </div>
@@ -101,7 +101,7 @@ export function ESign() {
                   <p className="truncate text-sm font-medium text-ink">{d.title}</p>
                   <p className="truncate text-xs text-ink/65">{d.type} · {d.counterparty}</p>
                   <div className="mt-2 flex items-center justify-between">
-                    <span className={cn("rounded-[var(--radius-button)] px-2 py-0.5 text-[0.7rem] font-medium ring-1", STATUS_STYLE[d.id === activeId && signed ? "Completed" : d.status])}>
+                    <span className={cn("rounded-full px-2 py-0.5 text-[0.7rem] font-medium ring-1", STATUS_STYLE[d.id === activeId && signed ? "Completed" : d.status])}>
                       {d.id === activeId && signed ? "Completed" : d.status}
                     </span>
                     <span className="text-[0.7rem] text-ink/60">{d.updated}</span>

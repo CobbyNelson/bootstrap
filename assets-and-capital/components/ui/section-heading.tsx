@@ -22,7 +22,7 @@ export function Eyebrow({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 rounded-[var(--radius-button)] border px-3 py-1 text-[0.7rem] kicker",
+        "inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[0.7rem] kicker",
         invert ? "border-white/15 bg-white/5 text-navy-300" : "border-ink/10 bg-white/70 text-brand-700",
         className
       )}

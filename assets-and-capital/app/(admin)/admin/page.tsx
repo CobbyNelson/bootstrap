@@ -72,7 +72,7 @@ function Kpi({
         <span className={cn("grid h-9 w-9 place-items-center rounded-[var(--radius-button)]", t.badge)}>
           <Icon className="h-4 w-4" />
         </span>
-        <span className={cn("inline-flex items-center gap-1 rounded-[var(--radius-button)] px-2 py-0.5 text-[0.7rem] font-medium", t.pill)}>
+        <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[0.7rem] font-medium", t.pill)}>
           <ArrowUpRight className="h-3 w-3" /> {delta}
         </span>
       </div>

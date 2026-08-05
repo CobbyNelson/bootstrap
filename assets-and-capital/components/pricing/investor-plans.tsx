@@ -119,7 +119,7 @@ export function InvestorPlans({
             )}
           >
             {p.featured && (
-              <span className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-[var(--radius-button)] bg-brand-600 px-3 py-1 text-xs font-semibold text-white">
+              <span className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-brand-600 px-3 py-1 text-xs font-semibold text-white">
                 <Sparkles className="h-3 w-3" /> Most popular
               </span>
             )}

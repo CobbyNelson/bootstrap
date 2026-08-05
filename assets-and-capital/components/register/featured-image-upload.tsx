@@ -103,7 +103,7 @@ export function FeaturedImageUpload({
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={value} alt="Your featured image" className="aspect-[16/9] w-full object-cover" />
-            <span className="absolute bottom-2 right-2 inline-flex items-center gap-1.5 rounded-[var(--radius-button)] bg-ink/70 px-3 py-1.5 text-xs font-medium text-white backdrop-blur">
+            <span className="absolute bottom-2 right-2 inline-flex items-center gap-1.5 rounded-full bg-ink/70 px-3 py-1.5 text-xs font-medium text-white backdrop-blur">
               <RefreshCw className="h-3 w-3" /> Replace
             </span>
           </>

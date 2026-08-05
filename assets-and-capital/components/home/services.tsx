@@ -44,7 +44,7 @@ function ServiceColumn({
         <div className="flex items-center justify-between">
           <h3 className="font-display text-2xl font-semibold text-navy-700">{title}</h3>
           <span
-            className={`rounded-[var(--radius-button)] px-3 py-1 text-xs font-medium ${
+            className={`rounded-full px-3 py-1 text-xs font-medium ${
               accent === "brand" ? "bg-brand-50 text-brand-700" : "bg-navy-100 text-navy-700"
             }`}
           >

@@ -98,7 +98,7 @@ export function EmailAutomation() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <p className="truncate text-sm font-medium text-ink">{f.name}</p>
-                    <span className={cn("rounded-[var(--radius-button)] px-2 py-0.5 text-[0.65rem] font-medium ring-1", STATUS_STYLE[f.status])}>{f.status}</span>
+                    <span className={cn("rounded-full px-2 py-0.5 text-[0.65rem] font-medium ring-1", STATUS_STYLE[f.status])}>{f.status}</span>
                   </div>
                   <p className="mt-0.5 flex items-center gap-1 truncate text-xs text-ink/65"><Zap className="h-3 w-3" /> {f.trigger} · {f.steps} steps</p>
                 </div>

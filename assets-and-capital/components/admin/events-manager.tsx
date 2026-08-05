@@ -100,7 +100,7 @@ export function EventsManager() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <p className="truncate text-sm font-medium text-ink">{e.title}</p>
-                    <span className={cn("rounded-[var(--radius-button)] px-2 py-0.5 text-[0.65rem] font-medium ring-1", STATUS_STYLE[e.status])}>{e.status}</span>
+                    <span className={cn("rounded-full px-2 py-0.5 text-[0.65rem] font-medium ring-1", STATUS_STYLE[e.status])}>{e.status}</span>
                   </div>
                   <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink/65">
                     <span className="inline-flex items-center gap-1"><Calendar className="h-3 w-3" /> {e.date}</span>
@@ -130,7 +130,7 @@ export function EventsManager() {
                 <p className="text-xs font-medium uppercase tracking-wider text-ink/60">{active.type}</p>
                 <h3 className="mt-1 font-display text-lg font-semibold text-navy-700">{active.title}</h3>
               </div>
-              <span className={cn("rounded-[var(--radius-button)] px-2.5 py-1 text-xs font-medium ring-1", STATUS_STYLE[active.status])}>{active.status}</span>
+              <span className={cn("rounded-full px-2.5 py-1 text-xs font-medium ring-1", STATUS_STYLE[active.status])}>{active.status}</span>
             </div>
 
             <div className="mt-5 grid grid-cols-3 gap-3 text-center">

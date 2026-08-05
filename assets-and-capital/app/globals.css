@@ -95,6 +95,12 @@
      a dot indicator. */
   --radius-button: 0.625rem;
 
+  /* The RIGHT edge carries the logo's angle; the left stays vertical, so the
+     button still aligns with the text above it. The mark leans 24.5° off
+     vertical (measured from public/img/logo.png), so the edge travels
+     height x tan(24.5deg) = height x 0.4557 across. */
+  --btn-skew-run: 20px;
+
   /* ---------- motion ----------
      One curve for the whole app. Tailwind's default transition curve is
      cubic-bezier(0.4, 0, 0.2, 1) — symmetric ease-in-out, which reads as
@@ -496,3 +502,12 @@ body {
 }
 
 
+
+
+/* Right edge slanted at the logo's angle, left edge left alone.
+   clip-path rather than a transform: skewing the element would lean the label
+   too and push the box outside its own layout footprint. This only reshapes
+   the right side, so surrounding spacing is untouched. */
+.btn-skew-right {
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--btn-skew-run)) 100%, 0 100%);
+}

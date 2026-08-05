@@ -76,7 +76,7 @@ export function HeroSearch() {
 
         <button
           type="submit"
-          className="rounded-[var(--radius-button)] inline-flex shrink-0 items-center justify-center gap-2 bg-ink px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700"
+          className="btn-skew-right rounded-[var(--radius-button)] label-cta inline-flex h-11 shrink-0 items-center justify-center gap-2 bg-ink pl-6 pr-10 text-[0.72rem] text-white transition-colors hover:bg-navy-700"
         >
           <Search className="h-4 w-4" />
           Find opportunities

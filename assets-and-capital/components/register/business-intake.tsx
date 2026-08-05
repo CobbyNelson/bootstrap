@@ -186,7 +186,7 @@ export function BusinessIntake() {
               <h2 className="font-display text-2xl font-semibold text-navy-700">{step.title}</h2>
               {step.subtitle && <p className="mt-1.5 text-sm text-ink/65">{step.subtitle}</p>}
             </div>
-            <span className={cn("inline-flex items-center gap-1.5 rounded-[var(--radius-button)] px-2.5 py-1 text-xs transition-opacity", saved ? "bg-emerald-50 text-emerald-700 opacity-100" : "text-ink/30 opacity-0")}>
+            <span className={cn("inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs transition-opacity", saved ? "bg-emerald-50 text-emerald-700 opacity-100" : "text-ink/30 opacity-0")}>
               <Cloud className="h-3.5 w-3.5" /> Saved
             </span>
           </div>

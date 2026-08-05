@@ -69,7 +69,7 @@ export function Billing() {
             />
             <button
               onClick={() => setApplied(coupon.trim() ? coupon.trim().toUpperCase() : null)}
-              className="rounded-[var(--radius-button)] bg-ink px-3.5 py-1.5 text-xs font-medium text-white hover:bg-ink-2"
+              className="rounded-full bg-ink px-3.5 py-1.5 text-xs font-medium text-white hover:bg-ink-2"
             >
               Apply
             </button>

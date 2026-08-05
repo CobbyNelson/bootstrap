@@ -62,7 +62,7 @@ export default async function AdminInsightsPage() {
                   <div className="flex items-center gap-2">
                     <span className="truncate font-semibold text-ink">{a.title}</span>
                     {a.featured && (
-                      <span className="shrink-0 rounded-[var(--radius-button)] bg-brand-50 px-2 py-0.5 text-[0.62rem] font-semibold text-brand-700">
+                      <span className="shrink-0 rounded-full bg-brand-50 px-2 py-0.5 text-[0.62rem] font-semibold text-brand-700">
                         Featured
                       </span>
                     )}
@@ -76,8 +76,8 @@ export default async function AdminInsightsPage() {
                 <span
                   className={
                     a.status === "PUBLISHED"
-                      ? "shrink-0 rounded-[var(--radius-button)] bg-emerald-50 px-2.5 py-1 text-[0.65rem] font-semibold text-emerald-700"
-                      : "shrink-0 rounded-[var(--radius-button)] bg-amber-50 px-2.5 py-1 text-[0.65rem] font-semibold text-amber-700"
+                      ? "shrink-0 rounded-full bg-emerald-50 px-2.5 py-1 text-[0.65rem] font-semibold text-emerald-700"
+                      : "shrink-0 rounded-full bg-amber-50 px-2.5 py-1 text-[0.65rem] font-semibold text-amber-700"
                   }
                 >
                   {a.status === "PUBLISHED" ? "Live" : "Draft"}

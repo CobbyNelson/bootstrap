@@ -59,7 +59,7 @@ export function Meetings() {
       {live && (
         <div className="overflow-hidden rounded-3xl border border-brand-200 bg-gradient-to-br from-brand-600 to-brand-800 p-6 text-white">
           <div className="flex flex-wrap items-center gap-4">
-            <span className="inline-flex items-center gap-1.5 rounded-[var(--radius-button)] bg-white/15 px-3 py-1 text-xs font-medium">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-medium">
               <span className="h-2 w-2 animate-pulse rounded-full bg-white" /> Live now
             </span>
             <div className="min-w-0 flex-1">
@@ -97,7 +97,7 @@ export function Meetings() {
               </div>
               <div className="flex flex-none items-center gap-2">
                 {m.status === "Pending" ? (
-                  <span className="rounded-[var(--radius-button)] bg-amber-50 px-2.5 py-1 text-[0.7rem] font-medium text-amber-700">Pending</span>
+                  <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[0.7rem] font-medium text-amber-700">Pending</span>
                 ) : (
                   <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[0.7rem] font-medium text-emerald-700"><CheckCircle2 className="h-3 w-3" /> Confirmed</span>
                 )}

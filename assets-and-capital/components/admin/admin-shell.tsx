@@ -40,14 +40,14 @@ function AdminNavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?
             href={item.href}
             onClick={onNavigate}
             className={cn(
-              "flex items-center gap-3 rounded-[var(--radius-button)] px-4 py-2.5 label-cta text-[0.68rem] transition-colors",
+              "flex items-center gap-3 rounded-full px-4 py-2.5 label-cta text-[0.68rem] transition-colors",
               active ? "bg-paper text-navy-900 shadow-sm" : "text-white/60 hover:bg-white/[0.06] hover:text-white"
             )}
           >
             <item.icon className={cn("h-4 w-4", active ? "text-brand-600" : "text-navy-300")} />
             <span className="flex-1">{item.label}</span>
             {item.badge && (
-              <span className="rounded-[var(--radius-button)] bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold text-white">{item.badge}</span>
+              <span className="rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold text-white">{item.badge}</span>
             )}
           </Link>
         );
@@ -106,7 +106,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 </span>
               ))}
             </div>
-            <span className="ml-2 grid h-8 items-center rounded-[var(--radius-button)] bg-navy-500 px-2 text-[0.65rem] font-semibold text-white">+12</span>
+            <span className="ml-2 grid h-8 items-center rounded-full bg-navy-500 px-2 text-[0.65rem] font-semibold text-white">+12</span>
           </div>
           <Link href="/" className="mt-4 flex items-center gap-2 text-sm font-medium text-white/70 hover:text-white">
             <ArrowLeft className="h-4 w-4" /> Back to site

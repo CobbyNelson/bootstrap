@@ -105,7 +105,7 @@ export function GalleryCard({
       <div className="mb-3 flex items-center justify-between gap-2">
         <h2 className="text-sm font-semibold text-ink">Gallery</h2>
         {images.length === 0 && (
-          <span className="rounded-[var(--radius-button)] bg-paper-2 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-wide text-ink/50">
+          <span className="rounded-full bg-paper-2 px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-wide text-ink/50">
             Sector default
           </span>
         )}

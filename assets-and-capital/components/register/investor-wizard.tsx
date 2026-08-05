@@ -390,7 +390,7 @@ export function InvestorWizard() {
             </div>
             <span
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-[var(--radius-button)] px-2.5 py-1 text-xs transition-opacity",
+                "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs transition-opacity",
                 saved ? "bg-emerald-50 text-emerald-700 opacity-100" : "text-ink/30 opacity-0"
               )}
             >

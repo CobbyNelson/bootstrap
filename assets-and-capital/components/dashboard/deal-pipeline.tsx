@@ -124,7 +124,7 @@ export function DealPipeline() {
                 <div className="flex items-center gap-2 border-b border-ink/[0.06] p-3">
                   <span className="h-3 w-1 rounded-full" style={{ background: stage.color }} />
                   <span className="text-[0.8rem] font-semibold text-ink">{stage.label}</span>
-                  <span className="ml-auto rounded-[var(--radius-button)] bg-paper-2 px-2 py-0.5 text-[0.65rem] font-medium text-ink/65 tnum">{deals.length}</span>
+                  <span className="ml-auto rounded-full bg-paper-2 px-2 py-0.5 text-[0.65rem] font-medium text-ink/65 tnum">{deals.length}</span>
                 </div>
                 <div className="flex flex-col gap-2 p-2.5">
                   {value > 0 && <p className="px-1 text-[0.65rem] font-medium uppercase tracking-wide text-ink/35 tnum">{money(value)}</p>}

@@ -76,7 +76,7 @@ export function ListingGallery({ images }: { images: { src: string; alt: string 
               <ChevronRight className="h-4 w-4" />
             </button>
 
-            <span className="tnum absolute bottom-3 right-3 rounded-[var(--radius-button)] bg-ink/60 px-2.5 py-1 text-[0.65rem] font-semibold text-white backdrop-blur-sm">
+            <span className="tnum absolute bottom-3 right-3 rounded-full bg-ink/60 px-2.5 py-1 text-[0.65rem] font-semibold text-white backdrop-blur-sm">
               {index + 1} / {images.length}
             </span>
           </>
