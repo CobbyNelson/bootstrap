@@ -14,8 +14,11 @@ export default function LoginPage() {
   return (
     <section className="grid min-h-dvh lg:grid-cols-2">
       {/* form side */}
-      <div className="flex items-center justify-center px-6 py-24">
-        <div className="w-full max-w-sm">
+      <div className="relative flex items-center justify-center px-6 py-24">
+        {/* Same grid as the brand panel, so both halves share one surface
+            language instead of a textured side and a blank one. */}
+        <div className="grid-noise pointer-events-none absolute inset-0" aria-hidden />
+        <div className="relative w-full max-w-sm">
           <Logo />
           <h1 className="mt-10 font-display text-3xl font-semibold text-navy-700">Welcome back</h1>
           <p className="mt-2 text-ink/65">Sign in to access your marketplace and matches.</p>
