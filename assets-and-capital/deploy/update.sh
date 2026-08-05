@@ -38,7 +38,18 @@ cd "$APP"
 # Deleting outright is a few seconds and makes every deploy start from zero.
 rm -rf node_modules
 # postinstall runs `prisma generate`; the schema needs no database for that.
-npm ci --no-audit --no-fund
+#
+# Retried once through a cache clean: this box has twice produced a corrupted
+# npm cache entry mid-install, which surfaces as a tarball extraction error and
+# then `prisma: not found` when postinstall runs against a half-linked tree.
+# The retry costs ~30s on the rare failure and turns a dead deploy into a slow
+# one, which matters when the deploy is automatic and nobody is watching.
+if ! npm ci --no-audit --no-fund; then
+  echo "-- install failed; clearing the npm cache and retrying once" >&2
+  npm cache clean --force
+  rm -rf node_modules
+  npm ci --no-audit --no-fund
+fi
 
 # From here on the production environment is required: `prisma migrate deploy`
 # needs the connection string, and the build is NOT env-free — Next statically
