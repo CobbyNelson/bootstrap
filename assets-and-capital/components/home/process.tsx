@@ -128,7 +128,7 @@ export function Process() {
                     {/* Node marker. On mobile it caps the vertical rule; on
                         desktop it centres on the curve. */}
                     <span
-                      className="absolute -left-[7px] top-1 grid h-3.5 w-3.5 place-items-center rounded-full bg-white shadow-[0_0_0_4px_white] lg:-left-2 lg:-top-2"
+                      className="absolute -left-[7px] top-1 grid h-3.5 w-3.5 place-items-center rounded-full bg-white ring-4 ring-white lg:-left-2 lg:-top-2"
                       aria-hidden
                     >
                       <span className="h-3.5 w-3.5 rounded-full bg-ink/25" />

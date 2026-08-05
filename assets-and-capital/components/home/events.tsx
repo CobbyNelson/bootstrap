@@ -32,7 +32,7 @@ export function Events() {
             <Reveal key={ev.title} delay={i * 0.08}>
               <Link
                 href="/events"
-                className="group flex h-full items-center gap-5 rounded-3xl border border-ink/[0.07] bg-white p-6 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
+                className="group flex h-full items-center gap-5 rounded-3xl border border-ink/[0.07] bg-white p-6 transition-all hover:shadow-[var(--shadow-card)]"
               >
                 <div className="grid h-16 w-16 flex-none place-items-center rounded-2xl bg-brand-600 text-white">
                   <span className="font-display text-2xl font-semibold leading-none tnum">{ev.day}</span>

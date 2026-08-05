@@ -43,7 +43,7 @@ export function OpportunityCard({
   return (
     <Link
       href={to}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/[0.07] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-[var(--shadow-card)]"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/[0.07] bg-white shadow-sm transition-all duration-300 hover:border-brand-200 hover:shadow-[var(--shadow-card)]"
     >
       {/* image header */}
       <div className={`relative aspect-[16/9] overflow-hidden bg-gradient-to-br ${pickGradient(o.name)}`}>
@@ -89,7 +89,7 @@ export function OpportunityCard({
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <h3 className="font-display text-lg font-bold leading-tight text-brand-600">{o.name}</h3>
-            <p className="mt-1 flex items-center gap-1 text-xs text-ink/60">
+            <p className="mt-1 flex items-center gap-1 text-xs font-medium text-navy-700">
               <MapPin className="h-3 w-3" /> {o.country} · {o.region}
             </p>
           </div>

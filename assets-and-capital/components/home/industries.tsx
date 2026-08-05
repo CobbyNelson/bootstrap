@@ -15,7 +15,7 @@ export function Industries() {
         <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {INDUSTRIES.map((ind, i) => (
             <Reveal key={ind.name} delay={(i % 4) * 0.05}>
-              <div className="group flex h-full items-start gap-4 rounded-2xl border border-ink/[0.06] bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-brand-100 hover:shadow-[var(--shadow-soft)]">
+              <div className="group flex h-full items-start gap-4 rounded-2xl border border-ink/[0.06] bg-white p-5 transition-all hover:border-brand-100 hover:shadow-[var(--shadow-soft)]">
                 <span className="grid h-11 w-11 flex-none place-items-center rounded-xl bg-paper-2 text-ink/70 ring-1 ring-ink/[0.06] transition-colors group-hover:bg-brand-600 group-hover:text-white group-hover:ring-brand-600">
                   <ind.icon className="h-5 w-5" />
                 </span>

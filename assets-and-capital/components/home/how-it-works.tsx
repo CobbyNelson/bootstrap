@@ -56,7 +56,7 @@ export function HowItWorks() {
             {active.steps.map((step, i) => (
               <li
                 key={step.title}
-                className="group relative flex flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
+                className="group relative flex flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white transition-all hover:shadow-[var(--shadow-card)]"
               >
                 <div className="flex-1 p-6">
                   <span className="font-grotesk text-5xl font-semibold text-brand-600/15 transition-colors group-hover:text-brand-600/35">

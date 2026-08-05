@@ -61,7 +61,7 @@ export function CircleArrow({
   return (
     <span
       className={cn(
-        "grid flex-none place-items-center rounded-full transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:rotate-45",
+        "grid flex-none place-items-center rounded-full transition-transform duration-300 group- group-hover:rotate-45",
         tones[tone],
         sizes[size],
         className

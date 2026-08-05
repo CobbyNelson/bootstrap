@@ -120,7 +120,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <h2 className="mb-8 font-display text-2xl font-semibold text-navy-700">More insights</h2>
           <div className="grid gap-6 md:grid-cols-3">
             {more.map((r) => (
-              <Link key={r.slug} href={`/insights/${r.slug}`} className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]">
+              <Link key={r.slug} href={`/insights/${r.slug}`} className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white transition-all hover:shadow-[var(--shadow-card)]">
                 <div className={cn("relative aspect-[16/10] overflow-hidden bg-gradient-to-br", GRADIENT[r.type] ?? "from-brand-600 to-brand-900")}>
                   {r.cover && (
                     <>
@@ -141,7 +141,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                   <h3 className="text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-brand-700">{r.title}</h3>
                   <div className="mt-auto flex items-center justify-between pt-6 text-xs text-ink/65">
                     <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> {r.readTime}</span>
-                    <ArrowUpRight className="h-4 w-4 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand-600" />
+                    <ArrowUpRight className="h-4 w-4 transition-all group-hover:translate-x-0.5 group- group-hover:text-brand-600" />
                   </div>
                 </div>
               </Link>

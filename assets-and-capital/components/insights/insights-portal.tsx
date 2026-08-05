@@ -49,7 +49,7 @@ function Cover({
         </>
       )}
       <div className="grid-noise absolute inset-0 opacity-30" aria-hidden />
-      <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-ink backdrop-blur">{type}</span>
+      <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[0.62rem] kicker text-ink">{type}</span>
     </div>
   );
 }
@@ -123,7 +123,7 @@ export function InsightsPortal({ articles }: { articles: PublicArticle[] }) {
           <Link
             key={a.slug}
             href={`/insights/${a.slug}`}
-            className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
+            className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white transition-all hover:shadow-[var(--shadow-card)]"
           >
             <Cover type={a.type} cover={a.cover} className="aspect-[16/10]" />
             <div className="flex flex-1 flex-col p-6">
@@ -131,7 +131,7 @@ export function InsightsPortal({ articles }: { articles: PublicArticle[] }) {
               <p className="mt-2 line-clamp-2 text-sm text-ink/65">{a.excerpt}</p>
               <div className="mt-auto flex items-center justify-between pt-6 text-xs text-ink/65">
                 <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> {a.readTime} · {a.date}</span>
-                <ArrowUpRight className="h-4 w-4 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand-600" />
+                <ArrowUpRight className="h-4 w-4 transition-all group-hover:translate-x-0.5 group- group-hover:text-brand-600" />
               </div>
             </div>
           </Link>

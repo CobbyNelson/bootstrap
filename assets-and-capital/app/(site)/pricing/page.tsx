@@ -38,7 +38,7 @@ export default async function PricingPage() {
             <Reveal key={tier.name} delay={i * 0.06}>
               <div
                 className={cn(
-                  "relative flex h-full flex-col rounded-3xl border p-7 transition-all hover:-translate-y-1",
+                  "relative flex h-full flex-col rounded-3xl border p-7 transition-all",
                   tier.featured
                     ? "border-brand-600/30 bg-white shadow-[var(--shadow-lift)] ring-1 ring-brand-600/20"
                     : "border-ink/[0.07] bg-white hover:shadow-[var(--shadow-card)]"

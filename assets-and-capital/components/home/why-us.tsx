@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { WHY } from "@/lib/content";
 import { Reveal } from "@/components/ui/reveal";
 
@@ -60,13 +60,10 @@ export function WhyUs() {
         </div>
 
         <Reveal delay={0.1}>
-          <Link
-            href="/about"
-            className="rounded-[var(--radius-button)] label-cta group mt-10 inline-flex h-11 items-center gap-2.5 bg-white pl-5 pr-6 text-[0.72rem] text-navy-900 transition-colors hover:bg-brand-600 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900"
-          >
+          <Button href="/about" variant="inverse" size="md" className="group">
             How we work with both sides
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-          </Link>
+          </Button>
         </Reveal>
       </div>
     </section>

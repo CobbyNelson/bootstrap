@@ -148,7 +148,7 @@ export function Navbar() {
                       transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                       className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3"
                     >
-                      <div className="grid w-[min(90vw,640px)] grid-cols-2 gap-2 rounded-3xl border border-ink/[0.07] bg-white/95 p-3 shadow-[var(--shadow-lift)] backdrop-blur-xl">
+                      <div className="glass grid w-[min(90vw,640px)] grid-cols-2 gap-2 rounded-[var(--radius-button)] border border-ink/[0.08] p-3">
                         {group.columns!.map((col) => (
                           <div key={col.title} className="rounded-2xl p-2">
                             <p className="label-cta px-3 pb-1.5 pt-2 text-[0.62rem] text-ink/60">
@@ -161,12 +161,12 @@ export function Navbar() {
                                 className="group flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-brand-50"
                               >
                                 {link.icon && (
-                                  <span className="mt-0.5 grid h-8 w-8 flex-none place-items-center rounded-lg bg-brand-50 text-brand-600 ring-1 ring-brand-100 transition-colors group-hover:bg-brand-600 group-hover:text-white">
+                                  <span className="mt-0.5 grid h-8 w-8 flex-none place-items-center rounded-[var(--radius-button)] border border-ink/10 text-brand-600 transition-colors group-hover:border-brand-600 group-hover:bg-brand-600 group-hover:text-white">
                                     <link.icon className="h-4 w-4" />
                                   </span>
                                 )}
                                 <span className="min-w-0">
-                                  <span className="block text-sm font-medium text-ink">{link.label}</span>
+                                  <span className="label-cta block text-[0.66rem] text-ink">{link.label}</span>
                                   {link.description && (
                                     <span className="mt-0.5 block text-xs leading-snug text-ink/65">{link.description}</span>
                                   )}

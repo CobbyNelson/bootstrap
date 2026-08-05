@@ -108,9 +108,21 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --default-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 
-  --shadow-soft: 0 1px 2px rgba(12, 13, 16, 0.04), 0 8px 24px -12px rgba(12, 13, 16, 0.12);
-  --shadow-card: 0 1px 3px rgba(12, 13, 16, 0.05), 0 20px 40px -24px rgba(12, 13, 16, 0.22);
-  --shadow-lift: 0 2px 6px rgba(12, 13, 16, 0.06), 0 30px 60px -28px rgba(12, 13, 16, 0.30);
+  /* Flat by design: no drop shadows anywhere. Separation comes from hairline
+     borders and surface tint instead. These stay as named tokens so the many
+     `shadow-[var(--shadow-card)]` call sites keep working and there is exactly
+     one place to reintroduce depth if it is ever wanted. */
+  --shadow-soft: none;
+  --shadow-card: none;
+  --shadow-lift: none;
+  /* Tailwind's own scale, so shadow-sm / shadow-md flatten too. */
+  --shadow-2xs: none;
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+  --shadow-2xl: none;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -491,9 +503,6 @@ body {
 /* Shadows read as holes on a dark canvas; borders (ink at low opacity,
    already flipped light) carry the elevation instead. */
 .dark {
-  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.35), 0 20px 40px -24px rgba(0, 0, 0, 0.6);
-  --shadow-lift: 0 2px 6px rgba(0, 0, 0, 0.4), 0 30px 60px -28px rgba(0, 0, 0, 0.7);
 }
 
 

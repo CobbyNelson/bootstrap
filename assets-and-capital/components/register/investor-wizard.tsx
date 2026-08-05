@@ -316,7 +316,7 @@ export function InvestorWizard() {
                 setValues((v) => ({ ...v, investorClass: b.title }));
                 setStepIndex(0);
               }}
-              className="group rounded-3xl border border-ink/[0.07] bg-white p-7 text-left transition-all hover:-translate-y-1 hover:border-brand-600/30 hover:shadow-[var(--shadow-card)]"
+              className="group rounded-3xl border border-ink/[0.07] bg-white p-7 text-left transition-all hover:border-brand-600/30 hover:shadow-[var(--shadow-card)]"
             >
               <span className="grid h-12 w-12 place-items-center rounded-2xl bg-brand-50 text-brand-600 ring-1 ring-brand-100 transition-colors group-hover:bg-brand-600 group-hover:text-white">
                 <b.icon className="h-5 w-5" />

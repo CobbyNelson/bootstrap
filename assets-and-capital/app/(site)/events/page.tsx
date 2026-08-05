@@ -34,7 +34,7 @@ export default function EventsPage() {
         <div className="container-x grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {ALL_EVENTS.map((ev, i) => (
             <Reveal key={ev.title} delay={(i % 3) * 0.08}>
-              <div className="group flex h-full flex-col rounded-3xl border border-ink/[0.07] bg-white p-6 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]">
+              <div className="group flex h-full flex-col rounded-3xl border border-ink/[0.07] bg-white p-6 transition-all hover:shadow-[var(--shadow-card)]">
                 <div className="flex items-center gap-4">
                   <div className="grid h-16 w-16 flex-none place-items-center rounded-2xl bg-brand-600 text-white">
                     <span className="font-display text-2xl font-semibold leading-none tnum">{ev.day}</span>

@@ -108,7 +108,7 @@ export function FeaturedCarousel({
                 key={o.name}
                 data-card
                 href={`/marketplace/${slug}`}
-                className="group relative flex w-[85%] shrink-0 snap-start flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-[var(--shadow-card)] sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)]"
+                className="group relative flex w-[85%] shrink-0 snap-start flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white shadow-sm transition-all duration-300 hover:border-brand-200 hover:shadow-[var(--shadow-card)] sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)]"
               >
                 <div className={cn("relative aspect-[16/9] overflow-hidden bg-gradient-to-br", gradient(o.name))}>
                   {(heroes[slug] ?? listingImage(o)) ? (
@@ -139,7 +139,7 @@ export function FeaturedCarousel({
                 </div>
                 <div className="flex flex-1 flex-col p-5">
                   <h3 className="font-display text-lg font-bold leading-tight text-brand-600">{o.name}</h3>
-                  <p className="mt-1 flex items-center gap-1 text-xs text-ink/60">
+                  <p className="mt-1 flex items-center gap-1 text-xs font-medium text-navy-700">
                     <MapPin className="h-3 w-3" /> {o.country} · {o.region}
                   </p>
                   <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ink/65">{o.blurb}</p>

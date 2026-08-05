@@ -37,7 +37,7 @@ export default function RegisterPage() {
             <Link
               key={p.href}
               href={p.href}
-              className="group relative flex flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white p-8 transition-all hover:-translate-y-1 hover:border-brand-600/30 hover:shadow-[var(--shadow-lift)]"
+              className="group relative flex flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white p-8 transition-all hover:border-brand-600/30 hover:shadow-[var(--shadow-lift)]"
             >
               <span className="grid h-14 w-14 place-items-center rounded-2xl bg-brand-50 text-brand-600 ring-1 ring-brand-100 transition-colors group-hover:bg-brand-600 group-hover:text-white">
                 <p.icon className="h-6 w-6" />

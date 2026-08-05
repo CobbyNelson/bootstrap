@@ -6,18 +6,21 @@ import { cn } from "@/lib/utils";
 const buttonVariants = cva(
   // One shape for every button on the site — see --radius-button in
   // globals.css. Pills are reserved for things a rectangle cannot describe.
-  "label-cta rounded-[var(--radius-button)] inline-flex items-center justify-center gap-2 whitespace-nowrap transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none",
+  "label-cta rounded-[var(--radius-button)] inline-flex items-center justify-center gap-2 whitespace-nowrap transition-colors duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none",
   {
     variants: {
       variant: {
-        primary:
-          "bg-brand-600 text-white shadow-[0_6px_20px_-8px_rgba(229,50,43,0.6)] hover:bg-brand-700 hover:-translate-y-0.5 active:translate-y-0",
-        gold:
-          "bg-navy-700 text-white shadow-[0_6px_20px_-8px_rgba(19,47,82,0.6)] hover:bg-navy-800 hover:-translate-y-0.5",
-        dark: "bg-ink text-white hover:bg-ink-2 hover:-translate-y-0.5",
-        outline:
-          "border border-ink/15 bg-white/60 text-ink hover:border-ink/30 hover:bg-white",
-        ghost: "text-ink/80 hover:bg-ink/[0.05] hover:text-ink",
+        // Flat throughout: no shadow, no lift, no gradient. Every variant
+        // hovers the same way — the fill darkens one step and nothing moves.
+        primary: "bg-brand-600 text-white hover:bg-brand-700",
+        gold: "bg-navy-700 text-white hover:bg-navy-800",
+        dark: "bg-ink text-white hover:bg-ink-2",
+        outline: "border border-ink/15 bg-transparent text-ink hover:bg-ink/[0.06]",
+        ghost: "text-ink/80 hover:bg-ink/[0.06] hover:text-ink",
+        // For dark surfaces: the same button inverted, so a CTA on a navy or
+        // photographic panel reads as the same component, not a new one.
+        inverse: "bg-white text-ink hover:bg-white/85",
+        inverseOutline: "border border-white/35 bg-transparent text-white hover:bg-white/15",
         link: "rounded-none normal-case tracking-normal font-medium text-brand-600 underline-offset-4 hover:underline px-0",
       },
       size: {
@@ -87,7 +90,7 @@ export function PillButton({
   const tones = {
     brand: "bg-brand-600 text-white hover:bg-brand-700",
     dark: "bg-navy-800 text-white hover:bg-navy-900",
-    light: "border border-ink/12 bg-white text-ink hover:border-ink/25",
+    light: "border border-ink/15 bg-transparent text-ink hover:bg-ink/[0.06]",
   } as const;
   const badges = {
     brand: "bg-white/20 text-white",

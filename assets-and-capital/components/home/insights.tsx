@@ -22,7 +22,7 @@ export function Insights({ articles }: { articles: PublicArticle[] }) {
             title="Intelligence for capital and opportunity"
             subtitle="Research, market views, and practical guides from our team."
           />
-          <Button href="/insights" variant="outline" size="md" className="shrink-0">
+          <Button href="/insights" variant="primary" size="md" className="shrink-0">
             Read the journal
           </Button>
         </div>
@@ -32,7 +32,7 @@ export function Insights({ articles }: { articles: PublicArticle[] }) {
             <Reveal key={post.slug} delay={i * 0.08}>
               <Link
                 href={`/insights/${post.slug}`}
-                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
+                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white transition-all hover:shadow-[var(--shadow-card)]"
               >
                 <div className={`relative aspect-[16/10] overflow-hidden bg-gradient-to-br ${GRADIENTS[i % 3]}`}>
                   {post.cover && (

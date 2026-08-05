@@ -181,15 +181,7 @@ export function Hero() {
                   <Button href="/register/investor" variant="primary" size="lg">
                     I&apos;m an investor <ArrowRight className="h-4 w-4" />
                   </Button>
-                  {/* ghost, not the default primary: primary carries a brand-red
-                      background and a coloured shadow that would both have to be
-                      fought off to get a glass button. */}
-                  <Button
-                    href="/register/business"
-                    variant="ghost"
-                    size="lg"
-                    className="border border-white/30 bg-white/10 text-white backdrop-blur hover:bg-white/20 hover:text-white"
-                  >
+                  <Button href="/register/business" variant="inverseOutline" size="lg">
                     I&apos;m raising capital
                   </Button>
                 </div>
