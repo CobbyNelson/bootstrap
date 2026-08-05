@@ -31,12 +31,12 @@
     "clsx": "^2.1.1",
     "jose": "^6.2.4",
     "lucide-react": "^1.26.0",
-    "next": "16.2.11",
+    "next": "16.3.0",
     "prisma": "^6.19.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "sanitize-html": "^2.17.6",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.3",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
