@@ -32,6 +32,11 @@ cd "$APP"
 # Install BEFORE the production env is loaded. NODE_ENV=production makes npm
 # omit devDependencies, and the build toolchain (Tailwind's PostCSS plugin,
 # TypeScript) lives there — a production-only tree cannot build the app.
+# Remove the tree first. `npm ci` prunes as it installs, but a half-written
+# node_modules (interrupted deploy, killed build) can leave a package whose
+# postinstall script is gone — npm then dies before it can repair itself.
+# Deleting outright is a few seconds and makes every deploy start from zero.
+rm -rf node_modules
 # postinstall runs `prisma generate`; the schema needs no database for that.
 npm ci --no-audit --no-fund
 
