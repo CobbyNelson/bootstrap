@@ -21,6 +21,8 @@ export function ChatDesk() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
   const [notice, setNotice] = useState("");
+  /** A failed send has to look different from a successful one at a glance. */
+  const [noticeIsError, setNoticeIsError] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const load = useCallback(async () => {
@@ -59,8 +61,17 @@ export function ChatDesk() {
     if (res.ok) {
       const data = await res.json();
       // Say plainly where the reply went. Staff typing into a panel the visitor
-      // has already closed need to know it was emailed instead.
-      setNotice(data.emailed ? "Visitor had left — reply emailed with a link back." : "");
+      // has already closed need to know it was emailed instead — and, when the
+      // email could not be sent, that the person has NOT heard from us. Silence
+      // here would read as "delivered" and the reply would sit unread.
+      setNotice(
+        data.emailed
+          ? "Visitor had left — reply emailed with a link back."
+          : data.emailError
+            ? `Visitor had left and the email did not send: ${data.emailError} Your reply is saved in the thread — reach them another way.`
+            : "",
+      );
+      setNoticeIsError(Boolean(data.emailError));
       load();
     }
   }
@@ -138,7 +149,17 @@ export function ChatDesk() {
               ))}
             </div>
 
-            {notice && <p className="px-5 pb-2 text-xs text-brand-700">{notice}</p>}
+            {notice && (
+              <p
+                role={noticeIsError ? "alert" : undefined}
+                className={cn(
+                  "px-5 pb-2 text-xs",
+                  noticeIsError ? "font-medium text-brand-700" : "text-ink/60",
+                )}
+              >
+                {notice}
+              </p>
+            )}
 
             <form onSubmit={reply} className="flex flex-none items-center gap-2 border-t border-ink/[0.07] px-4 py-3">
               <input

@@ -58,17 +58,35 @@ export async function POST(req: NextRequest) {
   // emailed with a link that reopens THIS conversation.
   const present = visitorIsPresent(convo.visitorSeenAt);
   const to = convo.email;
+  // Whether the reply actually left the building, not merely whether we tried.
+  // sendEmail never throws — it reports `skipped` with no provider configured
+  // and `ok:false` when the provider refuses (an unverified sending domain is
+  // a 403). Discarding that would stamp emailedAt on a message nobody received
+  // and tell the desk it was delivered, which is the one thing staff cannot
+  // check for themselves: they would think a waiting investor had been answered.
+  let emailed = false;
+  let emailError: string | undefined;
+
   if (!present && to) {
     const link = `https://${SITE.domain}/chat/${convo.visitorKey}`;
-    await sendEmail({
+    const sent = await sendEmail({
       to,
       subject: `Reply from ${SITE.name}`,
       html:
         `<p>${text.replace(/</g, "&lt;").replace(/\n/g, "<br>")}</p>` +
         `<p><a href="${link}">Continue the conversation</a></p>`,
     });
-    await prisma.chatMessage.update({ where: { id: message.id }, data: { emailedAt: new Date() } });
+    emailed = sent.ok && !sent.skipped;
+    if (emailed) {
+      await prisma.chatMessage.update({ where: { id: message.id }, data: { emailedAt: new Date() } });
+    } else {
+      emailError = sent.skipped
+        ? "Email is not set up, so nothing was sent."
+        : (sent.error ?? "The email provider refused the message.");
+    }
   }
 
-  return NextResponse.json({ ok: true, emailed: !present && Boolean(to) });
+  // The reply itself is saved either way — it is waiting in the thread whether
+  // or not the email got out, and the visitor sees it if they come back.
+  return NextResponse.json({ ok: true, emailed, emailError });
 }
