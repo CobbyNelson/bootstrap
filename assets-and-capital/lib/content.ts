@@ -164,21 +164,21 @@ export const LISTING_TIERS: Tier[] = [
   {
     name: "Standard",
     price: "$490",
-    cadence: "per listing",
+    cadence: "listing",
     tagline: "Be visible to investors searching the marketplace.",
     features: ["Verified business listing", "Appears in marketplace search", "Basic performance analytics", "Secure messaging with investors", "90-day listing window"],
   },
   {
     name: "Silver",
     price: "$1,200",
-    cadence: "per listing",
+    cadence: "listing",
     tagline: "Higher placement, plus a data room for your documents.",
     features: ["Everything in Standard", "Priority search placement", "Featured-opportunity badge", "Data room (up to 25 documents)", "Extended 180-day window"],
   },
   {
     name: "Gold",
     price: "$3,500",
-    cadence: "per listing",
+    cadence: "listing",
     tagline: "Actively promoted to matched investors.",
     featured: true,
     features: ["Everything in Silver", "Homepage & newsletter features", "Direct mandate-matched outreach", "One personalised roadshow", "Dedicated deal manager"],
@@ -186,7 +186,7 @@ export const LISTING_TIERS: Tier[] = [
   {
     name: "Platinum",
     price: "Custom",
-    cadence: "engagement",
+    cadence: "scoped per engagement",
     tagline: "A managed raise, run by our team end to end.",
     features: ["Everything in Gold", "Multiple targeted roadshows", "Business plan & financial modelling", "Shadow investor search", "Priority success-fee terms"],
   },

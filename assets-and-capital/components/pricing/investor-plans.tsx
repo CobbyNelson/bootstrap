@@ -125,9 +125,11 @@ export function InvestorPlans({
             )}
             <p className="font-display text-xl font-semibold text-navy-700">{p.name}</p>
             <p className="mt-1 text-sm text-ink/65">{p.tagline}</p>
-            <div className="mt-5 flex items-baseline gap-1.5">
+            {/* Same wrap rule as the listing tiers: the cadence drops to its own
+                line intact rather than splitting after the slash. */}
+            <div className="mt-5 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
               <span className="font-display text-4xl font-semibold text-navy-700 tnum">{p.price}</span>
-              <span className="text-sm text-ink/65">/ {p.cadence}</span>
+              <span className="whitespace-nowrap text-sm text-ink/65">/ {p.cadence}</span>
             </div>
 
             <button

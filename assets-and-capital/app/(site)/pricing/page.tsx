@@ -51,9 +51,16 @@ export default async function PricingPage() {
                 )}
                 <p className="font-display text-xl font-semibold text-navy-700">{tier.name}</p>
                 <p className="mt-1 text-sm text-ink/65">{tier.tagline}</p>
-                <div className="mt-5 flex items-baseline gap-1.5">
+                {/* flex-wrap + nowrap on the cadence: when the pair does not fit
+                    the card, the cadence moves down as a whole phrase instead of
+                    breaking after the slash ("Custom /" ⏎ "engagement").
+                    The slash is dropped for a non-numeric price, where it reads
+                    as a division sign rather than "per". */}
+                <div className="mt-5 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
                   <span className="font-display text-4xl font-semibold text-navy-700 tnum">{tier.price}</span>
-                  <span className="text-sm text-ink/65">/ {tier.cadence}</span>
+                  <span className="whitespace-nowrap text-sm text-ink/65">
+                    {/\d/.test(tier.price) ? `/ ${tier.cadence}` : tier.cadence}
+                  </span>
                 </div>
                 <Button
                   href="/register/business"
