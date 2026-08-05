@@ -121,8 +121,15 @@ export async function middleware(req: NextRequest) {
   // the /fr URL in the address bar, which is the whole point of having it.
   const pass = () => {
     if (!localised) return withCsp(NextResponse.next());
-    const url = req.nextUrl.clone();
-    url.pathname = pathname;
+    // Built from req.url, NOT req.nextUrl.clone().
+    //
+    // Behind Caddy, nextUrl carries the EXTERNAL https origin while the app
+    // listens on plain http, so a rewrite target cloned from it resolves to
+    // https://localhost:3000 and the proxy fails the TLS handshake against a
+    // plaintext socket — every localised page 500s. req.url is the internal
+    // origin. This is the same trap the gate hit; it is written down twice
+    // because it costs a deploy to rediscover.
+    const url = new URL(`${pathname}${req.nextUrl.search}`, req.url);
     return withCsp(NextResponse.rewrite(url, { request: { headers: localeHeaders(req) } }));
   };
 
