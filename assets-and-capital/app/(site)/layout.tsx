@@ -1,6 +1,11 @@
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { ChatBox } from "@/components/chat/chat-box";
 
+/**
+ * Kwaku sits here rather than in the root layout so he does not appear on the
+ * pre-launch gate, which has no navigation and nothing for him to answer about.
+ */
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
@@ -13,6 +18,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <Navbar />
       <main id="main">{children}</main>
       <Footer />
+      <ChatBox />
     </>
   );
 }

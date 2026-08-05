@@ -6,7 +6,8 @@ import { CommandPalette } from "@/components/search/command-palette";
 import { CurrencyProvider } from "@/components/providers/currency-provider";
 import { MotionProvider } from "@/components/providers/motion-provider";
 import { CookieConsent } from "@/components/layout/cookie-consent";
-import { ChatBox } from "@/components/chat/chat-box";
+// ChatBox is mounted in the (site) layout, not here — it has no place on the
+// pre-launch gate, which this layout also wraps.
 import { StaffPresence } from "@/components/chat/staff-presence";
 import "./globals.css";
 
@@ -92,6 +93,10 @@ export default function RootLayout({
             {children}
             <CommandPalette />
             <CookieConsent />
+            {/* Global on purpose: a staff member reading the marketplace is
+                still reachable, so presence must not be scoped to the admin
+                area. Non-staff get one refusal and it stops. */}
+            <StaffPresence />
           </CurrencyProvider>
         </MotionProvider>
       </body>

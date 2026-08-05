@@ -23,8 +23,14 @@ export function StaffPresence() {
       try {
         const res = await fetch("/api/chat/presence", { method: "POST" });
         if (!alive) return;
-        // Not staff — stop asking. No point heartbeating for every visitor.
-        if (res.status === 403) return;
+        // Continue ONLY on an explicit staff acknowledgement. Testing for 403
+        // is not enough: while the site is behind the pre-launch gate this
+        // request is redirected to the gate page, which answers 200 with HTML
+        // — not a refusal, so a status check would keep beating every 45s for
+        // every visitor, forever, on behalf of nobody.
+        const isJson = res.headers.get("content-type")?.includes("application/json");
+        const body = res.ok && isJson ? await res.json().catch(() => null) : null;
+        if (!body?.ok) return;
         timer = window.setTimeout(beat, BEAT_MS);
       } catch {
         if (alive) timer = window.setTimeout(beat, BEAT_MS);
