@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, ArrowLeft } from "lucide-react";
+import { ArrowRight, ArrowLeft, Pause, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroSearch } from "@/components/home/hero-search";
 import { SECTOR_IMAGERY } from "@/lib/imagery";
@@ -31,13 +31,46 @@ const SLIDES = [
   { key: "Real Estate", label: "Real estate" },
 ].map((s) => ({ ...s, image: SECTOR_IMAGERY[s.key] }));
 
+/** Dwell time per slide. Long enough to read the sector label and take in the
+ *  photograph; the 1s crossfade sits inside it, so a frame is fully still for
+ *  about five seconds. */
+const AUTOPLAY_MS = 6000;
+
 export function Hero() {
   const [index, setIndex] = useState(0);
   const reduceMotion = useReducedMotion();
 
+  /** The visitor's explicit choice, via the pause button. */
+  const [playing, setPlaying] = useState(true);
+  /** Pointer or keyboard focus is inside the hero — someone is reading it. */
+  const [engaged, setEngaged] = useState(false);
+  /** The tab is in the background. */
+  const [tabHidden, setTabHidden] = useState(false);
+
   const go = useCallback((next: number) => {
     setIndex(((next % SLIDES.length) + SLIDES.length) % SLIDES.length);
   }, []);
+
+  useEffect(() => {
+    const onVisibility = () => setTabHidden(document.hidden);
+    onVisibility();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+
+  // No autoplay at all when the visitor has asked for reduced motion: a
+  // carousel that moves on its own is exactly the kind of thing that setting
+  // exists to stop. They keep the tabs and arrows.
+  const advancing = playing && !engaged && !tabHidden && !reduceMotion;
+
+  // setTimeout keyed on `index` rather than a fixed interval: any change —
+  // autoplay, a tab click, an arrow — restarts the clock, so a slide the
+  // visitor just chose gets its full dwell instead of a fraction of it.
+  useEffect(() => {
+    if (!advancing) return;
+    const id = window.setTimeout(() => go(index + 1), AUTOPLAY_MS);
+    return () => window.clearTimeout(id);
+  }, [advancing, index, go]);
 
   // Arrow keys move the slider when a control inside it has focus, so the
   // carousel is operable without a mouse.
@@ -62,6 +95,13 @@ export function Hero() {
       aria-roledescription="carousel"
       aria-label="Sectors on the marketplace"
       onKeyDown={onKeyDown}
+      // Autoplay stops while a pointer is over the hero or focus is inside it.
+      // Moving the slide out from under someone mid-read is the thing that
+      // makes auto-advancing carousels feel hostile.
+      onMouseEnter={() => setEngaged(true)}
+      onMouseLeave={() => setEngaged(false)}
+      onFocusCapture={() => setEngaged(true)}
+      onBlurCapture={() => setEngaged(false)}
     >
       {/* ── slides ───────────────────────────────────────────────────────── */}
       {/* Taller on the base size than sm: the copy STACKS on a phone, so it
@@ -73,8 +113,12 @@ export function Hero() {
             key={slide.key}
             aria-hidden={i !== index}
             className={cn(
-              "absolute inset-0 transition-opacity duration-700 ease-out",
-              i === index ? "opacity-100" : "opacity-0"
+              // 1s crossfade — soft enough that the change registers as a
+              // dissolve rather than a cut. Inactive frames are taken out of
+              // the hit-testing path so a transparent layer can never swallow
+              // a click meant for the frame beneath it.
+              "absolute inset-0 transition-opacity duration-1000 ease-out",
+              i === index ? "opacity-100" : "pointer-events-none opacity-0"
             )}
           >
             {slide.image && (
@@ -155,6 +199,22 @@ export function Hero() {
               {/* Controls sit with the copy, not floating over the middle of the
                   photograph where they would fight the subject. */}
               <div className="hidden items-center gap-2 sm:flex lg:pb-2">
+                {/* WCAG 2.2.2 (Pause, Stop, Hide): content that starts moving on
+                    its own and runs longer than five seconds needs a way to
+                    stop it. Hover-to-pause helps but does not satisfy this on
+                    its own — and it does nothing for a touch visitor, who has
+                    no hover at all. Hidden when the visitor has reduced motion
+                    set, because nothing is moving for them to stop. */}
+                {!reduceMotion && (
+                  <button
+                    type="button"
+                    onClick={() => setPlaying((p) => !p)}
+                    aria-label={playing ? "Pause sector slideshow" : "Play sector slideshow"}
+                    className="grid h-11 w-11 place-items-center rounded-full border border-white/30 text-white/80 backdrop-blur transition-colors hover:bg-white/15 hover:text-white"
+                  >
+                    {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => go(index - 1)}
