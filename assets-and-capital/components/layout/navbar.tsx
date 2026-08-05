@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -44,12 +44,38 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
+
+  // Escape closes the drawer, and focus returns to the button that opened it —
+  // without this a keyboard user is dropped at the top of the document after
+  // closing, with no idea where they were.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [mobileOpen]);
+
+  // Route changes must dismiss the drawer. Tapping a link to the page you are
+  // already on does not fire the link's own onClick close in every case, and a
+  // drawer left open over the new page reads as a broken navigation.
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   /**
    * The home hero is now a full-bleed dark photograph, so the unscrolled navbar
@@ -196,26 +222,77 @@ export function Navbar() {
           )}
         </div>
 
-        {/* mobile toggle */}
+        {/* mobile toggle — the colour MUST follow onDarkHero like every other
+            control here. It was hard-coded to text-ink, which put a near-black
+            icon on the home page's dark hero photograph: invisible. */}
         <button
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink lg:hidden"
-          onClick={() => setMobileOpen((v) => !v)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          ref={toggleRef}
+          className={cn(
+            "inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:hidden",
+            onDarkHero ? "text-white hover:bg-white/10" : "text-ink hover:bg-ink/5"
+          )}
+          onClick={() => setMobileOpen(true)}
+          aria-label="Open menu"
+          aria-expanded={mobileOpen}
         >
-          {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          <Menu className="h-6 w-6" />
         </button>
       </nav>
 
-      {/* mobile menu */}
+      {/* Mobile drawer.
+          Slides in from the right over the page rather than dropping the panel
+          out of the header. The old version was pinned to `top-18`, so on the
+          home page it opened against a transparent header and the hero photo
+          showed through the seam; a full-height panel has no seam to get wrong
+          and no dependency on the header's height staying in sync. */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 top-18 z-40 overflow-y-auto bg-paper px-5 pb-10 pt-4 lg:hidden"
-          >
+          <>
+            {/* Scrim: dims the page so the drawer reads as above it, and gives
+                a large tap target for dismissing without hunting for the X. */}
+            <motion.button
+              type="button"
+              aria-label="Close menu"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.24 }}
+              onClick={() => {
+                setMobileOpen(false);
+                toggleRef.current?.focus();
+              }}
+              className="fixed inset-0 z-40 cursor-default bg-ink/50 backdrop-blur-[2px] lg:hidden"
+            />
+
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-label="Site menu"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              // ease-out-expo: fast to start, settling rather than bouncing.
+              transition={{ duration: 0.34, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed right-0 top-0 z-50 flex h-dvh w-[min(88vw,22rem)] flex-col bg-paper shadow-[var(--shadow-lift)] lg:hidden"
+            >
+              {/* The drawer covers the site header, so it carries its own. */}
+              <div className="flex h-18 flex-none items-center justify-between border-b border-ink/[0.07] px-5">
+                <Logo />
+                <button
+                  ref={closeRef}
+                  type="button"
+                  onClick={() => {
+                    setMobileOpen(false);
+                    toggleRef.current?.focus();
+                  }}
+                  aria-label="Close menu"
+                  className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-ink/5"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto overscroll-contain px-5 pb-8 pt-2">
             <div className="flex flex-col divide-y divide-ink/[0.06]">
               {NAV.map((group) => (
                 <div key={group.label} className="py-4">
@@ -275,11 +352,13 @@ export function Navbar() {
                 </>
               )}
               <div className="flex items-center justify-between pt-1">
-                <span className="text-sm text-ink/60">Appearance</span>
+                <span className="text-sm text-ink/70">Appearance</span>
                 <ThemeToggle />
               </div>
             </div>
-          </motion.div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>

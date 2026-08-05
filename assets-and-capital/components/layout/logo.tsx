@@ -23,10 +23,17 @@ export function Logo({ invert = false, className }: { invert?: boolean; classNam
       className={cn("inline-flex items-center", className)}
       aria-label="Assets & Capital — home"
     >
+      {/* data-invert lets globals.css knock the wordmark out to white in dark
+          mode without double-inverting the placements that already ask for it
+          via the prop. It has to be CSS rather than a `dark:` utility because
+          no class-based dark variant is configured — `dark:` here would follow
+          the OS preference instead of the site's own theme toggle. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={LOGO_SRC}
         alt="Assets & Capital"
+        data-logo
+        data-invert={invert ? "true" : "false"}
         className={cn("h-9 w-auto", invert && "brightness-0 invert")}
       />
     </Link>
