@@ -243,6 +243,15 @@ body {
   background-size: 44px 44px;
 }
 
+/* The same grid drawn in white. The ink version is 4% black, which disappears
+   entirely on a saturated fill — a texture you cannot see is just a class. */
+.grid-noise-light {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
 .tnum { font-variant-numeric: tabular-nums; }
 
 /* ---------- marquee ticker ---------- */

@@ -51,12 +51,12 @@ export default async function InsightsPage() {
       <section className="pb-20">
         <div className="container-x">
           <Reveal>
-            <div className="relative overflow-hidden rounded-[2rem] bg-ink px-8 py-12 text-center text-white md:px-16 md:py-14">
-              <div className="grid-noise pointer-events-none absolute inset-0 opacity-20" aria-hidden />
+            <div className="relative overflow-hidden rounded-[2rem] bg-brand-600 px-8 py-12 text-center text-white md:px-16 md:py-14">
+              <div className="grid-noise-light pointer-events-none absolute inset-0" aria-hidden />
               <div className="relative mx-auto max-w-xl">
                 <h2 className="font-display text-2xl font-semibold md:text-3xl">The Assets &amp; Capital briefing</h2>
-                <p className="mt-3 text-white/65">Benchmarks drawn from real transactions, plus new opportunities, once a month.</p>
-                <Button href="/register/investor" variant="gold" size="lg" className="mt-7">
+                <p className="mt-3 text-white">Benchmarks drawn from real transactions, plus new opportunities, once a month.</p>
+                <Button href="/register/investor" variant="inverse" size="md" className="mt-7">
                   Subscribe <ArrowRight className="h-4 w-4" />
                 </Button>
               </div>
