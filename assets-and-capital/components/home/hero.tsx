@@ -4,7 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import { ArrowRight, ArrowLeft, Pause, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroSearch } from "@/components/home/hero-search";
-import { SECTOR_IMAGERY, srcSetFor } from "@/lib/imagery";
+import { SECTOR_IMAGERY } from "@/lib/imagery";
+import { LibraryImage } from "@/components/ui/library-image";
 import { usePrefersReducedMotion } from "@/lib/use-motion";
 import { cn } from "@/lib/utils";
 
@@ -106,12 +107,12 @@ export function Hero() {
       const img = new Image();
       // Mirror the rendered element's srcSet/sizes, or the preload fetches the
       // desktop frame on a phone and warms the wrong file.
-      const set = srcSetFor(next.image.src);
-      if (set) {
-        img.sizes = "100vw";
-        img.srcset = set;
-      }
-      img.src = next.image.src;
+      // Warm the file the media query will choose, not the desktop frame —
+      // preloading the wrong one leaves the phone waiting anyway.
+      const small = next.image.src.endsWith(".webp")
+        ? `${next.image.src.slice(0, -5)}-768.webp`
+        : next.image.src;
+      img.src = window.matchMedia("(max-width: 767px)").matches ? small : next.image.src;
     }
   }, [index]);
 
@@ -148,28 +149,16 @@ export function Hero() {
             )}
           >
             {slide.image && mounted.has(i) && (
-              <>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={slide.image.src}
-                  srcSet={srcSetFor(slide.image.src)}
-                  // Full-bleed at every breakpoint, so the viewport width IS
-                  // the layout width — no guesswork in this one.
-                  sizes="100vw"
-                  alt={slide.image.alt}
-                  // The first frame is the LCP element — it must not be lazy.
-                  // Later frames are gated by `mounted` above rather than by
-                  // loading="lazy", which cannot help an in-viewport element.
-                  loading={i === 0 ? "eager" : "lazy"}
-                  fetchPriority={i === 0 ? "high" : "low"}
-                  className={cn(
-                    "h-full w-full object-cover",
-                    // A slow drift gives the still image some life without the
-                    // jitter of a full Ken Burns pan.
-                    !reduceMotion && i === index && "animate-[heroDrift_18s_ease-out_forwards]"
-                  )}
-                />
-              </>
+              <LibraryImage
+                image={slide.image}
+                priority={i === 0}
+                className={cn(
+                  "h-full w-full object-cover",
+                  // A slow drift gives the still image some life without the
+                  // jitter of a full Ken Burns pan.
+                  !reduceMotion && i === index && "animate-[heroDrift_18s_ease-out_forwards]"
+                )}
+              />
             )}
           </div>
         ))}

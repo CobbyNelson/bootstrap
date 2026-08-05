@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { srcSetFor } from "@/lib/imagery";
+import { LibraryImage } from "@/components/ui/library-image";
+
 import { Clock } from "lucide-react";
 import type { PublicArticle } from "@/lib/articles";
 import { SectionHeading, CircleArrow } from "@/components/ui/section-heading";
@@ -38,13 +39,7 @@ export function Insights({ articles }: { articles: PublicArticle[] }) {
                 <div className={`relative aspect-[16/10] overflow-hidden bg-gradient-to-br ${GRADIENTS[i % 3]}`}>
                   {post.cover && (
                     <>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={post.cover.src}
-                        srcSet={srcSetFor(post.cover.src)}
-                        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                        alt={post.cover.alt}
-                        loading="lazy"
+                      <LibraryImage image={post.cover}
                         className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                       />
                       <div

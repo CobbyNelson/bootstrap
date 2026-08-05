@@ -64,6 +64,9 @@ export const IMAGERY = {
 
 export type ImageryKey = keyof typeof IMAGERY;
 
+/** One library photograph: the full-width source plus its alt text. */
+export type ImageRef = { src: string; alt: string };
+
 /**
  * Editorial covers, keyed by an article's `type`.
  *
@@ -193,18 +196,3 @@ export function listingImages(o: { sector: string; image?: string; name: string 
   return all.filter((img) => (seen.has(img.src) ? false : (seen.add(img.src), true)));
 }
 
-/**
- * Responsive sources for a library image.
- *
- * Every /img photograph is built at two widths: the full 1376 and a 768 for
- * phones. Without a srcSet a phone downloads the desktop frame and throws most
- * of it away — the single most expensive thing a small screen can do on a slow
- * connection, and the majority of this site's audience is on one.
- *
- * Returns undefined for anything without a companion variant (the logos), so
- * callers can spread it unconditionally.
- */
-export function srcSetFor(src: string): string | undefined {
-  if (!src.endsWith(".webp")) return undefined;
-  return `${src.slice(0, -5)}-768.webp 768w, ${src} 1376w`;
-}
