@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ChatBox } from "@/components/chat/chat-box";
+import { PageBeacon } from "@/components/analytics/page-beacon";
 
 /**
  * Kwaku sits here rather than in the root layout so he does not appear on the
@@ -19,6 +20,8 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <main id="main">{children}</main>
       <Footer />
       <ChatBox />
+      {/* Public pages only: the gate and the admin area are not audience. */}
+      <PageBeacon />
     </>
   );
 }

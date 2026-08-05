@@ -112,36 +112,38 @@ enum CommitmentStatus {
 // ------------------------------------------------------------ identity
 
 model User {
-  id            String   @id @default(cuid())
-  email         String   @unique
-  name          String?
-  passwordHash  String?
-  role          Role     @default(INVESTOR)
-  emailVerified DateTime?
-  twoFactorOn   Boolean  @default(false)
-  orgId         String?
-  organization  Organization? @relation(fields: [orgId], references: [id])
-  messages      Message[]     @relation("MessageSender")
-  notifications Notification[]
-  auditLogs     AuditLog[]
-  subscription  InvestorSubscription?
-  interests     ListingInterest[]
-  ndaSignatures NdaSignature[]
-  savedListings SavedListing[]
+  id             String                @id @default(cuid())
+  email          String                @unique
+  name           String?
+  passwordHash   String?
+  role           Role                  @default(INVESTOR)
+  emailVerified  DateTime?
+  twoFactorOn    Boolean               @default(false)
+  orgId          String?
+  organization   Organization?         @relation(fields: [orgId], references: [id])
+  messages       Message[]             @relation("MessageSender")
+  notifications  Notification[]
+  auditLogs      AuditLog[]
+  subscription   InvestorSubscription?
+  interests      ListingInterest[]
+  ndaSignatures  NdaSignature[]
+  savedListings  SavedListing[]
   paymentIntents PaymentIntent[]
-  commitments   Commitment[]
-  kyc           KycRecord?
-  docAccess     DocumentAccessLog[]
-  uploads       MediaAsset[]        @relation("MediaUploader")
-  articles      Article[]           @relation("ArticleAuthor")
-  /** Last heartbeat from a signed-in staff member. Drives the live/away badge
-   *  visitors see — presence is derived from recency, not a boolean someone
-   *  has to remember to switch off. */
-  staffSeenAt   DateTime?
-  chats         ChatConversation[]  @relation("ChatVisitor")
-  chatReplies   ChatMessage[]       @relation("ChatAuthor")
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  commitments    Commitment[]
+  kyc            KycRecord?
+  docAccess      DocumentAccessLog[]
+  uploads        MediaAsset[]          @relation("MediaUploader")
+  articles       Article[]             @relation("ArticleAuthor")
+  /**
+   * Last heartbeat from a signed-in staff member. Drives the live/away badge
+   * visitors see — presence is derived from recency, not a boolean someone
+   * has to remember to switch off.
+   */
+  staffSeenAt    DateTime?
+  chats          ChatConversation[]    @relation("ChatVisitor")
+  chatReplies    ChatMessage[]         @relation("ChatAuthor")
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
 
   @@index([orgId])
 }
@@ -163,27 +165,27 @@ model InvestorSubscription {
 /// Data-room documents. Files live in object storage; only the key is stored.
 /// Downloads go through /api/documents/[id], which re-checks entitlements.
 model DataRoomDocument {
-  id         String   @id @default(cuid())
+  id         String              @id @default(cuid())
   slug       String
   name       String
   storageKey String
   mimeType   String?
   sizeBytes  Int?
   accessLogs DocumentAccessLog[]
-  createdAt  DateTime @default(now())
+  createdAt  DateTime            @default(now())
 
   @@index([slug])
 }
 
 model DocumentAccessLog {
-  id         String   @id @default(cuid())
+  id         String           @id @default(cuid())
   userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   documentId String
   document   DataRoomDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
   action     String
   ip         String?
-  createdAt  DateTime @default(now())
+  createdAt  DateTime         @default(now())
 
   @@index([documentId])
   @@index([userId])
@@ -280,40 +282,40 @@ model SavedListing {
 }
 
 model Organization {
-  id          String  @id @default(cuid())
-  type        OrgType
-  legalName   String
-  country     String?
-  region      String?
-  kycStatus   KycStatus @default(NOT_STARTED)
-  users       User[]
-  investor    InvestorProfile?
-  business    BusinessProfile?
-  documents   Document[]
-  payments    Payment[]
-  media       MediaAsset[] @relation("OrgMedia")
+  id           String           @id @default(cuid())
+  type         OrgType
+  legalName    String
+  country      String?
+  region       String?
+  kycStatus    KycStatus        @default(NOT_STARTED)
+  users        User[]
+  investor     InvestorProfile?
+  business     BusinessProfile?
+  documents    Document[]
+  payments     Payment[]
+  media        MediaAsset[]     @relation("OrgMedia")
   subscription Subscription?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
 }
 
 // ------------------------------------------------------------ investor side
 
 model InvestorProfile {
-  id           String        @id @default(cuid())
-  orgId        String        @unique
-  organization Organization  @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  id           String             @id @default(cuid())
+  orgId        String             @unique
+  organization Organization       @relation(fields: [orgId], references: [id], onDelete: Cascade)
   investorType InvestorType
-  accredited   Boolean       @default(false)
+  accredited   Boolean            @default(false)
   jurisdiction String?
   mandates     Mandate[]
   saved        SavedOpportunity[]
   watchlist    Watchlist[]
-  createdAt    DateTime      @default(now())
+  createdAt    DateTime           @default(now())
 }
 
 model Mandate {
-  id            String        @id @default(cuid())
+  id            String          @id @default(cuid())
   investorId    String
   investor      InvestorProfile @relation(fields: [investorId], references: [id], onDelete: Cascade)
   investorClass InvestorClass
@@ -329,10 +331,10 @@ model Mandate {
   ticketMax     Int?
   targetIrr     Float?
   thesis        String?
-  status        String        @default("active")
+  status        String          @default("active")
   matches       Match[]
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 
   @@index([investorId])
 }
@@ -340,57 +342,57 @@ model Mandate {
 // ------------------------------------------------------------ business side
 
 model BusinessProfile {
-  id            String    @id @default(cuid())
-  orgId         String    @unique
-  organization  Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  website       String?
-  foundedYear   Int?
+  id             String       @id @default(cuid())
+  orgId          String       @unique
+  organization   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  website        String?
+  foundedYear    Int?
   legalStructure String?
-  verified      Boolean   @default(false)
-  listings      Listing[]
-  createdAt     DateTime  @default(now())
+  verified       Boolean      @default(false)
+  listings       Listing[]
+  createdAt      DateTime     @default(now())
 }
 
 model Listing {
-  id           String        @id @default(cuid())
-  businessId   String
-  business     BusinessProfile @relation(fields: [businessId], references: [id], onDelete: Cascade)
-  title        String
-  summary      String?
-  industryId   String?
-  industry     Industry?     @relation(fields: [industryId], references: [id])
-  region       String?
-  country      String?
-  stage        String?
-  instrument   Instrument?
-  askAmount    Int?
+  id            String             @id @default(cuid())
+  businessId    String
+  business      BusinessProfile    @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  title         String
+  summary       String?
+  industryId    String?
+  industry      Industry?          @relation(fields: [industryId], references: [id])
+  region        String?
+  country       String?
+  stage         String?
+  instrument    Instrument?
+  askAmount     Int?
   equityOffered Float?
-  returnOffer  String?
-  tier         ListingTier   @default(STANDARD)
-  status       ListingStatus @default(DRAFT)
+  returnOffer   String?
+  tier          ListingTier        @default(STANDARD)
+  status        ListingStatus      @default(DRAFT)
   featuredUntil DateTime?
-  views        Int           @default(0)
-  documents    Document[]
-  matches      Match[]
-  savedBy      SavedOpportunity[]
+  views         Int                @default(0)
+  documents     Document[]
+  matches       Match[]
+  savedBy       SavedOpportunity[]
   /// Images belonging to this business, uploaded by them or by staff.
-  media        MediaAsset[]  @relation("ListingMedia")
+  media         MediaAsset[]       @relation("ListingMedia")
   /// The card/hero image. Falls back to sector imagery when unset.
-  heroId       String?
-  hero         MediaAsset?   @relation("ListingHero", fields: [heroId], references: [id], onDelete: SetNull)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  heroId        String?
+  hero          MediaAsset?        @relation("ListingHero", fields: [heroId], references: [id], onDelete: SetNull)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
 
   @@index([industryId])
   @@index([status])
 }
 
 model Industry {
-  id       String    @id @default(cuid())
-  name     String    @unique
-  slug     String    @unique
+  id         String     @id @default(cuid())
+  name       String     @unique
+  slug       String     @unique
   categories Category[]
-  listings Listing[]
+  listings   Listing[]
 }
 
 model Category {
@@ -405,88 +407,88 @@ model Category {
 // ------------------------------------------------------------ matching & deals
 
 model Match {
-  id         String    @id @default(cuid())
-  mandateId  String
-  mandate    Mandate   @relation(fields: [mandateId], references: [id], onDelete: Cascade)
-  listingId  String
-  listing    Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  score      Int
-  stage      DealStage @default(MATCHED)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id        String    @id @default(cuid())
+  mandateId String
+  mandate   Mandate   @relation(fields: [mandateId], references: [id], onDelete: Cascade)
+  listingId String
+  listing   Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  score     Int
+  stage     DealStage @default(MATCHED)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@unique([mandateId, listingId])
   @@index([stage])
 }
 
 model SavedOpportunity {
-  id         String   @id @default(cuid())
+  id         String          @id @default(cuid())
   investorId String
   investor   InvestorProfile @relation(fields: [investorId], references: [id], onDelete: Cascade)
   listingId  String
-  listing    Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  createdAt  DateTime @default(now())
+  listing    Listing         @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  createdAt  DateTime        @default(now())
 
   @@unique([investorId, listingId])
 }
 
 model Watchlist {
-  id         String   @id @default(cuid())
+  id         String          @id @default(cuid())
   investorId String
   investor   InvestorProfile @relation(fields: [investorId], references: [id], onDelete: Cascade)
   label      String
-  createdAt  DateTime @default(now())
+  createdAt  DateTime        @default(now())
 }
 
 // ------------------------------------------------------------ engagement
 
 model Message {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   threadId  String
   senderId  String
-  sender    User     @relation("MessageSender", fields: [senderId], references: [id])
+  sender    User      @relation("MessageSender", fields: [senderId], references: [id])
   body      String
   readAt    DateTime?
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
 
   @@index([threadId])
 }
 
 model Notification {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   type      String
   title     String
   body      String?
   readAt    DateTime?
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
 
   @@index([userId])
 }
 
 model Document {
-  id         String   @id @default(cuid())
-  orgId      String?
+  id           String        @id @default(cuid())
+  orgId        String?
   organization Organization? @relation(fields: [orgId], references: [id])
-  listingId  String?
-  listing    Listing? @relation(fields: [listingId], references: [id])
-  name       String
-  storageKey String
-  mimeType   String?
-  sizeBytes  Int?
-  createdAt  DateTime @default(now())
+  listingId    String?
+  listing      Listing?      @relation(fields: [listingId], references: [id])
+  name         String
+  storageKey   String
+  mimeType     String?
+  sizeBytes    Int?
+  createdAt    DateTime      @default(now())
 }
 
 // ------------------------------------------------------------ events
 
 model Roadshow {
-  id         String   @id @default(cuid())
-  title      String
-  location   String?
-  date       DateTime
+  id          String   @id @default(cuid())
+  title       String
+  location    String?
+  date        DateTime
   requestedBy String?
-  createdAt  DateTime @default(now())
+  createdAt   DateTime @default(now())
 }
 
 model Event {
@@ -501,28 +503,28 @@ model Event {
 // ------------------------------------------------------------ commerce
 
 model Subscription {
-  id         String   @id @default(cuid())
-  orgId      String   @unique
-  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  tier       ListingTier
-  active     Boolean  @default(true)
-  renewsAt   DateTime?
-  provider   PaymentProvider?
-  createdAt  DateTime @default(now())
+  id           String           @id @default(cuid())
+  orgId        String           @unique
+  organization Organization     @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  tier         ListingTier
+  active       Boolean          @default(true)
+  renewsAt     DateTime?
+  provider     PaymentProvider?
+  createdAt    DateTime         @default(now())
 }
 
 model Payment {
-  id          String        @id @default(cuid())
-  orgId       String
-  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  invoiceNo   String        @unique
-  description String
-  amountCents Int
-  currency    String        @default("USD")
-  provider    PaymentProvider
-  status      PaymentStatus @default(PENDING)
-  isSuccessFee Boolean      @default(false)
-  createdAt   DateTime      @default(now())
+  id           String          @id @default(cuid())
+  orgId        String
+  organization Organization    @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  invoiceNo    String          @unique
+  description  String
+  amountCents  Int
+  currency     String          @default("USD")
+  provider     PaymentProvider
+  status       PaymentStatus   @default(PENDING)
+  isSuccessFee Boolean         @default(false)
+  createdAt    DateTime        @default(now())
 
   @@index([status])
 }
@@ -564,8 +566,8 @@ model AnalyticsEvent {
 /// original is never kept, which is why `originalName` and `originalBytes`
 /// record what was handed in.
 model MediaAsset {
-  id            String   @id @default(cuid())
-  storageKey    String   @unique
+  id            String  @id @default(cuid())
+  storageKey    String  @unique
   thumbKey      String?
   originalName  String
   originalBytes Int
@@ -574,21 +576,21 @@ model MediaAsset {
   height        Int
   quality       Int
   /// Author-supplied description. Empty string means explicitly decorative.
-  alt           String   @default("")
+  alt           String  @default("")
   /// Free-text grouping shown in the library filter (e.g. "listings", "insights").
   folder        String?
 
-  uploadedById  String?
-  uploadedBy    User?    @relation("MediaUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
+  uploadedById String?
+  uploadedBy   User?   @relation("MediaUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
 
   /// Optional owner. A business's own image is scoped to it so the library can
   /// show "belongs to Accra FinPay" rather than an anonymous pile.
-  listingId     String?
-  listing       Listing? @relation("ListingMedia", fields: [listingId], references: [id], onDelete: SetNull)
-  orgId         String?
-  organization  Organization? @relation("OrgMedia", fields: [orgId], references: [id], onDelete: SetNull)
+  listingId    String?
+  listing      Listing?      @relation("ListingMedia", fields: [listingId], references: [id], onDelete: SetNull)
+  orgId        String?
+  organization Organization? @relation("OrgMedia", fields: [orgId], references: [id], onDelete: SetNull)
 
-  createdAt     DateTime @default(now())
+  createdAt DateTime @default(now())
 
   articleCovers Article[] @relation("ArticleCover")
   listingHeroes Listing[] @relation("ListingHero")
@@ -619,14 +621,14 @@ model Article {
   status      ArticleStatus @default(DRAFT)
   publishedAt DateTime?
 
-  coverId     String?
-  cover       MediaAsset?   @relation("ArticleCover", fields: [coverId], references: [id], onDelete: SetNull)
+  coverId String?
+  cover   MediaAsset? @relation("ArticleCover", fields: [coverId], references: [id], onDelete: SetNull)
 
   createdById String?
-  createdBy   User?         @relation("ArticleAuthor", fields: [createdById], references: [id], onDelete: SetNull)
+  createdBy   User?   @relation("ArticleAuthor", fields: [createdById], references: [id], onDelete: SetNull)
 
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([status, publishedAt])
   @@index([type])
@@ -637,20 +639,27 @@ enum ArticleStatus {
   PUBLISHED
 }
 
-
-/* ─────────────────────────────── live chat ─────────────────────────────────
+/**
+ * ─────────────────────────────── live chat ─────────────────────────────────
  * Kwaku answers from the site's own content. When he cannot, the conversation
  * escalates: to a live staff member if one is online, otherwise it waits as a
  * message for an admin, and the reply is emailed to the visitor with a link
  * back into the same thread.
- * ------------------------------------------------------------------------- */
+ * -------------------------------------------------------------------------
+ */
 
 enum ChatStatus {
-  /** Kwaku is handling it. */
+  /**
+   * Kwaku is handling it.
+   */
   BOT
-  /** Escalated, nobody has picked it up yet. */
+  /**
+   * Escalated, nobody has picked it up yet.
+   */
   WAITING
-  /** A staff member is in the conversation. */
+  /**
+   * A staff member is in the conversation.
+   */
   LIVE
   CLOSED
 }
@@ -662,39 +671,100 @@ enum ChatRole {
 }
 
 model ChatConversation {
-  id     String @id @default(cuid())
-  /** Anonymous visitors are identified by a cookie value; signed-in users also
-   *  carry userId so staff can see who they are talking to. */
-  visitorKey String @unique
-  userId String?
-  user   User?   @relation("ChatVisitor", fields: [userId], references: [id])
-  /** Captured when a visitor leaves a message for a reply by email. */
-  email  String?
-  name   String?
-  status ChatStatus @default(BOT)
-  /** Drives "are they still here?" when staff reply — if the visitor has gone,
-   *  the reply is emailed instead of only landing in a panel nobody is reading. */
-  visitorSeenAt DateTime @default(now())
-  messages  ChatMessage[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String        @id @default(cuid())
+  /**
+   * Anonymous visitors are identified by a cookie value; signed-in users also
+   * carry userId so staff can see who they are talking to.
+   */
+  visitorKey    String        @unique
+  userId        String?
+  user          User?         @relation("ChatVisitor", fields: [userId], references: [id])
+  /**
+   * Captured when a visitor leaves a message for a reply by email.
+   */
+  email         String?
+  name          String?
+  status        ChatStatus    @default(BOT)
+  /**
+   * Drives "are they still here?" when staff reply — if the visitor has gone,
+   * the reply is emailed instead of only landing in a panel nobody is reading.
+   */
+  visitorSeenAt DateTime      @default(now())
+  messages      ChatMessage[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   @@index([status, updatedAt])
 }
 
 model ChatMessage {
-  id             String   @id @default(cuid())
+  id             String           @id @default(cuid())
   conversationId String
   conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   role           ChatRole
   body           String
-  /** Set when role is STAFF. */
-  authorId String?
-  author   User?   @relation("ChatAuthor", fields: [authorId], references: [id])
-  /** Stamped when this message was emailed to an offline visitor, so a retry
-   *  or a second poll can never send it twice. */
-  emailedAt DateTime?
-  createdAt DateTime @default(now())
+  /**
+   * Set when role is STAFF.
+   */
+  authorId       String?
+  author         User?            @relation("ChatAuthor", fields: [authorId], references: [id])
+  /**
+   * Stamped when this message was emailed to an offline visitor, so a retry
+   * or a second poll can never send it twice.
+   */
+  emailedAt      DateTime?
+  createdAt      DateTime         @default(now())
 
   @@index([conversationId, createdAt])
+}
+
+/**
+ * One page view.
+ * Deliberately holds no identifier that survives the day. `visitorDay` is a
+ * hash of the IP, the user agent and a salt that rotates at midnight UTC and is
+ * never written down — so today's rows cannot be joined to yesterday's, and
+ * nobody (including us) can work backwards from a row to a person. The IP
+ * itself is used to derive the country and is then discarded.
+ * That is the whole reason this exists instead of Google Analytics: it answers
+ * "how many people, from where, reading what" without ever building a profile.
+ */
+model PageView {
+  id           String  @id @default(cuid())
+  path         String
+  /**
+   * Host only — the full referring URL can carry search terms and tokens.
+   */
+  referrerHost String?
+
+  /**
+   * Resolved from the IP, which is then dropped.
+   */
+  country String?
+  region  String?
+  city    String?
+
+  device  String
+  os      String?
+  browser String?
+
+  /**
+   * Rotates daily. Counts unique visitors within a day, and nothing across days.
+   */
+  visitorDay String
+  /**
+   * Groups views into a visit; rotates on the same salt with a 30-minute bucket.
+   */
+  sessionKey String
+  /**
+   * First view of this session — what makes a "visit" countable.
+   */
+  entry      Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([path, createdAt])
+  @@index([country, createdAt])
+  @@index([visitorDay, createdAt])
+  @@index([sessionKey])
 }

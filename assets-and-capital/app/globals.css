@@ -621,3 +621,29 @@ body {
     background-position: center;
   }
 }
+
+/* ============================================================
+   Chart palette.
+
+   Two categorical slots, validated with the dataviz validator against both
+   surfaces: lightness band, chroma floor, CVD separation (worst adjacent pair
+   ΔE 21.7 protan), normal-vision floor and 3:1 contrast all pass in light AND
+   dark, so one palette serves both rather than an automatic flip.
+
+   chart-2 is NOT the site's navy. navy-500 measures 0.095 chroma and fails the
+   floor — it reads as grey next to red, which is fine for text and wrong for a
+   series. Navy stays a surface and text colour.
+
+   Assign these in fixed order and never cycle them: a filter that drops a
+   series must not repaint the survivors.
+   ============================================================ */
+:root {
+  --chart-1: #df2d25;
+  --chart-2: #2c7fb8;
+  --chart-grid: color-mix(in srgb, var(--color-ink) 8%, transparent);
+  --chart-axis: color-mix(in srgb, var(--color-ink) 45%, transparent);
+}
+.dark {
+  --chart-grid: color-mix(in srgb, white 12%, transparent);
+  --chart-axis: color-mix(in srgb, white 55%, transparent);
+}
