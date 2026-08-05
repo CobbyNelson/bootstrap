@@ -62,10 +62,12 @@ export function WhyUs() {
         <Reveal delay={0.1}>
           <Link
             href="/about"
-            className="group mt-10 inline-flex items-center gap-2.5 rounded-full bg-white px-5 py-3 text-sm font-semibold text-navy-900 transition-colors hover:bg-brand-600 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900"
+            className="slant [--slant-bleed:0.55rem] group mt-10 inline-flex items-center gap-2.5 bg-white px-5 py-3 text-sm font-semibold text-navy-900 transition-colors hover:bg-brand-600 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900"
           >
-            How we work with both sides
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+            <span className="slant-content inline-flex items-center gap-2.5">
+              How we work with both sides
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </span>
           </Link>
         </Reveal>
       </div>

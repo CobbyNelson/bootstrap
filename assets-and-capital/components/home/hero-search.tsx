@@ -76,10 +76,12 @@ export function HeroSearch() {
 
         <button
           type="submit"
-          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700"
+          className="slant [--slant-bleed:0.625rem] inline-flex shrink-0 items-center justify-center gap-2 bg-ink px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700"
         >
-          <Search className="h-4 w-4" />
-          Find opportunities
+          <span className="slant-content inline-flex items-center gap-2">
+            <Search className="h-4 w-4" />
+            Find opportunities
+          </span>
         </button>
       </div>
     </form>
