@@ -34,8 +34,12 @@ cd "$APP"
 # must be loaded BEFORE building — locally the app dir's own .env masks this,
 # which is exactly how it slipped through the first deploy.
 set -a; source "$AC/shared/.env"; set +a
+# --include=dev is REQUIRED: the sourced env sets NODE_ENV=production, under
+# which npm omits devDependencies — and the build toolchain (Tailwind's
+# PostCSS plugin, TypeScript) lives there. They are build-time only; the
+# standalone artifact that actually runs carries just what it traced.
 # postinstall runs `prisma generate`; the schema needs no database for that.
-npm ci --no-audit --no-fund
+npm ci --include=dev --no-audit --no-fund
 
 say "Applying database migrations"
 # Before the build (the build reads these tables — on a fresh database they
