@@ -18,6 +18,22 @@ import type { Metadata } from "next";
  * parameters: without a canonical, every combination is a separate URL
  * competing with the others for the same content.
  */
+/**
+ * Rendered per request, not prerendered.
+ *
+ * The locale arrives as a request header from middleware, and middleware
+ * rewrites /fr/pricing to /pricing — so a cached render is keyed on the
+ * STRIPPED path and all four languages collapse onto one entry. The symptom is
+ * exact: /ar returned 200 with dir="ltr" and English copy, because it was
+ * served the English prerender.
+ *
+ * This gives back the static homepage won earlier today (TTFB ~0.35s to ~0.5s).
+ * The fix that recovers both is a real [locale] route segment, where each
+ * language is its own route with its own cache entry — a larger change than
+ * belongs in the same pass that introduced the languages.
+ */
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   alternates: {
     canonical: "./",
