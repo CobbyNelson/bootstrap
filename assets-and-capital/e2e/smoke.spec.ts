@@ -12,10 +12,17 @@ test("marketplace lists opportunities", async ({ page }) => {
   await expect(page.getByText(/opportunities/i).first()).toBeVisible();
 });
 
-test("opportunity detail loads with a match score", async ({ page }) => {
+test("opportunity detail gates the match score behind a subscription", async ({ page }) => {
   await page.goto("/marketplace/sahara-solar-grid");
-  await expect(page.getByText(/% match/i).first()).toBeVisible();
-  await expect(page.getByText(/AI fit breakdown/i)).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(/sahara solar grid/i);
+  await expect(page.getByRole("heading", { name: /snapshot/i })).toBeVisible();
+  // The match rate is a paid feature — deal tier, subscription plus expressed
+  // interest — so an anonymous visitor must see the lock, not the score. The
+  // old assertion expected "% match" here, which encoded the pre-entitlement
+  // behaviour; if this test ever finds a score on this page again, that is a
+  // paid feature leaking, not a pass.
+  await expect(page.getByText(/unlock the ai profile/i)).toBeVisible();
+  await expect(page.getByText(/% match/i)).toHaveCount(0);
 });
 
 test("unknown route shows the branded 404", async ({ page }) => {
