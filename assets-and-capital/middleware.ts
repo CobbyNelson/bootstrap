@@ -145,22 +145,23 @@ export async function middleware(req: NextRequest) {
     // Default locale: same page, unprefixed URL, so it rewrites onto the
     // segment.
     //
-    // The scheme has to be corrected, not just the path.
+    // Redirect, not rewrite.
     //
-    // Behind Caddy, nextUrl reports the INTERNAL host with the EXTERNAL scheme
-    // — https://localhost:3000. That origin matches neither the request nor
-    // the server, so Next treats the rewrite as external and dials it, then
-    // fails the TLS handshake against its own plaintext socket. The logged
-    // error is literally `Failed to proxy https://localhost:3000/en`.
+    // Three attempts at an internal rewrite failed here, each on a different
+    // real cause: a pinned host Next would not treat as its own (connection
+    // refused), the request's own origin (external scheme), and the corrected
+    // scheme (still dialled). Behind this proxy nextUrl reports an origin that
+    // matches neither the request nor the server, and Next dials anything it
+    // does not recognise as internal.
     //
-    // Next's own origin is http://localhost:3000, so forcing the scheme back
-    // to http makes the origins match and the rewrite is routed in-process,
-    // with nothing dialled at all. X-Forwarded-Proto is what puts the https
-    // there; the app itself never speaks TLS.
+    // So English is prefixed too, and /pricing redirects to /en/pricing. The
+    // cost is that existing URLs move — 308 preserves their ranking and every
+    // shared link still works — and in exchange every locale takes the same
+    // path through the router, with nothing depending on how a proxy rewrites
+    // a scheme. A redirect is also visible in a log, which a rewrite is not.
     const url = req.nextUrl.clone();
-    url.protocol = "http:";
     url.pathname = `/${DEFAULT_LOCALE}${pathname === "/" ? "" : pathname}`;
-    return withCsp(NextResponse.rewrite(url, { request: { headers } }));
+    return withCsp(NextResponse.redirect(url, 308));
   }
 
   // ---- Authenticated areas -------------------------------------------------

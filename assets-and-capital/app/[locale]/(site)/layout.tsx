@@ -31,11 +31,11 @@ export const metadata: Metadata = {
      * on every path without being written out page by page.
      */
     languages: {
-      en: "./",
+      en: "/en",
       fr: "/fr",
       es: "/es",
       ar: "/ar",
-      "x-default": "./",
+      "x-default": "/en",
     },
   },
 };
