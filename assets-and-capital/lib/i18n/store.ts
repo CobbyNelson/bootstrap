@@ -43,7 +43,21 @@ const loadRows = unstable_cache(
     }
   },
   ["i18n-translations"],
-  { tags: [TAG] },
+  {
+    tags: [TAG],
+    // A time bound as well as the tag.
+    //
+    // Without one this cache is indefinite, and it cached an EMPTY array during
+    // a build that ran before the rows were seeded — then served that empty
+    // result forever, so every translated page rendered English while the rows
+    // sat in the database being perfectly readable. The tag only helps if
+    // something invalidates it, and a build has nothing to invalidate.
+    //
+    // Five minutes matches the pages' own revalidate window, so a translation
+    // edited in the browser appears on the same schedule as the page that
+    // shows it, and a cache that starts wrong cannot stay wrong.
+    revalidate: 300,
+  },
 );
 
 export type Translator = {
