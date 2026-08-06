@@ -3,6 +3,7 @@ import { unstable_cache, revalidateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getDictionary } from "./dictionaries";
 import { DEFAULT_LOCALE, type Locale } from "./config";
+import { TRANSLATABLE } from "./translatable";
 
 /**
  * Resolved translations for a locale.
@@ -96,19 +97,26 @@ export async function getTranslator(locale: Locale): Promise<Translator> {
  * a separate list would drift the first time someone forgot to update it.
  */
 export function translatableStrings(): { source: string; context: string }[] {
-  const en = getDictionary(DEFAULT_LOCALE) as unknown as Record<string, Record<string, string>>;
   const out: { source: string; context: string }[] = [];
   const seen = new Set<string>();
 
+  // The generated registry: page copy, legal documents, site content.
+  for (const e of TRANSLATABLE) {
+    if (seen.has(e.source)) continue;
+    seen.add(e.source);
+    out.push(e);
+  }
+
+  // Plus the hand-written dictionary strings — navigation, buttons and the
+  // shared interface furniture, which live in code rather than in content.
+  const en = getDictionary(DEFAULT_LOCALE) as unknown as Record<string, Record<string, string>>;
   const CONTEXTS: Record<string, string> = {
-    labels: "Navigation & footer",
     nav: "Navigation",
     cta: "Buttons & calls to action",
     home: "Home page",
     footer: "Footer",
     common: "Shared interface",
   };
-
   for (const [group, entries] of Object.entries(en)) {
     for (const value of Object.values(entries)) {
       if (!value || seen.has(value)) continue;
@@ -116,13 +124,14 @@ export function translatableStrings(): { source: string; context: string }[] {
       out.push({ source: value, context: CONTEXTS[group] ?? group });
     }
   }
-  // `labels` in the English dictionary is empty by design (English needs no
-  // lookup), so pull the translatable vocabulary from a locale that has it.
+  // The taxonomy lives only in the non-English dictionaries (English needs no
+  // lookup), so read its keys from one that has them.
   for (const source of Object.keys(getDictionary("fr").labels)) {
     if (seen.has(source)) continue;
     seen.add(source);
-    out.push({ source, context: "Navigation & footer" });
+    out.push({ source, context: "Listings & navigation" });
   }
+
   return out.sort((a, b) => a.context.localeCompare(b.context) || a.source.localeCompare(b.source));
 }
 
