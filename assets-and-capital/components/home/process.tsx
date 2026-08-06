@@ -1,8 +1,8 @@
 import { PROCESS } from "@/lib/content";
 import { Reveal } from "@/components/ui/reveal";
 import { PillButton } from "@/components/ui/button";
-import { getLocale } from "@/lib/i18n/server";
 import { getTranslator } from "@/lib/i18n/store";
+import type { Locale } from "@/lib/i18n/config";
 import { translateContent } from "@/lib/i18n/translate-content";
 
 /**
@@ -58,8 +58,8 @@ const CURVE = [
   "C 905,25 960,16 1040,8",
 ].join(" ");
 
-export async function Process() {
-  const t = await getTranslator(await getLocale());
+export async function Process({ locale }: { locale: Locale }) {
+  const t = await getTranslator(locale);
   const process = translateContent(PROCESS, t);
   return (
     <section className="overflow-hidden py-14 md:py-20 lg:pt-28">

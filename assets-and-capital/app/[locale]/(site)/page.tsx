@@ -1,4 +1,5 @@
 import { Hero } from "@/components/home/hero";
+import type { Locale } from "@/lib/i18n/config";
 import type { Metadata } from "next";
 import { SITE } from "@/lib/content";
 import { FeaturedCarousel } from "@/components/home/featured-carousel";
@@ -46,15 +47,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function HomePage() {
+export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
+  // From the route param, NOT from headers(). Reading a header here would make
+  // this page dynamic and take the prerender with it — which is exactly what
+  // happened when the content components resolved the locale themselves.
+  const { locale } = await params;
   const teasers = await listTeasers(3);
   const heroes = await getListingHeroes();
   return (
     <>
       <Hero />
       <FeaturedCarousel heroes={heroes} />
-      <Process />
-      <WhyUs />
+      <Process locale={locale} />
+      <WhyUs locale={locale} />
       <Featured />
       <Insights articles={teasers} />
       <FinalCTA />

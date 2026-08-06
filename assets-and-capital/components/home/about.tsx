@@ -1,8 +1,8 @@
 import { STATS } from "@/lib/content";
 import { Reveal } from "@/components/ui/reveal";
 import { Counter } from "@/components/ui/counter";
-import { getLocale } from "@/lib/i18n/server";
 import { getTranslator } from "@/lib/i18n/store";
+import type { Locale } from "@/lib/i18n/config";
 import { translateContent } from "@/lib/i18n/translate-content";
 
 /**
@@ -17,8 +17,8 @@ import { translateContent } from "@/lib/i18n/translate-content";
  * of the product and can be pointed at. Deal volumes and AUM would be more
  * impressive and would be invented, so they are not here.
  */
-export async function About() {
-  const t = await getTranslator(await getLocale());
+export async function About({ locale }: { locale: Locale }) {
+  const t = await getTranslator(locale);
   const stats = translateContent(STATS, t);
   return (
     <section className="border-b border-ink/[0.06] py-20 md:py-24">

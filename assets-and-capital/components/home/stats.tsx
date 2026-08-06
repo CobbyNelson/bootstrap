@@ -1,12 +1,12 @@
 import { STATS } from "@/lib/content";
 import { Counter } from "@/components/ui/counter";
 import { Reveal } from "@/components/ui/reveal";
-import { getLocale } from "@/lib/i18n/server";
 import { getTranslator } from "@/lib/i18n/store";
+import type { Locale } from "@/lib/i18n/config";
 import { translateContent } from "@/lib/i18n/translate-content";
 
-export async function StatsBand() {
-  const t = await getTranslator(await getLocale());
+export async function StatsBand({ locale }: { locale: Locale }) {
+  const t = await getTranslator(locale);
   const stats = translateContent(STATS, t);
   return (
     <section className="relative overflow-hidden bg-navy-800 py-16 text-white md:py-20">

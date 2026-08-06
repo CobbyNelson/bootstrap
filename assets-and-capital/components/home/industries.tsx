@@ -1,12 +1,12 @@
 import { INDUSTRIES } from "@/lib/content";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
-import { getLocale } from "@/lib/i18n/server";
 import { getTranslator } from "@/lib/i18n/store";
+import type { Locale } from "@/lib/i18n/config";
 import { translateContent } from "@/lib/i18n/translate-content";
 
-export async function Industries() {
-  const t = await getTranslator(await getLocale());
+export async function Industries({ locale }: { locale: Locale }) {
+  const t = await getTranslator(locale);
   const industries = translateContent(INDUSTRIES, t);
   return (
     <section className="bg-paper-2/60 py-20 md:py-28">

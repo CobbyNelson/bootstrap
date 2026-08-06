@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { WHY } from "@/lib/content";
 import { Reveal } from "@/components/ui/reveal";
-import { getLocale } from "@/lib/i18n/server";
 import { getTranslator } from "@/lib/i18n/store";
+import type { Locale } from "@/lib/i18n/config";
 import { translateContent } from "@/lib/i18n/translate-content";
 
 /**
@@ -25,8 +25,8 @@ import { translateContent } from "@/lib/i18n/translate-content";
  * The dark band is also load-bearing for page rhythm: Process → this → Featured
  * → Insights was an unbroken light stretch between the hero and the closing CTA.
  */
-export async function WhyUs() {
-  const t = await getTranslator(await getLocale());
+export async function WhyUs({ locale }: { locale: Locale }) {
+  const t = await getTranslator(locale);
   const why = translateContent(WHY, t);
   return (
     <section className="relative overflow-hidden bg-navy-900 py-20 md:py-28">
