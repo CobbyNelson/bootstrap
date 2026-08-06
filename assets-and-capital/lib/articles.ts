@@ -87,12 +87,31 @@ export async function getPublishedArticle(slug: string): Promise<PublicArticle |
 }
 
 /** Slugs for generateStaticParams. */
+/**
+ * Slugs to prerender. Returns [] rather than throwing when the database is
+ * unreachable.
+ *
+ * This runs inside generateStaticParams, which executes during `next build` —
+ * and a build does not necessarily have a database. CI has no Postgres, so this
+ * threw and took the whole build down with "Failed to collect page data for
+ * /[locale]/insights/[slug]". The deploy kept working because the VPS builds
+ * with the live database beside it, which is exactly why the failure went
+ * unnoticed: it only appeared where nobody was looking.
+ *
+ * Degrading to [] is safe because dynamicParams is true — an article whose slug
+ * was not prerendered still renders on demand. The cost of an empty list is a
+ * cold first request, not a missing page.
+ */
 export async function publishedSlugs(): Promise<string[]> {
-  const rows = await prisma.article.findMany({
-    where: { status: "PUBLISHED" },
-    select: { slug: true },
-  });
-  return rows.map((r) => r.slug);
+  try {
+    const rows = await prisma.article.findMany({
+      where: { status: "PUBLISHED" },
+      select: { slug: true },
+    });
+    return rows.map((r) => r.slug);
+  } catch {
+    return [];
+  }
 }
 
 /**
