@@ -26,7 +26,19 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "About page"
   },
   {
+    "source": "About",
+    "context": "About page"
+  },
+  {
+    "source": "Assets & Capital is a financing events company creating a trusted platform that connects investors with vetted business opportunities.",
+    "context": "About page"
+  },
+  {
     "source": "Assets and Capital Limited is a financing events company. We serve as an alternative capital-raising and deal-making platform to traditional channels like the stock market and bank financing.",
+    "context": "About page"
+  },
+  {
+    "source": "Expert support",
     "context": "About page"
   },
   {
@@ -35,6 +47,14 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Our mission",
+    "context": "About page"
+  },
+  {
+    "source": "Personalised service",
+    "context": "About page"
+  },
+  {
+    "source": "Transparency",
     "context": "About page"
   },
   {
@@ -54,11 +74,19 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Chat"
   },
   {
+    "source": "Ask Kwaku",
+    "context": "Chat"
+  },
+  {
     "source": "Assets &amp; Capital team",
     "context": "Chat"
   },
   {
     "source": "Chat with Kwaku",
+    "context": "Chat"
+  },
+  {
+    "source": "Close chat",
     "context": "Chat"
   },
   {
@@ -118,6 +146,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Checkout"
   },
   {
+    "source": "Test Investor",
+    "context": "Checkout"
+  },
+  {
     "source": "Test mode",
     "context": "Checkout"
   },
@@ -134,7 +166,27 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Checkout"
   },
   {
+    "source": "Email",
+    "context": "Contact page"
+  },
+  {
     "source": "Let's make the connection",
+    "context": "Contact page"
+  },
+  {
+    "source": "Phone",
+    "context": "Contact page"
+  },
+  {
+    "source": "Reach",
+    "context": "Contact page"
+  },
+  {
+    "source": "Talk to the Assets & Capital team about investing or raising capital.",
+    "context": "Contact page"
+  },
+  {
+    "source": "Website",
     "context": "Contact page"
   },
   {
@@ -166,11 +218,31 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Events"
   },
   {
+    "source": "Events & Roadshows",
+    "context": "Events page"
+  },
+  {
+    "source": "Family Office Connect",
+    "context": "Events page"
+  },
+  {
+    "source": "MENA Private Capital Summit",
+    "context": "Events page"
+  },
+  {
     "source": "Register interest",
     "context": "Events page"
   },
   {
     "source": "Request a roadshow",
+    "context": "Events page"
+  },
+  {
+    "source": "Roadshows, forums and networking events where investors and business owners meet in person.",
+    "context": "Events page"
+  },
+  {
+    "source": "Southern Africa Real Assets Day",
     "context": "Events page"
   },
   {
@@ -182,6 +254,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Events page"
   },
   {
+    "source": "Answers to common questions about investing and raising capital on Assets & Capital.",
+    "context": "FAQ page"
+  },
+  {
     "source": "Contact us",
     "context": "FAQ page"
   },
@@ -190,7 +266,19 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "FAQ page"
   },
   {
+    "source": "For businesses",
+    "context": "FAQ page"
+  },
+  {
+    "source": "For investors",
+    "context": "FAQ page"
+  },
+  {
     "source": "Our team is happy to help you get set up, whether you&apos;re deploying capital or raising it.",
+    "context": "FAQ page"
+  },
+  {
+    "source": "Security & compliance",
     "context": "FAQ page"
   },
   {
@@ -222,11 +310,31 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Featured opportunities"
   },
   {
+    "source": "Collateral preparation",
+    "context": "For businesses page"
+  },
+  {
     "source": "Everything you need to raise with confidence",
     "context": "For businesses page"
   },
   {
     "source": "From listing to closed raise",
+    "context": "For businesses page"
+  },
+  {
+    "source": "List your business with Assets & Capital and reach a global portfolio of investors ready to deploy capital into the right opportunities.",
+    "context": "For businesses page"
+  },
+  {
+    "source": "Listing services",
+    "context": "For businesses page"
+  },
+  {
+    "source": "Market insights",
+    "context": "For businesses page"
+  },
+  {
+    "source": "Personalised roadshows",
     "context": "For businesses page"
   },
   {
@@ -254,7 +362,23 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "For investors page"
   },
   {
+    "source": "Mandate matching",
+    "context": "For investors page"
+  },
+  {
+    "source": "Opportunities scored against your written mandate, screened before they reach you, with people on the ground in the markets you invest in.",
+    "context": "For investors page"
+  },
+  {
     "source": "Our global team engages business owners and screens opportunities to deliver the best options to our investor network — matched to you with advanced technology.",
+    "context": "For investors page"
+  },
+  {
+    "source": "Trusted local partner",
+    "context": "For investors page"
+  },
+  {
+    "source": "Vetted prospects",
     "context": "For investors page"
   },
   {
@@ -283,6 +407,22 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "About Assets &amp; Capital",
+    "context": "Home page"
+  },
+  {
+    "source": "Any region",
+    "context": "Home page"
+  },
+  {
+    "source": "Any sector",
+    "context": "Home page"
+  },
+  {
+    "source": "Any stage",
+    "context": "Home page"
+  },
+  {
+    "source": "Become an investor",
     "context": "Home page"
   },
   {
@@ -338,7 +478,15 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Home page"
   },
   {
+    "source": "Infrastructure",
+    "context": "Home page"
+  },
+  {
     "source": "Intelligence for capital and opportunity",
+    "context": "Home page"
+  },
+  {
+    "source": "Logistics",
     "context": "Home page"
   },
   {
@@ -374,7 +522,23 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Home page"
   },
   {
+    "source": "Real estate",
+    "context": "Home page"
+  },
+  {
+    "source": "Region",
+    "context": "Home page"
+  },
+  {
     "source": "Register now",
+    "context": "Home page"
+  },
+  {
+    "source": "Register your business",
+    "context": "Home page"
+  },
+  {
+    "source": "Renewable energy",
     "context": "Home page"
   },
   {
@@ -383,6 +547,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Roadshows built around a mandate, and forums where the introductions happen face to face.",
+    "context": "Home page"
+  },
+  {
+    "source": "Sector",
     "context": "Home page"
   },
   {
@@ -399,6 +567,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Seeking",
+    "context": "Home page"
+  },
+  {
+    "source": "Stage",
     "context": "Home page"
   },
   {
@@ -958,6 +1130,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Marketplace"
   },
   {
+    "source": "Browse vetted investment opportunities across sectors and geographies, ranked by fit to your mandate.",
+    "context": "Marketplace"
+  },
+  {
     "source": "Business imagery",
     "context": "Marketplace"
   },
@@ -1014,7 +1190,15 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Marketplace"
   },
   {
+    "source": "Global coverage",
+    "context": "Marketplace"
+  },
+  {
     "source": "Grid view",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Instrument",
     "context": "Marketplace"
   },
   {
@@ -1023,6 +1207,14 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "List view",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Listing tier",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Mandate-matched scoring",
     "context": "Marketplace"
   },
   {
@@ -1067,6 +1259,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Saving…",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Screened & verified",
     "context": "Marketplace"
   },
   {
@@ -1274,6 +1470,14 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Navigation & footer"
   },
   {
+    "source": "Auto — dark after 7pm",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Browse marketplace",
+    "context": "Navigation & footer"
+  },
+  {
     "source": "Close menu",
     "context": "Navigation & footer"
   },
@@ -1282,7 +1486,15 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Navigation & footer"
   },
   {
+    "source": "Cookie policy",
+    "context": "Navigation & footer"
+  },
+  {
     "source": "Cookie settings",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Dark",
     "context": "Navigation & footer"
   },
   {
@@ -1302,6 +1514,18 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Navigation & footer"
   },
   {
+    "source": "Legal",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Light",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "LinkedIn",
+    "context": "Navigation & footer"
+  },
+  {
     "source": "Market intelligence and new opportunities. No spam.",
     "context": "Navigation & footer"
   },
@@ -1310,7 +1534,15 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Navigation & footer"
   },
   {
+    "source": "Privacy policy",
+    "context": "Navigation & footer"
+  },
+  {
     "source": "Reject all",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Roadshows",
     "context": "Navigation & footer"
   },
   {
@@ -1327,6 +1559,14 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Site menu",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Terms of service",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Why Assets & Capital",
     "context": "Navigation & footer"
   },
   {
@@ -1458,6 +1698,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Pricing page"
   },
   {
+    "source": "Pricing & Listing Tiers",
+    "context": "Pricing page"
+  },
+  {
     "source": "Questions, answered",
     "context": "Pricing page"
   },
@@ -1470,7 +1714,55 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Pricing page"
   },
   {
+    "source": "Transparent listing tiers from Standard to Platinum, à la carte services, and a success-fee model aligned to your outcome.",
+    "context": "Pricing page"
+  },
+  {
+    "source": "About you",
+    "context": "Registration"
+  },
+  {
+    "source": "Accredited / qualified investor?",
+    "context": "Registration"
+  },
+  {
+    "source": "Add services",
+    "context": "Registration"
+  },
+  {
+    "source": "Aggressive IRR (%)",
+    "context": "Registration"
+  },
+  {
+    "source": "Allocation & exit",
+    "context": "Registration"
+  },
+  {
+    "source": "Allocation & governance",
+    "context": "Registration"
+  },
+  {
+    "source": "Allocation & lock-up",
+    "context": "Registration"
+  },
+  {
+    "source": "Amount needed (USD)",
+    "context": "Registration"
+  },
+  {
+    "source": "Asset classes",
+    "context": "Registration"
+  },
+  {
+    "source": "Asset types & strategies",
+    "context": "Registration"
+  },
+  {
     "source": "Build your investment mandate",
+    "context": "Registration"
+  },
+  {
+    "source": "Build your investment mandate and start receiving mandate-matched opportunities from Assets & Capital.",
     "context": "Registration"
   },
   {
@@ -1478,7 +1770,83 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "Company & contact",
+    "context": "Registration"
+  },
+  {
+    "source": "companyName",
+    "context": "Registration"
+  },
+  {
+    "source": "Contact email",
+    "context": "Registration"
+  },
+  {
+    "source": "Contact person",
+    "context": "Registration"
+  },
+  {
+    "source": "Contact phone",
+    "context": "Registration"
+  },
+  {
+    "source": "contactEmail",
+    "context": "Registration"
+  },
+  {
+    "source": "contactName",
+    "context": "Registration"
+  },
+  {
+    "source": "contactPhone",
+    "context": "Registration"
+  },
+  {
+    "source": "contactTitle",
+    "context": "Registration"
+  },
+  {
     "source": "Create a verified profile with your ask and the services you need. We actively put your opportunity in front of the investors whose mandate fits.",
+    "context": "Registration"
+  },
+  {
+    "source": "Date founded",
+    "context": "Registration"
+  },
+  {
+    "source": "Deployment timeline",
+    "context": "Registration"
+  },
+  {
+    "source": "Development vs stabilized",
+    "context": "Registration"
+  },
+  {
+    "source": "entityName",
+    "context": "Registration"
+  },
+  {
+    "source": "Equity stake offered (%)",
+    "context": "Registration"
+  },
+  {
+    "source": "equityStake",
+    "context": "Registration"
+  },
+  {
+    "source": "Exclusionary criteria",
+    "context": "Registration"
+  },
+  {
+    "source": "Exclusions (e.g. prohibited industries)",
+    "context": "Registration"
+  },
+  {
+    "source": "Exit strategy",
+    "context": "Registration"
+  },
+  {
+    "source": "Expected capital growth (%)",
     "context": "Registration"
   },
   {
@@ -1486,11 +1854,199 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "fd_categories",
+    "context": "Registration"
+  },
+  {
+    "source": "fd_exclusions",
+    "context": "Registration"
+  },
+  {
+    "source": "fd_fees",
+    "context": "Registration"
+  },
+  {
+    "source": "fd_governance",
+    "context": "Registration"
+  },
+  {
+    "source": "fd_horizon",
+    "context": "Registration"
+  },
+  {
+    "source": "fd_lockup",
+    "context": "Registration"
+  },
+  {
+    "source": "fd_min",
+    "context": "Registration"
+  },
+  {
+    "source": "fd_objectives",
+    "context": "Registration"
+  },
+  {
+    "source": "fd_risk",
+    "context": "Registration"
+  },
+  {
+    "source": "fd_strategies",
+    "context": "Registration"
+  },
+  {
+    "source": "fd_styles",
+    "context": "Registration"
+  },
+  {
+    "source": "fd_target",
+    "context": "Registration"
+  },
+  {
+    "source": "fd_total",
+    "context": "Registration"
+  },
+  {
+    "source": "fd_upside",
+    "context": "Registration"
+  },
+  {
     "source": "Featured image",
     "context": "Registration"
   },
   {
+    "source": "Fee structure preferences",
+    "context": "Registration"
+  },
+  {
+    "source": "Founders & key contacts (with roles)",
+    "context": "Registration"
+  },
+  {
+    "source": "Fund Investor",
+    "context": "Registration"
+  },
+  {
+    "source": "Fund types & strategies",
+    "context": "Registration"
+  },
+  {
+    "source": "Geographic & sector preferences",
+    "context": "Registration"
+  },
+  {
+    "source": "Geographic focus",
+    "context": "Registration"
+  },
+  {
+    "source": "Get Started",
+    "context": "Registration"
+  },
+  {
+    "source": "Governance & fees",
+    "context": "Registration"
+  },
+  {
+    "source": "Governance interests",
+    "context": "Registration"
+  },
+  {
+    "source": "Governance preferences",
+    "context": "Registration"
+  },
+  {
+    "source": "Headquarters country",
+    "context": "Registration"
+  },
+  {
+    "source": "hqCountry",
+    "context": "Registration"
+  },
+  {
     "source": "I confirm the information provided is accurate and I consent to Assets &amp; Capital reviewing and listing my business.",
+    "context": "Registration"
+  },
+  {
+    "source": "I'm an investor",
+    "context": "Registration"
+  },
+  {
+    "source": "I'm raising capital",
+    "context": "Registration"
+  },
+  {
+    "source": "Investment goals & constraints",
+    "context": "Registration"
+  },
+  {
+    "source": "Investment horizon",
+    "context": "Registration"
+  },
+  {
+    "source": "Investment instruments",
+    "context": "Registration"
+  },
+  {
+    "source": "Investment objectives",
+    "context": "Registration"
+  },
+  {
+    "source": "Investment stage",
+    "context": "Registration"
+  },
+  {
+    "source": "Investor / entity name",
+    "context": "Registration"
+  },
+  {
+    "source": "Investor Registration",
+    "context": "Registration"
+  },
+  {
+    "source": "Investor type",
+    "context": "Registration"
+  },
+  {
+    "source": "investorType",
+    "context": "Registration"
+  },
+  {
+    "source": "Join Assets & Capital as an investor or list your business seeking capital.",
+    "context": "Registration"
+  },
+  {
+    "source": "KYC / AML documentation available?",
+    "context": "Registration"
+  },
+  {
+    "source": "Legal domicile & jurisdiction",
+    "context": "Registration"
+  },
+  {
+    "source": "Legal structure",
+    "context": "Registration"
+  },
+  {
+    "source": "legalStructure",
+    "context": "Registration"
+  },
+  {
+    "source": "Level of control",
+    "context": "Registration"
+  },
+  {
+    "source": "Liquidity / exit preference",
+    "context": "Registration"
+  },
+  {
+    "source": "Liquidity profile",
+    "context": "Registration"
+  },
+  {
+    "source": "List Your Business",
+    "context": "Registration"
+  },
+  {
+    "source": "List your business on Assets & Capital and reach a global network of vetted investors ready to deploy capital.",
     "context": "Registration"
   },
   {
@@ -1502,7 +2058,147 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "listingTier",
+    "context": "Registration"
+  },
+  {
+    "source": "Mandate scope & strategies",
+    "context": "Registration"
+  },
+  {
     "source": "Mandate submitted",
+    "context": "Registration"
+  },
+  {
+    "source": "Max per asset (USD)",
+    "context": "Registration"
+  },
+  {
+    "source": "Max per deal (USD)",
+    "context": "Registration"
+  },
+  {
+    "source": "Min per asset (USD)",
+    "context": "Registration"
+  },
+  {
+    "source": "Min per deal (USD)",
+    "context": "Registration"
+  },
+  {
+    "source": "Minimum IRR (%)",
+    "context": "Registration"
+  },
+  {
+    "source": "Minimum return (%)",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_control",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_exclusions",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_governance",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_horizon",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_instruments",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_irr_aggr",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_irr_min",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_irr_target",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_liquidity",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_markets",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_max",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_min",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_objectives",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_risk",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_sectors",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_stage",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_strategies",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_target",
+    "context": "Registration"
+  },
+  {
+    "source": "pe_total",
+    "context": "Registration"
+  },
+  {
+    "source": "Performance metrics required",
+    "context": "Registration"
+  },
+  {
+    "source": "Permitted fund categories",
+    "context": "Registration"
+  },
+  {
+    "source": "Preferred sectors",
+    "context": "Registration"
+  },
+  {
+    "source": "Preferred styles",
+    "context": "Registration"
+  },
+  {
+    "source": "Primary contact name",
+    "context": "Registration"
+  },
+  {
+    "source": "Primary objectives",
+    "context": "Registration"
+  },
+  {
+    "source": "Private Equity",
+    "context": "Registration"
+  },
+  {
+    "source": "Private equity strategies",
     "context": "Registration"
   },
   {
@@ -1510,7 +2206,115 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "Purpose of investment",
+    "context": "Registration"
+  },
+  {
+    "source": "re_classes",
+    "context": "Registration"
+  },
+  {
+    "source": "re_deploy",
+    "context": "Registration"
+  },
+  {
+    "source": "re_dev",
+    "context": "Registration"
+  },
+  {
+    "source": "re_exit",
+    "context": "Registration"
+  },
+  {
+    "source": "re_growth",
+    "context": "Registration"
+  },
+  {
+    "source": "re_instruments",
+    "context": "Registration"
+  },
+  {
+    "source": "re_irr",
+    "context": "Registration"
+  },
+  {
+    "source": "re_liquidity",
+    "context": "Registration"
+  },
+  {
+    "source": "re_markets",
+    "context": "Registration"
+  },
+  {
+    "source": "re_max",
+    "context": "Registration"
+  },
+  {
+    "source": "re_metrics",
+    "context": "Registration"
+  },
+  {
+    "source": "re_min",
+    "context": "Registration"
+  },
+  {
+    "source": "re_noi",
+    "context": "Registration"
+  },
+  {
+    "source": "re_objectives",
+    "context": "Registration"
+  },
+  {
+    "source": "re_risk",
+    "context": "Registration"
+  },
+  {
+    "source": "re_structure",
+    "context": "Registration"
+  },
+  {
+    "source": "re_target",
+    "context": "Registration"
+  },
+  {
+    "source": "re_total",
+    "context": "Registration"
+  },
+  {
+    "source": "Real Estate",
+    "context": "Registration"
+  },
+  {
+    "source": "Real estate goals",
+    "context": "Registration"
+  },
+  {
     "source": "Replace",
+    "context": "Registration"
+  },
+  {
+    "source": "Required instrument",
+    "context": "Registration"
+  },
+  {
+    "source": "Return offer (%)",
+    "context": "Registration"
+  },
+  {
+    "source": "returnOffer",
+    "context": "Registration"
+  },
+  {
+    "source": "Review & consent",
+    "context": "Registration"
+  },
+  {
+    "source": "Risk profile",
+    "context": "Registration"
+  },
+  {
+    "source": "Risk tolerance",
     "context": "Registration"
   },
   {
@@ -1522,11 +2326,55 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "Services & listing",
+    "context": "Registration"
+  },
+  {
     "source": "Sign in",
     "context": "Registration"
   },
   {
+    "source": "Structure preference",
+    "context": "Registration"
+  },
+  {
+    "source": "Target IRR (%)",
+    "context": "Registration"
+  },
+  {
+    "source": "Target markets",
+    "context": "Registration"
+  },
+  {
+    "source": "Target NOI yield (%)",
+    "context": "Registration"
+  },
+  {
+    "source": "Target per asset (USD)",
+    "context": "Registration"
+  },
+  {
+    "source": "Target per deal (USD)",
+    "context": "Registration"
+  },
+  {
+    "source": "Target return (%)",
+    "context": "Registration"
+  },
+  {
+    "source": "Target total return / IRR (%)",
+    "context": "Registration"
+  },
+  {
+    "source": "Targeted strategies",
+    "context": "Registration"
+  },
+  {
     "source": "Tell us your objectives, strategy, geographies and ticket size. We'll match you with opportunities that fit — and only notify you when they do.",
+    "context": "Registration"
+  },
+  {
+    "source": "The ask",
     "context": "Registration"
   },
   {
@@ -1538,7 +2386,39 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "Time horizon",
+    "context": "Registration"
+  },
+  {
+    "source": "Title",
+    "context": "Registration"
+  },
+  {
+    "source": "Tolerance for lock-ups / notice periods",
+    "context": "Registration"
+  },
+  {
+    "source": "Total capital commitment (USD)",
+    "context": "Registration"
+  },
+  {
+    "source": "Total capital for fund investments (USD)",
+    "context": "Registration"
+  },
+  {
+    "source": "Total investable capital (USD)",
+    "context": "Registration"
+  },
+  {
     "source": "Upload featured image — drop a file or click to browse",
+    "context": "Registration"
+  },
+  {
+    "source": "Upside goal (%)",
+    "context": "Registration"
+  },
+  {
+    "source": "Website / social media",
     "context": "Registration"
   },
   {
@@ -1554,6 +2434,22 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "Admin — email automation",
+    "context": "Search"
+  },
+  {
+    "source": "Admin — matching engine",
+    "context": "Search"
+  },
+  {
+    "source": "Admin — roadshows & events",
+    "context": "Search"
+  },
+  {
+    "source": "Agreements & e-signature",
+    "context": "Search"
+  },
+  {
     "source": "Assets &amp; Capital",
     "context": "Search"
   },
@@ -1562,7 +2458,35 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Search"
   },
   {
+    "source": "CRM & relationships",
+    "context": "Search"
+  },
+  {
+    "source": "Data rooms",
+    "context": "Search"
+  },
+  {
+    "source": "Deal pipeline",
+    "context": "Search"
+  },
+  {
+    "source": "Events & roadshows",
+    "context": "Search"
+  },
+  {
+    "source": "Investor dashboard",
+    "context": "Search"
+  },
+  {
+    "source": "Messages",
+    "context": "Search"
+  },
+  {
     "source": "Popular",
+    "context": "Search"
+  },
+  {
+    "source": "Pricing & listing tiers",
     "context": "Search"
   },
   {
@@ -1571,6 +2495,14 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Search opportunities, pages, actions…",
+    "context": "Search"
+  },
+  {
+    "source": "Security & settings",
+    "context": "Search"
+  },
+  {
+    "source": "Video meetings",
     "context": "Search"
   },
   {
@@ -1651,6 +2583,18 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Investor",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Investor Elite",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Investor Free",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Investor Pro",
     "context": "Shared interface"
   },
   {

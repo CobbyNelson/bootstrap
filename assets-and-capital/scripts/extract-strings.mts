@@ -111,6 +111,14 @@ function scanFile(file: string, context: string) {
   // REMOVES it from the registry — `title="X"` stops matching the moment it
   // becomes `title={t.tl("X")}` — so doing the right thing would silently
   // delete the translation the next time the registry regenerated.
+  // Copy held in const arrays rather than JSX — `{ label: "Logistics", any:
+  // "Any sector" }`. These are rendered through tl() at the call site, so they
+  // ARE translatable, but neither the JSX nor the prop pattern sees them: they
+  // are object properties, not attributes. Nine strings reached production
+  // untranslated this way, wired correctly and never extracted.
+  for (const m of src.matchAll(/(?:^|[\s{,])(?:label|any|title|name|blurb|description|heading)\s*:\s*"([^"]{3,300})"/gm)) {
+    add(m[1], context);
+  }
   for (const m of src.matchAll(/\bt?\.?tl\(\s*"((?:[^"\\]|\\.)+)"\s*\)/g)) {
     add(m[1].replace(/\\"/g, '"'), context);
   }
