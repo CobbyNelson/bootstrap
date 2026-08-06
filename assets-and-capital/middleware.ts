@@ -143,11 +143,15 @@ export async function middleware(req: NextRequest) {
     if (localised || skipRewrite) return withCsp(NextResponse.next({ request: { headers } }));
 
     // Default locale: same page, unprefixed URL, so it rewrites onto the
-    // segment. Origin is pinned because behind Caddy both nextUrl and req.url
-    // report the external https origin, and a target taken from either makes
-    // Next proxy TLS to a plaintext socket.
-    const internal = process.env.INTERNAL_ORIGIN || "http://127.0.0.1:3000";
-    const url = new URL(`/${DEFAULT_LOCALE}${pathname === "/" ? "" : pathname}${req.nextUrl.search}`, internal);
+    // segment.
+    //
+    // SAME ORIGIN, deliberately. Next treats a rewrite whose origin matches the
+    // request as internal and routes it in-process; give it a different origin
+    // and it performs a real HTTP fetch instead — which behind Caddy meant the
+    // app proxying to itself and returning nothing at all (curl saw 000, not a
+    // status). Cloning nextUrl keeps the origin identical, whatever it is.
+    const url = req.nextUrl.clone();
+    url.pathname = `/${DEFAULT_LOCALE}${pathname === "/" ? "" : pathname}`;
     return withCsp(NextResponse.rewrite(url, { request: { headers } }));
   }
 
