@@ -34,18 +34,25 @@ export function isRtl(locale: Locale): boolean {
   return RTL_LOCALES.includes(locale);
 }
 
-/** Split "/fr/pricing" into its locale and the path the app should render. */
-export function splitLocale(pathname: string): { locale: Locale; path: string } {
+/**
+ * Split "/fr/pricing" into its locale and the path beneath it.
+ *
+ * `prefixed` is what the caller acts on, not the locale: every locale is
+ * prefixed now, including English, so "which locale is this" and "does this URL
+ * already carry one" are different questions. Conflating them is what produced
+ * /en/en/en — English was resolved as the default, read as unprefixed, and
+ * redirected again on every pass.
+ */
+export function splitLocale(pathname: string): { locale: Locale; path: string; prefixed: boolean } {
   const [, first, ...rest] = pathname.split("/");
-  if (first && isLocale(first) && first !== DEFAULT_LOCALE) {
-    return { locale: first, path: `/${rest.join("/")}` || "/" };
+  if (first && isLocale(first)) {
+    return { locale: first, path: `/${rest.join("/")}` === "/" ? "/" : `/${rest.join("/")}`, prefixed: true };
   }
-  return { locale: DEFAULT_LOCALE, path: pathname };
+  return { locale: DEFAULT_LOCALE, path: pathname, prefixed: false };
 }
 
 /** The URL for `path` in `locale`. Inverse of splitLocale. */
 export function localePath(path: string, locale: Locale): string {
   const clean = path.startsWith("/") ? path : `/${path}`;
-  if (locale === DEFAULT_LOCALE) return clean;
   return clean === "/" ? `/${locale}` : `/${locale}${clean}`;
 }

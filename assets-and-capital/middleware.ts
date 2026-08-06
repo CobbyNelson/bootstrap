@@ -66,8 +66,7 @@ export async function middleware(req: NextRequest) {
   //
   // The split happens BEFORE the gate and the admin check, so /fr/admin is
   // seen as /admin and cannot route around either. Covered by tests.
-  const { locale, path: pathname } = splitLocale(rawPath);
-  const localised = locale !== DEFAULT_LOCALE;
+  const { locale, path: pathname, prefixed } = splitLocale(rawPath);
 
   /** Attach CSP (and the nonce Next needs) to any response we return. */
   const withCsp = <T extends NextResponse>(res: T): T => {
@@ -140,7 +139,7 @@ export async function middleware(req: NextRequest) {
     // Localised URLs already sit on the right route; next() with modified
     // request headers is the documented way to hand the locale to the root
     // layout, which owns <html lang dir> and is above the segment.
-    if (localised || skipRewrite) return withCsp(NextResponse.next({ request: { headers } }));
+    if (prefixed || skipRewrite) return withCsp(NextResponse.next({ request: { headers } }));
 
     // Default locale: same page, unprefixed URL, so it rewrites onto the
     // segment.
