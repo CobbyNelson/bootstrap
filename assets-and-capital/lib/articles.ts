@@ -68,22 +68,46 @@ const SELECT = {
 } as const;
 
 /** Newest first. Drafts are never returned. */
+/**
+ * Every public read in this module degrades to empty when the database cannot
+ * answer, rather than throwing.
+ *
+ * These run inside prerendered pages, and prerendering happens during
+ * `next build` — where a database is not guaranteed. CI proved it the hard
+ * way: the homepage awaited one of these with no POSTGRES_PRISMA_URL set and
+ * the whole build died at "Generating static pages", on /en, after compiling
+ * cleanly. The same property protects production: a database blip during ISR
+ * revalidation now yields a page with the static content and without the
+ * database-contributed extras, instead of no page.
+ *
+ * The empty fallbacks are honest renders, not lies: pages composed from these
+ * treat absence as "nothing to show", which is also what a fresh database
+ * contains.
+ */
 export async function listPublishedArticles(limit = 100): Promise<PublicArticle[]> {
-  const rows = await prisma.article.findMany({
-    where: { status: "PUBLISHED" },
-    orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
-    take: limit,
-    select: SELECT,
-  });
-  return rows.map(toPublic);
+  try {
+    const rows = await prisma.article.findMany({
+      where: { status: "PUBLISHED" },
+      orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
+      take: limit,
+      select: SELECT,
+    });
+    return rows.map(toPublic);
+  } catch {
+    return [];
+  }
 }
 
 export async function getPublishedArticle(slug: string): Promise<PublicArticle | null> {
-  const row = await prisma.article.findFirst({
-    where: { slug, status: "PUBLISHED" },
-    select: SELECT,
-  });
-  return row ? toPublic(row) : null;
+  try {
+    const row = await prisma.article.findFirst({
+      where: { slug, status: "PUBLISHED" },
+      select: SELECT,
+    });
+    return row ? toPublic(row) : null;
+  } catch {
+    return null;
+  }
 }
 
 /** Slugs for generateStaticParams. */
@@ -123,5 +147,9 @@ export async function publishedSlugs(): Promise<string[]> {
  * three problems at once.
  */
 export async function listTeasers(limit = 3): Promise<PublicArticle[]> {
-  return listPublishedArticles(limit);
+  try {
+    return listPublishedArticles(limit);
+  } catch {
+    return [];
+  }
 }

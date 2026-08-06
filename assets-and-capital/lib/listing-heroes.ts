@@ -17,24 +17,44 @@ import { slugify } from "./matching";
  */
 export type HeroMap = Record<string, { src: string; alt: string }>;
 
+/**
+ * Every public read in this module degrades to empty when the database cannot
+ * answer, rather than throwing.
+ *
+ * These run inside prerendered pages, and prerendering happens during
+ * `next build` — where a database is not guaranteed. CI proved it the hard
+ * way: the homepage awaited one of these with no POSTGRES_PRISMA_URL set and
+ * the whole build died at "Generating static pages", on /en, after compiling
+ * cleanly. The same property protects production: a database blip during ISR
+ * revalidation now yields a page with the static content and without the
+ * database-contributed extras, instead of no page.
+ *
+ * The empty fallbacks are honest renders, not lies: pages composed from these
+ * treat absence as "nothing to show", which is also what a fresh database
+ * contains.
+ */
 export async function getListingHeroes(): Promise<HeroMap> {
-  const rows = await prisma.listing.findMany({
-    where: { heroId: { not: null } },
-    select: {
-      title: true,
-      hero: { select: { storageKey: true, alt: true } },
-    },
-  });
+  try {
+    const rows = await prisma.listing.findMany({
+      where: { heroId: { not: null } },
+      select: {
+        title: true,
+        hero: { select: { storageKey: true, alt: true } },
+      },
+    });
 
-  const map: HeroMap = {};
-  for (const row of rows) {
-    if (!row.hero) continue;
-    map[slugify(row.title)] = {
-      src: mediaUrl(row.hero.storageKey),
-      alt: row.hero.alt || `${row.title} featured image`,
-    };
+    const map: HeroMap = {};
+    for (const row of rows) {
+      if (!row.hero) continue;
+      map[slugify(row.title)] = {
+        src: mediaUrl(row.hero.storageKey),
+        alt: row.hero.alt || `${row.title} featured image`,
+      };
+    }
+    return map;
+  } catch {
+    return {};
   }
-  return map;
 }
 
 /**
@@ -47,27 +67,31 @@ export async function getListingHeroes(): Promise<HeroMap> {
 export async function getListingGallery(
   slug: string
 ): Promise<{ src: string; alt: string }[]> {
-  const listings = await prisma.listing.findMany({
-    where: { media: { some: {} } },
-    select: {
-      title: true,
-      heroId: true,
-      media: {
-        orderBy: { createdAt: "desc" },
-        select: { id: true, storageKey: true, alt: true },
+  try {
+    const listings = await prisma.listing.findMany({
+      where: { media: { some: {} } },
+      select: {
+        title: true,
+        heroId: true,
+        media: {
+          orderBy: { createdAt: "desc" },
+          select: { id: true, storageKey: true, alt: true },
+        },
       },
-    },
-  });
+    });
 
-  const listing = listings.find((l) => slugify(l.title) === slug);
-  if (!listing) return [];
+    const listing = listings.find((l) => slugify(l.title) === slug);
+    if (!listing) return [];
 
-  return listing.media
-    .map((m) => ({
-      src: mediaUrl(m.storageKey),
-      alt: m.alt,
-      featured: m.id === listing.heroId,
-    }))
-    .sort((a, b) => Number(b.featured) - Number(a.featured))
-    .map(({ src, alt }) => ({ src, alt }));
+    return listing.media
+      .map((m) => ({
+        src: mediaUrl(m.storageKey),
+        alt: m.alt,
+        featured: m.id === listing.heroId,
+      }))
+      .sort((a, b) => Number(b.featured) - Number(a.featured))
+      .map(({ src, alt }) => ({ src, alt }));
+  } catch {
+    return [];
+  }
 }
