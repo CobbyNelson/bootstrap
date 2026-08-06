@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { WHY } from "@/lib/content";
 import { Reveal } from "@/components/ui/reveal";
+import { getLocale } from "@/lib/i18n/server";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
 
 /**
  * The four operating commitments, set as an editorial list on a dark band.
@@ -22,7 +25,9 @@ import { Reveal } from "@/components/ui/reveal";
  * The dark band is also load-bearing for page rhythm: Process → this → Featured
  * → Insights was an unbroken light stretch between the hero and the closing CTA.
  */
-export function WhyUs() {
+export async function WhyUs() {
+  const t = await getTranslator(await getLocale());
+  const why = translateContent(WHY, t);
   return (
     <section className="relative overflow-hidden bg-navy-900 py-20 md:py-28">
       <div className="grid-noise pointer-events-none absolute inset-0 opacity-[0.07]" aria-hidden />
@@ -43,7 +48,7 @@ export function WhyUs() {
         </div>
 
         <div className="mt-14 md:mt-20">
-          {WHY.map((item, i) => (
+          {why.map((item, i) => (
             <Reveal key={item.title} delay={i * 0.07}>
               {/* Hairline rules rather than card edges: the claims read as one
                   argument in four parts instead of four separate objects.

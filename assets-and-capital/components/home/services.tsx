@@ -3,8 +3,13 @@ import { ArrowUpRight } from "lucide-react";
 import { SERVICES } from "@/lib/content";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
+import { getLocale } from "@/lib/i18n/server";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
 
-export function Services() {
+export async function Services() {
+  const t = await getTranslator(await getLocale());
+  const services = translateContent(SERVICES, t);
  const investor = SERVICES.filter((s) => s.audience === "investor");
  const business = SERVICES.filter((s) => s.audience === "business");
 

@@ -1,8 +1,13 @@
 import { STATS } from "@/lib/content";
 import { Counter } from "@/components/ui/counter";
 import { Reveal } from "@/components/ui/reveal";
+import { getLocale } from "@/lib/i18n/server";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
 
-export function StatsBand() {
+export async function StatsBand() {
+  const t = await getTranslator(await getLocale());
+  const stats = translateContent(STATS, t);
   return (
     <section className="relative overflow-hidden bg-navy-800 py-16 text-white md:py-20">
       <div className="grid-noise pointer-events-none absolute inset-0 opacity-20" aria-hidden />
@@ -18,7 +23,7 @@ export function StatsBand() {
           </p>
         </Reveal>
         <div className="mt-10 grid grid-cols-2 gap-y-10 md:grid-cols-4">
-          {STATS.map((s, i) => (
+          {stats.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08} className="text-center">
               <div className="font-display text-4xl font-semibold tracking-tight text-white sm:text-5xl">
                 <Counter

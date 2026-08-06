@@ -1,6 +1,9 @@
 import { PROCESS } from "@/lib/content";
 import { Reveal } from "@/components/ui/reveal";
 import { PillButton } from "@/components/ui/button";
+import { getLocale } from "@/lib/i18n/server";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
 
 /**
  * How the process works — an ascending path with a node per stage.
@@ -55,7 +58,9 @@ const CURVE = [
   "C 905,25 960,16 1040,8",
 ].join(" ");
 
-export function Process() {
+export async function Process() {
+  const t = await getTranslator(await getLocale());
+  const process = translateContent(PROCESS, t);
   return (
     <section className="overflow-hidden py-14 md:py-20 lg:pt-28">
       {/* On lg the heading is lifted out of the flow and pinned top-left, so the
@@ -109,7 +114,7 @@ export function Process() {
           </div>
 
           <ol className="relative lg:h-full">
-            {PROCESS.map((step, i) => {
+            {process.map((step, i) => {
               const node = NODES[i] ?? NODES[NODES.length - 1];
               return (
                 <li

@@ -1,6 +1,9 @@
 import { STATS } from "@/lib/content";
 import { Reveal } from "@/components/ui/reveal";
 import { Counter } from "@/components/ui/counter";
+import { getLocale } from "@/lib/i18n/server";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
 
 /**
  * About + figures.
@@ -14,7 +17,9 @@ import { Counter } from "@/components/ui/counter";
  * of the product and can be pointed at. Deal volumes and AUM would be more
  * impressive and would be invented, so they are not here.
  */
-export function About() {
+export async function About() {
+  const t = await getTranslator(await getLocale());
+  const stats = translateContent(STATS, t);
   return (
     <section className="border-b border-ink/[0.06] py-20 md:py-24">
       <div className="container-x grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
@@ -41,7 +46,7 @@ export function About() {
           {/* A 2×2 grid, not a single row: four figures across a wide column
               leaves each one too small to carry the weight the number is doing. */}
           <dl className="grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2">
-            {STATS.map((s) => (
+            {stats.map((s) => (
               <div key={s.label}>
                 <dt className="sr-only">{s.label}</dt>
                 <dd>
