@@ -24,6 +24,16 @@ jobs:
       - name: Build (type-check + lint + compile)
         run: npm run build
 
+      # Ratchet, not a gate. Fails only when a file gains untranslated copy or
+      # a new file arrives carrying some — existing debt is recorded in
+      # scripts/i18n-baseline.json and paid down at whatever pace suits.
+      #
+      # Runs after the build because a file that does not compile cannot be
+      # meaningfully scanned, and before the e2e tests because it takes a
+      # second where they take minutes.
+      - name: Untranslated copy (i18n ratchet)
+        run: npm run check:i18n
+
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 

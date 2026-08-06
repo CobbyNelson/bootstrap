@@ -110,6 +110,8 @@ function walk(dir: string, acc: string[] = []): string[] {
 }
 
 const listOnly = process.argv.includes("--list");
+const updateBaseline = process.argv.includes("--update-baseline");
+
 const files = ROOTS.flatMap((r) => walk(r))
   .map((f) => f.split(path.sep).join("/"))
   .filter((f) => !ALLOW_DIRS.some((d) => f.startsWith(d)))
@@ -117,31 +119,83 @@ const files = ROOTS.flatMap((r) => walk(r))
 
 const findings = files.flatMap(scan);
 
-// Group by file: one unwired component produces dozens of lines, and the
-// actionable unit is the component, not the string.
 const byFile = new Map<string, Finding[]>();
 for (const f of findings) {
   if (!byFile.has(f.file)) byFile.set(f.file, []);
   byFile.get(f.file)!.push(f);
 }
 
-if (byFile.size === 0) {
-  console.log("i18n check: no untranslated rendered copy found");
+/**
+ * A ratchet, not a gate.
+ *
+ * There are 174 of these today across 38 files. Failing on any of them would
+ * mean a red build from the first commit, and a check that is red on arrival
+ * gets switched off within a week — so it would protect nothing.
+ *
+ * Instead the baseline records what each file owes right now, and the check
+ * fails only when a file gets WORSE or a new one appears. Existing debt is
+ * paid down at whatever pace suits; new debt cannot be added. Every fix
+ * lowers the number, and lowering it is what regenerating the baseline is for.
+ */
+const BASELINE_PATH = "scripts/i18n-baseline.json";
+type Baseline = { total: number; files: Record<string, number> };
+
+const current: Baseline = {
+  total: findings.length,
+  files: Object.fromEntries([...byFile.entries()].map(([f, l]) => [f, l.length])),
+};
+
+if (updateBaseline) {
+  fs.writeFileSync(BASELINE_PATH, JSON.stringify(current, null, 2) + "\n");
+  console.log(`i18n baseline written: ${current.total} string(s) in ${byFile.size} file(s)`);
   process.exit(0);
 }
 
-const total = findings.length;
-console.log(`i18n check: ${total} untranslated string(s) rendered in ${byFile.size} file(s)\n`);
-for (const [file, list] of [...byFile.entries()].sort((a, b) => b[1].length - a[1].length)) {
-  console.log(`  ${file}  (${list.length})`);
-  for (const f of list.slice(0, 4)) {
-    console.log(`    ${String(f.line).padStart(4)}  ${JSON.stringify(f.text.slice(0, 68))}`);
+function report() {
+  for (const [file, list] of [...byFile.entries()].sort((a, b) => b[1].length - a[1].length)) {
+    console.log(`  ${file}  (${list.length})`);
+    for (const f of list.slice(0, 4)) {
+      console.log(`    ${String(f.line).padStart(4)}  ${JSON.stringify(f.text.slice(0, 68))}`);
+    }
+    if (list.length > 4) console.log(`    …and ${list.length - 4} more`);
   }
-  if (list.length > 4) console.log(`    …and ${list.length - 4} more`);
 }
-console.log(
-  "\nWrap each in tl() / t.tl(), pass its data through translateContent(),\n" +
-  "or add the file to ALLOW_DIRS / ALLOW_FILES in this script with a reason.",
-);
 
-process.exit(listOnly ? 0 : 1);
+if (listOnly) {
+  console.log(`i18n check: ${current.total} untranslated string(s) in ${byFile.size} file(s)\n`);
+  report();
+  process.exit(0);
+}
+
+if (!fs.existsSync(BASELINE_PATH)) {
+  console.error(`No baseline at ${BASELINE_PATH}. Create one with:\n  npm run check:i18n -- --update-baseline`);
+  process.exit(1);
+}
+
+const baseline: Baseline = JSON.parse(fs.readFileSync(BASELINE_PATH, "utf8"));
+const regressions: string[] = [];
+
+for (const [file, count] of Object.entries(current.files)) {
+  const was = baseline.files[file] ?? 0;
+  if (count > was) {
+    regressions.push(`  ${file}: ${was} → ${count}` + (was === 0 ? "  (new file)" : ""));
+  }
+}
+
+if (regressions.length) {
+  console.error(`i18n check FAILED — untranslated copy increased:\n`);
+  console.error(regressions.join("\n"));
+  console.error(
+    "\nWrap the new strings in tl() / t.tl(), pass their data through" +
+    "\ntranslateContent(), or allowlist the file in scripts/check-i18n.mts" +
+    "\nwith a reason. Do NOT regenerate the baseline to make this pass.",
+  );
+  process.exit(1);
+}
+
+const improved = current.total < baseline.total;
+console.log(
+  `i18n check passed: ${current.total} untranslated string(s), baseline ${baseline.total}` +
+  (improved ? `\n  ${baseline.total - current.total} fewer than baseline — run with --update-baseline to lock it in.` : ""),
+);
+process.exit(0);
