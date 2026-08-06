@@ -1,8 +1,9 @@
 import "server-only";
-import { unstable_cache, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
+import { cache } from "react";
 import { prisma } from "@/lib/prisma";
 import { getDictionary } from "./dictionaries";
-import { DEFAULT_LOCALE, type Locale } from "./config";
+import { DEFAULT_LOCALE, LOCALES, type Locale } from "./config";
 import { TRANSLATABLE } from "./translatable";
 
 /**
@@ -20,45 +21,54 @@ import { TRANSLATABLE } from "./translatable";
  * adding a string does not require touching the database.
  */
 
-const TAG = "translations";
 
-/** One tag for all locales: an edit is rare and a full reload is cheap. */
+/**
+ * Make an edit visible.
+ *
+ * Was revalidateTag, which is now dead: nothing tags anything since loadRows
+ * became a per-render cache. Revalidating the layout is what actually matters —
+ * the pages are prerendered per locale, so without this an edit waits out the
+ * five-minute window before anyone sees it, and a translator would reasonably
+ * conclude their save had not worked.
+ */
 export function invalidateTranslations() {
-  // Next 16 wants an explicit cache profile alongside the tag.
-  revalidateTag(TAG, "max");
+  // "layout" so every route under the locale segment re-renders, not just its
+  // index — a string edited in the footer appears on every page at once.
+  for (const locale of LOCALES) {
+    revalidatePath(`/${locale}`, "layout");
+  }
 }
 
-const loadRows = unstable_cache(
-  async (locale: string) => {
-    try {
-      const rows = await prisma.translation.findMany({
-        where: { locale },
-        select: { source: true, value: true },
-      });
-      return rows;
-    } catch {
-      // The site must render if the database is unreachable. Falling back to
-      // the file dictionaries means a degraded page, not a failed one.
-      return [];
-    }
-  },
-  ["i18n-translations"],
-  {
-    tags: [TAG],
-    // A time bound as well as the tag.
-    //
-    // Without one this cache is indefinite, and it cached an EMPTY array during
-    // a build that ran before the rows were seeded — then served that empty
-    // result forever, so every translated page rendered English while the rows
-    // sat in the database being perfectly readable. The tag only helps if
-    // something invalidates it, and a build has nothing to invalidate.
-    //
-    // Five minutes matches the pages' own revalidate window, so a translation
-    // edited in the browser appears on the same schedule as the page that
-    // shows it, and a cache that starts wrong cannot stay wrong.
-    revalidate: 300,
-  },
-);
+/**
+ * Read the edited rows for a locale.
+ *
+ * React cache(), NOT unstable_cache. The difference matters:
+ *
+ * unstable_cache persists into .next/cache, which the deploy carries across
+ * releases — so a stale entry SURVIVES A REBUILD. Nine freshly-seeded strings
+ * rendered English through two full deploys because of exactly that: the rows
+ * were in the database, the wiring was correct, and the build was serving a
+ * cache written before they existed. A tag would have fixed it, but only the
+ * editor invalidates the tag, and seeding happens outside Next entirely.
+ *
+ * cache() is per-render instead. Several components asking for the same locale
+ * in one pass share one query, and nothing outlives the render — so the only
+ * thing bounding how often this hits the database is how often a page renders,
+ * which the pages' own revalidate window already controls. Prerendered pages
+ * therefore query at build and at revalidation, not per request.
+ */
+const loadRows = cache(async (locale: string) => {
+  try {
+    return await prisma.translation.findMany({
+      where: { locale },
+      select: { source: true, value: true },
+    });
+  } catch {
+    // The site must render if the database is unreachable. Falling back to the
+    // file dictionaries means a degraded page, not a failed one.
+    return [];
+  }
+});
 
 export type Translator = {
   /** Translate a literal English string. */
