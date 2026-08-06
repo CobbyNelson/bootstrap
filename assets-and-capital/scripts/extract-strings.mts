@@ -45,7 +45,10 @@ const looksLikeCopy = (s: string) =>
   // the same objects, but they are addresses the code uses, not words anyone
   // reads. 29 of them reached the translators, who correctly returned each
   // one unchanged.
-  !/^(fd_|ac_)[a-z_]+$/.test(s) &&
+  // Any short lowercase prefix_snake token: fd_, ac_, pe_, re_. Naming each
+  // prefix meant a new form's fields leaked into the registry every time —
+  // re_* reached the translators on the last pass for exactly that reason.
+  !/^[a-z]{2,3}_[a-z_]+$/.test(s) &&
   !/^[a-z]+[A-Z][A-Za-z]*$/.test(s);                          // captured source
 
 function add(source: unknown, context: string) {
