@@ -22,6 +22,10 @@ export type Translatable = { source: string; context: string };
 
 export const TRANSLATABLE: Translatable[] = [
   {
+    "source": "A global team acting with urgency and precision to deliver solutions tailored to your needs.",
+    "context": "About page"
+  },
+  {
     "source": "A trusted platform for deal-making",
     "context": "About page"
   },
@@ -38,7 +42,19 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "About page"
   },
   {
+    "source": "Clear, honest dealing on both sides — every opportunity is vetted, every process auditable.",
+    "context": "About page"
+  },
+  {
     "source": "Expert support",
+    "context": "About page"
+  },
+  {
+    "source": "For investors, that means deals scored against your written mandate with the reasoning shown, not a feed to sort through. For businesses, it means your raise put in front of the investors whose criteria it actually meets.",
+    "context": "About page"
+  },
+  {
+    "source": "From business plans to roadshows, we bring the expertise that turns interest into closed deals.",
     "context": "About page"
   },
   {
@@ -51,6 +67,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Personalised service",
+    "context": "About page"
+  },
+  {
+    "source": "To give growing businesses a credible route to capital outside the stock market and bank lending, and to give investors opportunities that have already been checked before they arrive.",
     "context": "About page"
   },
   {
@@ -87,6 +107,14 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Close chat",
+    "context": "Chat"
+  },
+  {
+    "source": "Hello, I&apos;m Kwaku. Ask me about listing, fees, how matching works, or any business on the marketplace.",
+    "context": "Chat"
+  },
+  {
+    "source": "Send",
     "context": "Chat"
   },
   {
@@ -310,6 +338,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Featured opportunities"
   },
   {
+    "source": "Business plans, financial statements, and teasers that stand up to diligence.",
+    "context": "For businesses page"
+  },
+  {
     "source": "Collateral preparation",
     "context": "For businesses page"
   },
@@ -346,12 +378,28 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "For businesses page"
   },
   {
+    "source": "Standard and premium tiers that get your opportunity seen by the right investors.",
+    "context": "For businesses page"
+  },
+  {
+    "source": "Understand what investors want and position your raise to win.",
+    "context": "For businesses page"
+  },
+  {
     "source": "We don't just list your business — we get it in front of the right investors",
+    "context": "For businesses page"
+  },
+  {
+    "source": "We put your business in front of targeted, pre-screened investors — in person.",
     "context": "For businesses page"
   },
   {
     "source": "We represent one of the largest portfolios of global investors ready to deploy capital. When you work with us, our team acts with urgency and precision to deliver tailored solutions.",
     "context": "For businesses page"
+  },
+  {
+    "source": "Connect with suppliers, buyers, and partners to grow your investments.",
+    "context": "For investors page"
   },
   {
     "source": "Everything you need to deploy with an edge",
@@ -362,11 +410,23 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "For investors page"
   },
   {
+    "source": "Gain valuable, on-the-ground market insight in the geographies you target.",
+    "context": "For investors page"
+  },
+  {
     "source": "Mandate matching",
     "context": "For investors page"
   },
   {
+    "source": "Meet several pre-screened opportunities in a single session built around your mandate.",
+    "context": "For investors page"
+  },
+  {
     "source": "Opportunities scored against your written mandate, screened before they reach you, with people on the ground in the markets you invest in.",
+    "context": "For investors page"
+  },
+  {
+    "source": "Our global team actively engages business owners and screens opportunities to deliver the best options to our investor network.",
     "context": "For investors page"
   },
   {
@@ -378,7 +438,15 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "For investors page"
   },
   {
+    "source": "Using advanced technology, we match you with opportunities that fit your mandate — tailored, innovative solutions for your needs.",
+    "context": "For investors page"
+  },
+  {
     "source": "Vetted prospects",
+    "context": "For investors page"
+  },
+  {
+    "source": "With a large platform of vetted prospects, you're more likely to find opportunities that align with your investment mandate.",
     "context": "For investors page"
   },
   {
@@ -400,6 +468,10 @@ export const TRANSLATABLE: Translatable[] = [
   {
     "source": "Weighted match criteria",
     "context": "Home — statistics"
+  },
+  {
+    "source": "A disciplined pipeline that turns capital–opportunity fit into closed allocations, with expert support at every stage.",
+    "context": "Home page"
   },
   {
     "source": "A guided, transparent path whether you're deploying capital or raising it.",
@@ -494,6 +566,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Home page"
   },
   {
+    "source": "Modern tooling paired with a team in-market, so both sides of a deal get the same standard of scrutiny.",
+    "context": "Home page"
+  },
+  {
     "source": "Next featured businesses",
     "context": "Home page"
   },
@@ -506,6 +582,14 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Home page"
   },
   {
+    "source": "Opportunities screened before they reach you, and scored against your mandate.",
+    "context": "Home page"
+  },
+  {
+    "source": "Our team meets business owners where they operate, so what reaches an investor is informed by more than a data room — and businesses pay only when a raise actually closes.",
+    "context": "Home page"
+  },
+  {
     "source": "Premium placements from businesses raising capital now.",
     "context": "Home page"
   },
@@ -515,6 +599,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Previous sector",
+    "context": "Home page"
+  },
+  {
+    "source": "Put your raise in front of investors whose criteria it meets.",
     "context": "Home page"
   },
   {
@@ -591,6 +679,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "View all events",
+    "context": "Home page"
+  },
+  {
+    "source": "We are a private-capital marketplace connecting vetted businesses raising capital with a global network of investors. Every listing is screened before it goes live, and every opportunity is scored against an investor&apos;s written mandate rather than pushed to the whole list.",
     "context": "Home page"
   },
   {
@@ -1110,11 +1202,19 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Marketplace"
   },
   {
+    "source": "All financials, documents, projections and materials in the data room are confidential and provided solely to evaluate a potential investment.",
+    "context": "Marketplace"
+  },
+  {
     "source": "Assets &amp; Capital Ltd",
     "context": "Marketplace"
   },
   {
     "source": "Between",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Bridging the gap — one opportunity at a time. Every listing is screened, verified, and scored against your mandate.",
     "context": "Marketplace"
   },
   {
@@ -1127,6 +1227,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Business scorecard",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Cancel",
     "context": "Marketplace"
   },
   {
@@ -1282,6 +1386,14 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Marketplace"
   },
   {
+    "source": "The materials do not constitute investment advice or an offer of securities.",
+    "context": "Marketplace"
+  },
+  {
+    "source": "These obligations remain in force for 24 months from the date of signature.",
+    "context": "Marketplace"
+  },
+  {
     "source": "Try widening your criteria or clearing a filter to see more of the marketplace.",
     "context": "Marketplace"
   },
@@ -1291,6 +1403,14 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Why this match",
+    "context": "Marketplace"
+  },
+  {
+    "source": "You will not share, copy or distribute the materials to any third party without prior written consent.",
+    "context": "Marketplace"
+  },
+  {
+    "source": "You will not use the information to bypass Assets &amp; Capital or approach the business outside the platform.",
     "context": "Marketplace"
   },
   {
@@ -1670,6 +1790,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Pricing page"
   },
   {
+    "source": "Beyond the listing fee, businesses pay a success fee on capital successfully raised through the platform. Investors pay only for roadshows and partnerships they ask us to arrange.",
+    "context": "Pricing page"
+  },
+  {
     "source": "Free to join. Subscribe to go deep.",
     "context": "Pricing page"
   },
@@ -1746,11 +1870,31 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "Back",
+    "context": "Registration"
+  },
+  {
+    "source": "Biographical and identification information.",
+    "context": "Registration"
+  },
+  {
     "source": "Build your investment mandate",
     "context": "Registration"
   },
   {
+    "source": "Build your investment mandate and receive opportunities scored against it, wherever they come from.",
+    "context": "Registration"
+  },
+  {
     "source": "Build your investment mandate and start receiving mandate-matched opportunities from Assets & Capital.",
+    "context": "Registration"
+  },
+  {
+    "source": "Capital and liquidity tolerance.",
+    "context": "Registration"
+  },
+  {
+    "source": "Capital, liquidity and governance.",
     "context": "Registration"
   },
   {
@@ -1759,6 +1903,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Company & contact",
+    "context": "Registration"
+  },
+  {
+    "source": "Confirm your mandate.",
     "context": "Registration"
   },
   {
@@ -1783,6 +1931,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Deployment timeline",
+    "context": "Registration"
+  },
+  {
+    "source": "Deployment, liquidity and governance.",
     "context": "Registration"
   },
   {
@@ -1862,7 +2014,15 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "How can we help you raise?",
+    "context": "Registration"
+  },
+  {
     "source": "I confirm the information provided is accurate and I consent to Assets &amp; Capital reviewing and listing my business.",
+    "context": "Registration"
+  },
+  {
+    "source": "I confirm the information provided is accurate and reflects my investment intentions. I consent to Assets &amp; Capital using it to refer investment opportunities to me. Submitting electronically has the same effect as a wet-ink signature.",
     "context": "Registration"
   },
   {
@@ -1942,6 +2102,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "List your business, add investor-ready services, and reach a global network of vetted investors.",
+    "context": "Registration"
+  },
+  {
     "source": "List your business, reach ready capital",
     "context": "Registration"
   },
@@ -1979,6 +2143,14 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Minimum return (%)",
+    "context": "Registration"
+  },
+  {
+    "source": "Objectives and return metrics.",
+    "context": "Registration"
+  },
+  {
+    "source": "Objectives, return and horizon.",
     "context": "Registration"
   },
   {
@@ -2062,7 +2234,23 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "Permitted categories and styles.",
+    "context": "Registration"
+  },
+  {
+    "source": "Permitted classes and structures.",
+    "context": "Registration"
+  },
+  {
     "source": "Permitted fund categories",
+    "context": "Registration"
+  },
+  {
+    "source": "Permitted strategies and instruments.",
+    "context": "Registration"
+  },
+  {
+    "source": "Preferences on control and fee structure.",
     "context": "Registration"
   },
   {
@@ -2202,6 +2390,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "Saved",
+    "context": "Registration"
+  },
+  {
     "source": "See the marketplace",
     "context": "Registration"
   },
@@ -2211,6 +2403,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Services & listing",
+    "context": "Registration"
+  },
+  {
+    "source": "Shown on your marketplace card. A photo of your operations works best — it is converted to WebP under 100KB automatically.",
     "context": "Registration"
   },
   {
@@ -2227,6 +2423,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Target markets",
+    "context": "Registration"
+  },
+  {
+    "source": "Target markets.",
     "context": "Registration"
   },
   {
@@ -2254,7 +2454,19 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "Tell us about your business.",
+    "context": "Registration"
+  },
+  {
     "source": "Tell us your objectives, strategy, geographies and ticket size. We'll match you with opportunities that fit — and only notify you when they do.",
+    "context": "Registration"
+  },
+  {
+    "source": "Thank you. Our team will review your business and reach out to confirm your listing and any services you selected. We&apos;ll then start putting your opportunity in front of the right investors.",
+    "context": "Registration"
+  },
+  {
+    "source": "Thank you. Your investment mandate is being reviewed by our team. You&apos;ll start receiving mandate-matched opportunities as soon as your account is verified.",
     "context": "Registration"
   },
   {
@@ -2306,7 +2518,15 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "What are you optimising for?",
+    "context": "Registration"
+  },
+  {
     "source": "What kind of investor are you?",
+    "context": "Registration"
+  },
+  {
+    "source": "Where and in what you invest.",
     "context": "Registration"
   },
   {
@@ -2316,6 +2536,14 @@ export const TRANSLATABLE: Translatable[] = [
   {
     "source": "Your draft is saved to this device automatically.",
     "context": "Registration"
+  },
+  {
+    "source": "Your investment requirement.",
+    "context": "Registration"
+  },
+  {
+    "source": "2FA, sessions, team & roles",
+    "context": "Search"
   },
   {
     "source": "Admin — email automation",
@@ -2338,7 +2566,23 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Search"
   },
   {
+    "source": "Browse vetted opportunities",
+    "context": "Search"
+  },
+  {
+    "source": "Build a mandate",
+    "context": "Search"
+  },
+  {
+    "source": "Calls & scheduling",
+    "context": "Search"
+  },
+  {
     "source": "Close search",
+    "context": "Search"
+  },
+  {
+    "source": "Contacts, tasks & activity",
     "context": "Search"
   },
   {
@@ -2362,7 +2606,23 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Search"
   },
   {
+    "source": "Kanban & analytics",
+    "context": "Search"
+  },
+  {
+    "source": "Lifecycle journeys",
+    "context": "Search"
+  },
+  {
     "source": "Messages",
+    "context": "Search"
+  },
+  {
+    "source": "NDAs, term sheets, audit trail",
+    "context": "Search"
+  },
+  {
+    "source": "Plans and success-fee model",
     "context": "Search"
   },
   {
@@ -2374,6 +2634,14 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Search"
   },
   {
+    "source": "Registration & check-in",
+    "context": "Search"
+  },
+  {
+    "source": "Research & market views",
+    "context": "Search"
+  },
+  {
     "source": "Search by",
     "context": "Search"
   },
@@ -2382,11 +2650,31 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Search"
   },
   {
+    "source": "Secure conversations",
+    "context": "Search"
+  },
+  {
+    "source": "Secure documents",
+    "context": "Search"
+  },
+  {
     "source": "Security & settings",
     "context": "Search"
   },
   {
+    "source": "Tune weights",
+    "context": "Search"
+  },
+  {
+    "source": "Upcoming sessions",
+    "context": "Search"
+  },
+  {
     "source": "Video meetings",
+    "context": "Search"
+  },
+  {
+    "source": "Your workspace",
     "context": "Search"
   },
   {
@@ -2499,6 +2787,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Password",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Payments run in test mode — checkout is fully simulated (no real charge) and unlocks the complete investor experience across the marketplace.",
     "context": "Shared interface"
   },
   {
