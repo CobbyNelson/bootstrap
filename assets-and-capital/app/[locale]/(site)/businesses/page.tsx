@@ -42,7 +42,7 @@ export default async function BusinessesPage({ params }: { params: Promise<{ loc
         <div className="container-x">
           <SectionHeading title={t.tl("From listing to closed raise")} />
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {HOW_BUSINESS.map((step, i) => (
+            {translateContent(HOW_BUSINESS, t).map((step, i) => (
               <Reveal key={step.title} delay={i * 0.08}>
                 <div className="h-full rounded-3xl border border-ink/[0.07] bg-white p-6">
                   <span className="font-display text-4xl font-semibold text-brand-600/20">{String(i + 1).padStart(2, "0")}</span>

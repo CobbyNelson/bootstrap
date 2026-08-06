@@ -41,7 +41,7 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
       {/* tiers */}
       <section className="py-12 md:py-16">
         <div className="container-x grid gap-6 lg:grid-cols-4">
-          {LISTING_TIERS.map((tier, i) => (
+          {translateContent(LISTING_TIERS, t).map((tier, i) => (
             <Reveal key={tier.name} delay={i * 0.06}>
               <div
                 className={cn(
@@ -148,7 +148,7 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
         <div className="container-x">
           <SectionHeading align="center" title={t.tl("Add expert support as you need it")} className="mx-auto" />
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES.map((s, i) => (
+            {translateContent(SERVICES, t).map((s, i) => (
               <Reveal key={s.title} delay={(i % 3) * 0.06}>
                 <div className="h-full rounded-3xl border border-ink/[0.07] bg-white p-6">
                   <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand-50 text-brand-600 ring-1 ring-brand-100">

@@ -49,7 +49,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           </Reveal>
           <Reveal delay={0.1}>
             <div className="grid grid-cols-2 gap-4">
-              {STATS.map((s) => (
+              {translateContent(STATS, t).map((s) => (
                 <div key={s.label} className="rounded-3xl border border-ink/[0.07] bg-white p-6">
                   <div className="font-display text-3xl font-semibold text-navy-700">
                     <Counter value={s.value} decimals={s.decimals ?? 0} prefix={s.prefix} suffix={s.suffix} className="tnum" />

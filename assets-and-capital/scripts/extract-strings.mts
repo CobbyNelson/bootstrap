@@ -123,7 +123,7 @@ function scanFile(file: string, context: string) {
   // ARE translatable, but neither the JSX nor the prop pattern sees them: they
   // are object properties, not attributes. Nine strings reached production
   // untranslated this way, wired correctly and never extracted.
-  for (const m of src.matchAll(/(?:^|[\s{,])(?:label|any|title|name|blurb|body|text|copy|answer|question|description|subtitle|heading|caption|summary|intro)\s*:\s*"([^"]{3,300})"/gm)) {
+  for (const m of src.matchAll(/(?:^|[\s{,])(?:label|any|title|name|blurb|body|text|copy|answer|question|description|subtitle|heading|caption|summary|intro|v|k)\s*:\s*"([^"]{3,300})"/gm)) {
     add(m[1], context);
   }
   for (const m of src.matchAll(/\bt?\.?tl\(\s*"((?:[^"\\]|\\.)+)"\s*\)/g)) {

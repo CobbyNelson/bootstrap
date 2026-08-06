@@ -1190,6 +1190,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Legal — Terms of Service"
   },
   {
+    "source": "Accreditation gate",
+    "context": "Marketplace"
+  },
+  {
     "source": "Agree &amp; sign",
     "context": "Marketplace"
   },
@@ -1203,6 +1207,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "All financials, documents, projections and materials in the data room are confidential and provided solely to evaluate a potential investment.",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Ask",
     "context": "Marketplace"
   },
   {
@@ -1230,7 +1238,15 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Marketplace"
   },
   {
+    "source": "Business verification",
+    "context": "Marketplace"
+  },
+  {
     "source": "Cancel",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Clean",
     "context": "Marketplace"
   },
   {
@@ -1239,6 +1255,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Clear filters",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Cleared",
     "context": "Marketplace"
   },
   {
@@ -1259,6 +1279,18 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Demonstration NDA for the platform prototype — not a substitute for legal advice.",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Est. EBITDA margin",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Est. headcount",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Est. revenue",
     "context": "Marketplace"
   },
   {
@@ -1322,6 +1354,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Marketplace"
   },
   {
+    "source": "NDA status",
+    "context": "Marketplace"
+  },
+  {
     "source": "Next image",
     "context": "Marketplace"
   },
@@ -1347,6 +1383,14 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Previous image",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Risk level",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Sanctions / PEP screen",
     "context": "Marketplace"
   },
   {
@@ -1386,6 +1430,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Marketplace"
   },
   {
+    "source": "Target return",
+    "context": "Marketplace"
+  },
+  {
     "source": "The materials do not constitute investment advice or an offer of securities.",
     "context": "Marketplace"
   },
@@ -1399,6 +1447,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Unlock the AI profile, documents & your match rate",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Verified",
     "context": "Marketplace"
   },
   {
@@ -1794,7 +1846,19 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Pricing page"
   },
   {
+    "source": "Free",
+    "context": "Pricing page"
+  },
+  {
     "source": "Free to join. Subscribe to go deep.",
+    "context": "Pricing page"
+  },
+  {
+    "source": "From $490",
+    "context": "Pricing page"
+  },
+  {
+    "source": "Investor sign-up",
     "context": "Pricing page"
   },
   {
@@ -1802,7 +1866,15 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Pricing page"
   },
   {
+    "source": "Listing fee",
+    "context": "Pricing page"
+  },
+  {
     "source": "Most popular",
+    "context": "Pricing page"
+  },
+  {
+    "source": "On closed deals only",
     "context": "Pricing page"
   },
   {
@@ -1823,6 +1895,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Simple tiers. Aligned incentives.",
+    "context": "Pricing page"
+  },
+  {
+    "source": "Success fee",
     "context": "Pricing page"
   },
   {
