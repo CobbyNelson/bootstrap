@@ -794,18 +794,6 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Legal — Cookie Policy"
   },
   {
-    "source": "ac_consent",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "ac_preview",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "ac_session",
-    "context": "Legal — Cookie Policy"
-  },
-  {
     "source": "Analytics",
     "context": "Legal — Cookie Policy"
   },
@@ -1774,10 +1762,6 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
-    "source": "companyName",
-    "context": "Registration"
-  },
-  {
     "source": "Contact email",
     "context": "Registration"
   },
@@ -1787,22 +1771,6 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Contact phone",
-    "context": "Registration"
-  },
-  {
-    "source": "contactEmail",
-    "context": "Registration"
-  },
-  {
-    "source": "contactName",
-    "context": "Registration"
-  },
-  {
-    "source": "contactPhone",
-    "context": "Registration"
-  },
-  {
-    "source": "contactTitle",
     "context": "Registration"
   },
   {
@@ -1822,15 +1790,7 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
-    "source": "entityName",
-    "context": "Registration"
-  },
-  {
     "source": "Equity stake offered (%)",
-    "context": "Registration"
-  },
-  {
-    "source": "equityStake",
     "context": "Registration"
   },
   {
@@ -1851,62 +1811,6 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Explore the marketplace",
-    "context": "Registration"
-  },
-  {
-    "source": "fd_categories",
-    "context": "Registration"
-  },
-  {
-    "source": "fd_exclusions",
-    "context": "Registration"
-  },
-  {
-    "source": "fd_fees",
-    "context": "Registration"
-  },
-  {
-    "source": "fd_governance",
-    "context": "Registration"
-  },
-  {
-    "source": "fd_horizon",
-    "context": "Registration"
-  },
-  {
-    "source": "fd_lockup",
-    "context": "Registration"
-  },
-  {
-    "source": "fd_min",
-    "context": "Registration"
-  },
-  {
-    "source": "fd_objectives",
-    "context": "Registration"
-  },
-  {
-    "source": "fd_risk",
-    "context": "Registration"
-  },
-  {
-    "source": "fd_strategies",
-    "context": "Registration"
-  },
-  {
-    "source": "fd_styles",
-    "context": "Registration"
-  },
-  {
-    "source": "fd_target",
-    "context": "Registration"
-  },
-  {
-    "source": "fd_total",
-    "context": "Registration"
-  },
-  {
-    "source": "fd_upside",
     "context": "Registration"
   },
   {
@@ -1958,10 +1862,6 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
-    "source": "hqCountry",
-    "context": "Registration"
-  },
-  {
     "source": "I confirm the information provided is accurate and I consent to Assets &amp; Capital reviewing and listing my business.",
     "context": "Registration"
   },
@@ -2006,10 +1906,6 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
-    "source": "investorType",
-    "context": "Registration"
-  },
-  {
     "source": "Join Assets & Capital as an investor or list your business seeking capital.",
     "context": "Registration"
   },
@@ -2023,10 +1919,6 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Legal structure",
-    "context": "Registration"
-  },
-  {
-    "source": "legalStructure",
     "context": "Registration"
   },
   {
@@ -2055,10 +1947,6 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Listing submitted",
-    "context": "Registration"
-  },
-  {
-    "source": "listingTier",
     "context": "Registration"
   },
   {
@@ -2299,10 +2187,6 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Return offer (%)",
-    "context": "Registration"
-  },
-  {
-    "source": "returnOffer",
     "context": "Registration"
   },
   {

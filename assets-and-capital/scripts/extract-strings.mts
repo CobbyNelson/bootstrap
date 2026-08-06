@@ -39,7 +39,14 @@ const looksLikeCopy = (s: string) =>
   !/\n\s{2,}\w+:/.test(s) &&
   // aria-roledescription values and other single lowercase tokens are API
   // vocabulary the browser interprets, not words a reader sees.
-  !/^[a-z][a-z-]*$/.test(s);                          // captured source
+  !/^[a-z][a-z-]*$/.test(s) &&
+  // Form field ids and state keys — companyName, fd_categories, ac_session.
+  // The const-array sweep picks these up because they sit beside real copy in
+  // the same objects, but they are addresses the code uses, not words anyone
+  // reads. 29 of them reached the translators, who correctly returned each
+  // one unchanged.
+  !/^(fd_|ac_)[a-z_]+$/.test(s) &&
+  !/^[a-z]+[A-Z][A-Za-z]*$/.test(s);                          // captured source
 
 function add(source: unknown, context: string) {
   if (typeof source !== "string") return;
