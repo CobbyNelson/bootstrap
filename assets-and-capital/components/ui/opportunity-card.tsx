@@ -80,7 +80,7 @@ export function OpportunityCard({
             className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full bg-ink/70 px-2.5 py-1 text-[0.62rem] font-semibold text-white backdrop-blur-sm"
             title="Express interest to reveal your match rate"
           >
-            <Lock className="h-3 w-3" /> Match locked
+            <Lock className="h-3 w-3" /> {tl("Match locked")}
           </span>
         )}
       </div>
@@ -95,18 +95,18 @@ export function OpportunityCard({
             </p>
           </div>
           <span className="label-cta flex-none rounded-[var(--radius-button)] bg-paper-2 px-3.5 py-1.5 text-[0.62rem] text-ink transition-colors group-hover:bg-brand-600 group-hover:text-white">
-            Invest
+            {tl("Invest")}
           </span>
         </div>
 
-        <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ink/65">{o.blurb}</p>
+        <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ink/65">{tl(o.blurb)}</p>
 
         <div className="mt-auto flex items-center justify-between gap-3 pt-5">
           <span className="inline-flex items-center gap-1.5 rounded-lg border border-brand-200 px-2.5 py-1.5 text-xs font-semibold text-brand-700">
             <Tag className="h-3.5 w-3.5" /> {tl(o.sector)}
           </span>
           <span className="text-sm text-ink/65">
-            Seeking: <span className="font-bold text-ink"><Money usd={o.ask} /></span>
+            {tl("Seeking:")} <span className="font-bold text-ink"><Money usd={o.ask} /></span>
           </span>
         </div>
       </div>
