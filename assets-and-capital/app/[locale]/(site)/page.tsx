@@ -1,4 +1,5 @@
 import { Hero } from "@/components/home/hero";
+import { getTranslator } from "@/lib/i18n/store";
 import type { Locale } from "@/lib/i18n/config";
 import type { Metadata } from "next";
 import { SITE } from "@/lib/content";
@@ -33,19 +34,32 @@ import { getListingHeroes } from "@/lib/listing-heroes";
 export const revalidate = 300;
 
 /**
- * The root layout's template appends "· Assets & Capital" to every title; the
- * homepage says the whole thing itself, so `absolute` stops it doubling up.
+ * Translated per locale.
+ *
+ * This was a static `metadata` export, and a page-level export WINS over the
+ * layout's generateMetadata — so translating the layout's title did nothing
+ * while this sat here in English. The tab on /ar read "Where quality assets
+ * meet ready capital" over an Arabic page.
  */
-export const metadata: Metadata = {
-  title: { absolute: `${SITE.name} — ${SITE.tagline}` },
-  description: SITE.description,
-  openGraph: {
-    title: `${SITE.name} — ${SITE.tagline}`,
-    description: SITE.description,
-    url: `https://${SITE.domain}`,
-    type: "website",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslator(locale);
+  const tagline = t.tl(SITE.tagline);
+  return {
+    title: { absolute: `${SITE.name} — ${tagline}` },
+    description: t.tl(SITE.description),
+    openGraph: {
+      title: `${SITE.name} — ${tagline}`,
+      description: t.tl(SITE.description),
+      url: `https://${SITE.domain}`,
+      type: "website",
+    },
+  };
+}
 
 export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
   // From the route param, NOT from headers(). Reading a header here would make

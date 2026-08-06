@@ -36,7 +36,7 @@ export async function WhyUs({ locale }: { locale: Locale }) {
         <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-16">
           <Reveal>
             <h2 className="text-balance text-[2rem] leading-[1.08] text-white sm:text-4xl md:text-[2.85rem]">
-              What we do beyond listing a business
+              {t.tl("What we do beyond listing a business")}
             </h2>
           </Reveal>
           <Reveal delay={0.06}>
@@ -77,7 +77,7 @@ export async function WhyUs({ locale }: { locale: Locale }) {
 
         <Reveal delay={0.1} className="mt-12 block md:mt-16">
           <Button href="/about" variant="inverse" size="md" className="group">
-            How we work with both sides
+            {t.tl("How we work with both sides")}
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
           </Button>
         </Reveal>

@@ -71,16 +71,16 @@ export async function Process({ locale }: { locale: Locale }) {
       <div className="container-x relative">
         <Reveal>
           <div className="max-w-md lg:absolute lg:left-0 lg:top-0 lg:z-10 lg:max-w-sm lg:pr-8">
-            <span className="kicker text-brand-600">The investment process</span>
+            <span className="kicker text-brand-600">{t.tl("The investment process")}</span>
             <h2 className="mt-3 font-display text-3xl leading-tight text-navy-700 sm:text-4xl">
-              How we work
+              {t.tl("How we work")}
             </h2>
             <p className="mt-4 text-base leading-relaxed text-ink/65">
               A disciplined pipeline that turns capital–opportunity fit into closed
               allocations, with expert support at every stage.
             </p>
             <PillButton href="/register/investor" tone="brand" className="mt-7">
-              Start with a mandate
+              {t.tl("Start with a mandate")}
             </PillButton>
           </div>
         </Reveal>
