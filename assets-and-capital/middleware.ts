@@ -118,6 +118,21 @@ export async function middleware(req: NextRequest) {
   // A localised URL is rewritten to the unprefixed route, so /fr/pricing
   // renders the pricing page. Rewrite rather than redirect: the visitor keeps
   // the /fr URL in the address bar, which is the whole point of having it.
+  /**
+   * Paths that do NOT live under app/[locale] and must never be rewritten onto
+   * it.
+   *
+   * Rewriting /coming-soon to /en/coming-soon is what took the site down: the
+   * target does not exist, so the gate redirected to /coming-soon again, which
+   * was rewritten again — an infinite loop that returned 307 for every URL on
+   * the site including the gate itself and the unlock endpoint.
+   */
+  const NOT_LOCALISED = ["/api", "/admin", "/dashboard", "/chat", "/coming-soon", "/login", "/logout", "/_next"];
+  const skipRewrite =
+    NOT_LOCALISED.some((p) => pathname === p || pathname.startsWith(`${p}/`)) ||
+    // Files at the root: /favicon.ico, /robots.txt, /sitemap.xml, /icon.svg.
+    /\.[a-z0-9]+$/i.test(pathname);
+
   const pass = () => {
     const headers = new Headers(req.headers);
     headers.set("x-locale", locale);
@@ -125,7 +140,7 @@ export async function middleware(req: NextRequest) {
     // Localised URLs already sit on the right route; next() with modified
     // request headers is the documented way to hand the locale to the root
     // layout, which owns <html lang dir> and is above the segment.
-    if (localised) return withCsp(NextResponse.next({ request: { headers } }));
+    if (localised || skipRewrite) return withCsp(NextResponse.next({ request: { headers } }));
 
     // Default locale: same page, unprefixed URL, so it rewrites onto the
     // segment. Origin is pinned because behind Caddy both nextUrl and req.url
