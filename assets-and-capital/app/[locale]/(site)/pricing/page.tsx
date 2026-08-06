@@ -8,12 +8,17 @@ import { Button } from "@/components/ui/button";
 import { InvestorPlans } from "@/components/pricing/investor-plans";
 import { getAccess } from "@/lib/entitlements-server";
 import { cn } from "@/lib/utils";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
+import type { Locale } from "@/lib/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Pricing & Listing Tiers",
-  description:
-    "Transparent listing tiers from Standard to Platinum, à la carte services, and a success-fee model aligned to your outcome.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const t = await getTranslator((await params).locale);
+  return {
+    title: t.tl("Pricing & Listing Tiers"),
+    description: t.tl("Transparent listing tiers from Standard to Platinum, \u00e0 la carte services, and a success-fee model aligned to your outcome."),
+  };
+}
 
 const FAQ = [
   { q: "How does the success fee work?", a: "For businesses raising capital, the success fee is charged only when a deal closes through the platform. If the raise does not complete, there is no fee." },
@@ -22,13 +27,15 @@ const FAQ = [
   { q: "What's included in a roadshow?", a: "A specialised roadshow puts your opportunity in front of several pre-screened investors whose mandates match it, organised end to end by our team." },
 ];
 
-export default async function PricingPage() {
+export default async function PricingPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const t = await getTranslator(locale);
   const access = await getAccess();
   return (
     <>
       <PageHeader
-        title="Simple tiers. Aligned incentives."
-        subtitle="List your business to reach our global investor network, add expert services as you need them, and pay a success fee only when a deal closes."
+        title={t.tl("Simple tiers. Aligned incentives.")}
+        subtitle={t.tl("List your business to reach our global investor network, add expert services as you need them, and pay a success fee only when a deal closes.")}
       />
 
       {/* tiers */}
@@ -46,7 +53,7 @@ export default async function PricingPage() {
               >
                 {tier.featured && (
                   <span className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-brand-600 px-3 py-1 text-xs font-semibold text-white">
-                    <Sparkles className="h-3 w-3" /> Most popular
+                    <Sparkles className="h-3 w-3" /> {t.tl("Most popular")}
                   </span>
                 )}
                 <p className="font-display text-xl font-semibold text-navy-700">{tier.name}</p>
@@ -89,8 +96,8 @@ export default async function PricingPage() {
         <div className="container-x">
           <SectionHeading
             align="center"
-            title="Free to join. Subscribe to go deep."
-            subtitle="Registering and browsing core details is always free. An investor subscription unlocks full business details across the marketplace — then expressing interest opens each business's data room, AI profile and your personalised match rate."
+            title={t.tl("Free to join. Subscribe to go deep.")}
+            subtitle={t.tl("Registering and browsing core details is always free. An investor subscription unlocks full business details across the marketplace \u2014 then expressing interest opens each business's data room, AI profile and your personalised match rate.")}
             className="mx-auto"
           />
           <div className="mt-12">
@@ -108,15 +115,15 @@ export default async function PricingPage() {
               <div className="relative grid items-center gap-8 md:grid-cols-[1.4fr_1fr]">
                 <div>
                   <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[0.7rem] kicker text-white">
-                    Aligned incentives
+                    {t.tl("Aligned incentives")}
                   </span>
-                  <h2 className="mt-4 font-display text-3xl font-semibold md:text-4xl">Pay a success fee only when you close</h2>
+                  <h2 className="mt-4 font-display text-3xl font-semibold md:text-4xl">{t.tl("Pay a success fee only when you close")}</h2>
                   <p className="mt-4 max-w-xl text-white/75">
                     Beyond the listing fee, businesses pay a success fee on capital successfully raised through the
                     platform. Investors pay only for roadshows and partnerships they ask us to arrange.
                   </p>
                   <Button href="/contact" variant="inverse" size="md" className="mt-7">
-                    Talk to our team <ArrowRight className="h-4 w-4" />
+                    {t.tl("Talk to our team")} <ArrowRight className="h-4 w-4" />
                   </Button>
                 </div>
                 <div className="grid gap-3">
@@ -140,7 +147,7 @@ export default async function PricingPage() {
       {/* services */}
       <section className="py-12 md:py-16">
         <div className="container-x">
-          <SectionHeading align="center" title="Add expert support as you need it" className="mx-auto" />
+          <SectionHeading align="center" title={t.tl("Add expert support as you need it")} className="mx-auto" />
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {SERVICES.map((s, i) => (
               <Reveal key={s.title} delay={(i % 3) * 0.06}>
@@ -160,9 +167,9 @@ export default async function PricingPage() {
       {/* FAQ */}
       <section className="py-12 md:py-20">
         <div className="container-x max-w-3xl">
-          <SectionHeading align="center" title="Questions, answered" className="mx-auto" />
+          <SectionHeading align="center" title={t.tl("Questions, answered")} className="mx-auto" />
           <div className="mt-10 divide-y divide-ink/[0.08] rounded-3xl border border-ink/[0.07] bg-white px-6">
-            {FAQ.map((item) => (
+            {translateContent(FAQ, t).map((item) => (
               <details key={item.q} className="group py-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-ink">
                   {item.q}

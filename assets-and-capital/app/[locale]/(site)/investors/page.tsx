@@ -4,12 +4,17 @@ import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
+import type { Locale } from "@/lib/i18n/config";
 
-export const metadata: Metadata = {
-  title: "For Investors",
-  description:
-    "Opportunities scored against your written mandate, screened before they reach you, with people on the ground in the markets you invest in.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const t = await getTranslator((await params).locale);
+  return {
+    title: t.tl("For Investors"),
+    description: t.tl("Opportunities scored against your written mandate, screened before they reach you, with people on the ground in the markets you invest in."),
+  };
+}
 
 const SERVICES = [
   { icon: Users, title: "Local events access", body: "Gain valuable, on-the-ground market insight in the geographies you target." },
@@ -23,23 +28,25 @@ const WHY = [
   { icon: Landmark, title: "Trusted local partner", body: "With a large platform of vetted prospects, you're more likely to find opportunities that align with your investment mandate." },
 ];
 
-export default function InvestorsPage() {
+export default async function InvestorsPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const t = await getTranslator(locale);
   return (
     <>
       <PageHeader
-        title="Find opportunities that fit your mandate"
-        subtitle="Our global team engages business owners and screens opportunities to deliver the best options to our investor network — matched to you with advanced technology."
+        title={t.tl("Find opportunities that fit your mandate")}
+        subtitle={t.tl("Our global team engages business owners and screens opportunities to deliver the best options to our investor network \u2014 matched to you with advanced technology.")}
       >
         <Button href="/register/investor" variant="primary" size="lg">
-          Register with us <ArrowRight className="h-4 w-4" />
+          {t.tl("Register with us")} <ArrowRight className="h-4 w-4" />
         </Button>
       </PageHeader>
 
       <section className="py-16 md:py-20">
         <div className="container-x">
-          <SectionHeading title="Everything you need to deploy with an edge" />
+          <SectionHeading title={t.tl("Everything you need to deploy with an edge")} />
           <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {SERVICES.map((s, i) => (
+            {translateContent(SERVICES, t).map((s, i) => (
               <Reveal key={s.title} delay={i * 0.08}>
                 <div className="h-full rounded-3xl border border-ink/[0.07] bg-white p-7">
                   <span className="grid h-12 w-12 place-items-center rounded-2xl bg-brand-50 text-brand-600 ring-1 ring-brand-100">
@@ -56,9 +63,9 @@ export default function InvestorsPage() {
 
       <section className="bg-paper-2/60 py-16 md:py-20">
         <div className="container-x">
-          <SectionHeading align="center" title="Your trusted local partner, worldwide" className="mx-auto" />
+          <SectionHeading align="center" title={t.tl("Your trusted local partner, worldwide")} className="mx-auto" />
           <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {WHY.map((w, i) => (
+            {translateContent(WHY, t).map((w, i) => (
               <Reveal key={w.title} delay={i * 0.08}>
                 <div className="h-full rounded-3xl border border-ink/[0.07] bg-white p-7">
                   <span className="grid h-12 w-12 place-items-center rounded-2xl bg-navy-100 text-navy-700 ring-1 ring-navy-200">
@@ -72,7 +79,7 @@ export default function InvestorsPage() {
           </div>
           <div className="mt-12 text-center">
             <Button href="/register/investor" variant="dark" size="lg">
-              Build your mandate <ArrowRight className="h-4 w-4" />
+              {t.tl("Build your mandate")} <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
         </div>

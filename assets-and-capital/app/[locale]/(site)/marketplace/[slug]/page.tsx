@@ -10,6 +10,9 @@ import { listingImage, listingImages } from "@/lib/imagery";
 import { getListingHeroes, getListingGallery } from "@/lib/listing-heroes";
 import { ListingGallery } from "@/components/marketplace/listing-gallery";
 import { BusinessDetail } from "@/components/marketplace/business-detail";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
+import type { Locale } from "@/lib/i18n/config";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -22,8 +25,9 @@ export function generateStaticParams() {
   return allOpportunitySlugs().map((slug) => ({ slug }));
 }
 
-export default async function OpportunityPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+export default async function OpportunityPage({ params }: { params: Promise<{ slug: string; locale: Locale }> }) {
+  const { locale, slug } = await params;
+  const t = await getTranslator(locale);
   const o = getOpportunityBySlug(slug);
   if (!o) notFound();
 
@@ -81,7 +85,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
         <div className="container-x relative">
           <div className="flex items-center gap-2 text-sm text-ink/60">
             <Link href="/marketplace" className="hover:text-ink">
-              Marketplace
+              {t.tl("Marketplace")}
             </Link>
             <span>/</span>
             <span className="text-ink/70">{o.name}</span>
@@ -103,7 +107,7 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
               <Badge variant={o.tier === "Platinum" ? "brand" : o.tier === "Gold" ? "gold" : "neutral"}>
                 {o.tier} listing
               </Badge>
-              <Badge variant="success">Verified</Badge>
+              <Badge variant="success">{t.tl("Verified")}</Badge>
             </div>
           </div>
         </div>

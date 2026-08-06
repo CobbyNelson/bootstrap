@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { getLocale } from "@/lib/i18n/server";
 import { DEFAULT_LOCALE, localePath } from "@/lib/i18n/config";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 import { LEGAL_DOCS } from "@/lib/legal-docs";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
+import type { Locale } from "@/lib/i18n/config";
 
 export function generateStaticParams() {
   return Object.keys(LEGAL_DOCS).map((slug) => ({ slug }));
@@ -20,9 +22,9 @@ export async function generateMetadata({
   return { title: d ? d.title : "Legal" };
 }
 
-export default async function LegalPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const locale = await getLocale();
+export default async function LegalPage({ params }: { params: Promise<{ slug: string; locale: Locale }> }) {
+  const { locale, slug } = await params;
+  const t = await getTranslator(locale);
   const doc = LEGAL_DOCS[slug];
   if (!doc) notFound();
 
@@ -47,7 +49,7 @@ export default async function LegalPage({ params }: { params: Promise<{ slug: st
                 hrefLang="en"
                 className="underline underline-offset-2 hover:text-ink"
               >
-                English version
+                {t.tl("English version")}
               </Link>{" "}
               is the authoritative text and prevails in the event of any discrepancy.
             </p>

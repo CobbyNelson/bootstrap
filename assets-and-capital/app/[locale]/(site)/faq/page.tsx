@@ -2,11 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Plus, ArrowRight } from "lucide-react";
 import { PageHeader } from "@/components/layout/page-header";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
+import type { Locale } from "@/lib/i18n/config";
 
-export const metadata: Metadata = {
-  title: "FAQ",
-  description: "Answers to common questions about investing and raising capital on Assets & Capital.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const t = await getTranslator((await params).locale);
+  return {
+    title: t.tl("FAQ"),
+    description: t.tl("Answers to common questions about investing and raising capital on Assets & Capital."),
+  };
+}
 
 const GROUPS = [
   {
@@ -36,14 +42,16 @@ const GROUPS = [
   },
 ];
 
-export default function FaqPage() {
+export default async function FaqPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const t = await getTranslator(locale);
   return (
     <>
-      <PageHeader title="Questions, answered" subtitle="Everything you need to know about investing and raising capital on Assets & Capital." />
+      <PageHeader title={t.tl("Questions, answered")} subtitle={t.tl("Everything you need to know about investing and raising capital on Assets & Capital.")} />
       <section className="py-16 md:py-20">
         <div className="container-x grid gap-12 lg:grid-cols-[1fr_320px]">
           <div className="space-y-10">
-            {GROUPS.map((g) => (
+            {translateContent(GROUPS, t).map((g) => (
               <div key={g.title}>
                 <h2 className="font-display text-xl font-bold text-navy-700">{g.title}</h2>
                 <div className="mt-4 divide-y divide-ink/[0.07] rounded-2xl border border-ink/[0.07] bg-white">
@@ -65,10 +73,10 @@ export default function FaqPage() {
 
           <aside className="lg:sticky lg:top-28 lg:self-start">
             <div className="rounded-3xl border border-ink/[0.07] bg-navy-800 p-7 text-white">
-              <h3 className="font-display text-lg font-bold text-white">Still have questions?</h3>
-              <p className="mt-2 text-sm text-white/70">Our team is happy to help you get set up, whether you&apos;re deploying capital or raising it.</p>
+              <h3 className="font-display text-lg font-bold text-white">{t.tl("Still have questions?")}</h3>
+              <p className="mt-2 text-sm text-white/70">{t.tl("Our team is happy to help you get set up, whether you&apos;re deploying capital or raising it.")}</p>
               <Link href="/contact" className="mt-5 inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700">
-                Contact us <ArrowRight className="h-4 w-4" />
+                {t.tl("Contact us")} <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </aside>

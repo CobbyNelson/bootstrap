@@ -6,22 +6,29 @@ import { InsightsPortal } from "@/components/insights/insights-portal";
 import { listPublishedArticles } from "@/lib/articles";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
+import type { Locale } from "@/lib/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Market Insights",
-  description:
-    "Research, country reports, investment guides, white papers, case studies, and interviews on African and emerging-market private capital.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const t = await getTranslator((await params).locale);
+  return {
+    title: t.tl("Market Insights"),
+    description: t.tl("Research, country reports, investment guides, white papers, case studies, and interviews on African and emerging-market private capital."),
+  };
+}
 
 export const dynamic = "force-dynamic";
 
-export default async function InsightsPage() {
+export default async function InsightsPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const t = await getTranslator(locale);
   const articles = await listPublishedArticles();
   return (
     <>
       <PageHeader
-        title="Intelligence for capital and opportunity"
-        subtitle="Research, country reports, investment guides, and case studies from the Assets & Capital team — built for allocators and founders operating in Africa and emerging markets."
+        title={t.tl("Intelligence for capital and opportunity")}
+        subtitle={t.tl("Research, country reports, investment guides, and case studies from the Assets & Capital team \u2014 built for allocators and founders operating in Africa and emerging markets.")}
       />
 
       {/* economic indicators */}
@@ -54,10 +61,10 @@ export default async function InsightsPage() {
             <div className="relative overflow-hidden rounded-[2rem] bg-brand-600 px-8 py-12 text-center text-white md:px-16 md:py-14">
               <div className="grid-noise-light pointer-events-none absolute inset-0" aria-hidden />
               <div className="relative mx-auto max-w-xl">
-                <h2 className="font-display text-2xl font-semibold md:text-3xl">The Assets &amp; Capital briefing</h2>
-                <p className="mt-3 text-white">Benchmarks drawn from real transactions, plus new opportunities, once a month.</p>
+                <h2 className="font-display text-2xl font-semibold md:text-3xl">{t.tl("The Assets &amp; Capital briefing")}</h2>
+                <p className="mt-3 text-white">{t.tl("Benchmarks drawn from real transactions, plus new opportunities, once a month.")}</p>
                 <Button href="/register/investor" variant="inverse" size="md" className="mt-7">
-                  Subscribe <ArrowRight className="h-4 w-4" />
+                  {t.tl("Subscribe")} <ArrowRight className="h-4 w-4" />
                 </Button>
               </div>
             </div>

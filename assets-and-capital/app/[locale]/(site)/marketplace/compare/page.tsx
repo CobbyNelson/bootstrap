@@ -5,6 +5,9 @@ import { getOpportunityBySlug, scoreOpportunity, DEMO_MANDATE, derive, slugify }
 import { scoreBusiness, overallReadiness } from "@/lib/business-scoring";
 import { Money } from "@/components/ui/money";
 import { cn } from "@/lib/utils";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
+import type { Locale } from "@/lib/i18n/config";
 
 export const metadata: Metadata = { title: "Compare opportunities" };
 
@@ -12,7 +15,15 @@ function initials(name: string) {
   return name.split(" ").slice(0, 2).map((w) => w[0]).join("");
 }
 
-export default async function ComparePage({ searchParams }: { searchParams: Promise<{ ids?: string }> }) {
+export default async function ComparePage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: Locale }>;
+  searchParams: Promise<{ ids?: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslator(locale);
   const { ids } = await searchParams;
   const slugs = (ids ?? "").split(",").map((s) => s.trim()).filter(Boolean).slice(0, 3);
   const opps = slugs.map((s) => getOpportunityBySlug(s)).filter(Boolean) as NonNullable<ReturnType<typeof getOpportunityBySlug>>[];
@@ -21,20 +32,20 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
     <div className="pt-32 pb-20 md:pt-40">
       <div className="container-x">
         <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
-          <span className="text-navy-700">Compare </span>
+          <span className="text-navy-700">{t.tl("Compare")} </span>
           <span className="text-brand-600">opportunities.</span>
         </h1>
-        <p className="mt-4 max-w-2xl text-lg text-ink/60">Weigh mandate fit, terms and fundamentals side by side.</p>
+        <p className="mt-4 max-w-2xl text-lg text-ink/60">{t.tl("Weigh mandate fit, terms and fundamentals side by side.")}</p>
 
         {opps.length < 2 ? (
           <div className="mt-10 grid place-items-center rounded-3xl border border-dashed border-ink/15 bg-white/50 px-6 py-16 text-center">
             <span className="grid h-14 w-14 place-items-center rounded-2xl bg-brand-50 text-brand-600 ring-1 ring-brand-100">
               <Scale className="h-6 w-6" />
             </span>
-            <h3 className="mt-5 font-display text-lg font-bold text-navy-700">Pick at least two to compare</h3>
-            <p className="mt-1.5 max-w-sm text-sm text-ink/65">Save opportunities from the marketplace, then compare your shortlist here.</p>
+            <h3 className="mt-5 font-display text-lg font-bold text-navy-700">{t.tl("Pick at least two to compare")}</h3>
+            <p className="mt-1.5 max-w-sm text-sm text-ink/65">{t.tl("Save opportunities from the marketplace, then compare your shortlist here.")}</p>
             <Link href="/marketplace" className="mt-6 inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700">
-              Browse the marketplace <ArrowRight className="h-4 w-4" />
+              {t.tl("Browse the marketplace")} <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         ) : (

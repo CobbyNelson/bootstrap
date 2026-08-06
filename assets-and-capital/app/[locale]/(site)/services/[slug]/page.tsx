@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import { Check, ArrowRight } from "lucide-react";
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
+import type { Locale } from "@/lib/i18n/config";
 
 type ServiceContent = {
   title: string;
@@ -72,8 +75,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: s.title, description: s.subtitle };
 }
 
-export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+export default async function ServicePage({ params }: { params: Promise<{ slug: string; locale: Locale }> }) {
+  const { locale, slug } = await params;
+  const t = await getTranslator(locale);
   const s = SERVICES[slug];
   if (!s) notFound();
 
@@ -91,7 +95,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             <p className="text-lg leading-relaxed text-ink/70">{s.intro}</p>
           </div>
           <div className="rounded-3xl border border-ink/[0.07] bg-white p-7">
-            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-ink/60">What&apos;s included</p>
+            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-ink/60">{t.tl("What&apos;s included")}</p>
             <ul className="mt-4 space-y-3">
               {s.features.map((f) => (
                 <li key={f} className="flex items-start gap-2.5 text-sm text-ink/70">

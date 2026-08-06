@@ -5,11 +5,17 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Reveal } from "@/components/ui/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
+import type { Locale } from "@/lib/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Events & Roadshows",
-  description: "Roadshows, forums and networking events where investors and business owners meet in person.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const t = await getTranslator((await params).locale);
+  return {
+    title: t.tl("Events & Roadshows"),
+    description: t.tl("Roadshows, forums and networking events where investors and business owners meet in person."),
+  };
+}
 
 const ALL_EVENTS = [
   ...EVENTS,
@@ -18,21 +24,23 @@ const ALL_EVENTS = [
   { title: "Family Office Connect", type: "Networking", location: "Geneva, CH", date: "09 Dec 2026", month: "DEC", day: "09" },
 ];
 
-export default function EventsPage() {
+export default async function EventsPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const t = await getTranslator(locale);
   return (
     <>
       <PageHeader
-        title="Where capital meets opportunity"
-        subtitle="Specialised roadshows and forums that put pre-screened investors and vetted businesses in the same room."
+        title={t.tl("Where capital meets opportunity")}
+        subtitle={t.tl("Specialised roadshows and forums that put pre-screened investors and vetted businesses in the same room.")}
       >
         <Button href="/services/roadshows" variant="primary" size="lg">
-          Request a roadshow <ArrowRight className="h-4 w-4" />
+          {t.tl("Request a roadshow")} <ArrowRight className="h-4 w-4" />
         </Button>
       </PageHeader>
 
       <section className="py-16 md:py-20">
         <div className="container-x grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {ALL_EVENTS.map((ev, i) => (
+          {translateContent(ALL_EVENTS, t).map((ev, i) => (
             <Reveal key={ev.title} delay={(i % 3) * 0.08}>
               <div className="group flex h-full flex-col rounded-3xl border border-ink/[0.07] bg-white p-6 transition-all hover:shadow-[var(--shadow-card)]">
                 <div className="flex items-center gap-4">
@@ -48,7 +56,7 @@ export default function EventsPage() {
                 </p>
                 <div className="mt-auto pt-6">
                   <span className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-600">
-                    Register interest <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                    {t.tl("Register interest")} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                   </span>
                 </div>
               </div>

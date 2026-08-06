@@ -2,11 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, TrendingUp, Building2 } from "lucide-react";
 import { PageHeader } from "@/components/layout/page-header";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
+import type { Locale } from "@/lib/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Get Started",
-  description: "Join Assets & Capital as an investor or list your business seeking capital.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const t = await getTranslator((await params).locale);
+  return {
+    title: t.tl("Get Started"),
+    description: t.tl("Join Assets & Capital as an investor or list your business seeking capital."),
+  };
+}
 
 const PATHS = [
   {
@@ -27,13 +33,15 @@ const PATHS = [
   },
 ];
 
-export default function RegisterPage() {
+export default async function RegisterPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const t = await getTranslator(locale);
   return (
     <>
-      <PageHeader title="Which side of the deal are you on?" subtitle="Choose your path — it takes just a few minutes to get set up." />
+      <PageHeader title={t.tl("Which side of the deal are you on?")} subtitle={t.tl("Choose your path \u2014 it takes just a few minutes to get set up.")} />
       <section className="py-12 md:py-16">
         <div className="container-x grid gap-6 md:grid-cols-2">
-          {PATHS.map((p) => (
+          {translateContent(PATHS, t).map((p) => (
             <Link
               key={p.href}
               href={p.href}
@@ -60,7 +68,7 @@ export default function RegisterPage() {
         <p className="container-x mt-8 text-center text-sm text-ink/65">
           Already have an account?{" "}
           <Link href="/login" className="font-medium text-brand-700 hover:text-brand-800">
-            Sign in
+            {t.tl("Sign in")}
           </Link>
         </p>
       </section>

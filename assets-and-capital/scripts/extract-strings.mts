@@ -127,7 +127,18 @@ function scanFile(file: string, context: string) {
     add(m[1], context);
   }
   for (const m of src.matchAll(/\bt?\.?tl\(\s*"((?:[^"\\]|\\.)+)"\s*\)/g)) {
-    add(m[1].replace(/\\"/g, '"'), context);
+    // Decode the source-level escapes so the registry holds what the RUNTIME
+    // passes, not what the file spells. `t.tl("a \\u2014 b")` receives a literal
+    // em dash; a registry entry containing the six characters of the escape
+    // would key against nothing, and the string would look untranslated for
+    // ever while its row sat in the database.
+    const decoded = m[1]
+      .replace(/\\u([0-9a-fA-F]{4})/g, (_, h) => String.fromCharCode(parseInt(h, 16)))
+      .replace(/\\n/g, "\n")
+      .replace(/\\t/g, "\t")
+      .replace(/\\"/g, '"')
+      .replace(/\\\\/g, "\\");
+    add(decoded, context);
   }
 }
 

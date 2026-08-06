@@ -6,6 +6,9 @@ import { Clock, ArrowLeft, ArrowUpRight } from "lucide-react";
 import { getPublishedArticle, publishedSlugs, listPublishedArticles } from "@/lib/articles";
 import { SITE } from "@/lib/content";
 import { cn } from "@/lib/utils";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
+import type { Locale } from "@/lib/i18n/config";
 
 const GRADIENT: Record<string, string> = {
  "Market Intelligence": "from-brand-600 to-brand-900",
@@ -38,8 +41,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
  };
 }
 
-export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
- const { slug } = await params;
+export default async function ArticlePage({ params }: { params: Promise<{ slug: string; locale: Locale }> }) {
+ const { locale, slug } = await params;
+  const t = await getTranslator(locale);
  const a = await getPublishedArticle(slug);
  if (!a) notFound();
 
@@ -67,7 +71,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
  <div className="grid-noise pointer-events-none absolute inset-0 opacity-25" aria-hidden />
  <div className="container-x relative max-w-3xl">
  <Link href="/insights" className="inline-flex items-center gap-1.5 text-sm text-white/70 hover:text-white">
- <ArrowLeft className="h-4 w-4" /> Market insights
+ <ArrowLeft className="h-4 w-4" /> {t.tl("Market insights")}
  </Link>
  <span className="mt-6 inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur">{a.type} · {a.category}</span>
  {/* text-white explicitly: the base layer in globals.css colours every
@@ -117,7 +121,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
  {/* related */}
  <section className="border-t border-ink/[0.06] py-14 md:py-16">
  <div className="container-x">
- <h2 className="mb-8 font-display text-2xl font-semibold text-navy-700">More insights</h2>
+ <h2 className="mb-8 font-display text-2xl font-semibold text-navy-700">{t.tl("More insights")}</h2>
  <div className="grid gap-6 md:grid-cols-3">
  {more.map((r) => (
  <Link key={r.slug} href={`/insights/${r.slug}`} className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white transition-all hover:shadow-[var(--shadow-card)]">

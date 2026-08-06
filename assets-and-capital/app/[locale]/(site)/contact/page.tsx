@@ -3,13 +3,21 @@ import { Mail, Phone, Globe, MapPin } from "lucide-react";
 import { SITE } from "@/lib/content";
 import { PageHeader } from "@/components/layout/page-header";
 import { ContactForm } from "@/components/contact/contact-form";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
+import type { Locale } from "@/lib/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Talk to the Assets & Capital team about investing or raising capital.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const t = await getTranslator((await params).locale);
+  return {
+    title: t.tl("Contact"),
+    description: t.tl("Talk to the Assets & Capital team about investing or raising capital."),
+  };
+}
 
-export default function ContactPage() {
+export default async function ContactPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const t = await getTranslator(locale);
   const details = [
     { icon: Mail, label: "Email", value: SITE.email, href: `mailto:${SITE.email}` },
     { icon: Phone, label: "Phone", value: SITE.phone, href: `tel:${SITE.phone.replace(/\s/g, "")}` },
@@ -20,8 +28,8 @@ export default function ContactPage() {
   return (
     <>
       <PageHeader
-        title="Let's make the connection"
-        subtitle="Whether you're deploying capital or raising it, our team is ready to help. Send us a note and we'll respond within one business day."
+        title={t.tl("Let's make the connection")}
+        subtitle={t.tl("Whether you're deploying capital or raising it, our team is ready to help. Send us a note and we'll respond within one business day.")}
       />
 
       <section className="py-16 md:py-20">

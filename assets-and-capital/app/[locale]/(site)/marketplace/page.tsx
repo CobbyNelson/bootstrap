@@ -4,12 +4,17 @@ import { ShieldCheck, Sparkles, Globe } from "lucide-react";
 import { MarketplaceView } from "@/components/marketplace/marketplace-view";
 import { getUnlockedSlugs } from "@/lib/entitlements-server";
 import { getListingHeroes } from "@/lib/listing-heroes";
+import { getTranslator } from "@/lib/i18n/store";
+import { translateContent } from "@/lib/i18n/translate-content";
+import type { Locale } from "@/lib/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Marketplace",
-  description:
-    "Browse vetted investment opportunities across sectors and geographies, ranked by fit to your mandate.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const t = await getTranslator((await params).locale);
+  return {
+    title: t.tl("Marketplace"),
+    description: t.tl("Browse vetted investment opportunities across sectors and geographies, ranked by fit to your mandate."),
+  };
+}
 
 const TRUST = [
   { icon: ShieldCheck, label: "Screened & verified" },
@@ -43,7 +48,9 @@ function MarketplaceLoading() {
   );
 }
 
-export default async function MarketplacePage() {
+export default async function MarketplacePage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const t = await getTranslator(locale);
   const unlockedSlugs = await getUnlockedSlugs();
   const heroes = await getListingHeroes();
   return (
@@ -57,7 +64,7 @@ export default async function MarketplacePage() {
         />
         <div className="container-x relative">
           <h1 className="max-w-3xl font-display text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-5xl md:text-[3.6rem]">
-            <span className="text-navy-700">Explore top </span>
+            <span className="text-navy-700">{t.tl("Explore top")} </span>
             <span className="text-brand-600">businesses.</span>
           </h1>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink/60">
@@ -66,7 +73,7 @@ export default async function MarketplacePage() {
           </p>
 
           <div className="mt-7 flex flex-wrap gap-2.5">
-            {TRUST.map((t) => (
+            {translateContent(TRUST, t).map((t) => (
               <span
                 key={t.label}
                 className="inline-flex items-center gap-1.5 rounded-[var(--radius-button)] border border-ink/10 bg-white px-3.5 py-1.5 text-sm font-medium text-ink/70"
