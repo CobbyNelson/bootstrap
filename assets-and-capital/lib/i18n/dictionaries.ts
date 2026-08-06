@@ -19,6 +19,20 @@ import type { Locale } from "./config";
  */
 
 export type Dict = {
+  /**
+   * Keyed by the English string itself, not by a symbolic key.
+   *
+   * Navigation and footer copy lives in lib/content.ts as data — labels,
+   * descriptions, groups — so a key-based dictionary would mean restructuring
+   * that file and threading keys through every entry. Looking up the English
+   * text instead leaves the content file untouched and makes the fallback
+   * automatic: an untranslated label renders as the English it already was.
+   *
+   * The trade is that changing English copy silently drops its translation.
+   * Acceptable while the translated surface is this small; it is the thing to
+   * revisit if it grows.
+   */
+  labels: Record<string, string>;
   nav: Record<string, string>;
   cta: Record<string, string>;
   home: Record<string, string>;
@@ -27,6 +41,7 @@ export type Dict = {
 };
 
 const en: Dict = {
+  labels: {},
   nav: {
     invest: "Invest",
     raiseCapital: "Raise Capital",
@@ -82,6 +97,29 @@ const en: Dict = {
 };
 
 const fr: Dict = {
+  labels: {
+    "Invest": "Investir",
+    "Raise Capital": "Lever des fonds",
+    "Marketplace": "Place de marché",
+    "Pricing": "Tarifs",
+    "Company": "Société",
+    "Why invest with us": "Pourquoi investir avec nous",
+    "Browse the marketplace": "Parcourir la place de marché",
+    "Build your mandate": "Définir votre mandat",
+    "How it works": "Comment ça marche",
+    "List your business": "Référencer votre entreprise",
+    "Specialised roadshows": "Roadshows spécialisés",
+    "Local events access": "Accès aux événements locaux",
+    "Market access support": "Accompagnement à l'accès au marché",
+    "For Investors": "Pour les investisseurs",
+    "For Businesses": "Pour les entreprises",
+    "Legal": "Mentions légales",
+    "Business plan writing": "Rédaction de business plan",
+    "Financial modelling": "Modélisation financière",
+    "Roadshows": "Roadshows",
+    "Appearance": "Apparence",
+    "Language": "Langue",
+  },
   nav: {
     invest: "Investir",
     raiseCapital: "Lever des fonds",
@@ -137,6 +175,29 @@ const fr: Dict = {
 };
 
 const es: Dict = {
+  labels: {
+    "Invest": "Invertir",
+    "Raise Capital": "Captar capital",
+    "Marketplace": "Mercado",
+    "Pricing": "Precios",
+    "Company": "Empresa",
+    "Why invest with us": "Por qué invertir con nosotros",
+    "Browse the marketplace": "Explorar el mercado",
+    "Build your mandate": "Definir tu mandato",
+    "How it works": "Cómo funciona",
+    "List your business": "Publicar tu empresa",
+    "Specialised roadshows": "Roadshows especializados",
+    "Local events access": "Acceso a eventos locales",
+    "Market access support": "Apoyo al acceso al mercado",
+    "For Investors": "Para inversores",
+    "For Businesses": "Para empresas",
+    "Legal": "Legal",
+    "Business plan writing": "Redacción de plan de negocio",
+    "Financial modelling": "Modelización financiera",
+    "Roadshows": "Roadshows",
+    "Appearance": "Apariencia",
+    "Language": "Idioma",
+  },
   nav: {
     invest: "Invertir",
     raiseCapital: "Captar capital",
@@ -192,6 +253,29 @@ const es: Dict = {
 };
 
 const ar: Dict = {
+  labels: {
+    "Invest": "استثمر",
+    "Raise Capital": "احصل على تمويل",
+    "Marketplace": "السوق",
+    "Pricing": "الأسعار",
+    "Company": "الشركة",
+    "Why invest with us": "لماذا تستثمر معنا",
+    "Browse the marketplace": "تصفح السوق",
+    "Build your mandate": "حدّد تفويضك",
+    "How it works": "كيف يعمل",
+    "List your business": "أدرج شركتك",
+    "Specialised roadshows": "جولات ترويجية متخصصة",
+    "Local events access": "الوصول إلى الفعاليات المحلية",
+    "Market access support": "دعم دخول السوق",
+    "For Investors": "للمستثمرين",
+    "For Businesses": "للشركات",
+    "Legal": "الشؤون القانونية",
+    "Business plan writing": "كتابة خطة العمل",
+    "Financial modelling": "النمذجة المالية",
+    "Roadshows": "جولات ترويجية",
+    "Appearance": "المظهر",
+    "Language": "اللغة",
+  },
   nav: {
     invest: "استثمر",
     raiseCapital: "احصل على تمويل",
@@ -259,6 +343,15 @@ export function getDictionary(locale: Locale): Dict {
  * readable: a French visitor on an untranslated section sees English words, not
  * "footer.rights".
  */
+/**
+ * Translate a literal English string, falling back to itself.
+ *
+ * Used for copy that lives in lib/content.ts rather than in this file.
+ */
+export function translateLabel(locale: Locale, text: string): string {
+  return getDictionary(locale).labels[text] ?? text;
+}
+
 export function translate(locale: Locale, path: string): string {
   const [group, key] = path.split(".");
   const dict = getDictionary(locale) as unknown as Record<string, Record<string, string>>;

@@ -66,6 +66,11 @@ export function PrivacyControls() {
           title="Download your data"
           description="Everything we hold about your account, as a JSON file."
         >
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages --
+              /api/account/export is a route handler that streams a file, not a
+              page. The rule only flags it because app/[locale] made a dynamic
+              segment match "api". <Link> would client-side navigate and never
+              start the download. */}
           <a
             href="/api/account/export"
             className="rounded-[var(--radius-button)] border border-ink/15 px-4 py-2 text-sm font-medium text-ink/80 transition-colors hover:border-ink/30"

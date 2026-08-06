@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from "react";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
-import { translate } from "@/lib/i18n/dictionaries";
+import { translate, translateLabel } from "@/lib/i18n/dictionaries";
 
 /**
  * Makes the locale available to client components.
@@ -31,4 +31,10 @@ export function useLocale(): Locale {
 export function useT() {
   const locale = useLocale();
   return (path: string) => translate(locale, path);
+}
+
+/** Translate an English literal from lib/content.ts, falling back to itself. */
+export function useTl() {
+  const locale = useLocale();
+  return (text: string) => translateLabel(locale, text);
 }

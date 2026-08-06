@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { logoutUser } from "@/lib/actions/auth";
 import { Logo } from "./logo";
 import { usePresence } from "@/lib/use-motion";
+import { useTl, useLocale, useT } from "@/components/i18n/locale-provider";
+import { localePath } from "@/lib/i18n/config";
 import { ThemeToggle } from "./theme-toggle";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 
@@ -18,6 +20,12 @@ const ADMIN_ROLES = new Set(["ADMIN", "SUPER_ADMIN", "STAFF"]);
 
 export function Navbar() {
   const pathname = usePathname();
+  const tl = useTl();
+  const t = useT();
+  const locale = useLocale();
+  /** Keeps navigation inside the current language instead of dropping the
+   *  visitor back into English on the first click. */
+  const lp = (href: string) => (href.startsWith("/") ? localePath(href, locale) : href);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -126,19 +134,19 @@ export function Navbar() {
           {NAV.map((group) => {
             const hasMenu = !!group.columns;
             return (
-              <li key={group.label} className="relative" onMouseEnter={() => {
+              <li key={tl(group.label)} className="relative" onMouseEnter={() => {
                   setOpen(hasMenu ? group.label : null);
                   if (hasMenu) setLastMenu(group.label);
                 }}>
                 {group.href ? (
                   <Link
-                    href={group.href}
+                    href={lp(group.href!)}
                     className={cn(
                       "label-cta inline-flex items-center gap-1 rounded-[var(--radius-button)] px-3.5 py-2 text-[0.68rem] transition-colors",
                       onDarkHero ? "text-white/85 hover:text-white" : "text-ink/75 hover:text-ink"
                     )}
                   >
-                    {group.label}
+                    {tl(group.label)}
                   </Link>
                 ) : (
                   <button
@@ -150,7 +158,7 @@ export function Navbar() {
                     )}
                     aria-expanded={open === group.label}
                   >
-                    {group.label}
+                    {tl(group.label)}
                     <ChevronDown
                       className={cn("h-3.5 w-3.5 transition-transform duration-200", open === group.label && "rotate-180")}
                     />
@@ -164,14 +172,14 @@ export function Navbar() {
                   >
                       <div className="glass-panel grid w-[min(90vw,640px)] grid-cols-2 gap-2 rounded-[var(--radius-button)] border border-ink/[0.08] p-3">
                         {group.columns!.map((col) => (
-                          <div key={col.title} className="rounded-2xl p-2">
+                          <div key={tl(col.title)} className="rounded-2xl p-2">
                             <p className="label-cta px-3 pb-1.5 pt-2 text-[0.62rem] text-ink/60">
-                              {col.title}
+                              {tl(col.title)}
                             </p>
                             {col.links.map((link) => (
                               <Link
                                 key={link.href}
-                                href={link.href}
+                                href={lp(link.href)}
                                 className="group flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-brand-50"
                               >
                                 {link.icon && (
@@ -180,9 +188,9 @@ export function Navbar() {
                                   </span>
                                 )}
                                 <span className="min-w-0">
-                                  <span className="label-cta block text-[0.66rem] text-ink">{link.label}</span>
+                                  <span className="label-cta block text-[0.66rem] text-ink">{tl(link.label)}</span>
                                   {link.description && (
-                                    <span className="mt-0.5 block text-xs leading-snug text-ink/65">{link.description}</span>
+                                    <span className="mt-0.5 block text-xs leading-snug text-ink/65">{tl(link.description)}</span>
                                   )}
                                 </span>
                               </Link>
@@ -232,10 +240,10 @@ export function Navbar() {
                 size="sm"
                 className={onDarkHero ? "text-white/85 hover:bg-white/10 hover:text-white" : undefined}
               >
-                Sign in
+                {t("nav.signIn")}
               </Button>
               <Button href="/register" variant="primary" size="sm">
-                Get started
+                {t("nav.getStarted")}
               </Button>
             </>
           )}
@@ -308,28 +316,28 @@ export function Navbar() {
               <div className="flex-1 overflow-y-auto overscroll-contain px-5 pb-8 pt-2">
             <div className="flex flex-col divide-y divide-ink/[0.06]">
               {NAV.map((group) => (
-                <div key={group.label} className="py-4">
+                <div key={tl(group.label)} className="py-4">
                   {group.href ? (
                     <Link
-                      href={group.href}
+                      href={lp(group.href!)}
                       onClick={() => setMobileOpen(false)}
                       className="label-cta block text-[0.8rem] text-navy-700"
                     >
-                      {group.label}
+                      {tl(group.label)}
                     </Link>
                   ) : (
                     <>
-                      <p className="label-cta text-[0.8rem] text-navy-700">{group.label}</p>
+                      <p className="label-cta text-[0.8rem] text-navy-700">{tl(group.label)}</p>
                       <div className="mt-3 grid gap-1">
                         {group.columns!.flatMap((c) => c.links).map((link) => (
                           <Link
                             key={link.href}
-                            href={link.href}
+                            href={lp(link.href)}
                             onClick={() => setMobileOpen(false)}
                             className="flex items-center gap-3 rounded-xl px-2 py-2.5 text-ink/70 hover:bg-brand-50 hover:text-ink"
                           >
                             {link.icon && <link.icon className="h-4 w-4 text-brand-600" />}
-                            {link.label}
+                            {tl(link.label)}
                           </Link>
                         ))}
                       </div>
@@ -357,19 +365,19 @@ export function Navbar() {
               ) : (
                 <>
                   <Button href="/register" variant="primary" size="lg" onClick={() => setMobileOpen(false)}>
-                    Get started
+                    {t("nav.getStarted")}
                   </Button>
                   <Button href="/login" variant="outline" size="lg" onClick={() => setMobileOpen(false)}>
-                    Sign in
+                    {t("nav.signIn")}
                   </Button>
                 </>
               )}
               <div className="flex items-center justify-between pt-1">
-                <span className="text-sm text-ink/70">Appearance</span>
+                <span className="text-sm text-ink/70">{tl("Appearance")}</span>
                 <ThemeToggle />
               </div>
               <div className="flex items-center justify-between px-5 py-3">
-                <span className="text-sm text-ink/70">Language</span>
+                <span className="text-sm text-ink/70">{tl("Language")}</span>
                 <LanguageSwitcher />
               </div>
             </div>

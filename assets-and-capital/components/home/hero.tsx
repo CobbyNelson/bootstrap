@@ -7,6 +7,8 @@ import { HeroSearch } from "@/components/home/hero-search";
 import { SECTOR_IMAGERY } from "@/lib/imagery";
 import { LibraryImage } from "@/components/ui/library-image";
 import { usePrefersReducedMotion } from "@/lib/use-motion";
+import { useT, useLocale } from "@/components/i18n/locale-provider";
+import { localePath } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
 
 /**
@@ -50,6 +52,8 @@ export function Hero() {
    */
   const [mounted, setMounted] = useState<Set<number>>(() => new Set([0, 1]));
   const reduceMotion = usePrefersReducedMotion();
+  const t = useT();
+  const locale = useLocale();
 
   /** The visitor's explicit choice, via the pause button. */
   const [playing, setPlaying] = useState(true);
@@ -180,26 +184,25 @@ export function Hero() {
             <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_auto]">
               <div className="rise-in">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[0.7rem] kicker text-white backdrop-blur">
-                  A marketplace for private capital
+                  {t("home.kicker")}
                 </span>
 
                 <h1 className="mt-5 max-w-2xl font-display text-[2.4rem] font-bold leading-[1.03] tracking-[-0.02em] text-white sm:text-5xl md:text-[3.6rem]">
-                  Where quality assets
-                  <br className="hidden sm:block" /> meet{" "}
-                  <span className="italic text-brand-500">ready capital.</span>
+                  {t("home.headlineLead")}
+                  <br className="hidden sm:block" /> {t("home.headlineTail")}{" "}
+                  <span className="italic text-brand-500">{t("home.headlineAccent")}</span>
                 </h1>
 
                 <p className="mt-4 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
-                  Vetted businesses, matched to investor mandates, carried to close with
-                  an on-the-ground team.
+                  {t("home.subhead")}
                 </p>
 
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                  <Button href="/register/investor" variant="primary" size="lg">
-                    I&apos;m an investor <ArrowRight className="h-4 w-4" />
+                  <Button href={localePath("/register/investor", locale)} variant="primary" size="lg">
+                    {t("cta.investor")} <ArrowRight className="h-4 w-4" />
                   </Button>
-                  <Button href="/register/business" variant="inverseOutline" size="lg">
-                    I&apos;m raising capital
+                  <Button href={localePath("/register/business", locale)} variant="inverseOutline" size="lg">
+                    {t("cta.raising")}
                   </Button>
                 </div>
               </div>

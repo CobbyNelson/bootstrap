@@ -1,3 +1,7 @@
+"use client";
+
+import { useTl, useLocale } from "@/components/i18n/locale-provider";
+import { localePath } from "@/lib/i18n/config";
 import Link from "next/link";
 import { Mail, Globe } from "lucide-react";
 import { Logo } from "./logo";
@@ -62,6 +66,9 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
 ];
 
 export function Footer() {
+  const tl = useTl();
+  const locale = useLocale();
+  const lp = (href: string) => (href.startsWith("/") ? localePath(href, locale) : href);
   return (
     <footer className="relative overflow-hidden border-t border-ink/10 bg-paper-2 text-ink">
       <div className="grid-noise pointer-events-none absolute inset-0 opacity-60" aria-hidden />
@@ -97,13 +104,13 @@ export function Footer() {
           {/* link columns */}
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {COLUMNS.map((col) => (
-              <div key={col.title}>
-                <p className="label-cta text-[0.68rem] text-brand-600">{col.title}</p>
+              <div key={tl(col.title)}>
+                <p className="label-cta text-[0.68rem] text-brand-600">{tl(col.title)}</p>
                 <ul className="mt-4 space-y-3">
                   {col.links.map((l) => (
                     <li key={l.href}>
-                      <Link href={l.href} className="text-sm text-ink/70 transition-colors hover:text-brand-700">
-                        {l.label}
+                      <Link href={lp(l.href)} className="text-sm text-ink/70 transition-colors hover:text-brand-700">
+                        {tl(l.label)}
                       </Link>
                     </li>
                   ))}
