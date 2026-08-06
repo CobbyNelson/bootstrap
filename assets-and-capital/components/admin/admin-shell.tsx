@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Building2, Users, ListChecks, Wallet, Presentation,
   FileText, ScrollText, BadgeCheck, Search, Bell, ArrowLeft, SlidersHorizontal, Mailbox, Menu, X,
-  Image as ImageIcon, BarChart3 } from "lucide-react";
+  Image as ImageIcon, BarChart3, Languages } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { cn } from "@/lib/utils";
@@ -15,6 +15,7 @@ const NAV = [
   { label: "Overview", href: "/admin", icon: LayoutDashboard },
   { label: "Matching engine", href: "/admin/matching", icon: SlidersHorizontal },
   { label: "Analytics", href: "/admin/analytics", icon: BarChart3 },
+  { label: "Translations", href: "/admin/translations", icon: Languages },
   { label: "Approvals", href: "/admin#approvals", icon: BadgeCheck, badge: "6" },
   { label: "Businesses", href: "/admin#businesses", icon: Building2 },
   { label: "Investors", href: "/admin#investors", icon: Users },

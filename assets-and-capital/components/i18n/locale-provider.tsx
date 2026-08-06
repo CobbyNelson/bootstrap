@@ -17,24 +17,43 @@ import { translate, translateLabel } from "@/lib/i18n/dictionaries";
  * a component rendered under /admin or the pre-launch gate — neither of which
  * is localised — still works.
  */
-const LocaleContext = createContext<Locale>(DEFAULT_LOCALE);
+type Ctx = { locale: Locale; overrides: Record<string, string> };
 
-export function LocaleProvider({ locale, children }: { locale: Locale; children: React.ReactNode }) {
-  return <LocaleContext.Provider value={locale}>{children}</LocaleContext.Provider>;
+/**
+ * Overrides are the edited Translation rows, handed down from the server
+ * layout. Without them a client component would resolve from the shipped
+ * dictionary while the server used the edited value — the same string rendering
+ * two different ways on one page, and a hydration mismatch to go with it.
+ */
+const LocaleContext = createContext<Ctx>({ locale: DEFAULT_LOCALE, overrides: {} });
+
+export function LocaleProvider({
+  locale,
+  overrides = {},
+  children,
+}: {
+  locale: Locale;
+  overrides?: Record<string, string>;
+  children: React.ReactNode;
+}) {
+  return <LocaleContext.Provider value={{ locale, overrides }}>{children}</LocaleContext.Provider>;
 }
 
 export function useLocale(): Locale {
-  return useContext(LocaleContext);
+  return useContext(LocaleContext).locale;
 }
 
 /** Bound translator: `t("nav.pricing")`, falling back to English. */
 export function useT() {
-  const locale = useLocale();
-  return (path: string) => translate(locale, path);
+  const { locale, overrides } = useContext(LocaleContext);
+  return (path: string) => {
+    const english = translate("en", path);
+    return overrides[english] ?? translate(locale, path);
+  };
 }
 
 /** Translate an English literal from lib/content.ts, falling back to itself. */
 export function useTl() {
-  const locale = useLocale();
-  return (text: string) => translateLabel(locale, text);
+  const { locale, overrides } = useContext(LocaleContext);
+  return (text: string) => overrides[text] ?? translateLabel(locale, text);
 }

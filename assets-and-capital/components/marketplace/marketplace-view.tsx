@@ -10,6 +10,7 @@ import { OpportunityCard } from "@/components/ui/opportunity-card";
 import { Money } from "@/components/ui/money";
 import { CurrencySwitcher } from "@/components/layout/currency-switcher";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 const LIST_GRADIENTS = [
   "from-navy-700 to-navy-900",
@@ -45,6 +46,7 @@ export function MarketplaceView({
   /** slug → business-uploaded hero image, resolved server-side. */
   heroes?: Record<string, { src: string; alt: string }>;
 }) {
+  const tl = useTl();
   const unlocked = new Set(unlockedSlugs);
   const searchParams = useSearchParams();
 
@@ -107,7 +109,7 @@ export function MarketplaceView({
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     const list = MARKETPLACE.filter((o) => {
-      if (q && !`${o.name} ${o.sector} ${o.country} ${o.blurb}`.toLowerCase().includes(q)) return false;
+      if (q && !`${o.name} ${tl(o.sector)} ${o.country} ${o.blurb}`.toLowerCase().includes(q)) return false;
       if (filters.region.size && !filters.region.has(o.region)) return false;
       if (filters.sector.size && !filters.sector.has(o.sector)) return false;
       if (filters.stage.size && !filters.stage.has(o.stage)) return false;
@@ -293,13 +295,13 @@ export function MarketplaceView({
                     <span className="hidden flex-none rounded-full bg-paper-2 px-2 py-0.5 text-[0.68rem] kicker text-ink md:inline">{o.tier}</span>
                   </div>
                   <p className="flex items-center gap-1 text-xs text-ink/60">
-                    <MapPin className="h-3 w-3" /> {o.country} · {o.region}
+                    <MapPin className="h-3 w-3" /> {o.country} · {tl(o.region)}
                   </p>
                 </div>
 
                 {/* category tag */}
                 <span className="hidden items-center gap-1.5 rounded-lg border border-brand-200 px-2.5 py-1.5 text-xs font-semibold text-brand-700 lg:inline-flex">
-                  <Tag className="h-3.5 w-3.5" /> {o.sector}
+                  <Tag className="h-3.5 w-3.5" /> {tl(o.sector)}
                 </span>
 
                 {/* seeking */}

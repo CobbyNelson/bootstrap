@@ -768,3 +768,39 @@ model PageView {
   @@index([visitorDay, createdAt])
   @@index([sessionKey])
 }
+
+/**
+ * One translated string.
+ * Keyed by the ENGLISH SOURCE TEXT, not a symbolic id. That choice is what
+ * makes the editor usable by someone who is not a developer: the row they are
+ * correcting shows the sentence they saw on the site, not `home.subhead`. It
+ * also means a string with no row simply renders as English, so the site is
+ * never broken by a missing translation — only untranslated.
+ * The cost is that editing English copy orphans its translations rather than
+ * updating them. `source` is therefore treated as immutable once live, and the
+ * editor surfaces orphans instead of hiding them.
+ * Rows override the file dictionaries in lib/i18n/dictionaries.ts, which stay
+ * as the seed and the fallback. A translator can fix a wording mistake without
+ * a deploy; a developer adding a new string does not have to touch the database.
+ */
+model Translation {
+  id     String @id @default(cuid())
+  locale String
+  source String
+  value  String
+
+  /**
+   * Which page or area this appears on — the editor groups by it.
+   */
+  context String?
+  /**
+   * Cleared when a human edits, so machine output is visibly provisional.
+   */
+  machine Boolean @default(false)
+
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+
+  @@unique([locale, source])
+  @@index([locale, context])
+}

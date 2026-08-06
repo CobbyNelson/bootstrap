@@ -9,6 +9,7 @@ import type { Access } from "@/lib/entitlements-server";
 import { LockPanel, ExpressInterestButton } from "./access";
 import { SignNdaButton } from "./sign-nda";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 type Dim = { key: string; label: string; weight: number; f: number };
 type Metric = { key: string; label: string; value: number; higherIsBetter: boolean; recommendations: string[] };
@@ -96,6 +97,7 @@ export function BusinessDetail({
   /** The business's own uploads when it has them, otherwise sector imagery. */
   images: { src: string; alt: string }[];
 }) {
+  const tl = useTl();
   const { signedIn, subscribed, ndaSigned } = access;
 
   const coreSnapshot = [
@@ -142,7 +144,7 @@ export function BusinessDetail({
           <h2 className="font-display text-xl font-semibold text-navy-700">Overview</h2>
           <p className="mt-3 leading-relaxed text-ink/65">{o.blurb}</p>
           <p className="mt-3 leading-relaxed text-ink/65">
-            {o.name} is seeking {o.ask} in {o.instrument.toLowerCase()} to accelerate growth across {o.region}. The
+            {o.name} is seeking {o.ask} in {o.instrument.toLowerCase()} to accelerate growth across {tl(o.region)}. The
             opportunity has been screened and verified by the Assets &amp; Capital team.
           </p>
         </div>

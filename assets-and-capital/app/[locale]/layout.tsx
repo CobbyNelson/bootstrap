@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { LOCALES, isLocale, isRtl, type Locale } from "@/lib/i18n/config";
 import { LocaleProvider } from "@/components/i18n/locale-provider";
+import { getOverrides } from "@/lib/i18n/store";
 
 /**
  * The locale segment.
@@ -32,8 +33,12 @@ export default async function LocaleLayout({
   // 404 rather than a page rendered in a language that does not exist.
   if (!isLocale(locale)) notFound();
 
+  // Loaded once here and handed to every client component below, so server
+  // and client resolve identically.
+  const overrides = await getOverrides(locale as Locale);
+
   return (
-    <LocaleProvider locale={locale as Locale}>
+    <LocaleProvider locale={locale as Locale} overrides={overrides}>
       {/* The server-rendered language and direction.
           <html> carries static defaults so the root layout can stay
           prerenderable; this wrapper is where the real values are, present in

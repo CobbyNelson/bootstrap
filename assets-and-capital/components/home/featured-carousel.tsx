@@ -8,6 +8,7 @@ import { Money } from "@/components/ui/money";
 import { listingImage } from "@/lib/imagery";
 import { LibraryImage } from "@/components/ui/library-image";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 const GRADIENTS = [
   "from-navy-700 to-navy-900",
@@ -34,6 +35,7 @@ export function FeaturedCarousel({
   /** slug → business-uploaded hero image, resolved server-side. */
   heroes?: Record<string, { src: string; alt: string }>;
 } = {}) {
+  const tl = useTl();
   const trackRef = useRef<HTMLDivElement>(null);
   const [paused, setPaused] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -137,12 +139,12 @@ export function FeaturedCarousel({
                 <div className="flex flex-1 flex-col p-5">
                   <h3 className="font-display text-lg font-bold leading-tight text-brand-600">{o.name}</h3>
                   <p className="mt-1 flex items-center gap-1 text-xs font-medium text-navy-700">
-                    <MapPin className="h-3 w-3" /> {o.country} · {o.region}
+                    <MapPin className="h-3 w-3" /> {o.country} · {tl(o.region)}
                   </p>
                   <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ink/65">{o.blurb}</p>
                   <div className="mt-auto flex items-center justify-between gap-3 pt-5">
                     <span className="inline-flex items-center gap-1.5 rounded-lg border border-brand-200 px-2.5 py-1.5 text-xs font-semibold text-brand-700">
-                      <Tag className="h-3.5 w-3.5" /> {o.sector}
+                      <Tag className="h-3.5 w-3.5" /> {tl(o.sector)}
                     </span>
                     <span className="text-sm text-ink/65">
                       Seeking <span className="font-bold text-ink"><Money usd={o.ask} /></span>
