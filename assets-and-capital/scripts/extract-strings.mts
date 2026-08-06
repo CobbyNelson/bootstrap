@@ -103,6 +103,17 @@ function scanFile(file: string, context: string) {
   for (const m of src.matchAll(/>\s*([A-Z][^<>{}\n]{6,400}?)\s*</g)) add(m[1].replace(/\s+/g, " "), context);
   // Copy passed as props.
   for (const m of src.matchAll(/(?:title|subtitle|label|description|placeholder|heading|eyebrow|cta)=\{?"([^"]{4,400})"/g)) add(m[1], context);
+  // Already-wired strings.
+  //
+  // This is the authoritative pattern, not a fallback: wrapping a literal in
+  // tl() is an explicit declaration that it is translatable, whereas the JSX
+  // and prop patterns above are inference. Without this, wiring a string
+  // REMOVES it from the registry — `title="X"` stops matching the moment it
+  // becomes `title={t.tl("X")}` — so doing the right thing would silently
+  // delete the translation the next time the registry regenerated.
+  for (const m of src.matchAll(/\bt?\.?tl\(\s*"((?:[^"\\]|\\.)+)"\s*\)/g)) {
+    add(m[1].replace(/\\"/g, '"'), context);
+  }
 }
 
 for (const [route, context] of Object.entries(PAGES)) {

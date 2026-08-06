@@ -1266,6 +1266,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Navigation & footer"
   },
   {
+    "source": "Appearance",
+    "context": "Navigation & footer"
+  },
+  {
     "source": "Assets & Capital — home",
     "context": "Navigation & footer"
   },
@@ -1291,6 +1295,10 @@ export const TRANSLATABLE: Translatable[] = [
   },
   {
     "source": "Email address",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Language",
     "context": "Navigation & footer"
   },
   {

@@ -74,7 +74,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
       <FeaturedCarousel heroes={heroes} />
       <Process locale={locale} />
       <WhyUs locale={locale} />
-      <Featured />
+      <Featured locale={locale} />
       <Insights articles={teasers} />
       <FinalCTA />
     </>

@@ -5,22 +5,25 @@ import { OpportunityCard } from "@/components/ui/opportunity-card";
 import { PillButton } from "@/components/ui/button";
 import { getListingHeroes } from "@/lib/listing-heroes";
 import { slugify } from "@/lib/matching";
+import { getTranslator } from "@/lib/i18n/store";
+import type { Locale } from "@/lib/i18n/config";
 
 /**
  * Marketplace preview. Alongside the cards sit two small panels borrowed from
  * the reference: a filled stat tile and a tag cloud — here the sectors covered,
  * which stands in for the sector list cut from the home page.
  */
-export async function Featured() {
+export async function Featured({ locale }: { locale: Locale }) {
+  const t = await getTranslator(locale);
   const heroes = await getListingHeroes();
-  const sectors = INDUSTRIES.slice(0, 8).map((i) => i.name.split(" & ")[0]);
+  const sectors = INDUSTRIES.slice(0, 8).map((i) => t.tl(i.name.split(" & ")[0]));
 
   return (
     <section className="py-14 md:py-20">
       <div className="container-x">
         <SplitHeading
-          title="Opportunities on the marketplace now"
-          description="Every listing is screened and verified before it appears. Match scores show how mandate-aware ranking surfaces the right deals."
+          title={t.tl("Opportunities on the marketplace now")}
+          description={t.tl("Every listing is screened and verified before it appears. Match scores show how mandate-aware ranking surfaces the right deals.")}
         />
 
         <div className="mt-14 grid gap-6 lg:grid-cols-[1fr_300px]">
@@ -42,14 +45,14 @@ export async function Featured() {
                   </svg>
                 </span>
                 <p className="mt-5 text-[2.4rem] leading-none tnum">{INDUSTRIES.length}</p>
-                <p className="mt-2 text-sm text-white">Sectors covered across the marketplace</p>
+                <p className="mt-2 text-sm text-white">{t.tl("Sectors covered across the marketplace")}</p>
               </div>
             </Reveal>
 
             {/* tag cloud */}
             <Reveal delay={0.08}>
               <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
-                <p className="kicker text-ink/55">Sectors</p>
+                <p className="kicker text-ink/55">{t.tl("Sectors")}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {sectors.map((s) => (
                     <span
@@ -61,7 +64,7 @@ export async function Featured() {
                   ))}
                 </div>
                 <PillButton href="/marketplace" tone="light" className="mt-6 w-full justify-between">
-                  Explore all
+                  {t.tl("Explore all")}
                 </PillButton>
               </div>
             </Reveal>
