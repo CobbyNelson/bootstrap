@@ -57,16 +57,15 @@ export async function middleware(req: NextRequest) {
   const csp = buildCsp(process.env.NODE_ENV === "development");
 
   // ---- Locale ------------------------------------------------------------
-  // /fr/pricing is rewritten to /pricing with the locale carried in a header,
-  // so every route exists in four languages without four copies of the route
-  // tree. The URL stays distinct, which is what hreflang and a crawler need;
-  // a cookie-switched site serves every language from one URL and gets indexed
-  // in whichever one the crawler happened to see.
+  // app/[locale] is a real route segment now, so /fr/pricing matches natively
+  // and carries its locale as a param — no rewrite, nothing to propagate.
   //
-  // Everything below this point works on the STRIPPED path. Doing it here
-  // rather than later is what stops /fr/admin bypassing the admin check and
-  // /fr/anything bypassing the pre-launch gate — both of which are exactly the
-  // kind of hole a prefix scheme introduces if it is applied too late.
+  // Only the default locale is rewritten, /pricing to /en/pricing, so English
+  // URLs stay unprefixed. If that rewrite ever loses the header the fallback is
+  // already `en`, which is the answer it would have carried anyway.
+  //
+  // The split happens BEFORE the gate and the admin check, so /fr/admin is
+  // seen as /admin and cannot route around either. Covered by tests.
   const { locale, path: pathname } = splitLocale(rawPath);
   const localised = locale !== DEFAULT_LOCALE;
 
@@ -120,31 +119,21 @@ export async function middleware(req: NextRequest) {
   // renders the pricing page. Rewrite rather than redirect: the visitor keeps
   // the /fr URL in the address bar, which is the whole point of having it.
   const pass = () => {
-    if (!localised) return withCsp(NextResponse.next());
-    // The origin is pinned, not inherited.
-    //
-    // Behind Caddy, BOTH req.nextUrl and req.url report the external https
-    // origin — nextUrl by construction, req.url because Next rebuilds it from
-    // Host and X-Forwarded-Proto. A rewrite target taken from either resolves
-    // to https://<public-host>/, which Next then tries to proxy over TLS to a
-    // plaintext socket: EPROTO, and every localised page 500s while English is
-    // fine, because English never rewrites.
-    //
-    // Verified by testing the app directly on :3000, where the same URLs
-    // returned 200 — which is what proved the app was right and the proxy was
-    // the variable. INTERNAL_ORIGIN lets a different deployment move the port
-    // without editing this.
-    const internal = process.env.INTERNAL_ORIGIN || "http://127.0.0.1:3000";
-    const url = new URL(`${pathname}${req.nextUrl.search}`, internal);
-    return withCsp(NextResponse.rewrite(url, { request: { headers: localeHeaders(req) } }));
-  };
+    const headers = new Headers(req.headers);
+    headers.set("x-locale", locale);
 
-  function localeHeaders(request: NextRequest): Headers {
-    // Server components read the locale from the REQUEST headers, so it has to
-    // be set here as well as on the response.
-    const h = new Headers(request.headers);
-    h.set("x-locale", locale);
-    return h;
+    // Localised URLs already sit on the right route; next() with modified
+    // request headers is the documented way to hand the locale to the root
+    // layout, which owns <html lang dir> and is above the segment.
+    if (localised) return withCsp(NextResponse.next({ request: { headers } }));
+
+    // Default locale: same page, unprefixed URL, so it rewrites onto the
+    // segment. Origin is pinned because behind Caddy both nextUrl and req.url
+    // report the external https origin, and a target taken from either makes
+    // Next proxy TLS to a plaintext socket.
+    const internal = process.env.INTERNAL_ORIGIN || "http://127.0.0.1:3000";
+    const url = new URL(`/${DEFAULT_LOCALE}${pathname === "/" ? "" : pathname}${req.nextUrl.search}`, internal);
+    return withCsp(NextResponse.rewrite(url, { request: { headers } }));
   }
 
   // ---- Authenticated areas -------------------------------------------------
