@@ -1,6 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { getLocale } from "@/lib/i18n/server";
-import { isRtl } from "@/lib/i18n/config";
 import Script from "next/script";
 import { Figtree, Inter } from "next/font/google";
 import { SITE } from "@/lib/content";
@@ -65,22 +63,28 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const locale = await getLocale();
-
   return (
     // suppressHydrationWarning: the theme script below adds `dark` to <html>
     // before React hydrates, so the server and client class attributes are
     // allowed to differ — that mismatch is the entire point of the script.
     <html
-      lang={locale}
-      // dir on <html> is what flips the whole document: Tailwind's logical
-      // properties (ms/me, start/end, text-start) follow it, so Arabic mirrors
-      // without a parallel stylesheet. Anything still using left/right will
-      // not flip — those are the places to fix, not to special-case here.
-      dir={isRtl(locale) ? "rtl" : "ltr"}
+      // Static values, corrected before first paint by the script below.
+      //
+      // Reading the locale here with headers() made the ROOT layout dynamic,
+      // and the root layout wraps every route — so one call opted the entire
+      // site out of prerendering. That is what cost the static homepage.
+      //
+      // The locale cannot reach this element as a prop: it lives in a route
+      // param one level below, and a layout cannot read its children's params.
+      // So the document element is corrected by script, and the SERVER-rendered
+      // truth lives on a wrapper inside [locale]/layout.tsx — which means
+      // crawlers and screen readers get the right language and direction in the
+      // raw HTML, with or without JavaScript.
+      lang="en"
+      dir="ltr"
       className={`${figtree.variable} ${inter.variable}`}
       suppressHydrationWarning
     >
@@ -89,6 +93,12 @@ export default async function RootLayout({
             (dark 19:00–06:59). beforeInteractive puts this in <head>, so no
             light frame flashes ahead of a dark page. Keep the storage key and
             hour boundaries in lockstep with components/layout/theme-toggle.tsx. */}
+        {/* Direction before first paint. RTL applied after hydration would
+            visibly reflow the whole page, which is worse than the cost of this
+            script. Mirrors the theme script directly below. */}
+        <Script id="dir-init" strategy="beforeInteractive">
+          {"(function(){try{var l=location.pathname.split('/')[1];if(['en','fr','es','ar'].indexOf(l)<0)l='en';var d=l==='ar'?'rtl':'ltr';document.documentElement.lang=l;document.documentElement.dir=d;}catch(e){}})();"}
+        </Script>
         <Script id="theme-init" strategy="beforeInteractive">
           {"(function(){try{var m=localStorage.getItem('ac-theme');var h=new Date().getHours();var d=m==='dark'||(m!=='light'&&(h>=19||h<7));document.documentElement.classList.toggle('dark',d);}catch(e){}})();"}
         </Script>

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { LOCALES, isLocale, type Locale } from "@/lib/i18n/config";
+import { LOCALES, isLocale, isRtl, type Locale } from "@/lib/i18n/config";
 import { LocaleProvider } from "@/components/i18n/locale-provider";
 
 /**
@@ -32,5 +32,17 @@ export default async function LocaleLayout({
   // 404 rather than a page rendered in a language that does not exist.
   if (!isLocale(locale)) notFound();
 
-  return <LocaleProvider locale={locale as Locale}>{children}</LocaleProvider>;
+  return (
+    <LocaleProvider locale={locale as Locale}>
+      {/* The server-rendered language and direction.
+          <html> carries static defaults so the root layout can stay
+          prerenderable; this wrapper is where the real values are, present in
+          the HTML itself rather than applied by script. Tailwind's logical
+          properties resolve against the nearest dir, so this is what actually
+          mirrors the layout. */}
+      <div lang={locale} dir={isRtl(locale as Locale) ? "rtl" : "ltr"}>
+        {children}
+      </div>
+    </LocaleProvider>
+  );
 }
