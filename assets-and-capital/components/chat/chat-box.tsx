@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MessageCircle, X, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 type Msg = { id: string; role: "VISITOR" | "KWAKU" | "STAFF"; body: string; createdAt: string };
 type State = {
@@ -35,6 +36,7 @@ function renderBody(body: string) {
 }
 
 export function ChatBox() {
+  const tl = useTl();
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<State | null>(null);
   const [draft, setDraft] = useState("");
@@ -115,12 +117,12 @@ export function ChatBox() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Close chat" : "Chat with Kwaku"}
+        aria-label={open ? tl("Close chat") : tl("Chat with Kwaku")}
         aria-expanded={open}
         className="fixed bottom-5 right-5 z-[120] inline-flex h-12 items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-4 text-white transition-colors hover:bg-brand-700"
       >
         {open ? <X className="h-5 w-5" /> : <MessageCircle className="h-5 w-5" />}
-        <span className="label-cta text-[0.68rem]">{open ? "Close" : "Ask Kwaku"}</span>
+        <span className="label-cta text-[0.68rem]">{open ? tl("Close") : tl("Ask Kwaku")}</span>
       </button>
 
       {open && (

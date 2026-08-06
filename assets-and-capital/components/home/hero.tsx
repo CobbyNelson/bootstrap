@@ -7,7 +7,7 @@ import { HeroSearch } from "@/components/home/hero-search";
 import { SECTOR_IMAGERY } from "@/lib/imagery";
 import { LibraryImage } from "@/components/ui/library-image";
 import { usePrefersReducedMotion } from "@/lib/use-motion";
-import { useT, useLocale } from "@/components/i18n/locale-provider";
+import { useT, useLocale , useTl } from "@/components/i18n/locale-provider";
 import { localePath } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
 
@@ -39,6 +39,7 @@ const SLIDES = [
 const AUTOPLAY_MS = 6000;
 
 export function Hero() {
+  const tl = useTl();
   const [index, setIndex] = useState(0);
   /**
    * Which frames may fetch their image.
@@ -265,7 +266,7 @@ export function Hero() {
                       i === index ? "text-white" : "text-white/55 hover:text-white/80"
                     )}
                   >
-                    {slide.label}
+                    {tl(slide.label)}
                     {/* The active marker is a layout element, not a border on
                         the button — a border would shift the label by a pixel
                         each time the selection moved. */}

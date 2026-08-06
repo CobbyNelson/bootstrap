@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Search, ChevronDown } from "lucide-react";
 import { REGIONS, SECTORS_FILTER, STAGES } from "@/lib/marketplace-data";
+import { useTl } from "@/components/i18n/locale-provider";
 
 /**
  * Hero search.
@@ -22,6 +23,7 @@ const FIELDS = [
 ] as const;
 
 export function HeroSearch() {
+  const tl = useTl();
   const router = useRouter();
   const [values, setValues] = useState<Record<string, string>>({});
 
@@ -50,7 +52,7 @@ export function HeroSearch() {
             }`}
           >
             <label htmlFor={`hs-${f.key}`} className="sr-only">
-              {f.label}
+              {tl(f.label)}
             </label>
             <select
               id={`hs-${f.key}`}
@@ -60,10 +62,10 @@ export function HeroSearch() {
                  different offset per browser and breaks the pill's rhythm. */
               className="w-full cursor-pointer appearance-none rounded-[var(--radius-button)] bg-transparent py-3 pl-5 pr-6 text-sm font-medium text-ink outline-none focus-visible:ring-2 focus-visible:ring-brand-600"
             >
-              <option value="">{f.any}</option>
+              <option value="">{tl(f.any)}</option>
               {f.options.map((o) => (
                 <option key={o} value={o}>
-                  {o}
+                  {tl(o)}
                 </option>
               ))}
             </select>
@@ -79,7 +81,7 @@ export function HeroSearch() {
           className="rounded-[var(--radius-button)] label-cta inline-flex h-11 shrink-0 items-center justify-center gap-2 bg-ink pl-6 pr-6 text-[0.72rem] text-white transition-colors hover:bg-navy-700"
         >
           <Search className="h-4 w-4" />
-          Find opportunities
+          {tl("Find opportunities")}
         </button>
       </div>
     </form>
