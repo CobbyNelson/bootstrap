@@ -40,13 +40,10 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             <div>
               <h2 className="font-display text-2xl font-semibold text-navy-700">{t.tl("Our mission")}</h2>
               <p className="mt-4 leading-relaxed text-ink/60">
-                To give growing businesses a credible route to capital outside the stock market and bank lending, and to
-                give investors opportunities that have already been checked before they arrive.
+                {t.tl("To give growing businesses a credible route to capital outside the stock market and bank lending, and to give investors opportunities that have already been checked before they arrive.")}
               </p>
               <p className="mt-4 leading-relaxed text-ink/60">
-                For investors, that means deals scored against your written mandate with the reasoning shown, not a feed
-                to sort through. For businesses, it means your raise put in front of the investors whose criteria it
-                actually meets.
+                {t.tl("For investors, that means deals scored against your written mandate with the reasoning shown, not a feed to sort through. For businesses, it means your raise put in front of the investors whose criteria it actually meets.")}
               </p>
             </div>
           </Reveal>

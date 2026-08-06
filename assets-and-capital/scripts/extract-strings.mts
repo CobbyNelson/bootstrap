@@ -107,7 +107,7 @@ const PAGES: Record<string, string> = {
 function scanFile(file: string, context: string) {
   const src = fs.readFileSync(file, "utf8");
   // JSX text nodes.
-  for (const m of src.matchAll(/>\s*([A-Z][^<>{}\n]{6,400}?)\s*</g)) add(m[1].replace(/\s+/g, " "), context);
+  for (const m of src.matchAll(/>\s*([A-Z][^<>{}]{6,400}?)\s*</g)) add(m[1].replace(/\s+/g, " ").trim(), context);
   // Copy passed as props.
   for (const m of src.matchAll(/(?:title|subtitle|label|description|placeholder|heading|eyebrow|cta)=\{?"([^"]{4,400})"/g)) add(m[1], context);
   // Already-wired strings.
@@ -123,7 +123,7 @@ function scanFile(file: string, context: string) {
   // ARE translatable, but neither the JSX nor the prop pattern sees them: they
   // are object properties, not attributes. Nine strings reached production
   // untranslated this way, wired correctly and never extracted.
-  for (const m of src.matchAll(/(?:^|[\s{,])(?:label|any|title|name|blurb|description|heading)\s*:\s*"([^"]{3,300})"/gm)) {
+  for (const m of src.matchAll(/(?:^|[\s{,])(?:label|any|title|name|blurb|body|text|copy|answer|question|description|subtitle|heading|caption|summary|intro)\s*:\s*"([^"]{3,300})"/gm)) {
     add(m[1], context);
   }
   for (const m of src.matchAll(/\bt?\.?tl\(\s*"((?:[^"\\]|\\.)+)"\s*\)/g)) {

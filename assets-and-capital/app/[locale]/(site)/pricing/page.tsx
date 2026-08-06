@@ -119,8 +119,7 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
                   </span>
                   <h2 className="mt-4 font-display text-3xl font-semibold md:text-4xl">{t.tl("Pay a success fee only when you close")}</h2>
                   <p className="mt-4 max-w-xl text-white/75">
-                    Beyond the listing fee, businesses pay a success fee on capital successfully raised through the
-                    platform. Investors pay only for roadshows and partnerships they ask us to arrange.
+                    {t.tl("Beyond the listing fee, businesses pay a success fee on capital successfully raised through the platform. Investors pay only for roadshows and partnerships they ask us to arrange.")}
                   </p>
                   <Button href="/contact" variant="inverse" size="md" className="mt-7">
                     {t.tl("Talk to our team")} <ArrowRight className="h-4 w-4" />
