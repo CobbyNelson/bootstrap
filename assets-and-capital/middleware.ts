@@ -145,12 +145,20 @@ export async function middleware(req: NextRequest) {
     // Default locale: same page, unprefixed URL, so it rewrites onto the
     // segment.
     //
-    // SAME ORIGIN, deliberately. Next treats a rewrite whose origin matches the
-    // request as internal and routes it in-process; give it a different origin
-    // and it performs a real HTTP fetch instead — which behind Caddy meant the
-    // app proxying to itself and returning nothing at all (curl saw 000, not a
-    // status). Cloning nextUrl keeps the origin identical, whatever it is.
+    // The scheme has to be corrected, not just the path.
+    //
+    // Behind Caddy, nextUrl reports the INTERNAL host with the EXTERNAL scheme
+    // — https://localhost:3000. That origin matches neither the request nor
+    // the server, so Next treats the rewrite as external and dials it, then
+    // fails the TLS handshake against its own plaintext socket. The logged
+    // error is literally `Failed to proxy https://localhost:3000/en`.
+    //
+    // Next's own origin is http://localhost:3000, so forcing the scheme back
+    // to http makes the origins match and the rewrite is routed in-process,
+    // with nothing dialled at all. X-Forwarded-Proto is what puts the https
+    // there; the app itself never speaks TLS.
     const url = req.nextUrl.clone();
+    url.protocol = "http:";
     url.pathname = `/${DEFAULT_LOCALE}${pathname === "/" ? "" : pathname}`;
     return withCsp(NextResponse.rewrite(url, { request: { headers } }));
   }
