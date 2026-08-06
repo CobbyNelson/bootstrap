@@ -34,6 +34,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "About page"
   },
   {
+    "source": "Our mission",
+    "context": "About page"
+  },
+  {
     "source": "What we stand for",
     "context": "About page"
   },
@@ -44,6 +48,90 @@ export const TRANSLATABLE: Translatable[] = [
   {
     "source": "Where quality assets meet ready capital.",
     "context": "Brand"
+  },
+  {
+    "source": "Ask a question…",
+    "context": "Chat"
+  },
+  {
+    "source": "Assets &amp; Capital team",
+    "context": "Chat"
+  },
+  {
+    "source": "Chat with Kwaku",
+    "context": "Chat"
+  },
+  {
+    "source": "Send message",
+    "context": "Chat"
+  },
+  {
+    "source": "Talk to a person",
+    "context": "Chat"
+  },
+  {
+    "source": "Where should the team reply?",
+    "context": "Chat"
+  },
+  {
+    "source": "Your message",
+    "context": "Chat"
+  },
+  {
+    "source": "Autofill test card",
+    "context": "Checkout"
+  },
+  {
+    "source": "Card number",
+    "context": "Checkout"
+  },
+  {
+    "source": "Checkout",
+    "context": "Checkout"
+  },
+  {
+    "source": "MM / YY",
+    "context": "Checkout"
+  },
+  {
+    "source": "Name on card",
+    "context": "Checkout"
+  },
+  {
+    "source": "No real charge. Card",
+    "context": "Checkout"
+  },
+  {
+    "source": "Payment method",
+    "context": "Checkout"
+  },
+  {
+    "source": "Payment successful",
+    "context": "Checkout"
+  },
+  {
+    "source": "Payments are encrypted. We never store your card details.",
+    "context": "Checkout"
+  },
+  {
+    "source": "Processing…",
+    "context": "Checkout"
+  },
+  {
+    "source": "Test mode",
+    "context": "Checkout"
+  },
+  {
+    "source": "Test mode — no real charge was made.",
+    "context": "Checkout"
+  },
+  {
+    "source": "You&apos;ll be redirected to",
+    "context": "Checkout"
+  },
+  {
+    "source": "You&apos;re now on",
+    "context": "Checkout"
   },
   {
     "source": "Let's make the connection",
@@ -92,6 +180,10 @@ export const TRANSLATABLE: Translatable[] = [
   {
     "source": "Where capital meets opportunity",
     "context": "Events page"
+  },
+  {
+    "source": "Contact us",
+    "context": "FAQ page"
   },
   {
     "source": "Everything you need to know about investing and raising capital on Assets & Capital.",
@@ -184,6 +276,154 @@ export const TRANSLATABLE: Translatable[] = [
   {
     "source": "Weighted match criteria",
     "context": "Home — statistics"
+  },
+  {
+    "source": "A guided, transparent path whether you're deploying capital or raising it.",
+    "context": "Home page"
+  },
+  {
+    "source": "About Assets &amp; Capital",
+    "context": "Home page"
+  },
+  {
+    "source": "Beyond the marketplace, our team delivers the services that move a deal forward — for investors and businesses alike.",
+    "context": "Home page"
+  },
+  {
+    "source": "Choose a sector",
+    "context": "Home page"
+  },
+  {
+    "source": "Depth across every major sector",
+    "context": "Home page"
+  },
+  {
+    "source": "Every listing is screened and verified before it appears. Match scores show how mandate-aware ranking surfaces the right deals.",
+    "context": "Home page"
+  },
+  {
+    "source": "Expert support on both sides of the deal",
+    "context": "Home page"
+  },
+  {
+    "source": "Explore all",
+    "context": "Home page"
+  },
+  {
+    "source": "Featured",
+    "context": "Home page"
+  },
+  {
+    "source": "Featured businesses",
+    "context": "Home page"
+  },
+  {
+    "source": "Find opportunities",
+    "context": "Home page"
+  },
+  {
+    "source": "From first look to closed deal — in one place",
+    "context": "Home page"
+  },
+  {
+    "source": "From technology and healthcare to energy, real estate and agriculture — opportunities spanning fourteen industry groups.",
+    "context": "Home page"
+  },
+  {
+    "source": "How we work",
+    "context": "Home page"
+  },
+  {
+    "source": "How we work with both sides",
+    "context": "Home page"
+  },
+  {
+    "source": "Intelligence for capital and opportunity",
+    "context": "Home page"
+  },
+  {
+    "source": "Meet capital and opportunity in person",
+    "context": "Home page"
+  },
+  {
+    "source": "Next featured businesses",
+    "context": "Home page"
+  },
+  {
+    "source": "Next sector",
+    "context": "Home page"
+  },
+  {
+    "source": "Opportunities on the marketplace now",
+    "context": "Home page"
+  },
+  {
+    "source": "Premium placements from businesses raising capital now.",
+    "context": "Home page"
+  },
+  {
+    "source": "Previous featured businesses",
+    "context": "Home page"
+  },
+  {
+    "source": "Previous sector",
+    "context": "Home page"
+  },
+  {
+    "source": "Read the journal",
+    "context": "Home page"
+  },
+  {
+    "source": "Register now",
+    "context": "Home page"
+  },
+  {
+    "source": "Research, market views, and practical guides from our team.",
+    "context": "Home page"
+  },
+  {
+    "source": "Roadshows built around a mandate, and forums where the introductions happen face to face.",
+    "context": "Home page"
+  },
+  {
+    "source": "Sectors",
+    "context": "Home page"
+  },
+  {
+    "source": "Sectors covered across the marketplace",
+    "context": "Home page"
+  },
+  {
+    "source": "Sectors on the marketplace",
+    "context": "Home page"
+  },
+  {
+    "source": "Seeking",
+    "context": "Home page"
+  },
+  {
+    "source": "Start with a mandate",
+    "context": "Home page"
+  },
+  {
+    "source": "The investment process",
+    "context": "Home page"
+  },
+  {
+    "source": "Trusted by investors and founders",
+    "context": "Home page"
+  },
+  {
+    "source": "Trusted worldwide to make the connection",
+    "context": "Home page"
+  },
+  {
+    "source": "View all events",
+    "context": "Home page"
+  },
+  {
+    "source": "What we do beyond listing a business",
+    "context": "Home page"
   },
   {
     "source": "Build a verified profile covering your ask, instrument and financials, then choose a listing tier from Standard to Platinum.",
@@ -318,7 +558,15 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Insights"
   },
   {
+    "source": "No insights published yet.",
+    "context": "Insights"
+  },
+  {
     "source": "Private credit vs. equity: structuring the right instrument for growth",
+    "context": "Insights"
+  },
+  {
+    "source": "Read article",
     "context": "Insights"
   },
   {
@@ -374,7 +622,15 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Legal — Cookie Policy"
   },
   {
-    "source": "ac-theme",
+    "source": "ac_consent",
+    "context": "Legal — Cookie Policy"
+  },
+  {
+    "source": "ac_preview",
+    "context": "Legal — Cookie Policy"
+  },
+  {
+    "source": "ac_session",
     "context": "Legal — Cookie Policy"
   },
   {
@@ -682,6 +938,182 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Legal — Terms of Service"
   },
   {
+    "source": "Agree &amp; sign",
+    "context": "Marketplace"
+  },
+  {
+    "source": "AI fit breakdown",
+    "context": "Marketplace"
+  },
+  {
+    "source": "AI-generated quality signals for this business.",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Assets &amp; Capital Ltd",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Between",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Business imagery",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Business scorecard",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Clear all filters",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Clear filters",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Compliance readiness",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Confidential information.",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Core details · free",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Data room",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Demonstration NDA for the platform prototype — not a substitute for legal advice.",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Explore top",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Express interest",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Filters",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Full business details are an investor subscription feature",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Full financials &amp; metrics",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Grid view",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Interest expressed",
+    "context": "Marketplace"
+  },
+  {
+    "source": "List view",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Match scores are neutral, criteria-based signals against your mandate — not investment advice.",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Mutual Non-Disclosure Agreement",
+    "context": "Marketplace"
+  },
+  {
+    "source": "NDA signed",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Next image",
+    "context": "Marketplace"
+  },
+  {
+    "source": "No circumvention.",
+    "context": "Marketplace"
+  },
+  {
+    "source": "No offer.",
+    "context": "Marketplace"
+  },
+  {
+    "source": "No opportunities match your filters",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Non-disclosure.",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Overview",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Previous image",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Saving…",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Search opportunities",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Search opportunities, sectors, countries…",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Sign NDA",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Sign the mutual NDA to open the data room",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Signing…",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Snapshot",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Sort",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Try widening your criteria or clearing a filter to see more of the marketplace.",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Unlock the AI profile, documents & your match rate",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Why this match",
+    "context": "Marketplace"
+  },
+  {
+    "source": "Your match rate is locked",
+    "context": "Marketplace"
+  },
+  {
     "source": "About us",
     "context": "Navigation"
   },
@@ -818,6 +1250,90 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Navigation"
   },
   {
+    "source": "Accept all",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Advertising and retargeting. We do not currently use these; the choice is here so nothing can be added without your say.",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Aggregate usage measurement, so we can see which parts of the platform are useful.",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Always on",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Assets & Capital — home",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Close menu",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Colour theme",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Cookie settings",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Dashboard",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Display currency",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Email address",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Market intelligence and new opportunities. No spam.",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Open menu",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Reject all",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Save choices",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Sign out",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Sign-in, security and your cookie choices. Always on — the platform cannot work without them.",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Site menu",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Work email",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "You&apos;re on the list.",
+    "context": "Navigation & footer"
+  },
+  {
+    "source": "Your cookie choices",
+    "context": "Navigation & footer"
+  },
+  {
     "source": "90-day listing window",
     "context": "Pricing — listing tiers"
   },
@@ -926,6 +1442,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Pricing page"
   },
   {
+    "source": "Most popular",
+    "context": "Pricing page"
+  },
+  {
     "source": "Pay a success fee only when you close",
     "context": "Pricing page"
   },
@@ -954,7 +1474,47 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "Explore the marketplace",
+    "context": "Registration"
+  },
+  {
+    "source": "Featured image",
+    "context": "Registration"
+  },
+  {
+    "source": "I confirm the information provided is accurate and I consent to Assets &amp; Capital reviewing and listing my business.",
+    "context": "Registration"
+  },
+  {
     "source": "List your business, reach ready capital",
+    "context": "Registration"
+  },
+  {
+    "source": "Listing submitted",
+    "context": "Registration"
+  },
+  {
+    "source": "Mandate submitted",
+    "context": "Registration"
+  },
+  {
+    "source": "Progress",
+    "context": "Registration"
+  },
+  {
+    "source": "Replace",
+    "context": "Registration"
+  },
+  {
+    "source": "See the marketplace",
+    "context": "Registration"
+  },
+  {
+    "source": "Select",
+    "context": "Registration"
+  },
+  {
+    "source": "Sign in",
     "context": "Registration"
   },
   {
@@ -962,8 +1522,48 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Registration"
   },
   {
+    "source": "This field is required.",
+    "context": "Registration"
+  },
+  {
+    "source": "This tailors your mandate to the right questions. You can change it anytime.",
+    "context": "Registration"
+  },
+  {
+    "source": "Upload featured image — drop a file or click to browse",
+    "context": "Registration"
+  },
+  {
+    "source": "What kind of investor are you?",
+    "context": "Registration"
+  },
+  {
     "source": "Which side of the deal are you on?",
     "context": "Registration"
+  },
+  {
+    "source": "Your draft is saved to this device automatically.",
+    "context": "Registration"
+  },
+  {
+    "source": "Assets &amp; Capital",
+    "context": "Search"
+  },
+  {
+    "source": "Close search",
+    "context": "Search"
+  },
+  {
+    "source": "Popular",
+    "context": "Search"
+  },
+  {
+    "source": "Search by",
+    "context": "Search"
+  },
+  {
+    "source": "Search opportunities, pages, actions…",
+    "context": "Search"
   },
   {
     "source": "A teaser and deck written to earn the second meeting.",
@@ -1012,6 +1612,98 @@ export const TRANSLATABLE: Translatable[] = [
   {
     "source": "Teaser & pitch preparation",
     "context": "Services"
+  },
+  {
+    "source": "Business seeking capital",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Company name",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Current plan",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Express interest to reveal your match rate",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Full name",
+    "context": "Shared interface"
+  },
+  {
+    "source": "How can we help?",
+    "context": "Shared interface"
+  },
+  {
+    "source": "I am a(n)",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Investor",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Jane Doe",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Match locked",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Message sent",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Partner / advisor",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Password",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Preview access code",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Seeking:",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Select…",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Sending…",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Something went wrong. Please try again.",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Subscribe",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Tell us a little about what you're looking for…",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Thank you — our team will be in touch within one business day.",
+    "context": "Shared interface"
+  },
+  {
+    "source": "you@company.com",
+    "context": "Shared interface"
+  },
+  {
+    "source": "Your full name",
+    "context": "Shared interface"
   },
   {
     "source": "Businesses pay a success fee when a raise closes. If it doesn't close, there's no fee to collect.",

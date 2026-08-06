@@ -1,3 +1,6 @@
+import { isLocale, type Locale } from "@/lib/i18n/config";
+import { getTranslator } from "@/lib/i18n/store";
+import { SITE } from "@/lib/content";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ChatBox } from "@/components/chat/chat-box";
@@ -18,27 +21,46 @@ import type { Metadata } from "next";
  * parameters: without a canonical, every combination is a separate URL
  * competing with the others for the same content.
  */
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "./",
-    /**
-     * Every language declares every other, including itself, plus x-default.
-     * Without this the four versions of a page compete as duplicates instead
-     * of being understood as one page in four languages — and a French reader
-     * gets served the English one.
-     *
-     * "./" is resolved per-route against metadataBase, so these stay correct
-     * on every path without being written out page by page.
-     */
-    languages: {
-      en: "/en",
-      fr: "/fr",
-      es: "/es",
-      ar: "/ar",
-      "x-default": "/en",
+/**
+ * Metadata for the whole localised tree.
+ *
+ * generateMetadata rather than a static object, because the title and
+ * description are copy like any other and were the last thing still rendering
+ * in English — the browser tab on /ar read "Where quality assets meet ready
+ * capital" while the page beneath it was Arabic. Search results and shared
+ * links show this text, so it is the most public string on the site.
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslator((isLocale(locale) ? locale : "en") as Locale);
+
+  return {
+    title: {
+      default: `${SITE.name} — ${t.tl(SITE.tagline)}`,
+      template: `%s · ${SITE.name}`,
     },
-  },
-};
+    description: t.tl(SITE.description),
+    alternates: {
+      canonical: "./",
+      languages: {
+        en: "/en",
+        fr: "/fr",
+        es: "/es",
+        ar: "/ar",
+        "x-default": "/en",
+      },
+    },
+    openGraph: {
+      title: `${SITE.name} — ${t.tl(SITE.tagline)}`,
+      description: t.tl(SITE.description),
+      locale,
+    },
+  };
+}
 
 /**
  * Kwaku sits here rather than in the root layout so he does not appear on the

@@ -88,10 +88,10 @@ export function FeaturedCarousel({
         <div className="flex items-end justify-between gap-4">
           <div>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-white/70 px-3 py-1 text-[0.7rem] kicker text-brand-700 backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5" /> Featured
+              <Sparkles className="h-3.5 w-3.5" /> {tl("Featured")}
             </span>
-            <h2 className="mt-3 font-display text-2xl font-semibold text-navy-700 sm:text-3xl">Featured businesses</h2>
-            <p className="mt-1 text-sm text-ink/60">Premium placements from businesses raising capital now.</p>
+            <h2 className="mt-3 font-display text-2xl font-semibold text-navy-700 sm:text-3xl">{tl("Featured businesses")}</h2>
+            <p className="mt-1 text-sm text-ink/60">{tl("Premium placements from businesses raising capital now.")}</p>
           </div>
         </div>
 
@@ -130,7 +130,7 @@ export function FeaturedCarousel({
                   )}
                   <div className="grid-noise absolute inset-0 opacity-20" aria-hidden />
                   <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[0.6rem] font-semibold text-brand-700 shadow-sm">
-                    <Sparkles className="h-3 w-3" /> Featured
+                    <Sparkles className="h-3 w-3" /> {tl("Featured")}
                   </span>
                   <span className="absolute right-3 top-3 rounded-full bg-ink/70 px-2.5 py-1 text-[0.6rem] font-semibold text-white backdrop-blur-sm">
                     {o.tier}
@@ -141,13 +141,13 @@ export function FeaturedCarousel({
                   <p className="mt-1 flex items-center gap-1 text-xs font-medium text-navy-700">
                     <MapPin className="h-3 w-3" /> {o.country} · {tl(o.region)}
                   </p>
-                  <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ink/65">{o.blurb}</p>
+                  <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ink/65">{tl(o.blurb)}</p>
                   <div className="mt-auto flex items-center justify-between gap-3 pt-5">
                     <span className="inline-flex items-center gap-1.5 rounded-lg border border-brand-200 px-2.5 py-1.5 text-xs font-semibold text-brand-700">
                       <Tag className="h-3.5 w-3.5" /> {tl(o.sector)}
                     </span>
                     <span className="text-sm text-ink/65">
-                      Seeking <span className="font-bold text-ink"><Money usd={o.ask} /></span>
+                      {tl("Seeking")} <span className="font-bold text-ink"><Money usd={o.ask} /></span>
                     </span>
                   </div>
                 </div>

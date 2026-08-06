@@ -1,6 +1,6 @@
 import fs from "node:fs";
-import { LEGAL_DOCS } from "./lib/legal-docs";
-import * as C from "./lib/content";
+import { LEGAL_DOCS } from "../lib/legal-docs";
+import * as C from "../lib/content";
 
 /**
  * Walk the real objects instead of regexing the source.
@@ -36,7 +36,10 @@ const looksLikeCopy = (s: string) =>
   !/^\d{1,2} [A-Z][a-z]{2} \d{4}$/.test(s) &&      // 02 Oct 2026
   !/^[\d.]+%?\s*(IRR|MOIC|x)?$/.test(s) &&          // 15% IRR
   !/^[A-Z]{2,5}$/.test(s) &&                        // ISO-ish codes
-  !/\n\s{2,}\w+:/.test(s);                          // captured source
+  !/\n\s{2,}\w+:/.test(s) &&
+  // aria-roledescription values and other single lowercase tokens are API
+  // vocabulary the browser interprets, not words a reader sees.
+  !/^[a-z][a-z-]*$/.test(s);                          // captured source
 
 function add(source: unknown, context: string) {
   if (typeof source !== "string") return;
@@ -81,19 +84,55 @@ for (const [name, context] of Object.entries(GROUPS)) {
 add(C.SITE.tagline, "Brand");
 add(C.SITE.description, "Brand");
 
-// ---- inline JSX copy from the page components
+// ---- inline JSX copy from pages AND components
+//
+// components/** was missed on the first pass, which is why the site showed
+// French data inside English section headings: everything that lived in
+// lib/content.ts translated, and everything written directly in JSX did not.
+// A visitor cannot tell the difference between the two, so neither should this.
 const PAGES: Record<string, string> = {
   about: "About page", pricing: "Pricing page", faq: "FAQ page",
   businesses: "For businesses page", investors: "For investors page",
   contact: "Contact page", events: "Events page", marketplace: "Marketplace",
   register: "Registration", "register/business": "Registration", "register/investor": "Registration",
 };
+
+function scanFile(file: string, context: string) {
+  const src = fs.readFileSync(file, "utf8");
+  // JSX text nodes.
+  for (const m of src.matchAll(/>\s*([A-Z][^<>{}\n]{6,400}?)\s*</g)) add(m[1].replace(/\s+/g, " "), context);
+  // Copy passed as props.
+  for (const m of src.matchAll(/(?:title|subtitle|label|description|placeholder|heading|eyebrow|cta)=\{?"([^"]{4,400})"/g)) add(m[1], context);
+}
+
 for (const [route, context] of Object.entries(PAGES)) {
   const f = `app/[locale]/(site)/${route}/page.tsx`;
-  if (!fs.existsSync(f)) continue;
-  const src = fs.readFileSync(f, "utf8");
-  for (const m of src.matchAll(/>\s*([A-Z][^<>{}\n]{12,400}?)\s*</g)) add(m[1].replace(/\s+/g, " "), context);
-  for (const m of src.matchAll(/(?:title|subtitle|label|description|placeholder)=\{?"([^"]{6,400})"/g)) add(m[1], context);
+  if (fs.existsSync(f)) scanFile(f, context);
+}
+
+// Every component that renders public copy. Admin and dashboard are excluded:
+// they are staff tools, English-only, and translating them would triple the
+// editor's length for strings no visitor ever sees.
+function walkDir(dir: string, out: string[] = []): string[] {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = `${dir}/${e.name}`;
+    if (e.isDirectory()) {
+      if (["admin", "dashboard"].includes(e.name)) continue;
+      walkDir(full, out);
+    } else if (e.name.endsWith(".tsx")) out.push(full);
+  }
+  return out;
+}
+
+const AREA: Record<string, string> = {
+  home: "Home page", layout: "Navigation & footer", marketplace: "Marketplace",
+  ui: "Shared interface", search: "Search", chat: "Chat", register: "Registration",
+  insights: "Insights", payments: "Checkout", i18n: "Shared interface", seo: "Shared interface",
+  providers: "Shared interface", analytics: "Shared interface",
+};
+for (const f of walkDir("components")) {
+  const area = f.split("/")[1];
+  scanFile(f, AREA[area] ?? "Shared interface");
 }
 
 out.sort((a, b) => a.context.localeCompare(b.context) || a.source.localeCompare(b.source));

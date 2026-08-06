@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useCssVars } from "@/lib/use-motion";
 import { HOW_INVESTOR, HOW_BUSINESS } from "@/lib/content";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { useTl } from "@/components/i18n/locale-provider";
 
 const TABS = [
   { key: "investor", label: "For Investors", steps: HOW_INVESTOR },
@@ -11,6 +12,7 @@ const TABS = [
 ] as const;
 
 export function HowItWorks() {
+  const tl = useTl();
   const [tab, setTab] = useState<"investor" | "business">("investor");
   const active = TABS.find((t) => t.key === tab)!;
 
