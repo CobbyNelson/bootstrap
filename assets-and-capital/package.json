@@ -21,7 +21,9 @@
     "db:migrate:dev": "prisma migrate dev",
     "db:seed": "tsx --env-file=.env prisma/seed.ts",
     "db:studio": "prisma studio",
-    "db:setup": "npm run db:up && sleep 4 && npm run db:migrate && npm run db:seed"
+    "db:setup": "npm run db:up && sleep 4 && npm run db:migrate && npm run db:seed",
+    "check:i18n": "tsx scripts/check-i18n.mts",
+    "extract:i18n": "tsx scripts/extract-strings.mts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",

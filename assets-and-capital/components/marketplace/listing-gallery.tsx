@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 /**
  * Mini slider for a business's uploaded imagery on its public listing page.
@@ -17,6 +18,7 @@ import { cn } from "@/lib/utils";
  * of them costs less than one original upload.
  */
 export function ListingGallery({ images }: { images: { src: string; alt: string }[] }) {
+  const tl = useTl();
   const [index, setIndex] = useState(0);
 
   const go = useCallback(
@@ -28,8 +30,8 @@ export function ListingGallery({ images }: { images: { src: string; alt: string 
 
   return (
     <div
-      aria-roledescription="carousel"
-      aria-label="Business imagery"
+      aria-roledescription={tl("carousel")}
+      aria-label={tl("Business imagery")}
       onKeyDown={(e) => {
         if (e.key === "ArrowRight") { e.preventDefault(); go(index + 1); }
         if (e.key === "ArrowLeft") { e.preventDefault(); go(index - 1); }
@@ -61,7 +63,7 @@ export function ListingGallery({ images }: { images: { src: string; alt: string 
           <>
             <button
               type="button"
-              aria-label="Previous image"
+              aria-label={tl("Previous image")}
               onClick={() => go(index - 1)}
               className="absolute left-3 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-[var(--radius-button)] bg-white/85 text-ink shadow-sm backdrop-blur transition-colors hover:bg-white"
             >
@@ -69,7 +71,7 @@ export function ListingGallery({ images }: { images: { src: string; alt: string 
             </button>
             <button
               type="button"
-              aria-label="Next image"
+              aria-label={tl("Next image")}
               onClick={() => go(index + 1)}
               className="absolute right-3 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-[var(--radius-button)] bg-white/85 text-ink shadow-sm backdrop-blur transition-colors hover:bg-white"
             >

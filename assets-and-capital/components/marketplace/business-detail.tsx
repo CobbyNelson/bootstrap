@@ -47,6 +47,7 @@ function starColor(stars: number): string {
 }
 
 function ScoreRing({ value, color }: { value: number; color: string }) {
+  const tl = useTl();
   const size = 132;
   const stroke = 10;
   const r = (size - stroke) / 2;
@@ -69,7 +70,7 @@ function ScoreRing({ value, color }: { value: number; color: string }) {
       </svg>
       <div className="absolute text-center">
         <span className="block font-display text-4xl font-semibold text-navy-700 tnum">{value}</span>
-        <span className="block text-[0.62rem] uppercase tracking-widest text-ink/60">% match</span>
+        <span className="block text-[0.62rem] uppercase tracking-widest text-ink/60">% {tl("match")}</span>
       </div>
     </div>
   );
@@ -141,7 +142,7 @@ export function BusinessDetail({
 
         {/* Overview — core, always visible */}
         <div className={card}>
-          <h2 className="font-display text-xl font-semibold text-navy-700">Overview</h2>
+          <h2 className="font-display text-xl font-semibold text-navy-700">{tl("Overview")}</h2>
           <p className="mt-3 leading-relaxed text-ink/65">{o.blurb}</p>
           <p className="mt-3 leading-relaxed text-ink/65">
             {o.name} is seeking {o.ask} in {o.instrument.toLowerCase()} to accelerate growth across {tl(o.region)}. The
@@ -152,8 +153,8 @@ export function BusinessDetail({
         {/* Core snapshot — always visible */}
         <div className={card}>
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-xl font-semibold text-navy-700">Snapshot</h2>
-            {!subscribed && <span className="text-xs font-medium text-ink/50">Core details · free</span>}
+            <h2 className="font-display text-xl font-semibold text-navy-700">{tl("Snapshot")}</h2>
+            {!subscribed && <span className="text-xs font-medium text-ink/50">{tl("Core details \u00b7 free")}</span>}
           </div>
           <dl className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
             {coreSnapshot.map((m) => (
@@ -169,7 +170,7 @@ export function BusinessDetail({
         {full ? (
           <>
             <div className={card}>
-              <h2 className="font-display text-xl font-semibold text-navy-700">Full financials &amp; metrics</h2>
+              <h2 className="font-display text-xl font-semibold text-navy-700">{tl("Full financials &amp; metrics")}</h2>
               <dl className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
                 {[
                   { k: "Target return", v: full.targetReturn },
@@ -189,7 +190,7 @@ export function BusinessDetail({
             <div className={card}>
               <div className="flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-brand-600" />
-                <h2 className="font-display text-xl font-semibold text-navy-700">Compliance readiness</h2>
+                <h2 className="font-display text-xl font-semibold text-navy-700">{tl("Compliance readiness")}</h2>
               </div>
               <div className="mt-5 grid gap-2 sm:grid-cols-2">
                 {compliance.map((c) => (
@@ -209,7 +210,7 @@ export function BusinessDetail({
         ) : (
           <LockPanel
             variant="subscribe"
-            title="Full business details are an investor subscription feature"
+            title={tl("Full business details are an investor subscription feature")}
             desc="Subscribe to see full financials, target returns, estimated revenue & EBITDA, risk level and compliance readiness for every listing."
             cta={subscribeCta}
             href={subscribeHref}
@@ -221,7 +222,7 @@ export function BusinessDetail({
           <>
             <div className={card}>
               <div className="flex items-center justify-between">
-                <h2 className="font-display text-xl font-semibold text-navy-700">AI fit breakdown</h2>
+                <h2 className="font-display text-xl font-semibold text-navy-700">{tl("AI fit breakdown")}</h2>
                 <span className="text-xs text-ink/60">{deal.dimensions.length} weighted criteria</span>
               </div>
               <div className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
@@ -248,8 +249,8 @@ export function BusinessDetail({
             </div>
 
             <div className={card}>
-              <h2 className="font-display text-xl font-semibold text-navy-700">Business scorecard</h2>
-              <p className="mt-1 text-sm text-ink/65">AI-generated quality signals for this business.</p>
+              <h2 className="font-display text-xl font-semibold text-navy-700">{tl("Business scorecard")}</h2>
+              <p className="mt-1 text-sm text-ink/65">{tl("AI-generated quality signals for this business.")}</p>
               <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {deal.scorecard.map((b) => {
                   const good = b.higherIsBetter ? b.value >= 70 : b.value <= 45;
@@ -270,11 +271,11 @@ export function BusinessDetail({
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <FileText className="h-5 w-5 text-brand-600" />
-                  <h2 className="font-display text-xl font-semibold text-navy-700">Data room</h2>
+                  <h2 className="font-display text-xl font-semibold text-navy-700">{tl("Data room")}</h2>
                 </div>
                 {documents && (
                   <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
-                    <Check className="h-3.5 w-3.5" /> NDA signed
+                    <Check className="h-3.5 w-3.5" /> {tl("NDA signed")}
                   </span>
                 )}
               </div>
@@ -290,12 +291,12 @@ export function BusinessDetail({
                         <span className="flex items-center gap-2">
                           <FileText className="h-4 w-4 text-ink/40" /> {doc}
                         </span>
-                        <span className="text-xs font-medium text-brand-700">Open</span>
+                        <span className="text-xs font-medium text-brand-700">{tl("Open")}</span>
                       </a>
                     ))}
                   </div>
                   <p className="mt-4 text-xs text-ink/60">
-                    Match scores are neutral, criteria-based signals against your mandate — not investment advice.
+                    {tl("Match scores are neutral, criteria-based signals against your mandate \u2014 not investment advice.")}
                   </p>
                 </>
               ) : (
@@ -303,7 +304,7 @@ export function BusinessDetail({
                   <div className="mx-auto grid h-11 w-11 place-items-center rounded-2xl bg-white text-brand-600 shadow-sm ring-1 ring-ink/[0.06]">
                     <ShieldCheck className="h-5 w-5" />
                   </div>
-                  <p className="mt-3 font-medium text-ink">Sign the mutual NDA to open the data room</p>
+                  <p className="mt-3 font-medium text-ink">{tl("Sign the mutual NDA to open the data room")}</p>
                   <p className="mx-auto mt-1 max-w-sm text-sm text-ink/60">
                     Documents are released once you&apos;ve signed the non-disclosure agreement for {o.name}.
                   </p>
@@ -315,7 +316,7 @@ export function BusinessDetail({
         ) : (
           <LockPanel
             variant="interest"
-            title="Unlock the AI profile, documents & your match rate"
+            title={tl("Unlock the AI profile, documents & your match rate")}
             desc={
               subscribed
                 ? "Express interest to open this business's data room, AI scorecard and the breakdown of how it fits your mandate."
@@ -355,7 +356,7 @@ export function BusinessDetail({
               </div>
 
               <div className="space-y-2 border-t border-ink/[0.06] pt-5">
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/60">Why this match</p>
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/60">{tl("Why this match")}</p>
                 {deal.matched.map((r) => (
                   <p key={r} className="flex items-start gap-2 text-sm text-ink/70">
                     <Check className="mt-0.5 h-4 w-4 flex-none text-emerald-700" /> {r}
@@ -373,7 +374,7 @@ export function BusinessDetail({
               <div className="grid h-16 w-16 place-items-center rounded-[var(--radius-button)] bg-paper-2 text-ink/40">
                 <Lock className="h-6 w-6" />
               </div>
-              <p className="mt-4 font-display text-lg font-semibold text-navy-700">Your match rate is locked</p>
+              <p className="mt-4 font-display text-lg font-semibold text-navy-700">{tl("Your match rate is locked")}</p>
               <p className="mt-1.5 text-sm leading-relaxed text-ink/60">
                 {subscribed
                   ? "Express interest to reveal your personalised match score, the AI breakdown and this business's documents."

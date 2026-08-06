@@ -1378,6 +1378,10 @@ export const TRANSLATABLE: Translatable[] = [
     "context": "Marketplace"
   },
   {
+    "source": "Open",
+    "context": "Marketplace"
+  },
+  {
     "source": "Overview",
     "context": "Marketplace"
   },
