@@ -248,3 +248,42 @@ export async function getTierMix(): Promise<{ tier: string; count: number }[]> {
   );
   return rows.map((r) => ({ tier: String(r.tier), count: r._count._all }));
 }
+
+/**
+ * Capital funded, accumulated by month over the last year.
+ *
+ * Cumulative rather than per-month because the panel is titled "capital
+ * connected" — the question it answers is how much has moved in total, and a
+ * per-month series answers a different one. Returns twelve zeros when nothing
+ * has funded, which the caller renders as an empty state rather than a flat
+ * line pretending to be a trend.
+ */
+export async function getCapitalSeries(): Promise<{ month: string; totalUsd: number }[]> {
+  const from = new Date();
+  from.setMonth(from.getMonth() - 11);
+  from.setDate(1);
+  from.setHours(0, 0, 0, 0);
+
+  const rows = await safe(
+    () =>
+      prisma.commitment.findMany({
+        where: { status: "FUNDED", fundedAt: { not: null } },
+        select: { fundedAt: true, amountUsd: true },
+      }),
+    [] as { fundedAt: Date | null; amountUsd: number }[],
+  );
+
+  const out: { month: string; totalUsd: number }[] = [];
+  let running = 0;
+  for (let i = 0; i < 12; i++) {
+    const start = new Date(from);
+    start.setMonth(from.getMonth() + i);
+    const end = new Date(start);
+    end.setMonth(start.getMonth() + 1);
+    for (const r of rows) {
+      if (r.fundedAt && r.fundedAt >= start && r.fundedAt < end) running += r.amountUsd;
+    }
+    out.push({ month: start.toLocaleDateString("en", { month: "short" }), totalUsd: running });
+  }
+  return out;
+}

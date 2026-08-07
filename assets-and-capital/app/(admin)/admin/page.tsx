@@ -9,7 +9,7 @@ import { BarChartDual, DonutChart, AreaChart, Sparkline } from "@/components/adm
 import { cn } from "@/lib/utils";
 import {
   getKpis, getApprovals, getRecentListings, getDealVolume,
-  getRecentPayments, getAuditLog, getTierMix,
+  getRecentPayments, getAuditLog, getTierMix, getCapitalSeries,
 } from "@/lib/admin-queries";
 import { prisma } from "@/lib/prisma";
 
@@ -25,20 +25,6 @@ export const metadata: Metadata = { title: "Admin" };
  * telling the truth, and the first real one appears without a deploy.
  */
 
-const DEAL_VOLUME = [
-  { base: 30, cap: 10 }, { base: 38, cap: 14 }, { base: 34, cap: 14 }, { base: 46, cap: 20 },
-  { base: 50, cap: 22 }, { base: 44, cap: 17 }, { base: 60, cap: 24 }, { base: 66, cap: 26 },
-  { base: 56, cap: 22 }, { base: 70, cap: 26 }, { base: 78, cap: 32 }, { base: 88, cap: 36 },
-];
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const TIER_SPLIT = [
-  { label: "Platinum", value: 12, color: "brand" as const },
-  { label: "Gold", value: 28, color: "gold" as const },
-  { label: "Silver", value: 34, color: "teal" as const },
-  { label: "Standard", value: 26, color: "ink" as const },
-];
-const CAPITAL = [60, 88, 74, 120, 150, 132, 180, 210, 176, 232, 248, 300];
-const TARGET = [80, 90, 100, 110, 130, 150, 165, 180, 195, 210, 225, 250];
 
 function initials(name: string) {
   return name.split(" ").slice(0, 2).map((w) => w[0]).join("");
@@ -89,9 +75,9 @@ const TIER_VARIANT = (tier: string) =>
 export const dynamic = "force-dynamic";
 
 export default async function AdminOverview() {
-  const [kpis, approvals, listings, volume, payments, audit, tierMix, counts] = await Promise.all([
+  const [kpis, approvals, listings, volume, payments, audit, tierMix, capital, counts] = await Promise.all([
     getKpis(), getApprovals(), getRecentListings(), getDealVolume(),
-    getRecentPayments(), getAuditLog(), getTierMix(),
+    getRecentPayments(), getAuditLog(), getTierMix(), getCapitalSeries(),
     // The three sidebar sections that had no panel at all to scroll to.
     Promise.all([
       prisma.organization.count({ where: { type: "BUSINESS" } }).catch(() => 0),
@@ -186,10 +172,15 @@ export default async function AdminOverview() {
 
         <Panel title="Deal volume" action={{ label: "Statistics", href: "#stats" }}>
           <div className="mb-4 flex items-baseline gap-2">
-            <span className="font-grotesk text-2xl font-semibold text-ink tnum">1,124</span>
-            <span className="text-sm font-medium text-emerald-700">+18% · 12 mo</span>
+            <span className="font-grotesk text-2xl font-semibold text-ink tnum">
+              {volume.reduce((n, m) => n + m.closed + m.pipeline, 0)}
+            </span>
+            <span className="text-sm font-medium text-ink/55">commitments · 12 mo</span>
           </div>
-          <BarChartDual data={DEAL_VOLUME} labels={MONTHS.map((m) => m[0])} />
+          <BarChartDual
+            data={volume.map((m) => ({ base: m.closed, cap: m.pipeline }))}
+            labels={volume.map((m) => m.month)}
+          />
           <div className="mt-4 flex items-center gap-4 text-xs text-ink/65">
             <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-ink" /> Closed</span>
             <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-navy-400" /> In pipeline</span>
@@ -200,21 +191,46 @@ export default async function AdminOverview() {
       {/* donut + area */}
       <div className="grid gap-6 lg:grid-cols-[400px_1fr]">
         <Panel title="Listings by tier">
-          <DonutChart data={TIER_SPLIT} centerValue="482" centerLabel="listings" />
+          {tierMix.length === 0 ? (
+            <p className="py-10 text-center text-sm text-ink/55">No live listings to break down yet.</p>
+          ) : (
+            <DonutChart
+              data={tierMix.map((t, i) => ({
+                label: t.tier.charAt(0) + t.tier.slice(1).toLowerCase(),
+                value: t.count,
+                color: (["brand", "gold", "teal", "ink"] as const)[i % 4],
+              }))}
+              centerValue={String(tierMix.reduce((n, t) => n + t.count, 0))}
+              centerLabel="listings"
+            />
+          )}
         </Panel>
 
         <Panel title="Capital connected" action={{ label: "Full report", href: "#activity" }}>
           <div className="mb-3 flex flex-wrap items-center gap-4">
             <div className="flex items-baseline gap-2">
-              <span className="font-grotesk text-2xl font-semibold text-ink tnum">$248M</span>
-              <span className="text-sm font-medium text-emerald-700">+12% YoY</span>
+              <span className="font-grotesk text-2xl font-semibold text-ink tnum">
+                {usd(kpis.capitalFacilitatedUsd)}
+              </span>
+              <span className="text-sm font-medium text-ink/55">funded to date</span>
             </div>
             <div className="ml-auto flex items-center gap-4 text-xs text-ink/65">
               <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-brand-600" /> Connected</span>
               <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-navy-500" /> Target</span>
             </div>
           </div>
-          <AreaChart primary={CAPITAL} secondary={TARGET} labels={MONTHS} peakLabel="$300M" />
+          {capital.every((c) => c.totalUsd === 0) ? (
+            <p className="py-12 text-center text-sm text-ink/55">
+              Nothing funded yet. This chart fills in as commitments are funded.
+            </p>
+          ) : (
+            <AreaChart
+              primary={capital.map((c) => Math.round(c.totalUsd / 1000))}
+              secondary={capital.map((c) => Math.round(c.totalUsd / 1000))}
+              labels={capital.map((c) => c.month)}
+              peakLabel={usd(capital[capital.length - 1]?.totalUsd ?? 0)}
+            />
+          )}
         </Panel>
       </div>
 
