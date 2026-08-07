@@ -19,12 +19,16 @@ import { getListingHeroes } from "@/lib/listing-heroes";
  * (it carries the numbered-step treatment). Industries, Services and Events
  * were cut from here too.
  *
- * Their components used to sit in components/home/ and are gone: /industries,
- * /services and /events write their own content inline rather than importing
- * them, so what survived here was seven unreferenced files — a second copy of
- * the same marketing copy, drifting from the one anybody reads. This comment
- * previously said they "live on their own pages", which was true of the copy
- * and false of the code, and that is precisely what kept them alive.
+ * Their components used to sit in components/home/ and are gone: /services and
+ * /events write their own content inline rather than importing them, so what
+ * survived here was seven unreferenced files — a second copy of the same
+ * marketing copy, drifting from the one anybody reads. This comment previously
+ * said they "live on their own pages", which was true of the copy and false of
+ * the code, and that is precisely what kept them alive.
+ *
+ * Industries is the exception, and the reason not to reach for that phrasing
+ * again: there is no /industries route and there never has been. That section's
+ * copy went nowhere — it was deleted, not relocated.
  */
 /**
  * Prerendered and revalidated rather than rendered per request.
