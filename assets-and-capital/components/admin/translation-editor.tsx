@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Check, Search } from "lucide-react";
+import { Check, Search, Sparkles } from "lucide-react";
 import { LOCALES, LOCALE_META, DEFAULT_LOCALE, isRtl, type Locale } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
 
@@ -35,6 +35,7 @@ export function TranslationEditor({
   const [onlyMissing, setOnlyMissing] = useState(false);
   const [state, setState] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [auto, setAuto] = useState<"idle" | "running">("idle");
 
   const rtl = isRtl(locale);
 
@@ -87,6 +88,43 @@ export function TranslationEditor({
     }
   }
 
+  /**
+   * Draft the missing entries with machine translation.
+   *
+   * Existing rows are never touched — not the human ones and not earlier
+   * drafts — so this is safe to press after every deploy. It reports what it
+   * could NOT do as well as what it did: a rejected string is one whose
+   * {placeholders} came back wrong, and a translator needs to know the machine
+   * skipped those rather than assume they are handled.
+   */
+  async function autoTranslate() {
+    setAuto("running");
+    setMessage("");
+    try {
+      const res = await fetch("/api/admin/translations/auto", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ locale }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setState("error");
+        setMessage(data.error ?? "Could not translate.");
+        return;
+      }
+      const bits = [`${data.translated} drafted`];
+      if (data.rejected) bits.push(`${data.rejected} skipped — needs a human`);
+      if (data.remaining) bits.push(`${data.remaining} still missing, press again`);
+      setState("saved");
+      setMessage(bits.join(" · ") + (data.translated ? ". Reload to see them." : "."));
+    } catch {
+      setState("error");
+      setMessage("Could not reach the server.");
+    } finally {
+      setAuto("idle");
+    }
+  }
+
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -125,6 +163,16 @@ export function TranslationEditor({
           <input type="checkbox" checked={onlyMissing} onChange={(e) => setOnlyMissing(e.target.checked)} />
           Untranslated only
         </label>
+        <button
+          type="button"
+          onClick={autoTranslate}
+          disabled={auto === "running"}
+          title="Fills only the empty ones. Existing translations, human or machine, are left alone."
+          className="inline-flex items-center gap-1.5 rounded-[var(--radius-button)] border border-ink/15 bg-white px-4 py-2 text-sm font-medium text-ink/75 transition-colors hover:border-ink/30 hover:text-ink disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          <Sparkles className="h-4 w-4 text-brand-600" />
+          {auto === "running" ? "Translating…" : "Draft missing"}
+        </button>
         <button
           type="button"
           onClick={save}

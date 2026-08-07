@@ -3,7 +3,7 @@ import { DEFAULT_LOCALE, localePath } from "@/lib/i18n/config";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
-import { LEGAL_DOCS } from "@/lib/legal-docs";
+import { LEGAL_DOCS, publicLegalDoc } from "@/lib/legal-docs";
 import { getTranslator } from "@/lib/i18n/store";
 import { formatDate } from "@/lib/dates";
 import { translateContent } from "@/lib/i18n/translate-content";
@@ -27,7 +27,7 @@ export async function generateMetadata({
 export default async function LegalPage({ params }: { params: Promise<{ slug: string; locale: Locale }> }) {
   const { locale, slug } = await params;
   const t = await getTranslator(locale);
-  const raw = LEGAL_DOCS[slug];
+  const raw = publicLegalDoc(slug);
   if (!raw) notFound();
   // translateContent was imported here and never called. Every legal document
   // — privacy, terms, cookies, disclosures — rendered in English on /fr, /es

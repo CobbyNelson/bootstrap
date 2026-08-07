@@ -56,10 +56,22 @@ function add(source: unknown, context: string) {
   if (typeof source !== "string") return;
   const s = source.trim();
   if (!s || seen.has(s) || !looksLikeCopy(s)) return;
-  // Draft legal text pending counsel. Translating a placeholder would carry an
-  // unanswered question into three more languages and make it four times as
-  // easy to miss.
-  if (s.includes("[CONFIRM")) { confirms.push({ source: s, context }); return; }
+  // Drafting notes are STRIPPED, not skipped.
+  //
+  // This used to drop the whole string, and the markers sit inside paragraphs —
+  // so one unanswered question made an entire section of the GDPR notice
+  // untranslatable, which is why the privacy policy was the last page still
+  // reading in English in every language. The note is recorded for the admin
+  // and the surrounding prose goes to the translators, which is what they can
+  // actually act on.
+  if (s.includes("[CONFIRM")) {
+    confirms.push({ source: s, context });
+    const cleaned = s.replace(/\s*\[CONFIRM[^\]]*\]/g, "").replace(/\s{2,}/g, " ").trim();
+    if (!cleaned || seen.has(cleaned) || !looksLikeCopy(cleaned)) return;
+    seen.add(cleaned);
+    out.push({ source: cleaned, context });
+    return;
+  }
   seen.add(s);
   out.push({ source: s, context });
 }

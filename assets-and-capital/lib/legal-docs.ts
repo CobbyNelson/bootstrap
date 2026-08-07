@@ -184,3 +184,72 @@ export const LEGAL_DOCS: Record<string, Doc> = {
     ],
   },
 };
+
+
+/**
+ * Drafting notes, and how they leave the public page.
+ *
+ * `[CONFIRM: …]` marks a question for counsel — a registered office number, a
+ * sub-processor list, a retention period. They are notes to whoever finishes
+ * the document, and five of them were rendering on the LIVE privacy policy, in
+ * every language, where any visitor could read them.
+ *
+ * They also blocked translation. The extractor skips any string containing
+ * `[CONFIRM`, and these markers sit INSIDE paragraphs — so one bracket made a
+ * whole section of the GDPR notice untranslatable, which is why that page was
+ * the only one still reading in English.
+ *
+ * Stripping them for the public render fixes both at once: visitors see
+ * finished prose, and the prose becomes extractable. The notes are not deleted
+ * — `outstandingNotes()` lists them for the admin, so a question that has not
+ * been answered stays visible to the people who can answer it.
+ */
+const NOTE = /\s*\[CONFIRM[^\]]*\]/g;
+
+export function stripDraftNotes(text: string): string {
+  return text.replace(NOTE, "").replace(/\s{2,}/g, " ").trim();
+}
+
+/** Every unanswered drafting note, for the admin. */
+export function outstandingNotes(): { slug: string; title: string; note: string }[] {
+  const out: { slug: string; title: string; note: string }[] = [];
+  for (const [slug, doc] of Object.entries(LEGAL_DOCS)) {
+    const seen = new Set<string>();
+    const scan = (t: string) => {
+      for (const m of t.matchAll(/\[CONFIRM[^\]]*\]/g)) {
+        if (!seen.has(m[0])) {
+          seen.add(m[0]);
+          out.push({ slug, title: doc.title, note: m[0] });
+        }
+      }
+    };
+    scan(doc.intro ?? "");
+    for (const sec of doc.sections) {
+      scan(sec.h);
+      scan(sec.p);
+      (sec.list ?? []).forEach(scan);
+      (sec.table?.rows ?? []).forEach((r) => r.forEach(scan));
+    }
+  }
+  return out;
+}
+
+/** The document as a visitor sees it: finished prose, no drafting notes. */
+export function publicLegalDoc(slug: string): Doc | undefined {
+  const doc = LEGAL_DOCS[slug];
+  if (!doc) return undefined;
+  return {
+    ...doc,
+    intro: doc.intro ? stripDraftNotes(doc.intro) : doc.intro,
+    sections: doc.sections.map((sec) => ({
+      ...sec,
+      h: stripDraftNotes(sec.h),
+      p: stripDraftNotes(sec.p),
+      list: sec.list?.map(stripDraftNotes),
+      table: sec.table && {
+        head: sec.table.head.map(stripDraftNotes),
+        rows: sec.table.rows.map((r) => r.map(stripDraftNotes)),
+      },
+    })),
+  };
+}
