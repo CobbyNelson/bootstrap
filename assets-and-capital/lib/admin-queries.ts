@@ -287,3 +287,100 @@ export async function getCapitalSeries(): Promise<{ month: string; totalUsd: num
   }
   return out;
 }
+
+
+/* ------------------------------------------------------------------ pages
+ *
+ * The six sections below were panels on the overview reached by an anchor.
+ * An anchor is fine for a summary and wrong for a working surface: there is
+ * nowhere to filter, nowhere to paginate, no address to send a colleague, and
+ * no room to show a record properly. Each is a page now, and these are the
+ * queries behind them.
+ */
+
+export async function listBusinesses() {
+  return safe(
+    () =>
+      prisma.organization.findMany({
+        where: { type: "BUSINESS" },
+        include: {
+          business: { select: { verified: true, website: true, _count: { select: { listings: true } } } },
+          _count: { select: { users: true } },
+        },
+        orderBy: { createdAt: "desc" },
+        take: 100,
+      }),
+    [],
+  );
+}
+
+export async function listInvestors() {
+  return safe(
+    () =>
+      prisma.user.findMany({
+        where: { role: "INVESTOR" },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          createdAt: true,
+          kyc: { select: { status: true, accredited: true, country: true } },
+          subscription: { select: { plan: true, active: true } },
+        },
+        orderBy: { createdAt: "desc" },
+        take: 100,
+      }),
+    [],
+  );
+}
+
+export async function listAllListings() {
+  return safe(
+    () =>
+      prisma.listing.findMany({
+        include: {
+          business: { select: { organization: { select: { legalName: true } } } },
+          industry: { select: { name: true } },
+        },
+        orderBy: { createdAt: "desc" },
+        take: 100,
+      }),
+    [],
+  );
+}
+
+export async function listPayments() {
+  return safe(
+    () =>
+      prisma.payment.findMany({
+        include: { organization: { select: { legalName: true } } },
+        orderBy: { createdAt: "desc" },
+        take: 100,
+      }),
+    [],
+  );
+}
+
+/**
+ * Checkout attempts, which are NOT the same as payments.
+ *
+ * A Payment is an invoice the platform raised. A PaymentIntent is a visitor
+ * pressing pay. Showing only the first hides every abandoned and declined
+ * attempt, which is exactly the population worth looking at when checkout is
+ * new.
+ */
+export async function listPaymentIntents() {
+  return safe(
+    () =>
+      prisma.paymentIntent.findMany({
+        include: { user: { select: { email: true, name: true } } },
+        orderBy: { createdAt: "desc" },
+        take: 50,
+      }),
+    [],
+  );
+}
+
+export async function listAuditLog(limit = 200) {
+  return getAuditLog(limit);
+}

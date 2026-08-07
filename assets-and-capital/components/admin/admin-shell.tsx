@@ -16,16 +16,16 @@ const NAV = [
   { label: "Matching engine", href: "/admin/matching", icon: SlidersHorizontal },
   { label: "Analytics", href: "/admin/analytics", icon: BarChart3 },
   { label: "Translations", href: "/admin/translations", icon: Languages },
-  { label: "Approvals", href: "/admin#approvals", icon: BadgeCheck, badge: "pending" },
-  { label: "Businesses", href: "/admin#businesses", icon: Building2 },
-  { label: "Investors", href: "/admin#investors", icon: Users },
-  { label: "Listings", href: "/admin#listings", icon: ListChecks },
-  { label: "Payments", href: "/admin#payments", icon: Wallet },
+  { label: "Approvals", href: "/admin/approvals", icon: BadgeCheck, badge: "pending" },
+  { label: "Businesses", href: "/admin/businesses", icon: Building2 },
+  { label: "Investors", href: "/admin/investors", icon: Users },
+  { label: "Listings", href: "/admin/listings", icon: ListChecks },
+  { label: "Payments", href: "/admin/payments", icon: Wallet },
   { label: "Roadshows & events", href: "/admin/events", icon: Presentation },
   { label: "Email automation", href: "/admin/email", icon: Mailbox },
   { label: "Insights", href: "/admin/insights", icon: FileText },
   { label: "Media library", href: "/admin/media", icon: ImageIcon },
-  { label: "Audit log", href: "/admin#audit", icon: ScrollText },
+  { label: "Audit log", href: "/admin/audit", icon: ScrollText },
 ];
 
 const TEAM = ["RO", "JA", "CD", "MP"];

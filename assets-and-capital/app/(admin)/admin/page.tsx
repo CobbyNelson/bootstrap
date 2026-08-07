@@ -120,7 +120,7 @@ export default async function AdminOverview() {
 
       {/* table + bar chart */}
       <div className="grid gap-6 lg:grid-cols-[1fr_400px]">
-        <Panel title="Recent activity" action={{ label: "Manage listings", href: "#businesses" }}>
+        <Panel title="Recent activity" action={{ label: "All listings", href: "/admin/listings" }}>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -170,7 +170,7 @@ export default async function AdminOverview() {
           </div>
         </Panel>
 
-        <Panel title="Deal volume" action={{ label: "Statistics", href: "#stats" }}>
+        <Panel title="Deal volume" action={{ label: "Analytics", href: "/admin/analytics" }}>
           <div className="mb-4 flex items-baseline gap-2">
             <span className="font-grotesk text-2xl font-semibold text-ink tnum">
               {volume.reduce((n, m) => n + m.closed + m.pipeline, 0)}
@@ -206,7 +206,7 @@ export default async function AdminOverview() {
           )}
         </Panel>
 
-        <Panel title="Capital connected" action={{ label: "Full report", href: "#activity" }}>
+        <Panel title="Capital connected" action={{ label: "Payments", href: "/admin/payments" }}>
           <div className="mb-3 flex flex-wrap items-center gap-4">
             <div className="flex items-baseline gap-2">
               <span className="font-grotesk text-2xl font-semibold text-ink tnum">
@@ -236,7 +236,7 @@ export default async function AdminOverview() {
 
       {/* approvals + payments */}
       <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
-        <Panel id="approvals" title="Approvals queue" action={{ label: "All", href: "#approvals" }}>
+        <Panel title="Approvals queue" action={{ label: "All", href: "/admin/approvals" }}>
           <div className="space-y-3">
             {approvals.length === 0 && (
               <p className="py-6 text-center text-sm text-ink/55">
@@ -271,7 +271,7 @@ export default async function AdminOverview() {
           </div>
         </Panel>
 
-        <Panel id="payments" title="Recent payments" action={{ label: "All transactions", href: "#payments" }}>
+        <Panel title="Recent payments" action={{ label: "All transactions", href: "/admin/payments" }}>
           <div className="divide-y divide-ink/[0.06]">
             {payments.length === 0 && (
               <p className="py-6 text-center text-sm text-ink/55">No payments recorded yet.</p>
@@ -301,8 +301,8 @@ export default async function AdminOverview() {
           page — four of its six entries scrolled nowhere and looked broken.
           They are real sections now, reading the real tables.
         */}
-        <div id="businesses" className="grid gap-4 lg:grid-cols-3">
-          <Panel title="Businesses">
+        <div className="grid gap-4 lg:grid-cols-3">
+          <Panel title="Businesses" action={{ label: "Open", href: "/admin/businesses" }}>
             <p className="font-grotesk text-3xl font-semibold text-navy-700 tnum">{businessCount}</p>
             <p className="mt-1 text-sm text-ink/60">
               {businessCount === 0
@@ -311,14 +311,14 @@ export default async function AdminOverview() {
             </p>
           </Panel>
 
-          <Panel title="Investors" id="investors">
+          <Panel title="Investors" action={{ label: "Open", href: "/admin/investors" }}>
             <p className="font-grotesk text-3xl font-semibold text-navy-700 tnum">{investorCount}</p>
             <p className="mt-1 text-sm text-ink/60">
               {investorCount === 0 ? "No investors registered yet." : "Accounts with the investor role."}
             </p>
           </Panel>
 
-          <Panel title="Listings" id="listings">
+          <Panel title="Listings" action={{ label: "Open", href: "/admin/listings" }}>
             <p className="font-grotesk text-3xl font-semibold text-navy-700 tnum">{listingCount}</p>
             <p className="mt-1 text-sm text-ink/60">
               {listingCount === 0
@@ -328,7 +328,7 @@ export default async function AdminOverview() {
           </Panel>
         </div>
 
-        <Panel id="audit" title="Audit log">
+        <Panel title="Audit log" action={{ label: "Open", href: "/admin/audit" }}>
           {audit.length === 0 ? (
             <p className="py-6 text-center text-sm text-ink/55">
               Nothing recorded yet. Admin actions are written here as they happen.
