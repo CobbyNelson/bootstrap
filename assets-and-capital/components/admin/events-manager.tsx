@@ -78,7 +78,10 @@ export function EventsManager() {
           <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Event management</h1>
           <p className="mt-1 text-sm text-ink/65">Registration, ticketing, QR check-in and live attendance.</p>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> Create event</button>
+        <button
+          disabled
+          title="Event creation is not built yet — this page shows sample events."
+          className="inline-flex cursor-not-allowed items-center gap-2 rounded-[var(--radius-button)] opacity-40 bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> Create event</button>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -184,7 +187,10 @@ export function EventsManager() {
                 </div>
               ))}
             </div>
-            <button className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:text-brand-800">Export attendance <ArrowUpRight className="h-3.5 w-3.5" /></button>
+            <button
+              disabled
+              title="Attendance export is not built yet."
+            className="mt-3 inline-flex cursor-not-allowed items-center gap-1 text-sm font-medium text-brand-700 opacity-40">Export attendance <ArrowUpRight className="h-3.5 w-3.5" /></button>
           </div>
         </div>
       </div>

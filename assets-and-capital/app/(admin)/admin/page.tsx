@@ -100,7 +100,10 @@ export default function AdminOverview() {
           <span className="inline-flex items-center gap-2 rounded-[var(--radius-button)] border border-ink/10 bg-white px-3.5 py-2 text-sm text-ink/60">
             <CalendarDays className="h-4 w-4 text-ink/60" /> Last 30 days
           </span>
-          <button className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-ink-2">
+          <button
+            disabled
+            title="Export is not built yet."
+            className="cursor-not-allowed opacity-40 inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-ink-2">
             <Download className="h-4 w-4" /> Export
           </button>
         </div>
@@ -207,10 +210,16 @@ export default function AdminOverview() {
                   <Badge variant="neutral" size="sm">{a.type.split(" ")[0]}</Badge>
                 </div>
                 <div className="mt-3 flex items-center gap-2">
-                  <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-[var(--radius-button)] bg-ink py-1.5 text-[0.7rem] kicker text-white hover:bg-ink-2">
+                  <button
+                    disabled
+                    title="Not wired yet — this queue shows sample rows, not real submissions."
+                    className="cursor-not-allowed opacity-40 inline-flex flex-1 items-center justify-center gap-1.5 rounded-[var(--radius-button)] bg-ink py-1.5 text-[0.7rem] kicker text-white hover:bg-ink-2">
                     <Check className="h-3.5 w-3.5" /> Approve
                   </button>
-                  <button className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-[var(--radius-button)] border border-ink/12 py-1.5 text-[0.7rem] kicker text-ink/60 hover:border-brand-300 hover:text-brand-700">
+                  <button
+                    disabled
+                    title="Not wired yet — this queue shows sample rows, not real submissions."
+                    className="cursor-not-allowed opacity-40 inline-flex flex-1 items-center justify-center gap-1.5 rounded-[var(--radius-button)] border border-ink/12 py-1.5 text-[0.7rem] kicker text-ink/60 hover:border-brand-300 hover:text-brand-700">
                     <X className="h-3.5 w-3.5" /> Reject
                   </button>
                 </div>

@@ -75,7 +75,10 @@ export function EmailAutomation() {
           <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Email automation</h1>
           <p className="mt-1 text-sm text-ink/65">Triggered journeys that nurture investors and businesses end-to-end.</p>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> New flow</button>
+        <button
+          disabled
+          title="Flow creation is not built yet."
+          className="cursor-not-allowed opacity-40 inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> New flow</button>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -141,7 +144,10 @@ export function EmailAutomation() {
               </li>
             ))}
           </ol>
-          <button className="mt-5 inline-flex w-full items-center justify-center gap-1 rounded-[var(--radius-button)] border border-ink/12 py-2.5 text-sm font-medium text-ink/70 hover:bg-paper-2">Open flow builder <ChevronRight className="h-4 w-4" /></button>
+          <button
+            disabled
+            title="The flow builder is not built yet."
+            className="mt-5 inline-flex w-full cursor-not-allowed items-center justify-center gap-1 opacity-40 rounded-[var(--radius-button)] border border-ink/12 py-2.5 text-sm font-medium text-ink/70 hover:bg-paper-2">Open flow builder <ChevronRight className="h-4 w-4" /></button>
         </div>
       </div>
     </div>
