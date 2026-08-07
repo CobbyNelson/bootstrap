@@ -66,7 +66,13 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
                 <div className="mt-5 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
                   <span className="font-display text-4xl font-semibold text-navy-700 tnum">{tier.price}</span>
                   <span className="whitespace-nowrap text-sm text-ink/65">
-                    {/\d/.test(tier.price) ? `/ ${tier.cadence}` : tier.cadence}
+                    {/* cadence is on translateContent's skip list, correctly — it holds
+                        figures elsewhere. Here it is the word "listing", so it goes
+                        through the translator on its own rather than by widening a
+                        rule that exists to stop a price being "translated". */}
+                    {/\d/.test(tier.price)
+                      ? t.tl("/ {cadence}").replace("{cadence}", t.tl(tier.cadence))
+                      : t.tl(tier.cadence)}
                   </span>
                 </div>
                 <Button
