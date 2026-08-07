@@ -204,6 +204,13 @@ export function BusinessIntake() {
   }
 
   return (
+    /* The page renders this bare, straight after the PageHeader — the component
+       it replaced brought its own container, and dropping that put the whole
+       conversation outside the content column, hard against both edges of the
+       viewport. The card matches the contact page's, which is the other place
+       a Conversation is mounted. */
+    <section className="container-x py-12 md:py-16">
+      <div className="mx-auto max-w-3xl rounded-3xl border border-ink/[0.07] bg-white p-6 shadow-[var(--shadow-soft)] md:p-9">
     <Conversation
       questions={QUESTIONS}
       onComplete={submit}
@@ -229,5 +236,7 @@ export function BusinessIntake() {
         ) : null
       }
     />
+      </div>
+    </section>
   );
 }
