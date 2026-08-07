@@ -15,8 +15,17 @@ import { logoutUser } from "@/lib/actions/auth";
  */
 export function ProfileMenu({
   me,
+  profileHref = "/dashboard/settings",
+  settingsHref = "/admin/translations",
+  settingsLabel = "Site settings",
 }: {
   me: { name: string; role: string; initials: string } | null;
+  /** Where "Your profile" goes. */
+  profileHref?: string;
+  /** Where the second item goes — the admin's is the translations desk, the
+      portal's is its own settings page. */
+  settingsHref?: string;
+  settingsLabel?: string;
 }) {
   const [open, setOpen] = useState(false);
   const wrap = useRef<HTMLDivElement>(null);
@@ -64,7 +73,7 @@ export function ProfileMenu({
             <p className="text-xs text-ink/60">{me?.role ?? ""}</p>
           </div>
           <Link
-            href="/dashboard/settings"
+            href={profileHref}
             role="menuitem"
             onClick={() => setOpen(false)}
             className="flex items-center gap-2.5 px-3 py-2 text-sm text-ink/75 transition-colors hover:bg-brand-50 hover:text-ink"
@@ -72,12 +81,12 @@ export function ProfileMenu({
             <User className="h-4 w-4" /> Your profile
           </Link>
           <Link
-            href="/admin/translations"
+            href={settingsHref}
             role="menuitem"
             onClick={() => setOpen(false)}
             className="flex items-center gap-2.5 px-3 py-2 text-sm text-ink/75 transition-colors hover:bg-brand-50 hover:text-ink"
           >
-            <Settings className="h-4 w-4" /> Site settings
+            <Settings className="h-4 w-4" /> {settingsLabel}
           </Link>
           {/* A server action, so the session cookie is cleared server-side
               rather than the client merely forgetting it exists. */}

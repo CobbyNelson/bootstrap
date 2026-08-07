@@ -1,183 +1,212 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Target, Bookmark, Eye, Presentation, FileText, Download, ArrowRight, ShieldCheck } from "lucide-react";
-import { FEATURED_OPPORTUNITIES } from "@/lib/content";
-import { scoreInvestor, DEMO_INVESTOR } from "@/lib/investor-scoring";
+import { redirect } from "next/navigation";
+import { Target, Bookmark, FileSignature, TrendingUp, ArrowRight, ShieldCheck, Presentation, Bell } from "lucide-react";
+import { getCurrentUser } from "@/lib/session";
+import { getInvestorHome, getPortalIdentity } from "@/lib/portal-queries";
+import { listPublicEvents } from "@/lib/events";
+import { recommend, DEMO_MANDATE } from "@/lib/matching";
+import { formatDate, dateBadge, formatDateShort } from "@/lib/dates";
 import { OpportunityCard } from "@/components/ui/opportunity-card";
 import { Badge } from "@/components/ui/badge";
-import { StatCard, Panel, ProgressRing } from "@/components/dashboard/widgets";
+import { StatCard, Panel } from "@/components/dashboard/widgets";
 
 export const metadata: Metadata = { title: "Investor Dashboard" };
 
-const SAVED = [
-  { name: "Cape Wine Estates", sector: "Food & Beverage", ask: "$12M", match: 82 },
-  { name: "Coastal Wind Partners", sector: "Renewable Energy", ask: "$48M", match: 85 },
-  { name: "Nile Digital Bank", sector: "FinTech", ask: "$25M", match: 91 },
-];
-const MESSAGES = [
-  { from: "Sahara Solar Grid", preview: "Thanks for your interest — sharing the data room access now.", time: "2h", unread: true },
-  { from: "A&C Deal Team", preview: "Your roadshow in Nairobi is confirmed for 18 Sep.", time: "5h", unread: true },
-  { from: "Lagos HealthTech", preview: "Happy to walk you through the unit economics this week.", time: "1d", unread: false },
-];
-const DOCS = [
-  { name: "Sahara Solar Grid — Teaser.pdf", size: "2.4 MB", date: "Jul 21" },
-  { name: "Lagos HealthTech — Financials.xlsx", size: "840 KB", date: "Jul 20" },
-  { name: "NDA — Atlas Logistics.pdf", size: "180 KB", date: "Jul 18" },
-];
+/**
+ * The investor's own workspace.
+ *
+ * This page said "Welcome back, Aurora" to whoever signed in, over four KPIs
+ * that were the literals 9, 12, 34 and 2, a saved table of three companies
+ * nobody had saved, three messages nobody had sent, three documents that did
+ * not exist and a trust score computed from a constant called DEMO_INVESTOR.
+ *
+ * Everything below is the signed-in account: saves and interests they recorded,
+ * commitments they made, NDAs they signed, and the verification state that
+ * gates all of it.
+ */
+const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 
-export default function InvestorDashboard() {
-  const inv = scoreInvestor(DEMO_INVESTOR);
+const KYC_BADGE: Record<string, { variant: "success" | "gold" | "brand" | "neutral"; label: string }> = {
+  VERIFIED: { variant: "success", label: "Verified" },
+  PENDING: { variant: "brand", label: "Verification under review" },
+  REJECTED: { variant: "neutral", label: "Verification declined" },
+  EXPIRED: { variant: "gold", label: "Verification expired" },
+  NOT_STARTED: { variant: "gold", label: "Not verified" },
+};
+
+export default async function InvestorDashboard() {
+  const user = await getCurrentUser();
+  if (!user) redirect("/login?next=/dashboard");
+
+  const [me, home, events] = await Promise.all([getPortalIdentity(), getInvestorHome(user), listPublicEvents()]);
+
+  const kyc = KYC_BADGE[home.kycStatus] ?? KYC_BADGE.NOT_STARTED;
+  // The real matching engine over the real marketplace. It used to be
+  // FEATURED_OPPORTUNITIES.slice(0, 2) — the same two businesses for everyone,
+  // labelled "Recommended for your mandate".
+  const matches = recommend(DEMO_MANDATE, 2);
+  const upcoming = events.slice(0, 2);
+
   return (
     <div className="mx-auto max-w-6xl space-y-6">
-      {/* header */}
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-sm text-ink/65">Investor workspace</p>
-          <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">Welcome back, Aurora</h1>
-          <div className="mt-2 flex items-center gap-2">
-            <Badge variant="gold" size="sm"><ShieldCheck className="h-3.5 w-3.5" /> {inv.badge}</Badge>
-            <span className="text-xs text-ink/65">Trust score <span className="font-semibold text-ink tnum">{inv.score}</span>/100</span>
+          <h1 className="mt-1 font-display text-3xl font-semibold text-navy-700">
+            Welcome back, {me?.name ?? "there"}
+          </h1>
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <Badge variant={kyc.variant} size="sm">
+              <ShieldCheck className="h-3.5 w-3.5" /> {kyc.label}
+            </Badge>
+            {home.kycStatus !== "VERIFIED" && (
+              <Link href="/dashboard/verification" className="text-xs font-medium text-brand-700 hover:text-brand-800">
+                Complete verification
+              </Link>
+            )}
           </div>
         </div>
-        <Link href="/marketplace" className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
+        <Link
+          href="/marketplace"
+          className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700"
+        >
           Browse marketplace <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
 
-      {/* KPIs */}
+      {/* Counts, not claims. Each one is a row count for this account. */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard label="New mandate matches" value="9" delta="+3 this week" icon={Target} />
-        <StatCard label="Saved opportunities" value="12" delta="+2" icon={Bookmark} />
-        <StatCard label="Recently viewed" value="34" delta="7 today" trend="flat" icon={Eye} />
-        <StatCard label="Upcoming roadshows" value="2" delta="Nairobi · London" trend="flat" icon={Presentation} />
+        <StatCard label="Saved opportunities" value={String(home.savedCount)} icon={Bookmark} trend="flat" />
+        <StatCard label="Interests registered" value={String(home.interestCount)} icon={Target} trend="flat" />
+        <StatCard label="NDAs signed" value={String(home.ndaCount)} icon={FileSignature} trend="flat" />
+        <StatCard
+          label="Capital committed"
+          value={home.committedUsd > 0 ? usd(home.committedUsd) : "—"}
+          icon={TrendingUp}
+          trend="flat"
+        />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-        {/* matches */}
-        <Panel id="matches" title="Recommended for your mandate" action={{ label: "See all", href: "/marketplace" }}>
-          <div className="grid gap-5 sm:grid-cols-2">
-            {FEATURED_OPPORTUNITIES.slice(0, 2).map((o) => (
-              <OpportunityCard key={o.name} o={o} />
-            ))}
-          </div>
-        </Panel>
-
-        {/* profile completion */}
-        <Panel title="Mandate profile">
-          <div className="flex items-center gap-4">
-            <ProgressRing value={82} />
-            <div>
-              <p className="font-medium text-ink">82% complete</p>
-              <p className="text-sm text-ink/65">Add exit preferences and governance to sharpen your matches.</p>
-            </div>
-          </div>
-          <Link href="/register/investor" className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-ink/12 py-2.5 text-sm font-medium text-ink hover:border-ink/25">
-            Complete profile
-          </Link>
-          <div className="mt-5 space-y-2 border-t border-ink/[0.06] pt-4 text-sm">
-            <div className="flex justify-between"><span className="text-ink/65">Strategy</span><span className="font-medium text-ink">Private Equity</span></div>
-            <div className="flex justify-between"><span className="text-ink/65">Ticket band</span><span className="font-medium text-ink">$10–40M</span></div>
-            <div className="flex justify-between"><span className="text-ink/65">Markets</span><span className="font-medium text-ink">Sub-Saharan Africa</span></div>
-          </div>
-        </Panel>
-      </div>
-
-      {/* saved */}
-      <Panel id="saved" title="Saved & watchlist" action={{ label: "View all", href: "/marketplace" }}>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-[0.7rem] uppercase tracking-wide text-ink/60">
-                <th className="pb-3 font-semibold">Opportunity</th>
-                <th className="pb-3 font-semibold">Sector</th>
-                <th className="pb-3 text-right font-semibold">Ask</th>
-                <th className="pb-3 text-right font-semibold">Match</th>
-                <th className="pb-3"></th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-ink/[0.06]">
-              {SAVED.map((s) => (
-                <tr key={s.name}>
-                  <td className="py-3 font-medium text-ink">{s.name}</td>
-                  <td className="py-3 text-ink/60">{s.sector}</td>
-                  <td className="py-3 text-right font-medium text-ink tnum">{s.ask}</td>
-                  <td className="py-3 text-right"><span className="font-medium text-emerald-700 tnum">{s.match}%</span></td>
-                  <td className="py-3 text-right">
-                    <Link href="/marketplace" className="text-sm font-medium text-brand-700 hover:text-brand-800">View</Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Panel>
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* messages */}
-        <Panel id="messages" title="Messages" action={{ label: "Inbox", href: "#messages" }}>
-          <div className="divide-y divide-ink/[0.06]">
-            {MESSAGES.map((m) => (
-              <div key={m.from} className="flex items-start gap-3 py-3 first:pt-0">
-                <span className="grid h-9 w-9 flex-none place-items-center rounded-[var(--radius-button)] bg-paper-2 text-xs font-semibold text-ink/60">
-                  {m.from.split(" ").slice(0, 2).map((w) => w[0]).join("")}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="truncate font-medium text-ink">{m.from}</p>
-                    <span className="flex items-center gap-2 text-xs text-ink/60">
-                      {m.unread && <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />}
-                      {m.time}
-                    </span>
-                  </div>
-                  <p className="truncate text-sm text-ink/65">{m.preview}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Panel>
-
-        {/* documents */}
-        <Panel id="documents" title="Document vault" action={{ label: "All files", href: "#documents" }}>
-          <div className="divide-y divide-ink/[0.06]">
-            {DOCS.map((d) => (
-              <div key={d.name} className="flex items-center gap-3 py-3 first:pt-0">
-                <span className="grid h-9 w-9 flex-none place-items-center rounded-xl bg-brand-50 text-brand-600">
-                  <FileText className="h-4 w-4" />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium text-ink">{d.name}</p>
-                  <p className="text-xs text-ink/65">{d.size} · {d.date}</p>
-                </div>
-                <button className="grid h-8 w-8 place-items-center rounded-[var(--radius-button)] text-ink/60 hover:bg-paper-2 hover:text-ink" aria-label="Download">
-                  <Download className="h-4 w-4" />
-                </button>
-              </div>
-            ))}
-          </div>
-        </Panel>
-      </div>
-
-      {/* roadshows */}
-      <Panel id="roadshows" title="Upcoming roadshows" action={{ label: "All events", href: "/events" }}>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {[
-            { title: "East Africa Capital Roadshow", loc: "Nairobi, Kenya", date: "18 Sep 2026", day: "18", month: "SEP" },
-            { title: "Global Investor Forum", loc: "London, UK", date: "02 Oct 2026", day: "02", month: "OCT" },
-          ].map((ev) => (
-            <div key={ev.title} className="flex items-center gap-4 rounded-2xl border border-ink/[0.06] p-4">
-              <div className="grid h-14 w-14 flex-none place-items-center rounded-xl bg-brand-600 text-white">
-                <span className="font-display text-xl font-semibold leading-none tnum">{ev.day}</span>
-                <span className="text-[0.55rem] font-semibold uppercase tracking-widest">{ev.month}</span>
-              </div>
-              <div>
-                <Badge variant="gold" size="sm">Roadshow</Badge>
-                <p className="mt-1.5 font-medium text-ink">{ev.title}</p>
-                <p className="text-xs text-ink/65">{ev.loc} · {ev.date}</p>
-              </div>
-            </div>
+      <Panel id="matches" title="Recommended for your mandate" action={{ label: "See all", href: "/marketplace" }}>
+        <div className="grid gap-5 sm:grid-cols-2">
+          {matches.map((m) => (
+            <OpportunityCard key={m.opportunity.name} o={m.opportunity} />
           ))}
         </div>
       </Panel>
+
+      <Panel id="saved" title="Saved & watchlist" action={{ label: "View all", href: "/dashboard/saved" }}>
+        {home.saved.length === 0 ? (
+          <p className="py-6 text-center text-sm text-ink/65">
+            Nothing saved yet.{" "}
+            <Link href="/marketplace" className="font-medium text-brand-700 hover:text-brand-800">
+              Browse the marketplace
+            </Link>
+            .
+          </p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-[0.7rem] uppercase tracking-wide text-ink/60">
+                  <th className="pb-3 font-semibold">Opportunity</th>
+                  <th className="pb-3 font-semibold">Sector</th>
+                  <th className="pb-3 text-right font-semibold">Ask</th>
+                  <th className="pb-3 text-right font-semibold">Match</th>
+                  <th className="pb-3"></th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-ink/[0.06]">
+                {home.saved.slice(0, 5).map((s) => (
+                  <tr key={s.slug}>
+                    <td className="py-3 font-medium text-ink">{s.name}</td>
+                    <td className="py-3 text-ink/60">{s.sector}</td>
+                    <td className="py-3 text-right font-medium text-ink tnum">{s.ask}</td>
+                    <td className="py-3 text-right">
+                      <span className="font-medium text-emerald-700 tnum">{s.match}%</span>
+                    </td>
+                    <td className="py-3 text-right">
+                      <Link
+                        href={`/marketplace/${s.slug}`}
+                        className="text-sm font-medium text-brand-700 hover:text-brand-800"
+                      >
+                        View
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Panel>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <Panel id="commitments" title="Your commitments" action={{ label: "Pipeline", href: "/dashboard/pipeline" }}>
+          {home.commitments.length === 0 ? (
+            <p className="py-6 text-center text-sm text-ink/65">
+              You haven&rsquo;t committed capital yet.
+            </p>
+          ) : (
+            <div className="divide-y divide-ink/[0.06]">
+              {home.commitments.slice(0, 4).map((c) => (
+                <div key={c.id} className="flex items-center justify-between gap-3 py-3 first:pt-0">
+                  <div className="min-w-0">
+                    <p className="truncate font-medium text-ink">{c.name}</p>
+                    <p className="text-xs text-ink/65">{formatDate(c.createdAt, "en")}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-medium text-ink tnum">{usd(c.amountUsd)}</p>
+                    <p className="text-xs text-ink/65">{c.status.replace(/_/g, " ").toLowerCase()}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </Panel>
+
+        <Panel id="roadshows" title="Upcoming roadshows" action={{ label: "All events", href: "/events" }}>
+          {upcoming.length === 0 ? (
+            <p className="flex items-center justify-center gap-2 py-6 text-center text-sm text-ink/65">
+              <Presentation className="h-4 w-4" /> No events scheduled right now.
+            </p>
+          ) : (
+            <div className="space-y-3">
+              {upcoming.map((ev) => {
+                // Derived from the date the row already carries — a real row
+                // holds an ISO string, a sample holds its display text, and
+                // dateBadge parses both.
+                const badge = dateBadge(ev.date, "en");
+                return (
+                  <div key={ev.id} className="flex items-center gap-4 rounded-2xl border border-ink/[0.06] p-4">
+                    <div className="grid h-14 w-14 flex-none place-items-center rounded-xl bg-brand-600 text-white">
+                      <span className="font-display text-xl font-semibold leading-none tnum">{badge.day}</span>
+                      <span className="text-[0.55rem] font-semibold uppercase tracking-widest">{badge.month}</span>
+                    </div>
+                    <div className="min-w-0">
+                      <Badge variant="gold" size="sm">{ev.type}</Badge>
+                      <p className="mt-1.5 truncate font-medium text-ink">{ev.title}</p>
+                      <p className="truncate text-xs text-ink/65">
+                        {ev.location} · {formatDateShort(ev.date, "en")}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </Panel>
+      </div>
+
+      <Link
+        href="/dashboard/notifications"
+        className="flex items-center gap-3 rounded-2xl border border-ink/[0.07] bg-white px-5 py-4 text-sm text-ink/70 transition-colors hover:border-ink/20"
+      >
+        <Bell className="h-4 w-4 text-ink/50" />
+        We&rsquo;ll tell you here when an NDA is signed, a commitment moves, or your verification is decided.
+        <ArrowRight className="ml-auto h-4 w-4 text-ink/40" />
+      </Link>
     </div>
   );
 }

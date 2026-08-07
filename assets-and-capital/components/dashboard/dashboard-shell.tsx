@@ -4,22 +4,21 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard, Target, Bookmark, MessageSquare, Video, FileSignature, Contact,
+  LayoutDashboard, Target, Bookmark, MessageSquare, FileSignature,
   Settings, Bell, Search, ArrowLeft, BarChart3, Wallet, Building2, TrendingUp,
   Columns3, Lock, BadgeCheck, Menu, X,
 } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { ProfileMenu } from "@/components/account/profile-menu";
 
 type NavItem = { label: string; href: string; icon: typeof LayoutDashboard };
 
 const INVESTOR_NAV: NavItem[] = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
   { label: "Deal pipeline", href: "/dashboard/pipeline", icon: Columns3 },
-  { label: "CRM", href: "/dashboard/crm", icon: Contact },
   { label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
-  { label: "Meetings", href: "/dashboard/meetings", icon: Video },
   { label: "Data rooms", href: "/dashboard/data-room", icon: Lock },
   { label: "Agreements", href: "/dashboard/documents", icon: FileSignature },
   { label: "Verification", href: "/dashboard/verification", icon: BadgeCheck },
@@ -31,9 +30,7 @@ const INVESTOR_NAV: NavItem[] = [
 const BUSINESS_NAV: NavItem[] = [
   { label: "Overview", href: "/dashboard/business", icon: LayoutDashboard },
   { label: "Deal pipeline", href: "/dashboard/pipeline", icon: Columns3 },
-  { label: "CRM", href: "/dashboard/crm", icon: Contact },
   { label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
-  { label: "Meetings", href: "/dashboard/meetings", icon: Video },
   { label: "Data room", href: "/dashboard/data-room", icon: Lock },
   { label: "Agreements", href: "/dashboard/documents", icon: FileSignature },
   { label: "Verification", href: "/dashboard/business/verification", icon: BadgeCheck },
@@ -47,12 +44,14 @@ function SidebarBody({
   pathname,
   roleLabel,
   isBusiness,
+  canSwitch,
   onNavigate,
 }: {
   nav: NavItem[];
   pathname: string;
   roleLabel: string;
   isBusiness: boolean;
+  canSwitch: boolean;
   onNavigate?: () => void;
 }) {
   return (
@@ -80,10 +79,16 @@ function SidebarBody({
         })}
       </nav>
       <div className="border-t border-ink/[0.06] p-3">
-        <Link href={isBusiness ? "/dashboard" : "/dashboard/business"} onClick={onNavigate} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
-          <Building2 className="h-4 w-4" />
-          View {isBusiness ? "investor" : "business"} view
-        </Link>
+        {/* Staff only. This was shown to every account as "View business view",
+            which on a real investor account is a link into somebody else's
+            workspace — and it worked, because the shell took the role from the
+            URL rather than from the session. */}
+        {canSwitch && (
+          <Link href={isBusiness ? "/dashboard" : "/dashboard/business"} onClick={onNavigate} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
+            <Building2 className="h-4 w-4" />
+            View {isBusiness ? "investor" : "business"} view
+          </Link>
+        )}
         <Link href="/dashboard/settings" onClick={onNavigate} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 hover:bg-paper-2 hover:text-ink">
           <Settings className="h-4 w-4" /> Settings
         </Link>
@@ -101,12 +106,42 @@ function SidebarBody({
   );
 }
 
+/**
+ * The signed-in account, not the address bar.
+ *
+ * `isBusiness` used to be `pathname.startsWith("/dashboard/business")`, so the
+ * workspace, the nav and the name in the corner were all decided by the URL. An
+ * investor who typed a business URL got the business sidebar and was greeted as
+ * "Accra FinPay"; a business account on /dashboard was "Aurora Family Office".
+ */
+type Chrome = {
+  me: { name: string; kind: "investor" | "business"; orgName: string | null; initials: string };
+  unread: number;
+  canSwitch: boolean;
+};
+
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isBusiness = pathname.startsWith("/dashboard/business");
+
+  const [chrome, setChrome] = useState<Chrome | null>(null);
+  useEffect(() => {
+    let live = true;
+    fetch("/api/portal/chrome")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => live && d && setChrome(d))
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, []);
+
+  // Until the account is known, follow the URL rather than flashing the wrong
+  // workspace — a business account landing on /dashboard/business should not
+  // see the investor rail for a beat and then have it swap underneath them.
+  const isBusiness = chrome ? chrome.me.kind === "business" : pathname.startsWith("/dashboard/business");
   const nav = isBusiness ? BUSINESS_NAV : INVESTOR_NAV;
   const roleLabel = isBusiness ? "Business" : "Investor";
-  const person = isBusiness ? { name: "Accra FinPay", sub: "Gold listing" } : { name: "Aurora Family Office", sub: "PE mandate" };
+  const canSwitch = chrome?.canSwitch ?? false;
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
@@ -120,7 +155,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
         <div className="flex h-16 items-center border-b border-ink/[0.06] px-5">
           <Logo />
         </div>
-        <SidebarBody nav={nav} pathname={pathname} roleLabel={roleLabel} isBusiness={isBusiness} />
+        <SidebarBody nav={nav} pathname={pathname} roleLabel={roleLabel} isBusiness={isBusiness} canSwitch={canSwitch} />
       </aside>
 
       {/* mobile drawer */}
@@ -134,7 +169,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <SidebarBody nav={nav} pathname={pathname} roleLabel={roleLabel} isBusiness={isBusiness} onNavigate={() => setMobileOpen(false)} />
+            <SidebarBody nav={nav} pathname={pathname} roleLabel={roleLabel} isBusiness={isBusiness} canSwitch={canSwitch} onNavigate={() => setMobileOpen(false)} />
           </div>
         </div>
       )}
@@ -164,17 +199,26 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             </button>
             <Link href="/dashboard/notifications" className="relative grid h-10 w-10 place-items-center rounded-[var(--radius-button)] border border-ink/10 text-ink/60 hover:text-ink" aria-label="Notifications">
               <Bell className="h-[18px] w-[18px]" />
-              <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-600" />
+              {/* Lit only when something is actually unread. A dot that is
+                  always on says nothing, and teaches people to ignore the one
+                  time it means something. */}
+              {(chrome?.unread ?? 0) > 0 && (
+                <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-600" />
+              )}
             </Link>
-            <div className="flex items-center gap-2.5 rounded-[var(--radius-button)] border border-ink/10 py-1 pl-1 pr-3">
-              <span className="grid h-8 w-8 place-items-center rounded-[var(--radius-button)] bg-ink text-xs font-semibold text-white">
-                {person.name.split(" ").slice(0, 2).map((w) => w[0]).join("")}
-              </span>
-              <span className="hidden leading-tight sm:block">
-                <span className="block text-xs font-medium text-ink">{person.name}</span>
-                <span className="block text-[0.65rem] text-ink/65">{person.sub}</span>
-              </span>
-            </div>
+            <ProfileMenu
+              me={
+                chrome
+                  ? {
+                      name: chrome.me.name,
+                      role: chrome.me.orgName ?? `${roleLabel} account`,
+                      initials: chrome.me.initials,
+                    }
+                  : null
+              }
+              settingsHref="/dashboard/settings"
+              settingsLabel="Account settings"
+            />
           </div>
         </header>
 

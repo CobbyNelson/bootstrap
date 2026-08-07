@@ -29,11 +29,13 @@ const ROOTS = ["components", "app/[locale]"];
 /**
  * Surfaces nobody browses in another language.
  *
- * Admin and dashboard are staff tools. The pre-launch gate is a holding page.
+ * Admin, account and dashboard are signed-in tools. The pre-launch gate is a
+ * holding page.
  * The i18n plumbing itself renders language names, which are written in their
  * own language by definition.
  */
 const ALLOW_DIRS = [
+  "components/account",
   "components/admin",
   "components/dashboard",
   "components/i18n",

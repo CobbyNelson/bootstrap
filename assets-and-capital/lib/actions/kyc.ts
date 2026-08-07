@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
+import { notify } from "@/lib/notify";
 
 export type KycResult = { ok: boolean; error?: string; status?: string };
 
@@ -78,7 +79,19 @@ export async function decideKyc(
         metadata: decision,
       },
     });
+    // The investor learns the outcome from their own portal rather than from
+    // silence. Verification is the gate on committing capital, so a decision
+    // nobody is told about strands the account it was meant to unblock.
+    await notify(
+      userId,
+      "kyc",
+      decision.status === "VERIFIED" ? "Verification approved" : "Verification declined",
+      decision.status === "VERIFIED"
+        ? "Your identity checks have cleared. You can now commit capital."
+        : "We could not complete your checks. Our compliance team will be in touch.",
+    );
     revalidatePath("/admin");
+    revalidatePath("/dashboard/verification");
     return { ok: true, status: decision.status };
   } catch (e) {
     console.error("decideKyc failed", e);

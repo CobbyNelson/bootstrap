@@ -10,7 +10,7 @@ import {
 import { Logo } from "@/components/layout/logo";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { cn } from "@/lib/utils";
-import { ProfileMenu } from "./profile-menu";
+import { ProfileMenu } from "@/components/account/profile-menu";
 
 const NAV = [
   { label: "Overview", href: "/admin", icon: LayoutDashboard },

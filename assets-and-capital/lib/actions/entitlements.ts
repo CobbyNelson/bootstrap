@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
+import { notify, notifyListingOwner } from "@/lib/notify";
 
 export type ActionResult = { ok: boolean; error?: string; value?: boolean };
 
@@ -47,6 +48,15 @@ export async function expressInterest(slug: string): Promise<ActionResult> {
       return { ok: true, value: false };
     }
     await prisma.listingInterest.create({ data: { userId: user.id, slug } });
+    // The business hears about its own inbound. Awaited but never able to
+    // throw, so a failed courtesy cannot undo a recorded expression of
+    // interest — see lib/notify.ts.
+    await notifyListingOwner(
+      slug,
+      "interest",
+      "New investor interest",
+      `${user.name || user.email} expressed interest in your listing.`,
+    );
     revalidatePath(`/marketplace/${slug}`);
     return { ok: true, value: true };
   } catch (e) {
@@ -60,11 +70,29 @@ export async function signNda(slug: string): Promise<ActionResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: NEEDS_AUTH };
   try {
+    const before = await prisma.ndaSignature.findUnique({
+      where: { userId_slug: { userId: user.id, slug } },
+      select: { id: true },
+    });
     await prisma.ndaSignature.upsert({
       where: { userId_slug: { userId: user.id, slug } },
       create: { userId: user.id, slug },
       update: {},
     });
+    // Only on the first signature. The upsert is idempotent by design, so
+    // without this check a re-submit would notify both parties again for
+    // something that did not happen twice.
+    if (!before) {
+      await Promise.all([
+        notify(user.id, "nda", "NDA signed", `Your data room access for ${slug.replace(/-/g, " ")} is open.`),
+        notifyListingOwner(
+          slug,
+          "nda",
+          "NDA signed",
+          `${user.name || user.email} signed your NDA and can now open the data room.`,
+        ),
+      ]);
+    }
     revalidatePath(`/marketplace/${slug}`);
     return { ok: true, value: true };
   } catch (e) {

@@ -113,3 +113,31 @@ export function dateBadge(input: string | Date | null | undefined, locale: Local
 function toParsedPublic(input: string | Date): Parsed | null {
   return input instanceof Date ? { date: input, hasDay: true } : parseLooseDate(input);
 }
+
+/**
+ * "8m", "3h", "2d" — the age of something, in the shortest honest form.
+ *
+ * Notification rows carried hardcoded strings like "8m" and "1d" that never
+ * advanced, so an item stayed eight minutes old for as long as the page
+ * existed. This derives the age from the timestamp instead.
+ *
+ * Deliberately unlocalised digits-and-a-letter rather than Intl.RelativeTimeFormat:
+ * it renders inside a fixed-width column beside the title, and "il y a 3 heures"
+ * does not fit where "3h" does.
+ */
+export function relativeTime(value: Date | string | number): string {
+  const then = value instanceof Date ? value.getTime() : new Date(value).getTime();
+  if (!Number.isFinite(then)) return "";
+
+  const secs = Math.max(0, Math.round((Date.now() - then) / 1000));
+  if (secs < 60) return "now";
+  const mins = Math.round(secs / 60);
+  if (mins < 60) return `${mins}m`;
+  const hours = Math.round(mins / 60);
+  if (hours < 24) return `${hours}h`;
+  const days = Math.round(hours / 24);
+  if (days < 7) return `${days}d`;
+  const weeks = Math.round(days / 7);
+  if (weeks < 5) return `${weeks}w`;
+  return `${Math.round(days / 30)}mo`;
+}

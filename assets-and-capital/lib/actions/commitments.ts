@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
+import { notify, notifyListingOwner } from "@/lib/notify";
 import { getAccess } from "@/lib/entitlements-server";
 
 export type CommitResult = { ok: boolean; error?: string };
@@ -45,6 +46,11 @@ export async function softCommit(slug: string, amountUsd: number, note?: string)
       create: { userId: user.id, slug, amountUsd: Math.round(amountUsd), note: note || null },
       update: { amountUsd: Math.round(amountUsd), note: note || null, status: "SOFT_COMMITTED" },
     });
+    const usd = `$${Math.round(amountUsd).toLocaleString("en-US")}`;
+    await Promise.all([
+      notify(user.id, "commitment", "Commitment recorded", `${usd} soft-committed. Our team will confirm allocation.`),
+      notifyListingOwner(slug, "commitment", "New commitment", `${user.name || user.email} soft-committed ${usd}.`),
+    ]);
     revalidatePath(`/marketplace/${slug}`);
     return { ok: true };
   } catch (e) {
@@ -80,7 +86,7 @@ export async function advanceCommitment(
   const user = await getCurrentUser();
   if (!user || !ADMIN_ROLES.has(user.role)) return { ok: false, error: "Not authorised." };
   try {
-    await prisma.commitment.update({
+    const updated = await prisma.commitment.update({
       where: { id: commitmentId },
       data: {
         status,
@@ -88,8 +94,29 @@ export async function advanceCommitment(
         ...(status === "SIGNED" ? { signedAt: new Date() } : {}),
         ...(status === "FUNDED" ? { fundedAt: new Date() } : {}),
       },
+      select: { userId: true, slug: true, amountUsd: true },
     });
+
+    // The investor is told when the platform moves their money along. Every
+    // stage after SOFT_COMMITTED is operated by staff, so without this the
+    // investor's own commitment changes state with nothing to tell them.
+    const STAGE: Record<string, string> = {
+      ALLOCATED: "Your commitment has been allocated.",
+      AGREEMENT_SENT: "Your agreement is ready to sign.",
+      SIGNED: "Your agreement is countersigned.",
+      FUNDED: "Your funds have been received. Thank you.",
+    };
+    await notify(updated.userId, "commitment", "Commitment update", STAGE[status]);
+    if (status === "FUNDED") {
+      await notifyListingOwner(
+        updated.slug,
+        "commitment",
+        "Commitment funded",
+        `$${updated.amountUsd.toLocaleString("en-US")} has been funded against your listing.`,
+      );
+    }
     revalidatePath("/admin");
+    revalidatePath("/dashboard/pipeline");
     return { ok: true };
   } catch (e) {
     console.error("advanceCommitment failed", e);
