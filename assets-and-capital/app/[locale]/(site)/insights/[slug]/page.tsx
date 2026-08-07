@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { getTranslator } from "@/lib/i18n/store";
 import { translateContent } from "@/lib/i18n/translate-content";
 import type { Locale } from "@/lib/i18n/config";
+import { formatDateShort } from "@/lib/dates";
 
 const GRADIENT: Record<string, string> = {
  "Market Intelligence": "from-brand-600 to-brand-900",
@@ -86,7 +87,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
  <span className="text-white/65">·</span>
  <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> {a.readTime}</span>
  <span className="text-white/65">·</span>
- <span>{a.date}</span>
+ <span>{formatDateShort(a.publishedAt ?? a.date, locale)}</span>
  </div>
  </div>
  </section>

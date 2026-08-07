@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 import { LEGAL_DOCS } from "@/lib/legal-docs";
 import { getTranslator } from "@/lib/i18n/store";
+import { formatDate } from "@/lib/dates";
 import { translateContent } from "@/lib/i18n/translate-content";
 import type { Locale } from "@/lib/i18n/config";
 
@@ -36,7 +37,7 @@ export default async function LegalPage({ params }: { params: Promise<{ slug: st
 
   return (
     <>
-      <PageHeader title={doc.title} subtitle={t.tl("Last updated {date}.").replace("{date}", doc.updated)} />
+      <PageHeader title={doc.title} subtitle={t.tl("Last updated {date}.").replace("{date}", formatDate(doc.updated, locale))} />
       <section className="py-16 md:py-20">
         <div className="container-x max-w-3xl">
           {/* Language-of-record notice.

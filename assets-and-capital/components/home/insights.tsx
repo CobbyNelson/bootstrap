@@ -8,6 +8,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { getTranslator } from "@/lib/i18n/store";
 import type { Locale } from "@/lib/i18n/config";
+import { formatDateShort } from "@/lib/dates";
 
 const GRADIENTS = [
   "from-brand-600 to-brand-900",
@@ -64,7 +65,7 @@ export async function Insights({ articles, locale }: { articles: PublicArticle[]
                   </h3>
                   <div className="mt-auto flex items-center justify-between pt-6">
                     <span className="inline-flex items-center gap-1.5 text-xs font-medium text-brand-600">
-                      <Clock className="h-3.5 w-3.5" /> {post.readTime} · {post.date}
+                      <Clock className="h-3.5 w-3.5" /> {post.readTime} · {formatDateShort(post.publishedAt ?? post.date, locale)}
                     </span>
                     <CircleArrow tone="brand" size="sm" />
                   </div>

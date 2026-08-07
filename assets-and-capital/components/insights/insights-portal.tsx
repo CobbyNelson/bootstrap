@@ -6,7 +6,8 @@ import { Clock, ArrowUpRight, ArrowRight } from "lucide-react";
 import { CATEGORIES } from "@/lib/insights-data";
 import type { PublicArticle } from "@/lib/articles";
 import { cn } from "@/lib/utils";
-import { useTl } from "@/components/i18n/locale-provider";
+import { useTl, useLocale } from "@/components/i18n/locale-provider";
+import { formatDateShort } from "@/lib/dates";
 
 const GRADIENT: Record<string, string> = {
   "Market Intelligence": "from-brand-600 to-brand-900",
@@ -57,6 +58,7 @@ function Cover({
 
 export function InsightsPortal({ articles }: { articles: PublicArticle[] }) {
   const tl = useTl();
+  const locale = useLocale();
   const [cat, setCat] = useState<(typeof CATEGORIES)[number]>("All");
 
   const featured = articles.find((a) => a.featured) ?? articles[0];
@@ -97,7 +99,7 @@ export function InsightsPortal({ articles }: { articles: PublicArticle[] }) {
             <span>·</span>
             <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> {featured.readTime}</span>
             <span>·</span>
-            <span>{featured.date}</span>
+            <span>{formatDateShort(featured.publishedAt ?? featured.date, locale)}</span>
           </div>
           <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600">
             {tl("Read article")} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -134,7 +136,7 @@ export function InsightsPortal({ articles }: { articles: PublicArticle[] }) {
               <h3 className="text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-brand-700">{/* i18n-exempt: an article headline is editorial copy a person wrote, not interface text; a machine translation of it is a different headline. */}{a.title}</h3>
               <p className="mt-2 line-clamp-2 text-sm text-ink/65">{a.excerpt}</p>
               <div className="mt-auto flex items-center justify-between pt-6 text-xs font-medium text-brand-600">
-                <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> {a.readTime} · {a.date}</span>
+                <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> {a.readTime} · {formatDateShort(a.publishedAt ?? a.date, locale)}</span>
                 <ArrowUpRight className="h-4 w-4 text-brand-600 transition-transform group-hover:translate-x-0.5" />
               </div>
             </div>
