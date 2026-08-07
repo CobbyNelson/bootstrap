@@ -672,3 +672,30 @@ body {
   outline: none;
   border-bottom-color: var(--color-brand-600);
 }
+
+/**
+ * The conversational form's step-in animations.
+ *
+ * `riseIn` already exists for page content; these are the same movement at the
+ * pace a form wants — the question arriving, and the section title announcing
+ * itself before its first question is asked.
+ *
+ * No reduced-motion block needed: the one at the top of this file already
+ * neutralises every animation, which is why these are declared as animations
+ * rather than as transitions somebody has to remember to guard.
+ */
+.q-in {
+  animation: riseIn 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.section-in {
+  animation: riseIn 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+/* The rule under a section title, drawn left to right as it lands. */
+@keyframes ruleDraw {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.rule-draw {
+  transform-origin: left;
+  animation: ruleDraw 620ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+}

@@ -210,7 +210,7 @@ export function BusinessIntake() {
        viewport. The card matches the contact page's, which is the other place
        a Conversation is mounted. */
     <section className="container-x py-12 md:py-16">
-      <div className="mx-auto max-w-3xl rounded-3xl border border-ink/[0.07] bg-white p-6 shadow-[var(--shadow-soft)] md:p-9">
+      <div className="max-w-4xl rounded-3xl border border-ink/[0.07] bg-white p-6 shadow-[var(--shadow-soft)] md:p-9">
     <Conversation
       questions={QUESTIONS}
       onComplete={submit}

@@ -115,14 +115,38 @@ export function Conversation({
   const last = idx === questions.length - 1;
 
   /**
+   * The sections, in the order they first appear. Derived rather than declared,
+   * so a question moved between sections cannot leave the rail describing a
+   * shape the form no longer has.
+   */
+  const sections = questions.reduce<string[]>((acc, x) => (acc.includes(x.section) ? acc : [...acc, x.section]), []);
+  const sectionOf = (i: number) => sections.indexOf(questions[i].section);
+  const currentSection = sectionOf(idx);
+  /** First question of each section — where the announcement is due. */
+  const isSectionOpener = idx === 0 || questions[idx - 1].section !== q.section;
+
+  /**
+   * The section announcement.
+   *
+   * Shown on arriving at a section's first question, so somebody is told what
+   * they are about to be asked about before they are asked. Skipped when
+   * stepping BACKWARDS — going back to change an answer is not the start of
+   * anything, and re-announcing would make the correction feel like a reset.
+   */
+  const [announcing, setAnnouncing] = useState(true);
+  const showAnnouncement = announcing && isSectionOpener;
+  const questionsInSection = questions.filter((x) => x.section === q.section).length;
+
+  /**
    * Moving to a question is an EVENT, so the draft is reset here rather than in
    * an effect reacting to the render that move caused. Setting state inside an
    * effect to mirror a prop is a cascading render, and eslint says so.
    */
-  function goTo(next: number) {
+  function goTo(next: number, announce = false) {
     setIdx(next);
     setDraft(values[questions[next].key] ?? "");
     setProblem("");
+    setAnnouncing(announce);
   }
 
   // Restore a draft once, on mount. Seeding editable state from storage is not
@@ -164,13 +188,16 @@ export function Conversation({
   // The effect does only what an effect is for: moving focus after the question
   // has animated in.
   useEffect(() => {
+    // The question is only visually hidden behind an announcement, so without
+    // this guard the caret would jump into it and take focus off Continue.
+    if (showAnnouncement) return;
     const t = window.setTimeout(
       () => (q.multiline ? areaRef.current : inputRef.current)?.focus({ preventScroll: true }),
       360,
     );
     return () => window.clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idx]);
+  }, [idx, showAnnouncement]);
 
   function commit(raw?: string) {
     const v = (raw ?? draft).trim();
@@ -200,9 +227,9 @@ export function Conversation({
     // name would have overwritten a company's actual URL with the bot's.
     if (last) onComplete(hp ? { ...next, [HONEYPOT_KEY]: hp } : next);
     else {
-      setIdx(idx + 1);
-      setDraft(values[questions[idx + 1].key] ?? "");
-      setProblem("");
+      // Announce only when the next question opens a section the visitor has
+      // not just been in.
+      goTo(idx + 1, questions[idx + 1].section !== q.section);
     }
   }
 
@@ -220,8 +247,43 @@ export function Conversation({
 
   return (
     <div className="relative">
-      {/* Progress, and where in the original structure this question sat. */}
-      <div className="flex items-center gap-4">
+      {/* The whole journey, up front.
+          A conversation that only ever shows the next question tells you
+          nothing about how long it is — so the sections are listed the way a
+          booking flow lists its steps, and the one being answered is marked.
+          Only completed sections are clickable: skipping ahead past required
+          questions would put somebody in a section whose answers depend on ones
+          they have not given. */}
+      {sections.length > 1 && (
+        <ol className="flex flex-wrap items-center gap-x-2 gap-y-2">
+          {sections.map((name, i) => {
+            const state = i < currentSection ? "done" : i === currentSection ? "current" : "todo";
+            const firstOfSection = questions.findIndex((x) => x.section === name);
+            return (
+              <li key={name} className="flex items-center gap-2">
+                {i > 0 && <span aria-hidden className="text-ink/25">·</span>}
+                <button
+                  type="button"
+                  disabled={state !== "done"}
+                  onClick={() => goTo(firstOfSection)}
+                  aria-current={state === "current" ? "step" : undefined}
+                  className={cn(
+                    "inline-flex items-center gap-1.5 rounded-[var(--radius-button)] px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.12em] transition-colors",
+                    state === "current" && "bg-brand-50 text-brand-700",
+                    state === "done" && "text-ink/60 hover:text-brand-700",
+                    state === "todo" && "cursor-default text-ink/35",
+                  )}
+                >
+                  {state === "done" && <Check className="h-3 w-3" />}
+                  {name}
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+
+      <div className="mt-4 flex items-center gap-4">
         <div className="h-px flex-1 bg-ink/10">
           <div
             className="h-px bg-brand-600 transition-all duration-500"
@@ -233,33 +295,75 @@ export function Conversation({
         </span>
       </div>
 
-      {/* What has been answered. Any line goes back to that question. */}
+      {/* Everything answered so far, grouped the way the rail groups it, and
+          still listed while the next section is being announced. Any line goes
+          back to the question that produced it. */}
       {answered.length > 0 && (
-        <div className="mt-6 space-y-1.5">
-          {answered.map((a, i) => (
-            <button
-              key={a.key}
-              type="button"
-              onClick={() => goTo(i)}
-              className="group flex w-full items-baseline gap-4 text-left"
-              title={tl("Change this answer")}
-            >
-              <span className="w-28 shrink-0 truncate text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-brand-600">
-                {a.key.replace(/([A-Z])/g, " $1")}
-              </span>
-              <span className="min-w-0 truncate text-sm text-ink/65 transition-colors group-hover:text-brand-700">
-                {values[a.key] || <em className="not-italic opacity-60">{tl("skipped")}</em>}
-              </span>
-              <span aria-hidden className="ml-auto shrink-0 text-[0.65rem] text-ink/55 opacity-0 transition-opacity group-hover:opacity-100">
-                {tl("edit")}
-              </span>
-            </button>
-          ))}
+        <div className="mt-7 space-y-5">
+          {sections.map((name) => {
+            const rows = answered
+              .map((a, i) => ({ a, i }))
+              .filter(({ a }) => a.section === name);
+            if (rows.length === 0) return null;
+            return (
+              <div key={name}>
+                <p className="text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-ink/40">{name}</p>
+                <div className="mt-2 space-y-1.5">
+                  {rows.map(({ a, i }) => (
+                    <button
+                      key={a.key}
+                      type="button"
+                      onClick={() => goTo(i)}
+                      className="group flex w-full items-baseline gap-4 text-left"
+                      title={tl("Change this answer")}
+                    >
+                      <span className="w-32 shrink-0 truncate text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-brand-600">
+                        {a.key.replace(/([A-Z])/g, " $1")}
+                      </span>
+                      <span className="min-w-0 truncate text-sm text-ink/65 transition-colors group-hover:text-brand-700">
+                        {values[a.key] || <em className="not-italic opacity-60">{tl("skipped")}</em>}
+                      </span>
+                      <span aria-hidden className="ml-auto shrink-0 text-[0.65rem] text-ink/55 opacity-0 transition-opacity group-hover:opacity-100">
+                        {tl("edit")}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* The section, announced before its first question is asked. */}
+      {showAnnouncement && (
+        <div key={`s-${q.section}`} className="section-in mt-12 py-6">
+          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-brand-600">
+            {tl("Section")} {currentSection + 1} {tl("of")} {sections.length}
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-semibold leading-tight text-navy-700 md:text-4xl">
+            {q.section}
+          </h2>
+          <div aria-hidden className="rule-draw mt-5 h-px w-24 bg-brand-600" />
+          <p className="mt-5 text-sm text-ink/65">
+            {questionsInSection === 1
+              ? tl("One question.")
+              : `${questionsInSection} ${tl("questions.")}`}
+          </p>
+          <button
+            type="button"
+            autoFocus
+            onClick={() => setAnnouncing(false)}
+            className="mt-7 inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700"
+          >
+            {currentSection === 0 ? tl("Begin") : tl("Continue")}
+            <span aria-hidden className="text-base leading-none">&#8629;</span>
+          </button>
         </div>
       )}
 
       {/* The question. Keyed so it remounts, and re-animates, per step. */}
-      <div key={q.key} className="mt-10">
+      <div key={q.key} className={cn("q-in mt-10", showAnnouncement && "hidden")}>
         <p className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-ink/55">{q.section}</p>
         <h2 className="mt-2 font-display text-2xl font-semibold leading-tight text-navy-700 md:text-3xl">
           {q.ask}{" "}
