@@ -125,13 +125,13 @@ export function InvestorPlans({
                 <Sparkles className="h-3 w-3" /> {tl("Most popular")}
               </span>
             )}
-            <p className="font-display text-xl font-semibold text-navy-700">{p.name}</p>
-            <p className="mt-1 text-sm text-ink/65">{p.tagline}</p>
+            <p className="font-display text-xl font-semibold text-navy-700">{tl(p.name)}</p>
+            <p className="mt-1 text-sm text-ink/65">{tl(p.tagline)}</p>
             {/* Same wrap rule as the listing tiers: the cadence drops to its own
                 line intact rather than splitting after the slash. */}
             <div className="mt-5 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
               <span className="font-display text-4xl font-semibold text-navy-700 tnum">{p.price}</span>
-              <span className="whitespace-nowrap text-sm text-ink/65">/ {p.cadence}</span>
+              <span className="whitespace-nowrap text-sm text-ink/65">/ {tl(p.cadence)}</span>
             </div>
 
             <button
@@ -164,7 +164,7 @@ export function InvestorPlans({
               {p.features.map((f) => (
                 <li key={f} className="flex items-start gap-2.5 text-sm text-ink/70">
                   <Check className={cn("mt-0.5 h-4 w-4 flex-none", p.featured ? "text-brand-600" : "text-navy-600")} />
-                  {f}
+                  {tl(f)}
                 </li>
               ))}
             </ul>

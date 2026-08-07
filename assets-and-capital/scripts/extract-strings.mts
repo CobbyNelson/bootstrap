@@ -138,7 +138,7 @@ function scanFile(file: string, context: string) {
   // ARE translatable, but neither the JSX nor the prop pattern sees them: they
   // are object properties, not attributes. Nine strings reached production
   // untranslated this way, wired correctly and never extracted.
-  for (const m of src.matchAll(/(?:^|[\s{,])(?:label|any|title|name|blurb|body|text|copy|answer|question|description|desc|subtitle|heading|caption|summary|intro|tag|cta|note|hint|v|k)\s*:\s*"([^"]{3,300})"/gm)) {
+  for (const m of src.matchAll(/(?:^|[\s{,])(?:label|any|title|name|blurb|body|text|copy|answer|question|q|a|description|desc|subtitle|heading|caption|summary|intro|tag|cta|note|hint|v|k)\s*:\s*"([^"]{3,300})"/gm)) {
     add(m[1], context);
   }
   // The trailing comma is not cosmetic tolerance: a formatter breaks any long
@@ -146,6 +146,14 @@ function scanFile(file: string, context: string) {
   // required `)` immediately after the quote. The one interpolated sentence on
   // the marketplace page was long enough to be formatted that way, so it was
   // wrapped correctly, checked clean, and silently absent from the registry.
+  // Arrays of bare strings under a copy key — `features: ["Concise teaser",
+  // "Full deck"]`. No key sits in front of each item, so the pattern above
+  // cannot see them, and the pricing plans' feature lists went the same way the
+  // service features did: rendered, translated at runtime by translateContent,
+  // and with no registry row for a translator to fill.
+  for (const m of src.matchAll(/(?:features|items|points|bullets|list|includes)\s*:\s*\[([^\]]*)\]/g)) {
+    for (const q of m[1].matchAll(/"((?:[^"\\]|\\.){3,300})"/g)) add(q[1], context);
+  }
   for (const m of src.matchAll(/\bt?\.?tl\(\s*"((?:[^"\\]|\\.)+)"\s*,?\s*\)/g)) {
     // Decode the source-level escapes so the registry holds what the RUNTIME
     // passes, not what the file spells. `t.tl("a \\u2014 b")` receives a literal
