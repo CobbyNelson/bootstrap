@@ -30,7 +30,7 @@ export default async function BusinessesPage({ params }: { params: Promise<{ loc
   return (
     <>
       <PageHeader
-        title={t.tl("We don't just list your business \u2014 we get it in front of the right investors")}
+        title={t.tl("We don't just list your business — we get it in front of the right investors")}
         subtitle={t.tl("We represent one of the largest portfolios of global investors ready to deploy capital. When you work with us, our team acts with urgency and precision to deliver tailored solutions.")}
       >
         <Button href="/register/business" variant="primary" size="lg">

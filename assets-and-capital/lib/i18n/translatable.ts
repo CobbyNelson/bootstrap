@@ -20,2781 +20,744 @@
  */
 export type Translatable = { source: string; context: string };
 
-export const TRANSLATABLE: Translatable[] = [
-  {
-    "source": "A global team acting with urgency and precision to deliver solutions tailored to your needs.",
-    "context": "About page"
-  },
-  {
-    "source": "A trusted platform for deal-making",
-    "context": "About page"
-  },
-  {
-    "source": "About",
-    "context": "About page"
-  },
-  {
-    "source": "Assets & Capital is a financing events company creating a trusted platform that connects investors with vetted business opportunities.",
-    "context": "About page"
-  },
-  {
-    "source": "Assets and Capital Limited is a financing events company. We serve as an alternative capital-raising and deal-making platform to traditional channels like the stock market and bank financing.",
-    "context": "About page"
-  },
-  {
-    "source": "Clear, honest dealing on both sides — every opportunity is vetted, every process auditable.",
-    "context": "About page"
-  },
-  {
-    "source": "Expert support",
-    "context": "About page"
-  },
-  {
-    "source": "For investors, that means deals scored against your written mandate with the reasoning shown, not a feed to sort through. For businesses, it means your raise put in front of the investors whose criteria it actually meets.",
-    "context": "About page"
-  },
-  {
-    "source": "From business plans to roadshows, we bring the expertise that turns interest into closed deals.",
-    "context": "About page"
-  },
-  {
-    "source": "Get in touch",
-    "context": "About page"
-  },
-  {
-    "source": "Our mission",
-    "context": "About page"
-  },
-  {
-    "source": "Personalised service",
-    "context": "About page"
-  },
-  {
-    "source": "To give growing businesses a credible route to capital outside the stock market and bank lending, and to give investors opportunities that have already been checked before they arrive.",
-    "context": "About page"
-  },
-  {
-    "source": "Transparency",
-    "context": "About page"
-  },
-  {
-    "source": "What we stand for",
-    "context": "About page"
-  },
-  {
-    "source": "Assets & Capital is a digital investment marketplace connecting vetted businesses seeking capital with a global network of ready investors — for capital raising, partnerships, and market expansion.",
-    "context": "Brand"
-  },
-  {
-    "source": "Where quality assets meet ready capital.",
-    "context": "Brand"
-  },
-  {
-    "source": "Ask a question…",
-    "context": "Chat"
-  },
-  {
-    "source": "Ask Kwaku",
-    "context": "Chat"
-  },
-  {
-    "source": "Assets &amp; Capital team",
-    "context": "Chat"
-  },
-  {
-    "source": "Chat with Kwaku",
-    "context": "Chat"
-  },
-  {
-    "source": "Close chat",
-    "context": "Chat"
-  },
-  {
-    "source": "Hello, I&apos;m Kwaku. Ask me about listing, fees, how matching works, or any business on the marketplace.",
-    "context": "Chat"
-  },
-  {
-    "source": "Send",
-    "context": "Chat"
-  },
-  {
-    "source": "Send message",
-    "context": "Chat"
-  },
-  {
-    "source": "Talk to a person",
-    "context": "Chat"
-  },
-  {
-    "source": "Where should the team reply?",
-    "context": "Chat"
-  },
-  {
-    "source": "Your message",
-    "context": "Chat"
-  },
-  {
-    "source": "Autofill test card",
-    "context": "Checkout"
-  },
-  {
-    "source": "Card number",
-    "context": "Checkout"
-  },
-  {
-    "source": "Checkout",
-    "context": "Checkout"
-  },
-  {
-    "source": "MM / YY",
-    "context": "Checkout"
-  },
-  {
-    "source": "Name on card",
-    "context": "Checkout"
-  },
-  {
-    "source": "No real charge. Card",
-    "context": "Checkout"
-  },
-  {
-    "source": "Payment method",
-    "context": "Checkout"
-  },
-  {
-    "source": "Payment successful",
-    "context": "Checkout"
-  },
-  {
-    "source": "Payments are encrypted. We never store your card details.",
-    "context": "Checkout"
-  },
-  {
-    "source": "Processing…",
-    "context": "Checkout"
-  },
-  {
-    "source": "Test Investor",
-    "context": "Checkout"
-  },
-  {
-    "source": "Test mode",
-    "context": "Checkout"
-  },
-  {
-    "source": "Test mode — no real charge was made.",
-    "context": "Checkout"
-  },
-  {
-    "source": "You&apos;ll be redirected to",
-    "context": "Checkout"
-  },
-  {
-    "source": "You&apos;re now on",
-    "context": "Checkout"
-  },
-  {
-    "source": "Email",
-    "context": "Contact page"
-  },
-  {
-    "source": "Let's make the connection",
-    "context": "Contact page"
-  },
-  {
-    "source": "Phone",
-    "context": "Contact page"
-  },
-  {
-    "source": "Reach",
-    "context": "Contact page"
-  },
-  {
-    "source": "Talk to the Assets & Capital team about investing or raising capital.",
-    "context": "Contact page"
-  },
-  {
-    "source": "Website",
-    "context": "Contact page"
-  },
-  {
-    "source": "Whether you're deploying capital or raising it, our team is ready to help. Send us a note and we'll respond within one business day.",
-    "context": "Contact page"
-  },
-  {
-    "source": "East Africa Capital Roadshow",
-    "context": "Events"
-  },
-  {
-    "source": "Global Investor Forum",
-    "context": "Events"
-  },
-  {
-    "source": "Lagos, Nigeria",
-    "context": "Events"
-  },
-  {
-    "source": "London, UK",
-    "context": "Events"
-  },
-  {
-    "source": "Nairobi, Kenya",
-    "context": "Events"
-  },
-  {
-    "source": "West Africa Deal Day",
-    "context": "Events"
-  },
-  {
-    "source": "Events & Roadshows",
-    "context": "Events page"
-  },
-  {
-    "source": "Family Office Connect",
-    "context": "Events page"
-  },
-  {
-    "source": "MENA Private Capital Summit",
-    "context": "Events page"
-  },
-  {
-    "source": "Register interest",
-    "context": "Events page"
-  },
-  {
-    "source": "Request a roadshow",
-    "context": "Events page"
-  },
-  {
-    "source": "Roadshows, forums and networking events where investors and business owners meet in person.",
-    "context": "Events page"
-  },
-  {
-    "source": "Southern Africa Real Assets Day",
-    "context": "Events page"
-  },
-  {
-    "source": "Specialised roadshows and forums that put pre-screened investors and vetted businesses in the same room.",
-    "context": "Events page"
-  },
-  {
-    "source": "Where capital meets opportunity",
-    "context": "Events page"
-  },
-  {
-    "source": "Answers to common questions about investing and raising capital on Assets & Capital.",
-    "context": "FAQ page"
-  },
-  {
-    "source": "Contact us",
-    "context": "FAQ page"
-  },
-  {
-    "source": "Everything you need to know about investing and raising capital on Assets & Capital.",
-    "context": "FAQ page"
-  },
-  {
-    "source": "For businesses",
-    "context": "FAQ page"
-  },
-  {
-    "source": "For investors",
-    "context": "FAQ page"
-  },
-  {
-    "source": "Our team is happy to help you get set up, whether you&apos;re deploying capital or raising it.",
-    "context": "FAQ page"
-  },
-  {
-    "source": "Security & compliance",
-    "context": "FAQ page"
-  },
-  {
-    "source": "Still have questions?",
-    "context": "FAQ page"
-  },
-  {
-    "source": "Cross-border freight operator with a buy-and-build consolidation thesis.",
-    "context": "Featured opportunities"
-  },
-  {
-    "source": "Merchant payments and embedded lending rails processing $400M annually.",
-    "context": "Featured opportunities"
-  },
-  {
-    "source": "Precision-farming platform lifting smallholder yields with satellite data.",
-    "context": "Featured opportunities"
-  },
-  {
-    "source": "Premium export-focused winemaker with an established distribution footprint.",
-    "context": "Featured opportunities"
-  },
-  {
-    "source": "Telehealth and diagnostics network serving 2M+ patients with 140% YoY growth.",
-    "context": "Featured opportunities"
-  },
-  {
-    "source": "Utility-scale solar & storage platform expanding across three East African markets.",
-    "context": "Featured opportunities"
-  },
-  {
-    "source": "Business plans, financial statements, and teasers that stand up to diligence.",
-    "context": "For businesses page"
-  },
-  {
-    "source": "Collateral preparation",
-    "context": "For businesses page"
-  },
-  {
-    "source": "Everything you need to raise with confidence",
-    "context": "For businesses page"
-  },
-  {
-    "source": "From listing to closed raise",
-    "context": "For businesses page"
-  },
-  {
-    "source": "List your business with Assets & Capital and reach a global portfolio of investors ready to deploy capital into the right opportunities.",
-    "context": "For businesses page"
-  },
-  {
-    "source": "Listing services",
-    "context": "For businesses page"
-  },
-  {
-    "source": "Market insights",
-    "context": "For businesses page"
-  },
-  {
-    "source": "Personalised roadshows",
-    "context": "For businesses page"
-  },
-  {
-    "source": "Register with us",
-    "context": "For businesses page"
-  },
-  {
-    "source": "See listing tiers",
-    "context": "For businesses page"
-  },
-  {
-    "source": "Standard and premium tiers that get your opportunity seen by the right investors.",
-    "context": "For businesses page"
-  },
-  {
-    "source": "Understand what investors want and position your raise to win.",
-    "context": "For businesses page"
-  },
-  {
-    "source": "We don't just list your business — we get it in front of the right investors",
-    "context": "For businesses page"
-  },
-  {
-    "source": "We put your business in front of targeted, pre-screened investors — in person.",
-    "context": "For businesses page"
-  },
-  {
-    "source": "We represent one of the largest portfolios of global investors ready to deploy capital. When you work with us, our team acts with urgency and precision to deliver tailored solutions.",
-    "context": "For businesses page"
-  },
-  {
-    "source": "Connect with suppliers, buyers, and partners to grow your investments.",
-    "context": "For investors page"
-  },
-  {
-    "source": "Everything you need to deploy with an edge",
-    "context": "For investors page"
-  },
-  {
-    "source": "Find opportunities that fit your mandate",
-    "context": "For investors page"
-  },
-  {
-    "source": "Gain valuable, on-the-ground market insight in the geographies you target.",
-    "context": "For investors page"
-  },
-  {
-    "source": "Mandate matching",
-    "context": "For investors page"
-  },
-  {
-    "source": "Meet several pre-screened opportunities in a single session built around your mandate.",
-    "context": "For investors page"
-  },
-  {
-    "source": "Opportunities scored against your written mandate, screened before they reach you, with people on the ground in the markets you invest in.",
-    "context": "For investors page"
-  },
-  {
-    "source": "Our global team actively engages business owners and screens opportunities to deliver the best options to our investor network.",
-    "context": "For investors page"
-  },
-  {
-    "source": "Our global team engages business owners and screens opportunities to deliver the best options to our investor network — matched to you with advanced technology.",
-    "context": "For investors page"
-  },
-  {
-    "source": "Trusted local partner",
-    "context": "For investors page"
-  },
-  {
-    "source": "Using advanced technology, we match you with opportunities that fit your mandate — tailored, innovative solutions for your needs.",
-    "context": "For investors page"
-  },
-  {
-    "source": "Vetted prospects",
-    "context": "For investors page"
-  },
-  {
-    "source": "With a large platform of vetted prospects, you're more likely to find opportunities that align with your investment mandate.",
-    "context": "For investors page"
-  },
-  {
-    "source": "Your trusted local partner, worldwide",
-    "context": "For investors page"
-  },
-  {
-    "source": "Business score signals",
-    "context": "Home — statistics"
-  },
-  {
-    "source": "Listing tiers",
-    "context": "Home — statistics"
-  },
-  {
-    "source": "Sectors covered",
-    "context": "Home — statistics"
-  },
-  {
-    "source": "Weighted match criteria",
-    "context": "Home — statistics"
-  },
-  {
-    "source": "A disciplined pipeline that turns capital–opportunity fit into closed allocations, with expert support at every stage.",
-    "context": "Home page"
-  },
-  {
-    "source": "A guided, transparent path whether you're deploying capital or raising it.",
-    "context": "Home page"
-  },
-  {
-    "source": "About Assets &amp; Capital",
-    "context": "Home page"
-  },
-  {
-    "source": "Any region",
-    "context": "Home page"
-  },
-  {
-    "source": "Any sector",
-    "context": "Home page"
-  },
-  {
-    "source": "Any stage",
-    "context": "Home page"
-  },
-  {
-    "source": "Become an investor",
-    "context": "Home page"
-  },
-  {
-    "source": "Beyond the marketplace, our team delivers the services that move a deal forward — for investors and businesses alike.",
-    "context": "Home page"
-  },
-  {
-    "source": "Choose a sector",
-    "context": "Home page"
-  },
-  {
-    "source": "Depth across every major sector",
-    "context": "Home page"
-  },
-  {
-    "source": "Every listing is screened and verified before it appears. Match scores show how mandate-aware ranking surfaces the right deals.",
-    "context": "Home page"
-  },
-  {
-    "source": "Expert support on both sides of the deal",
-    "context": "Home page"
-  },
-  {
-    "source": "Explore all",
-    "context": "Home page"
-  },
-  {
-    "source": "Featured",
-    "context": "Home page"
-  },
-  {
-    "source": "Featured businesses",
-    "context": "Home page"
-  },
-  {
-    "source": "Find opportunities",
-    "context": "Home page"
-  },
-  {
-    "source": "From first look to closed deal — in one place",
-    "context": "Home page"
-  },
-  {
-    "source": "From technology and healthcare to energy, real estate and agriculture — opportunities spanning fourteen industry groups.",
-    "context": "Home page"
-  },
-  {
-    "source": "How we work",
-    "context": "Home page"
-  },
-  {
-    "source": "How we work with both sides",
-    "context": "Home page"
-  },
-  {
-    "source": "Infrastructure",
-    "context": "Home page"
-  },
-  {
-    "source": "Intelligence for capital and opportunity",
-    "context": "Home page"
-  },
-  {
-    "source": "Logistics",
-    "context": "Home page"
-  },
-  {
-    "source": "Meet capital and opportunity in person",
-    "context": "Home page"
-  },
-  {
-    "source": "Modern tooling paired with a team in-market, so both sides of a deal get the same standard of scrutiny.",
-    "context": "Home page"
-  },
-  {
-    "source": "Next featured businesses",
-    "context": "Home page"
-  },
-  {
-    "source": "Next sector",
-    "context": "Home page"
-  },
-  {
-    "source": "Opportunities on the marketplace now",
-    "context": "Home page"
-  },
-  {
-    "source": "Opportunities screened before they reach you, and scored against your mandate.",
-    "context": "Home page"
-  },
-  {
-    "source": "Our team meets business owners where they operate, so what reaches an investor is informed by more than a data room — and businesses pay only when a raise actually closes.",
-    "context": "Home page"
-  },
-  {
-    "source": "Premium placements from businesses raising capital now.",
-    "context": "Home page"
-  },
-  {
-    "source": "Previous featured businesses",
-    "context": "Home page"
-  },
-  {
-    "source": "Previous sector",
-    "context": "Home page"
-  },
-  {
-    "source": "Put your raise in front of investors whose criteria it meets.",
-    "context": "Home page"
-  },
-  {
-    "source": "Read the journal",
-    "context": "Home page"
-  },
-  {
-    "source": "Real estate",
-    "context": "Home page"
-  },
-  {
-    "source": "Region",
-    "context": "Home page"
-  },
-  {
-    "source": "Register now",
-    "context": "Home page"
-  },
-  {
-    "source": "Register your business",
-    "context": "Home page"
-  },
-  {
-    "source": "Renewable energy",
-    "context": "Home page"
-  },
-  {
-    "source": "Research, market views, and practical guides from our team.",
-    "context": "Home page"
-  },
-  {
-    "source": "Roadshows built around a mandate, and forums where the introductions happen face to face.",
-    "context": "Home page"
-  },
-  {
-    "source": "Sector",
-    "context": "Home page"
-  },
-  {
-    "source": "Sectors",
-    "context": "Home page"
-  },
-  {
-    "source": "Sectors covered across the marketplace",
-    "context": "Home page"
-  },
-  {
-    "source": "Sectors on the marketplace",
-    "context": "Home page"
-  },
-  {
-    "source": "Seeking",
-    "context": "Home page"
-  },
-  {
-    "source": "Stage",
-    "context": "Home page"
-  },
-  {
-    "source": "Start with a mandate",
-    "context": "Home page"
-  },
-  {
-    "source": "The investment process",
-    "context": "Home page"
-  },
-  {
-    "source": "Trusted by investors and founders",
-    "context": "Home page"
-  },
-  {
-    "source": "Trusted worldwide to make the connection",
-    "context": "Home page"
-  },
-  {
-    "source": "View all events",
-    "context": "Home page"
-  },
-  {
-    "source": "We are a private-capital marketplace connecting vetted businesses raising capital with a global network of investors. Every listing is screened before it goes live, and every opportunity is scored against an investor&apos;s written mandate rather than pushed to the whole list.",
-    "context": "Home page"
-  },
-  {
-    "source": "What we do beyond listing a business",
-    "context": "Home page"
-  },
-  {
-    "source": "Build a verified profile covering your ask, instrument and financials, then choose a listing tier from Standard to Platinum.",
-    "context": "How it works — businesses"
-  },
-  {
-    "source": "Business plan writing, financial modelling and teaser preparation are available separately if your materials need work first.",
-    "context": "How it works — businesses"
-  },
-  {
-    "source": "Close the raise",
-    "context": "How it works — businesses"
-  },
-  {
-    "source": "Get investor-ready",
-    "context": "How it works — businesses"
-  },
-  {
-    "source": "List your opportunity",
-    "context": "How it works — businesses"
-  },
-  {
-    "source": "Reach the right investors",
-    "context": "How it works — businesses"
-  },
-  {
-    "source": "We route your listing to investors whose mandate matches it, and arrange roadshows where the room justifies one.",
-    "context": "How it works — businesses"
-  },
-  {
-    "source": "Work through diligence and negotiation to signed terms. The success fee applies only if the raise closes.",
-    "context": "How it works — businesses"
-  },
-  {
-    "source": "Commit, receive your allocation and sign the subscription agreement, with our team in-market throughout.",
-    "context": "How it works — investors"
-  },
-  {
-    "source": "Deploy capital",
-    "context": "How it works — investors"
-  },
-  {
-    "source": "Diligence & connect",
-    "context": "How it works — investors"
-  },
-  {
-    "source": "Get matched",
-    "context": "How it works — investors"
-  },
-  {
-    "source": "New opportunities are scored against that mandate as they arrive. You see the ones that fit, along with why each one scored the way it did.",
-    "context": "How it works — investors"
-  },
-  {
-    "source": "Open data rooms once the NDA is signed, request a roadshow, and message businesses directly. Every document opened is logged.",
-    "context": "How it works — investors"
-  },
-  {
-    "source": "Register your mandate",
-    "context": "How it works — investors"
-  },
-  {
-    "source": "Set out your objectives, strategy, geographies, sectors and ticket size. The guided form turns that into a structured mandate in a few minutes.",
-    "context": "How it works — investors"
-  },
-  {
-    "source": "Banking, insurance, wealth management, payments",
-    "context": "Industries"
-  },
-  {
-    "source": "Clean energy, green infrastructure, water & waste",
-    "context": "Industries"
-  },
-  {
-    "source": "EdTech, training services, corporate learning",
-    "context": "Industries"
-  },
-  {
-    "source": "Farming, agri-tech, food processing & distribution",
-    "context": "Industries"
-  },
-  {
-    "source": "FMCG, retail chains, luxury, food & beverage",
-    "context": "Industries"
-  },
-  {
-    "source": "Hotels, resorts, airlines, travel services",
-    "context": "Industries"
-  },
-  {
-    "source": "Logistics, machinery, aerospace, automotive, supply chain",
-    "context": "Industries"
-  },
-  {
-    "source": "Mining & metals, chemicals, construction materials",
-    "context": "Industries"
-  },
-  {
-    "source": "Oil & gas, renewables, energy infrastructure, utilities",
-    "context": "Industries"
-  },
-  {
-    "source": "Providers, pharma & biotech, devices, digital health",
-    "context": "Industries"
-  },
-  {
-    "source": "Residential, commercial, logistics, hospitality, REITs",
-    "context": "Industries"
-  },
-  {
-    "source": "SaaS, cloud, AI/ML, fintech, cybersecurity, e-commerce",
-    "context": "Industries"
-  },
-  {
-    "source": "Telecom, broadcasting & streaming, digital media",
-    "context": "Industries"
-  },
-  {
-    "source": "Transport, utilities & digital/telecom infrastructure",
-    "context": "Industries"
-  },
-  {
-    "source": "Deal Structuring",
-    "context": "Insights"
-  },
-  {
-    "source": "For Businesses",
-    "context": "Insights"
-  },
-  {
-    "source": "Market Intelligence",
-    "context": "Insights"
-  },
-  {
-    "source": "No insights published yet.",
-    "context": "Insights"
-  },
-  {
-    "source": "Private credit vs. equity: structuring the right instrument for growth",
-    "context": "Insights"
-  },
-  {
-    "source": "Read article",
-    "context": "Insights"
-  },
-  {
-    "source": "The anatomy of a fundable pitch: what investors actually read first",
-    "context": "Insights"
-  },
-  {
-    "source": "Why Africa's mid-market is the decade's most mispriced opportunity",
-    "context": "Insights"
-  },
-  {
-    "source": "Close",
-    "context": "Investment process"
-  },
-  {
-    "source": "Data rooms open once the NDA is signed. Messaging and roadshows run in one place.",
-    "context": "Investment process"
-  },
-  {
-    "source": "Each opportunity is scored against your written mandate before it reaches you.",
-    "context": "Investment process"
-  },
-  {
-    "source": "Engage",
-    "context": "Investment process"
-  },
-  {
-    "source": "Financials, ownership and documents are verified before a listing goes live.",
-    "context": "Investment process"
-  },
-  {
-    "source": "Match",
-    "context": "Investment process"
-  },
-  {
-    "source": "Screen",
-    "context": "Investment process"
-  },
-  {
-    "source": "Term sheets, agreements and allocation are tracked through to funding.",
-    "context": "Investment process"
-  },
-  {
-    "source": "30 days",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "6 months",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "7 days",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Analytics",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Category",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Cookie Policy",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Cookies are small files stored by your browser. We use as few as possible, and none that are not strictly necessary without your permission.",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Cookies we use",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "If you allow analytics, we measure which parts of the platform are used so we can improve them. This is aggregate — we do not use it to identify you or to advertise to you.",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Keeps you signed in. Signed, HTTP-only.",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Managing cookies in your browser",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Marketing",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Name",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Pre-launch access. Only set if you enter a preview code.",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Purpose",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Remembers light/dark preference. Stored in your browser, not sent to us.",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Remembers your cookie choices so we do not ask on every page.",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Retention",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Strictly necessary",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "This table is generated from the application itself, so it reflects what is actually set:",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Until cleared",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "We do not currently use advertising or retargeting cookies. The choice exists in our preference centre so that nothing of the kind can be introduced without your consent.",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "When you first visit we ask what you allow. Nothing beyond strictly necessary cookies is set until you choose, rejecting is exactly as easy as accepting, and you can change your mind at any time from Settings → Your data and privacy, or the cookie link in the footer.",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "You can also block or delete cookies in your browser settings. Blocking strictly necessary cookies will stop you signing in, because that is what they do.",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Your choices",
-    "context": "Legal — Cookie Policy"
-  },
-  {
-    "source": "Assets & Capital provides a marketplace and related services. Nothing on the platform constitutes investment, legal, or tax advice, or an offer or solicitation to buy or sell any security.",
-    "context": "Legal — Disclosures"
-  },
-  {
-    "source": "Disclosures",
-    "context": "Legal — Disclosures"
-  },
-  {
-    "source": "Not investment advice",
-    "context": "Legal — Disclosures"
-  },
-  {
-    "source": "Private-market investments carry risk, including the risk of losing capital, and are typically illiquid. Past performance is not indicative of future results.",
-    "context": "Legal — Disclosures"
-  },
-  {
-    "source": "Risk",
-    "context": "Legal — Disclosures"
-  },
-  {
-    "source": "Vetting",
-    "context": "Legal — Disclosures"
-  },
-  {
-    "source": "While we screen and verify businesses before listing, investors are responsible for their own due diligence. Match scores are informational signals, not recommendations.",
-    "context": "Legal — Disclosures"
-  },
-  {
-    "source": "Access a copy of your data — download it as a file at any time.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Account data — for as long as your account is open, then deleted or anonymised when you close it.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Changes",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Children",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Complain to a supervisory authority. In Ghana this is the Data Protection Commission; in the UK the ICO; in the EU your national authority. We would rather you came to us first.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Cookie consent records — 6 months, after which we ask again.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Correct anything inaccurate — edit it in your profile, or ask us.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Data collected automatically — sign-in activity, security logs, and, if you consent, aggregate usage measurement. We do not build advertising profiles.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Data you give us — name, email, password, organisation details, investment mandate or business listing information, documents you upload, and messages you send through the platform.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Delete your account — we remove your personal details. Records we must keep by law are retained in anonymised form; we tell you this rather than claiming a deletion we cannot perform.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "How long we keep it",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Identity and compliance data — where you invest or raise capital through us, verification data such as legal name, country, and the outcome of identity, sanctions and politically-exposed-person checks.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "If we change how we use personal data we will update this page and, where the change is significant, tell you directly. The date at the top shows when it was last revised.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Object to or restrict processing based on legitimate interests.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Passwords are stored hashed with bcrypt and are never recoverable, sessions are signed and HTTP-only, and traffic is encrypted in transit with HTTPS. Access to production data is limited to staff who need it. Backups are taken daily and stored off-site. No system is perfectly secure, and we will notify you and the relevant authority without undue delay if a breach affects your data.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Portability — your export is machine-readable JSON.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Privacy Policy",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Security",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "The platform is for businesses and professional or accredited investors. It is not directed at anyone under 18, and we do not knowingly collect their data.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "This notice explains what personal data Assets and Capital Limited collects, why, what we do with it, and the rights you have over it.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "To keep the service secure — rate limiting, audit logs, fraud prevention. Basis: legitimate interests.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "To measure how the platform is used. Basis: your consent, which you can withdraw at any time.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "To provide the platform — matching investors with opportunities, hosting listings, enabling messaging. Basis: performance of a contract.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "To send service messages you have asked for. Basis: consent, or contract where the message is necessary to the service.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "To verify identity and prevent financial crime — KYC, sanctions and AML screening. Basis: legal obligation, and our legitimate interest in a trustworthy marketplace.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "We collect only what the service needs, in three groups:",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "We keep personal data only as long as we need it:",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "We must have a lawful basis for each use. Ours are:",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "What we collect",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Where your data is held",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Who is responsible for your data",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Who we share it with",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Why we use it, and our legal basis",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Withdraw consent — change your cookie choices at any time, as easily as you gave them.",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "You can exercise most of these yourself from Settings → Your data and privacy, without contacting us. You have the right to:",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Your rights",
-    "context": "Legal — Privacy Policy"
-  },
-  {
-    "source": "Agreement",
-    "context": "Legal — Terms of Service"
-  },
-  {
-    "source": "By using Assets & Capital, you agree to these terms. If you do not agree, please do not use the platform.",
-    "context": "Legal — Terms of Service"
-  },
-  {
-    "source": "Fees",
-    "context": "Legal — Terms of Service"
-  },
-  {
-    "source": "Governing law",
-    "context": "Legal — Terms of Service"
-  },
-  {
-    "source": "Limitation of liability",
-    "context": "Legal — Terms of Service"
-  },
-  {
-    "source": "Terms of Service",
-    "context": "Legal — Terms of Service"
-  },
-  {
-    "source": "The platform",
-    "context": "Legal — Terms of Service"
-  },
-  {
-    "source": "The platform is provided on an 'as is' basis. To the fullest extent permitted by law, we are not liable for investment outcomes or decisions made using the platform.",
-    "context": "Legal — Terms of Service"
-  },
-  {
-    "source": "We provide a marketplace connecting investors with businesses seeking capital, and related services. We are a facilitator and do not provide investment, legal, or tax advice.",
-    "context": "Legal — Terms of Service"
-  },
-  {
-    "source": "You are responsible for keeping your credentials secure and for activity under your account. Tell us promptly if you believe it has been compromised.",
-    "context": "Legal — Terms of Service"
-  },
-  {
-    "source": "Your account",
-    "context": "Legal — Terms of Service"
-  },
-  {
-    "source": "Accreditation gate",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Agree &amp; sign",
-    "context": "Marketplace"
-  },
-  {
-    "source": "AI fit breakdown",
-    "context": "Marketplace"
-  },
-  {
-    "source": "AI-generated quality signals for this business.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "All financials, documents, projections and materials in the data room are confidential and provided solely to evaluate a potential investment.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Ask",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Assets &amp; Capital Ltd",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Between",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Bridging the gap — one opportunity at a time. Every listing is screened, verified, and scored against your mandate.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Browse vetted investment opportunities across sectors and geographies, ranked by fit to your mandate.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Business imagery",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Business scorecard",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Business verification",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Cancel",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Clean",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Clear all filters",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Clear filters",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Cleared",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Compliance readiness",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Confidential information.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Core details · free",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Data room",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Demonstration NDA for the platform prototype — not a substitute for legal advice.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Est. EBITDA margin",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Est. headcount",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Est. revenue",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Explore top",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Express interest",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Filters",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Full business details are an investor subscription feature",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Full financials &amp; metrics",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Global coverage",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Grid view",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Instrument",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Interest expressed",
-    "context": "Marketplace"
-  },
-  {
-    "source": "List view",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Listing tier",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Mandate-matched scoring",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Match scores are neutral, criteria-based signals against your mandate — not investment advice.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Mutual Non-Disclosure Agreement",
-    "context": "Marketplace"
-  },
-  {
-    "source": "NDA signed",
-    "context": "Marketplace"
-  },
-  {
-    "source": "NDA status",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Next image",
-    "context": "Marketplace"
-  },
-  {
-    "source": "No circumvention.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "No offer.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "No opportunities match your filters",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Non-disclosure.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Open",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Overview",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Previous image",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Risk level",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Sanctions / PEP screen",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Saving…",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Screened & verified",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Search opportunities",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Search opportunities, sectors, countries…",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Sign NDA",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Sign the mutual NDA to open the data room",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Signing…",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Snapshot",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Sort",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Target return",
-    "context": "Marketplace"
-  },
-  {
-    "source": "The materials do not constitute investment advice or an offer of securities.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "These obligations remain in force for 24 months from the date of signature.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Try widening your criteria or clearing a filter to see more of the marketplace.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Unlock the AI profile, documents & your match rate",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Verified",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Why this match",
-    "context": "Marketplace"
-  },
-  {
-    "source": "You will not share, copy or distribute the materials to any third party without prior written consent.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "You will not use the information to bypass Assets &amp; Capital or approach the business outside the platform.",
-    "context": "Marketplace"
-  },
-  {
-    "source": "Your match rate is locked",
-    "context": "Marketplace"
-  },
-  {
-    "source": "About us",
-    "context": "Navigation"
-  },
-  {
-    "source": "Aligned incentives",
-    "context": "Navigation"
-  },
-  {
-    "source": "Browse the marketplace",
-    "context": "Navigation"
-  },
-  {
-    "source": "Build your mandate",
-    "context": "Navigation"
-  },
-  {
-    "source": "Business Services",
-    "context": "Navigation"
-  },
-  {
-    "source": "Company",
-    "context": "Navigation"
-  },
-  {
-    "source": "Contact",
-    "context": "Navigation"
-  },
-  {
-    "source": "Deals scored against your mandate",
-    "context": "Navigation"
-  },
-  {
-    "source": "Defensible projections",
-    "context": "Navigation"
-  },
-  {
-    "source": "Events",
-    "context": "Navigation"
-  },
-  {
-    "source": "For Investors",
-    "context": "Navigation"
-  },
-  {
-    "source": "Get matched automatically",
-    "context": "Navigation"
-  },
-  {
-    "source": "How it works",
-    "context": "Navigation"
-  },
-  {
-    "source": "Insights",
-    "context": "Navigation"
-  },
-  {
-    "source": "Invest",
-    "context": "Navigation"
-  },
-  {
-    "source": "Investor Services",
-    "context": "Navigation"
-  },
-  {
-    "source": "Investor-ready narrative",
-    "context": "Navigation"
-  },
-  {
-    "source": "List your business",
-    "context": "Navigation"
-  },
-  {
-    "source": "Make a strong first impression",
-    "context": "Navigation"
-  },
-  {
-    "source": "Market intelligence & research",
-    "context": "Navigation"
-  },
-  {
-    "source": "Marketplace",
-    "context": "Navigation"
-  },
-  {
-    "source": "Meet pre-screened opportunities",
-    "context": "Navigation"
-  },
-  {
-    "source": "On-the-ground market insight",
-    "context": "Navigation"
-  },
-  {
-    "source": "Our mission and team",
-    "context": "Navigation"
-  },
-  {
-    "source": "Pricing",
-    "context": "Navigation"
-  },
-  {
-    "source": "Raise Capital",
-    "context": "Navigation"
-  },
-  {
-    "source": "Roadshows and forums",
-    "context": "Navigation"
-  },
-  {
-    "source": "Screened and verified listings",
-    "context": "Navigation"
-  },
-  {
-    "source": "Standard & premium tiers",
-    "context": "Navigation"
-  },
-  {
-    "source": "Success-fee model",
-    "context": "Navigation"
-  },
-  {
-    "source": "Suppliers, buyers, partners",
-    "context": "Navigation"
-  },
-  {
-    "source": "Talk to our team",
-    "context": "Navigation"
-  },
-  {
-    "source": "Teaser & pitch prep",
-    "context": "Navigation"
-  },
-  {
-    "source": "Why invest with us",
-    "context": "Navigation"
-  },
-  {
-    "source": "Accept all",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Advertising and retargeting. We do not currently use these; the choice is here so nothing can be added without your say.",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Aggregate usage measurement, so we can see which parts of the platform are useful.",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Always on",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Appearance",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Assets & Capital — home",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Auto — dark after 7pm",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Browse marketplace",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Close menu",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Colour theme",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Cookie policy",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Cookie settings",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Dark",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Dashboard",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Display currency",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Email address",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Language",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Legal",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Light",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "LinkedIn",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Market intelligence and new opportunities. No spam.",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Open menu",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Privacy policy",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Reject all",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Roadshows",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Save choices",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Sign out",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Sign-in, security and your cookie choices. Always on — the platform cannot work without them.",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Site menu",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Terms of service",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Why Assets & Capital",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Work email",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "You&apos;re on the list.",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "Your cookie choices",
-    "context": "Navigation & footer"
-  },
-  {
-    "source": "90-day listing window",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "A managed raise, run by our team end to end.",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Actively promoted to matched investors.",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Appears in marketplace search",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Basic performance analytics",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Be visible to investors searching the marketplace.",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Business plan & financial modelling",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Data room (up to 25 documents)",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Dedicated deal manager",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Direct mandate-matched outreach",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Everything in Gold",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Everything in Silver",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Everything in Standard",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Extended 180-day window",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Featured-opportunity badge",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Higher placement, plus a data room for your documents.",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Homepage & newsletter features",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Multiple targeted roadshows",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "One personalised roadshow",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Priority search placement",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Priority success-fee terms",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Secure messaging with investors",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Shadow investor search",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Verified business listing",
-    "context": "Pricing — listing tiers"
-  },
-  {
-    "source": "Add expert support as you need it",
-    "context": "Pricing page"
-  },
-  {
-    "source": "Beyond the listing fee, businesses pay a success fee on capital successfully raised through the platform. Investors pay only for roadshows and partnerships they ask us to arrange.",
-    "context": "Pricing page"
-  },
-  {
-    "source": "Free",
-    "context": "Pricing page"
-  },
-  {
-    "source": "Free to join. Subscribe to go deep.",
-    "context": "Pricing page"
-  },
-  {
-    "source": "From $490",
-    "context": "Pricing page"
-  },
-  {
-    "source": "Investor sign-up",
-    "context": "Pricing page"
-  },
-  {
-    "source": "List your business to reach our global investor network, add expert services as you need them, and pay a success fee only when a deal closes.",
-    "context": "Pricing page"
-  },
-  {
-    "source": "Listing fee",
-    "context": "Pricing page"
-  },
-  {
-    "source": "Most popular",
-    "context": "Pricing page"
-  },
-  {
-    "source": "On closed deals only",
-    "context": "Pricing page"
-  },
-  {
-    "source": "Pay a success fee only when you close",
-    "context": "Pricing page"
-  },
-  {
-    "source": "Pricing & Listing Tiers",
-    "context": "Pricing page"
-  },
-  {
-    "source": "Questions, answered",
-    "context": "Pricing page"
-  },
-  {
-    "source": "Registering and browsing core details is always free. An investor subscription unlocks full business details across the marketplace — then expressing interest opens each business's data room, AI profile and your personalised match rate.",
-    "context": "Pricing page"
-  },
-  {
-    "source": "Simple tiers. Aligned incentives.",
-    "context": "Pricing page"
-  },
-  {
-    "source": "Success fee",
-    "context": "Pricing page"
-  },
-  {
-    "source": "Transparent listing tiers from Standard to Platinum, à la carte services, and a success-fee model aligned to your outcome.",
-    "context": "Pricing page"
-  },
-  {
-    "source": "About you",
-    "context": "Registration"
-  },
-  {
-    "source": "Accredited / qualified investor?",
-    "context": "Registration"
-  },
-  {
-    "source": "Add services",
-    "context": "Registration"
-  },
-  {
-    "source": "Aggressive IRR (%)",
-    "context": "Registration"
-  },
-  {
-    "source": "Allocation & exit",
-    "context": "Registration"
-  },
-  {
-    "source": "Allocation & governance",
-    "context": "Registration"
-  },
-  {
-    "source": "Allocation & lock-up",
-    "context": "Registration"
-  },
-  {
-    "source": "Amount needed (USD)",
-    "context": "Registration"
-  },
-  {
-    "source": "Asset classes",
-    "context": "Registration"
-  },
-  {
-    "source": "Asset types & strategies",
-    "context": "Registration"
-  },
-  {
-    "source": "Back",
-    "context": "Registration"
-  },
-  {
-    "source": "Biographical and identification information.",
-    "context": "Registration"
-  },
-  {
-    "source": "Build your investment mandate",
-    "context": "Registration"
-  },
-  {
-    "source": "Build your investment mandate and receive opportunities scored against it, wherever they come from.",
-    "context": "Registration"
-  },
-  {
-    "source": "Build your investment mandate and start receiving mandate-matched opportunities from Assets & Capital.",
-    "context": "Registration"
-  },
-  {
-    "source": "Capital and liquidity tolerance.",
-    "context": "Registration"
-  },
-  {
-    "source": "Capital, liquidity and governance.",
-    "context": "Registration"
-  },
-  {
-    "source": "Choose your path — it takes just a few minutes to get set up.",
-    "context": "Registration"
-  },
-  {
-    "source": "Company & contact",
-    "context": "Registration"
-  },
-  {
-    "source": "Confirm your mandate.",
-    "context": "Registration"
-  },
-  {
-    "source": "Contact email",
-    "context": "Registration"
-  },
-  {
-    "source": "Contact person",
-    "context": "Registration"
-  },
-  {
-    "source": "Contact phone",
-    "context": "Registration"
-  },
-  {
-    "source": "Create a verified profile with your ask and the services you need. We actively put your opportunity in front of the investors whose mandate fits.",
-    "context": "Registration"
-  },
-  {
-    "source": "Date founded",
-    "context": "Registration"
-  },
-  {
-    "source": "Deployment timeline",
-    "context": "Registration"
-  },
-  {
-    "source": "Deployment, liquidity and governance.",
-    "context": "Registration"
-  },
-  {
-    "source": "Development vs stabilized",
-    "context": "Registration"
-  },
-  {
-    "source": "Equity stake offered (%)",
-    "context": "Registration"
-  },
-  {
-    "source": "Exclusionary criteria",
-    "context": "Registration"
-  },
-  {
-    "source": "Exclusions (e.g. prohibited industries)",
-    "context": "Registration"
-  },
-  {
-    "source": "Exit strategy",
-    "context": "Registration"
-  },
-  {
-    "source": "Expected capital growth (%)",
-    "context": "Registration"
-  },
-  {
-    "source": "Explore the marketplace",
-    "context": "Registration"
-  },
-  {
-    "source": "Featured image",
-    "context": "Registration"
-  },
-  {
-    "source": "Fee structure preferences",
-    "context": "Registration"
-  },
-  {
-    "source": "Founders & key contacts (with roles)",
-    "context": "Registration"
-  },
-  {
-    "source": "Fund Investor",
-    "context": "Registration"
-  },
-  {
-    "source": "Fund types & strategies",
-    "context": "Registration"
-  },
-  {
-    "source": "Geographic & sector preferences",
-    "context": "Registration"
-  },
-  {
-    "source": "Geographic focus",
-    "context": "Registration"
-  },
-  {
-    "source": "Get Started",
-    "context": "Registration"
-  },
-  {
-    "source": "Governance & fees",
-    "context": "Registration"
-  },
-  {
-    "source": "Governance interests",
-    "context": "Registration"
-  },
-  {
-    "source": "Governance preferences",
-    "context": "Registration"
-  },
-  {
-    "source": "Headquarters country",
-    "context": "Registration"
-  },
-  {
-    "source": "How can we help you raise?",
-    "context": "Registration"
-  },
-  {
-    "source": "I confirm the information provided is accurate and I consent to Assets &amp; Capital reviewing and listing my business.",
-    "context": "Registration"
-  },
-  {
-    "source": "I confirm the information provided is accurate and reflects my investment intentions. I consent to Assets &amp; Capital using it to refer investment opportunities to me. Submitting electronically has the same effect as a wet-ink signature.",
-    "context": "Registration"
-  },
-  {
-    "source": "I'm an investor",
-    "context": "Registration"
-  },
-  {
-    "source": "I'm raising capital",
-    "context": "Registration"
-  },
-  {
-    "source": "Investment goals & constraints",
-    "context": "Registration"
-  },
-  {
-    "source": "Investment horizon",
-    "context": "Registration"
-  },
-  {
-    "source": "Investment instruments",
-    "context": "Registration"
-  },
-  {
-    "source": "Investment objectives",
-    "context": "Registration"
-  },
-  {
-    "source": "Investment stage",
-    "context": "Registration"
-  },
-  {
-    "source": "Investor / entity name",
-    "context": "Registration"
-  },
-  {
-    "source": "Investor Registration",
-    "context": "Registration"
-  },
-  {
-    "source": "Investor type",
-    "context": "Registration"
-  },
-  {
-    "source": "Join Assets & Capital as an investor or list your business seeking capital.",
-    "context": "Registration"
-  },
-  {
-    "source": "KYC / AML documentation available?",
-    "context": "Registration"
-  },
-  {
-    "source": "Legal domicile & jurisdiction",
-    "context": "Registration"
-  },
-  {
-    "source": "Legal structure",
-    "context": "Registration"
-  },
-  {
-    "source": "Level of control",
-    "context": "Registration"
-  },
-  {
-    "source": "Liquidity / exit preference",
-    "context": "Registration"
-  },
-  {
-    "source": "Liquidity profile",
-    "context": "Registration"
-  },
-  {
-    "source": "List Your Business",
-    "context": "Registration"
-  },
-  {
-    "source": "List your business on Assets & Capital and reach a global network of vetted investors ready to deploy capital.",
-    "context": "Registration"
-  },
-  {
-    "source": "List your business, add investor-ready services, and reach a global network of vetted investors.",
-    "context": "Registration"
-  },
-  {
-    "source": "List your business, reach ready capital",
-    "context": "Registration"
-  },
-  {
-    "source": "Listing submitted",
-    "context": "Registration"
-  },
-  {
-    "source": "Mandate scope & strategies",
-    "context": "Registration"
-  },
-  {
-    "source": "Mandate submitted",
-    "context": "Registration"
-  },
-  {
-    "source": "Max per asset (USD)",
-    "context": "Registration"
-  },
-  {
-    "source": "Max per deal (USD)",
-    "context": "Registration"
-  },
-  {
-    "source": "Min per asset (USD)",
-    "context": "Registration"
-  },
-  {
-    "source": "Min per deal (USD)",
-    "context": "Registration"
-  },
-  {
-    "source": "Minimum IRR (%)",
-    "context": "Registration"
-  },
-  {
-    "source": "Minimum return (%)",
-    "context": "Registration"
-  },
-  {
-    "source": "Objectives and return metrics.",
-    "context": "Registration"
-  },
-  {
-    "source": "Objectives, return and horizon.",
-    "context": "Registration"
-  },
-  {
-    "source": "Performance metrics required",
-    "context": "Registration"
-  },
-  {
-    "source": "Permitted categories and styles.",
-    "context": "Registration"
-  },
-  {
-    "source": "Permitted classes and structures.",
-    "context": "Registration"
-  },
-  {
-    "source": "Permitted fund categories",
-    "context": "Registration"
-  },
-  {
-    "source": "Permitted strategies and instruments.",
-    "context": "Registration"
-  },
-  {
-    "source": "Preferences on control and fee structure.",
-    "context": "Registration"
-  },
-  {
-    "source": "Preferred sectors",
-    "context": "Registration"
-  },
-  {
-    "source": "Preferred styles",
-    "context": "Registration"
-  },
-  {
-    "source": "Primary contact name",
-    "context": "Registration"
-  },
-  {
-    "source": "Primary objectives",
-    "context": "Registration"
-  },
-  {
-    "source": "Private Equity",
-    "context": "Registration"
-  },
-  {
-    "source": "Private equity strategies",
-    "context": "Registration"
-  },
-  {
-    "source": "Progress",
-    "context": "Registration"
-  },
-  {
-    "source": "Purpose of investment",
-    "context": "Registration"
-  },
-  {
-    "source": "Real Estate",
-    "context": "Registration"
-  },
-  {
-    "source": "Real estate goals",
-    "context": "Registration"
-  },
-  {
-    "source": "Replace",
-    "context": "Registration"
-  },
-  {
-    "source": "Required instrument",
-    "context": "Registration"
-  },
-  {
-    "source": "Return offer (%)",
-    "context": "Registration"
-  },
-  {
-    "source": "Review & consent",
-    "context": "Registration"
-  },
-  {
-    "source": "Risk profile",
-    "context": "Registration"
-  },
-  {
-    "source": "Risk tolerance",
-    "context": "Registration"
-  },
-  {
-    "source": "Saved",
-    "context": "Registration"
-  },
-  {
-    "source": "See the marketplace",
-    "context": "Registration"
-  },
-  {
-    "source": "Select",
-    "context": "Registration"
-  },
-  {
-    "source": "Services & listing",
-    "context": "Registration"
-  },
-  {
-    "source": "Shown on your marketplace card. A photo of your operations works best — it is converted to WebP under 100KB automatically.",
-    "context": "Registration"
-  },
-  {
-    "source": "Sign in",
-    "context": "Registration"
-  },
-  {
-    "source": "Structure preference",
-    "context": "Registration"
-  },
-  {
-    "source": "Target IRR (%)",
-    "context": "Registration"
-  },
-  {
-    "source": "Target markets",
-    "context": "Registration"
-  },
-  {
-    "source": "Target markets.",
-    "context": "Registration"
-  },
-  {
-    "source": "Target NOI yield (%)",
-    "context": "Registration"
-  },
-  {
-    "source": "Target per asset (USD)",
-    "context": "Registration"
-  },
-  {
-    "source": "Target per deal (USD)",
-    "context": "Registration"
-  },
-  {
-    "source": "Target return (%)",
-    "context": "Registration"
-  },
-  {
-    "source": "Target total return / IRR (%)",
-    "context": "Registration"
-  },
-  {
-    "source": "Targeted strategies",
-    "context": "Registration"
-  },
-  {
-    "source": "Tell us about your business.",
-    "context": "Registration"
-  },
-  {
-    "source": "Tell us your objectives, strategy, geographies and ticket size. We'll match you with opportunities that fit — and only notify you when they do.",
-    "context": "Registration"
-  },
-  {
-    "source": "Thank you. Our team will review your business and reach out to confirm your listing and any services you selected. We&apos;ll then start putting your opportunity in front of the right investors.",
-    "context": "Registration"
-  },
-  {
-    "source": "Thank you. Your investment mandate is being reviewed by our team. You&apos;ll start receiving mandate-matched opportunities as soon as your account is verified.",
-    "context": "Registration"
-  },
-  {
-    "source": "The ask",
-    "context": "Registration"
-  },
-  {
-    "source": "This field is required.",
-    "context": "Registration"
-  },
-  {
-    "source": "This tailors your mandate to the right questions. You can change it anytime.",
-    "context": "Registration"
-  },
-  {
-    "source": "Time horizon",
-    "context": "Registration"
-  },
-  {
-    "source": "Title",
-    "context": "Registration"
-  },
-  {
-    "source": "Tolerance for lock-ups / notice periods",
-    "context": "Registration"
-  },
-  {
-    "source": "Total capital commitment (USD)",
-    "context": "Registration"
-  },
-  {
-    "source": "Total capital for fund investments (USD)",
-    "context": "Registration"
-  },
-  {
-    "source": "Total investable capital (USD)",
-    "context": "Registration"
-  },
-  {
-    "source": "Upload featured image — drop a file or click to browse",
-    "context": "Registration"
-  },
-  {
-    "source": "Upside goal (%)",
-    "context": "Registration"
-  },
-  {
-    "source": "Website / social media",
-    "context": "Registration"
-  },
-  {
-    "source": "What are you optimising for?",
-    "context": "Registration"
-  },
-  {
-    "source": "What kind of investor are you?",
-    "context": "Registration"
-  },
-  {
-    "source": "Where and in what you invest.",
-    "context": "Registration"
-  },
-  {
-    "source": "Which side of the deal are you on?",
-    "context": "Registration"
-  },
-  {
-    "source": "Your draft is saved to this device automatically.",
-    "context": "Registration"
-  },
-  {
-    "source": "Your investment requirement.",
-    "context": "Registration"
-  },
-  {
-    "source": "2FA, sessions, team & roles",
-    "context": "Search"
-  },
-  {
-    "source": "Admin — email automation",
-    "context": "Search"
-  },
-  {
-    "source": "Admin — matching engine",
-    "context": "Search"
-  },
-  {
-    "source": "Admin — roadshows & events",
-    "context": "Search"
-  },
-  {
-    "source": "Agreements & e-signature",
-    "context": "Search"
-  },
-  {
-    "source": "Assets &amp; Capital",
-    "context": "Search"
-  },
-  {
-    "source": "Browse vetted opportunities",
-    "context": "Search"
-  },
-  {
-    "source": "Build a mandate",
-    "context": "Search"
-  },
-  {
-    "source": "Calls & scheduling",
-    "context": "Search"
-  },
-  {
-    "source": "Close search",
-    "context": "Search"
-  },
-  {
-    "source": "Contacts, tasks & activity",
-    "context": "Search"
-  },
-  {
-    "source": "CRM & relationships",
-    "context": "Search"
-  },
-  {
-    "source": "Data rooms",
-    "context": "Search"
-  },
-  {
-    "source": "Deal pipeline",
-    "context": "Search"
-  },
-  {
-    "source": "Events & roadshows",
-    "context": "Search"
-  },
-  {
-    "source": "Investor dashboard",
-    "context": "Search"
-  },
-  {
-    "source": "Kanban & analytics",
-    "context": "Search"
-  },
-  {
-    "source": "Lifecycle journeys",
-    "context": "Search"
-  },
-  {
-    "source": "Messages",
-    "context": "Search"
-  },
-  {
-    "source": "NDAs, term sheets, audit trail",
-    "context": "Search"
-  },
-  {
-    "source": "Plans and success-fee model",
-    "context": "Search"
-  },
-  {
-    "source": "Popular",
-    "context": "Search"
-  },
-  {
-    "source": "Pricing & listing tiers",
-    "context": "Search"
-  },
-  {
-    "source": "Registration & check-in",
-    "context": "Search"
-  },
-  {
-    "source": "Research & market views",
-    "context": "Search"
-  },
-  {
-    "source": "Search by",
-    "context": "Search"
-  },
-  {
-    "source": "Search opportunities, pages, actions…",
-    "context": "Search"
-  },
-  {
-    "source": "Secure conversations",
-    "context": "Search"
-  },
-  {
-    "source": "Secure documents",
-    "context": "Search"
-  },
-  {
-    "source": "Security & settings",
-    "context": "Search"
-  },
-  {
-    "source": "Tune weights",
-    "context": "Search"
-  },
-  {
-    "source": "Upcoming sessions",
-    "context": "Search"
-  },
-  {
-    "source": "Video meetings",
-    "context": "Search"
-  },
-  {
-    "source": "Your workspace",
-    "context": "Search"
-  },
-  {
-    "source": "A teaser and deck written to earn the second meeting.",
-    "context": "Services"
-  },
-  {
-    "source": "Business plan writing",
-    "context": "Services"
-  },
-  {
-    "source": "Events in the markets you are targeting, hosted alongside operators and advisers who work there.",
-    "context": "Services"
-  },
-  {
-    "source": "Financial modelling",
-    "context": "Services"
-  },
-  {
-    "source": "Introductions to suppliers, buyers and partners once the investment is made.",
-    "context": "Services"
-  },
-  {
-    "source": "Local events access",
-    "context": "Services"
-  },
-  {
-    "source": "Market access support",
-    "context": "Services"
-  },
-  {
-    "source": "Models where every assumption is stated and can be traced back to its source.",
-    "context": "Services"
-  },
-  {
-    "source": "Plans built around what investors read first: the market, the model, the numbers and the team.",
-    "context": "Services"
-  },
-  {
-    "source": "Sessions built around your mandate, with every business screened against it before the invitation goes out.",
-    "context": "Services"
-  },
-  {
-    "source": "Specialised roadshows",
-    "context": "Services"
-  },
-  {
-    "source": "Teaser & pitch preparation",
-    "context": "Services"
-  },
-  {
-    "source": "Business seeking capital",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Company name",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Current plan",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Express interest to reveal your match rate",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Full name",
-    "context": "Shared interface"
-  },
-  {
-    "source": "How can we help?",
-    "context": "Shared interface"
-  },
-  {
-    "source": "I am a(n)",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Investor",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Investor Elite",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Investor Free",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Investor Pro",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Jane Doe",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Match locked",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Message sent",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Partner / advisor",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Password",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Payments run in test mode — checkout is fully simulated (no real charge) and unlocks the complete investor experience across the marketplace.",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Preview access code",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Seeking:",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Select…",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Sending…",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Something went wrong. Please try again.",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Subscribe",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Tell us a little about what you're looking for…",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Thank you — our team will be in touch within one business day.",
-    "context": "Shared interface"
-  },
-  {
-    "source": "you@company.com",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Your full name",
-    "context": "Shared interface"
-  },
-  {
-    "source": "Businesses pay a success fee when a raise closes. If it doesn't close, there's no fee to collect.",
-    "context": "Why us"
-  },
-  {
-    "source": "Every opportunity is scored on fifteen weighted criteria drawn from your written mandate, and each score shows the reasoning behind it.",
-    "context": "Why us"
-  },
-  {
-    "source": "Financials, ownership and documents are checked before a business goes live. Listings that fail that check never reach the marketplace.",
-    "context": "Why us"
-  },
-  {
-    "source": "Our team meets business owners where they operate, so what reaches you is informed by more than a data room.",
-    "context": "Why us"
-  },
-  {
-    "source": "Paid on outcomes",
-    "context": "Why us"
-  },
-  {
-    "source": "People in the market",
-    "context": "Why us"
-  },
-  {
-    "source": "Scored against your mandate",
-    "context": "Why us"
-  },
-  {
-    "source": "Screened before listed",
-    "context": "Why us"
-  }
+export const TRANSLATABLE: { source: string; context: string }[] = [
+  { source: "A global team acting with urgency and precision to deliver solutions tailored to your needs.", context: "About page" },
+  { source: "A trusted platform for deal-making", context: "About page" },
+  { source: "About", context: "About page" },
+  { source: "Assets & Capital is a financing events company creating a trusted platform that connects investors with vetted business opportunities.", context: "About page" },
+  { source: "Assets and Capital Limited is a financing events company. We serve as an alternative capital-raising and deal-making platform to traditional channels like the stock market and bank financing.", context: "About page" },
+  { source: "Clear, honest dealing on both sides — every opportunity is vetted, every process auditable.", context: "About page" },
+  { source: "Expert support", context: "About page" },
+  { source: "For investors, that means deals scored against your written mandate with the reasoning shown, not a feed to sort through. For businesses, it means your raise put in front of the investors whose criteria it actually meets.", context: "About page" },
+  { source: "From business plans to roadshows, we bring the expertise that turns interest into closed deals.", context: "About page" },
+  { source: "Get in touch", context: "About page" },
+  { source: "Our mission", context: "About page" },
+  { source: "Personalised service", context: "About page" },
+  { source: "To give growing businesses a credible route to capital outside the stock market and bank lending, and to give investors opportunities that have already been checked before they arrive.", context: "About page" },
+  { source: "Transparency", context: "About page" },
+  { source: "What we stand for", context: "About page" },
+  { source: "Assets & Capital is a digital investment marketplace connecting vetted businesses seeking capital with a global network of ready investors — for capital raising, partnerships, and market expansion.", context: "Brand" },
+  { source: "Where quality assets meet ready capital.", context: "Brand" },
+  { source: "Ask a question…", context: "Chat" },
+  { source: "Ask Kwaku", context: "Chat" },
+  { source: "Assets & Capital assistant", context: "Chat" },
+  { source: "Assets & Capital team", context: "Chat" },
+  { source: "Chat with Kwaku", context: "Chat" },
+  { source: "Close chat", context: "Chat" },
+  { source: "Hello, I'm Kwaku. Ask me about listing, fees, how matching works, or any business on the marketplace.", context: "Chat" },
+  { source: "Send", context: "Chat" },
+  { source: "Send message", context: "Chat" },
+  { source: "Talk to a person", context: "Chat" },
+  { source: "Talking to the team", context: "Chat" },
+  { source: "Team away", context: "Chat" },
+  { source: "Team online", context: "Chat" },
+  { source: "Where should the team reply?", context: "Chat" },
+  { source: "Your message", context: "Chat" },
+  { source: ". Full access is unlocked.", context: "Checkout" },
+  { source: "Autofill test card", context: "Checkout" },
+  { source: "Card number", context: "Checkout" },
+  { source: "Checkout", context: "Checkout" },
+  { source: "Expiry", context: "Checkout" },
+  { source: "MM / YY", context: "Checkout" },
+  { source: "Name on card", context: "Checkout" },
+  { source: "No real charge. Card", context: "Checkout" },
+  { source: "Payment method", context: "Checkout" },
+  { source: "Payment successful", context: "Checkout" },
+  { source: "Payments are encrypted. We never store your card details.", context: "Checkout" },
+  { source: "Processing…", context: "Checkout" },
+  { source: "Test Investor", context: "Checkout" },
+  { source: "Test mode", context: "Checkout" },
+  { source: "Test mode — no real charge was made.", context: "Checkout" },
+  { source: "to approve this payment securely.", context: "Checkout" },
+  { source: "You'll be redirected to", context: "Checkout" },
+  { source: "You're now on", context: "Checkout" },
+  { source: "Email", context: "Contact page" },
+  { source: "Let's make the connection", context: "Contact page" },
+  { source: "Phone", context: "Contact page" },
+  { source: "Reach", context: "Contact page" },
+  { source: "Talk to the Assets & Capital team about investing or raising capital.", context: "Contact page" },
+  { source: "Website", context: "Contact page" },
+  { source: "Whether you're deploying capital or raising it, our team is ready to help. Send us a note and we'll respond within one business day.", context: "Contact page" },
+  { source: "East Africa Capital Roadshow", context: "Events" },
+  { source: "Global Investor Forum", context: "Events" },
+  { source: "Lagos, Nigeria", context: "Events" },
+  { source: "London, UK", context: "Events" },
+  { source: "Nairobi, Kenya", context: "Events" },
+  { source: "West Africa Deal Day", context: "Events" },
+  { source: "Events & Roadshows", context: "Events page" },
+  { source: "Family Office Connect", context: "Events page" },
+  { source: "MENA Private Capital Summit", context: "Events page" },
+  { source: "Register interest", context: "Events page" },
+  { source: "Request a roadshow", context: "Events page" },
+  { source: "Roadshows, forums and networking events where investors and business owners meet in person.", context: "Events page" },
+  { source: "Southern Africa Real Assets Day", context: "Events page" },
+  { source: "Specialised roadshows and forums that put pre-screened investors and vetted businesses in the same room.", context: "Events page" },
+  { source: "Where capital meets opportunity", context: "Events page" },
+  { source: "Answers to common questions about investing and raising capital on Assets & Capital.", context: "FAQ page" },
+  { source: "Contact us", context: "FAQ page" },
+  { source: "Everything you need to know about investing and raising capital on Assets & Capital.", context: "FAQ page" },
+  { source: "For businesses", context: "FAQ page" },
+  { source: "For investors", context: "FAQ page" },
+  { source: "Our team is happy to help you get set up, whether you&apos;re deploying capital or raising it.", context: "FAQ page" },
+  { source: "Security & compliance", context: "FAQ page" },
+  { source: "Still have questions?", context: "FAQ page" },
+  { source: "Cross-border freight operator with a buy-and-build consolidation thesis.", context: "Featured opportunities" },
+  { source: "Merchant payments and embedded lending rails processing $400M annually.", context: "Featured opportunities" },
+  { source: "Precision-farming platform lifting smallholder yields with satellite data.", context: "Featured opportunities" },
+  { source: "Premium export-focused winemaker with an established distribution footprint.", context: "Featured opportunities" },
+  { source: "Telehealth and diagnostics network serving 2M+ patients with 140% YoY growth.", context: "Featured opportunities" },
+  { source: "Utility-scale solar & storage platform expanding across three East African markets.", context: "Featured opportunities" },
+  { source: "Business plans, financial statements, and teasers that stand up to diligence.", context: "For businesses page" },
+  { source: "Collateral preparation", context: "For businesses page" },
+  { source: "Everything you need to raise with confidence", context: "For businesses page" },
+  { source: "From listing to closed raise", context: "For businesses page" },
+  { source: "List your business with Assets & Capital and reach a global portfolio of investors ready to deploy capital into the right opportunities.", context: "For businesses page" },
+  { source: "Listing services", context: "For businesses page" },
+  { source: "Market insights", context: "For businesses page" },
+  { source: "Personalised roadshows", context: "For businesses page" },
+  { source: "Register with us", context: "For businesses page" },
+  { source: "See listing tiers", context: "For businesses page" },
+  { source: "Standard and premium tiers that get your opportunity seen by the right investors.", context: "For businesses page" },
+  { source: "Understand what investors want and position your raise to win.", context: "For businesses page" },
+  { source: "We don't just list your business — we get it in front of the right investors", context: "For businesses page" },
+  { source: "We put your business in front of targeted, pre-screened investors — in person.", context: "For businesses page" },
+  { source: "We represent one of the largest portfolios of global investors ready to deploy capital. When you work with us, our team acts with urgency and precision to deliver tailored solutions.", context: "For businesses page" },
+  { source: "Connect with suppliers, buyers, and partners to grow your investments.", context: "For investors page" },
+  { source: "Everything you need to deploy with an edge", context: "For investors page" },
+  { source: "Find opportunities that fit your mandate", context: "For investors page" },
+  { source: "Gain valuable, on-the-ground market insight in the geographies you target.", context: "For investors page" },
+  { source: "Mandate matching", context: "For investors page" },
+  { source: "Meet several pre-screened opportunities in a single session built around your mandate.", context: "For investors page" },
+  { source: "Opportunities scored against your written mandate, screened before they reach you, with people on the ground in the markets you invest in.", context: "For investors page" },
+  { source: "Our global team actively engages business owners and screens opportunities to deliver the best options to our investor network.", context: "For investors page" },
+  { source: "Our global team engages business owners and screens opportunities to deliver the best options to our investor network — matched to you with advanced technology.", context: "For investors page" },
+  { source: "Trusted local partner", context: "For investors page" },
+  { source: "Using advanced technology, we match you with opportunities that fit your mandate — tailored, innovative solutions for your needs.", context: "For investors page" },
+  { source: "Vetted prospects", context: "For investors page" },
+  { source: "With a large platform of vetted prospects, you're more likely to find opportunities that align with your investment mandate.", context: "For investors page" },
+  { source: "Your trusted local partner, worldwide", context: "For investors page" },
+  { source: "Business score signals", context: "Home — statistics" },
+  { source: "Listing tiers", context: "Home — statistics" },
+  { source: "Sectors covered", context: "Home — statistics" },
+  { source: "Weighted match criteria", context: "Home — statistics" },
+  { source: "A disciplined pipeline that turns capital–opportunity fit into closed allocations, with expert support at every stage.", context: "Home page" },
+  { source: "A guided, transparent path whether you're deploying capital or raising it.", context: "Home page" },
+  { source: "About Assets & Capital", context: "Home page" },
+  { source: "Any region", context: "Home page" },
+  { source: "Any sector", context: "Home page" },
+  { source: "Any stage", context: "Home page" },
+  { source: "Become an investor", context: "Home page" },
+  { source: "Beyond the marketplace, our team delivers the services that move a deal forward — for investors and businesses alike.", context: "Home page" },
+  { source: "Choose a sector", context: "Home page" },
+  { source: "Depth across every major sector", context: "Home page" },
+  { source: "Every listing is screened and verified before it appears. Match scores show how mandate-aware ranking surfaces the right deals.", context: "Home page" },
+  { source: "Expert support on both sides of the deal", context: "Home page" },
+  { source: "Explore all", context: "Home page" },
+  { source: "Featured", context: "Home page" },
+  { source: "Featured businesses", context: "Home page" },
+  { source: "Find opportunities", context: "Home page" },
+  { source: "From first look to closed deal — in one place", context: "Home page" },
+  { source: "From technology and healthcare to energy, real estate and agriculture — opportunities spanning fourteen industry groups.", context: "Home page" },
+  { source: "How we work", context: "Home page" },
+  { source: "How we work with both sides", context: "Home page" },
+  { source: "Infrastructure", context: "Home page" },
+  { source: "Intelligence for capital and opportunity", context: "Home page" },
+  { source: "Logistics", context: "Home page" },
+  { source: "Meet capital and opportunity in person", context: "Home page" },
+  { source: "Modern tooling paired with a team in-market, so both sides of a deal get the same standard of scrutiny.", context: "Home page" },
+  { source: "Next featured businesses", context: "Home page" },
+  { source: "Next sector", context: "Home page" },
+  { source: "Opportunities on the marketplace now", context: "Home page" },
+  { source: "Opportunities screened before they reach you, and scored against your mandate.", context: "Home page" },
+  { source: "Our team meets business owners where they operate, so what reaches an investor is informed by more than a data room — and businesses pay only when a raise actually closes.", context: "Home page" },
+  { source: "Pause sector slideshow", context: "Home page" },
+  { source: "Play sector slideshow", context: "Home page" },
+  { source: "Premium placements from businesses raising capital now.", context: "Home page" },
+  { source: "Previous featured businesses", context: "Home page" },
+  { source: "Previous sector", context: "Home page" },
+  { source: "Put your raise in front of investors whose criteria it meets.", context: "Home page" },
+  { source: "Read the journal", context: "Home page" },
+  { source: "Real estate", context: "Home page" },
+  { source: "Region", context: "Home page" },
+  { source: "Register now", context: "Home page" },
+  { source: "Register your business", context: "Home page" },
+  { source: "Renewable energy", context: "Home page" },
+  { source: "Research, market views, and practical guides from our team.", context: "Home page" },
+  { source: "Roadshows built around a mandate, and forums where the introductions happen face to face.", context: "Home page" },
+  { source: "Sector", context: "Home page" },
+  { source: "Sectors", context: "Home page" },
+  { source: "Sectors covered across the marketplace", context: "Home page" },
+  { source: "Sectors on the marketplace", context: "Home page" },
+  { source: "Seeking", context: "Home page" },
+  { source: "Stage", context: "Home page" },
+  { source: "Start with a mandate", context: "Home page" },
+  { source: "Step", context: "Home page" },
+  { source: "The investment process", context: "Home page" },
+  { source: "Trusted by investors and founders", context: "Home page" },
+  { source: "Trusted worldwide to make the connection", context: "Home page" },
+  { source: "View all events", context: "Home page" },
+  { source: "We are a private-capital marketplace connecting vetted businesses raising capital with a global network of investors. Every listing is screened before it goes live, and every opportunity is scored against an investor's written mandate rather than pushed to the whole list.", context: "Home page" },
+  { source: "What we do beyond listing a business", context: "Home page" },
+  { source: "Build a verified profile covering your ask, instrument and financials, then choose a listing tier from Standard to Platinum.", context: "How it works — businesses" },
+  { source: "Business plan writing, financial modelling and teaser preparation are available separately if your materials need work first.", context: "How it works — businesses" },
+  { source: "Close the raise", context: "How it works — businesses" },
+  { source: "Get investor-ready", context: "How it works — businesses" },
+  { source: "List your opportunity", context: "How it works — businesses" },
+  { source: "Reach the right investors", context: "How it works — businesses" },
+  { source: "We route your listing to investors whose mandate matches it, and arrange roadshows where the room justifies one.", context: "How it works — businesses" },
+  { source: "Work through diligence and negotiation to signed terms. The success fee applies only if the raise closes.", context: "How it works — businesses" },
+  { source: "Commit, receive your allocation and sign the subscription agreement, with our team in-market throughout.", context: "How it works — investors" },
+  { source: "Deploy capital", context: "How it works — investors" },
+  { source: "Diligence & connect", context: "How it works — investors" },
+  { source: "Get matched", context: "How it works — investors" },
+  { source: "New opportunities are scored against that mandate as they arrive. You see the ones that fit, along with why each one scored the way it did.", context: "How it works — investors" },
+  { source: "Open data rooms once the NDA is signed, request a roadshow, and message businesses directly. Every document opened is logged.", context: "How it works — investors" },
+  { source: "Register your mandate", context: "How it works — investors" },
+  { source: "Set out your objectives, strategy, geographies, sectors and ticket size. The guided form turns that into a structured mandate in a few minutes.", context: "How it works — investors" },
+  { source: "Banking, insurance, wealth management, payments", context: "Industries" },
+  { source: "Clean energy, green infrastructure, water & waste", context: "Industries" },
+  { source: "EdTech, training services, corporate learning", context: "Industries" },
+  { source: "Farming, agri-tech, food processing & distribution", context: "Industries" },
+  { source: "FMCG, retail chains, luxury, food & beverage", context: "Industries" },
+  { source: "Hotels, resorts, airlines, travel services", context: "Industries" },
+  { source: "Logistics, machinery, aerospace, automotive, supply chain", context: "Industries" },
+  { source: "Mining & metals, chemicals, construction materials", context: "Industries" },
+  { source: "Oil & gas, renewables, energy infrastructure, utilities", context: "Industries" },
+  { source: "Providers, pharma & biotech, devices, digital health", context: "Industries" },
+  { source: "Residential, commercial, logistics, hospitality, REITs", context: "Industries" },
+  { source: "SaaS, cloud, AI/ML, fintech, cybersecurity, e-commerce", context: "Industries" },
+  { source: "Telecom, broadcasting & streaming, digital media", context: "Industries" },
+  { source: "Transport, utilities & digital/telecom infrastructure", context: "Industries" },
+  { source: "Deal Structuring", context: "Insights" },
+  { source: "For Businesses", context: "Insights" },
+  { source: "Market Intelligence", context: "Insights" },
+  { source: "No insights published yet.", context: "Insights" },
+  { source: "Private credit vs. equity: structuring the right instrument for growth", context: "Insights" },
+  { source: "Read article", context: "Insights" },
+  { source: "The anatomy of a fundable pitch: what investors actually read first", context: "Insights" },
+  { source: "Why Africa's mid-market is the decade's most mispriced opportunity", context: "Insights" },
+  { source: "Close", context: "Investment process" },
+  { source: "Data rooms open once the NDA is signed. Messaging and roadshows run in one place.", context: "Investment process" },
+  { source: "Each opportunity is scored against your written mandate before it reaches you.", context: "Investment process" },
+  { source: "Engage", context: "Investment process" },
+  { source: "Financials, ownership and documents are verified before a listing goes live.", context: "Investment process" },
+  { source: "Match", context: "Investment process" },
+  { source: "Screen", context: "Investment process" },
+  { source: "Term sheets, agreements and allocation are tracked through to funding.", context: "Investment process" },
+  { source: "30 days", context: "Legal — Cookie Policy" },
+  { source: "6 months", context: "Legal — Cookie Policy" },
+  { source: "7 days", context: "Legal — Cookie Policy" },
+  { source: "Analytics", context: "Legal — Cookie Policy" },
+  { source: "Category", context: "Legal — Cookie Policy" },
+  { source: "Cookie Policy", context: "Legal — Cookie Policy" },
+  { source: "Cookies are small files stored by your browser. We use as few as possible, and none that are not strictly necessary without your permission.", context: "Legal — Cookie Policy" },
+  { source: "Cookies we use", context: "Legal — Cookie Policy" },
+  { source: "If you allow analytics, we measure which parts of the platform are used so we can improve them. This is aggregate — we do not use it to identify you or to advertise to you.", context: "Legal — Cookie Policy" },
+  { source: "Keeps you signed in. Signed, HTTP-only.", context: "Legal — Cookie Policy" },
+  { source: "Managing cookies in your browser", context: "Legal — Cookie Policy" },
+  { source: "Marketing", context: "Legal — Cookie Policy" },
+  { source: "Name", context: "Legal — Cookie Policy" },
+  { source: "Pre-launch access. Only set if you enter a preview code.", context: "Legal — Cookie Policy" },
+  { source: "Purpose", context: "Legal — Cookie Policy" },
+  { source: "Remembers light/dark preference. Stored in your browser, not sent to us.", context: "Legal — Cookie Policy" },
+  { source: "Remembers your cookie choices so we do not ask on every page.", context: "Legal — Cookie Policy" },
+  { source: "Retention", context: "Legal — Cookie Policy" },
+  { source: "Strictly necessary", context: "Legal — Cookie Policy" },
+  { source: "This table is generated from the application itself, so it reflects what is actually set:", context: "Legal — Cookie Policy" },
+  { source: "Until cleared", context: "Legal — Cookie Policy" },
+  { source: "We do not currently use advertising or retargeting cookies. The choice exists in our preference centre so that nothing of the kind can be introduced without your consent.", context: "Legal — Cookie Policy" },
+  { source: "When you first visit we ask what you allow. Nothing beyond strictly necessary cookies is set until you choose, rejecting is exactly as easy as accepting, and you can change your mind at any time from Settings → Your data and privacy, or the cookie link in the footer.", context: "Legal — Cookie Policy" },
+  { source: "You can also block or delete cookies in your browser settings. Blocking strictly necessary cookies will stop you signing in, because that is what they do.", context: "Legal — Cookie Policy" },
+  { source: "Your choices", context: "Legal — Cookie Policy" },
+  { source: "Assets & Capital provides a marketplace and related services. Nothing on the platform constitutes investment, legal, or tax advice, or an offer or solicitation to buy or sell any security.", context: "Legal — Disclosures" },
+  { source: "Disclosures", context: "Legal — Disclosures" },
+  { source: "Not investment advice", context: "Legal — Disclosures" },
+  { source: "Private-market investments carry risk, including the risk of losing capital, and are typically illiquid. Past performance is not indicative of future results.", context: "Legal — Disclosures" },
+  { source: "Risk", context: "Legal — Disclosures" },
+  { source: "Vetting", context: "Legal — Disclosures" },
+  { source: "While we screen and verify businesses before listing, investors are responsible for their own due diligence. Match scores are informational signals, not recommendations.", context: "Legal — Disclosures" },
+  { source: "Access a copy of your data — download it as a file at any time.", context: "Legal — Privacy Policy" },
+  { source: "Account data — for as long as your account is open, then deleted or anonymised when you close it.", context: "Legal — Privacy Policy" },
+  { source: "Changes", context: "Legal — Privacy Policy" },
+  { source: "Children", context: "Legal — Privacy Policy" },
+  { source: "Complain to a supervisory authority. In Ghana this is the Data Protection Commission; in the UK the ICO; in the EU your national authority. We would rather you came to us first.", context: "Legal — Privacy Policy" },
+  { source: "Cookie consent records — 6 months, after which we ask again.", context: "Legal — Privacy Policy" },
+  { source: "Correct anything inaccurate — edit it in your profile, or ask us.", context: "Legal — Privacy Policy" },
+  { source: "Data collected automatically — sign-in activity, security logs, and, if you consent, aggregate usage measurement. We do not build advertising profiles.", context: "Legal — Privacy Policy" },
+  { source: "Data you give us — name, email, password, organisation details, investment mandate or business listing information, documents you upload, and messages you send through the platform.", context: "Legal — Privacy Policy" },
+  { source: "Delete your account — we remove your personal details. Records we must keep by law are retained in anonymised form; we tell you this rather than claiming a deletion we cannot perform.", context: "Legal — Privacy Policy" },
+  { source: "How long we keep it", context: "Legal — Privacy Policy" },
+  { source: "Identity and compliance data — where you invest or raise capital through us, verification data such as legal name, country, and the outcome of identity, sanctions and politically-exposed-person checks.", context: "Legal — Privacy Policy" },
+  { source: "If we change how we use personal data we will update this page and, where the change is significant, tell you directly. The date at the top shows when it was last revised.", context: "Legal — Privacy Policy" },
+  { source: "Object to or restrict processing based on legitimate interests.", context: "Legal — Privacy Policy" },
+  { source: "Passwords are stored hashed with bcrypt and are never recoverable, sessions are signed and HTTP-only, and traffic is encrypted in transit with HTTPS. Access to production data is limited to staff who need it. Backups are taken daily and stored off-site. No system is perfectly secure, and we will notify you and the relevant authority without undue delay if a breach affects your data.", context: "Legal — Privacy Policy" },
+  { source: "Portability — your export is machine-readable JSON.", context: "Legal — Privacy Policy" },
+  { source: "Privacy Policy", context: "Legal — Privacy Policy" },
+  { source: "Security", context: "Legal — Privacy Policy" },
+  { source: "The platform is for businesses and professional or accredited investors. It is not directed at anyone under 18, and we do not knowingly collect their data.", context: "Legal — Privacy Policy" },
+  { source: "This notice explains what personal data Assets and Capital Limited collects, why, what we do with it, and the rights you have over it.", context: "Legal — Privacy Policy" },
+  { source: "To keep the service secure — rate limiting, audit logs, fraud prevention. Basis: legitimate interests.", context: "Legal — Privacy Policy" },
+  { source: "To measure how the platform is used. Basis: your consent, which you can withdraw at any time.", context: "Legal — Privacy Policy" },
+  { source: "To provide the platform — matching investors with opportunities, hosting listings, enabling messaging. Basis: performance of a contract.", context: "Legal — Privacy Policy" },
+  { source: "To send service messages you have asked for. Basis: consent, or contract where the message is necessary to the service.", context: "Legal — Privacy Policy" },
+  { source: "To verify identity and prevent financial crime — KYC, sanctions and AML screening. Basis: legal obligation, and our legitimate interest in a trustworthy marketplace.", context: "Legal — Privacy Policy" },
+  { source: "We collect only what the service needs, in three groups:", context: "Legal — Privacy Policy" },
+  { source: "We keep personal data only as long as we need it:", context: "Legal — Privacy Policy" },
+  { source: "We must have a lawful basis for each use. Ours are:", context: "Legal — Privacy Policy" },
+  { source: "What we collect", context: "Legal — Privacy Policy" },
+  { source: "Where your data is held", context: "Legal — Privacy Policy" },
+  { source: "Who is responsible for your data", context: "Legal — Privacy Policy" },
+  { source: "Who we share it with", context: "Legal — Privacy Policy" },
+  { source: "Why we use it, and our legal basis", context: "Legal — Privacy Policy" },
+  { source: "Withdraw consent — change your cookie choices at any time, as easily as you gave them.", context: "Legal — Privacy Policy" },
+  { source: "You can exercise most of these yourself from Settings → Your data and privacy, without contacting us. You have the right to:", context: "Legal — Privacy Policy" },
+  { source: "Your rights", context: "Legal — Privacy Policy" },
+  { source: "Agreement", context: "Legal — Terms of Service" },
+  { source: "By using Assets & Capital, you agree to these terms. If you do not agree, please do not use the platform.", context: "Legal — Terms of Service" },
+  { source: "Fees", context: "Legal — Terms of Service" },
+  { source: "Governing law", context: "Legal — Terms of Service" },
+  { source: "Limitation of liability", context: "Legal — Terms of Service" },
+  { source: "Terms of Service", context: "Legal — Terms of Service" },
+  { source: "The platform", context: "Legal — Terms of Service" },
+  { source: "The platform is provided on an 'as is' basis. To the fullest extent permitted by law, we are not liable for investment outcomes or decisions made using the platform.", context: "Legal — Terms of Service" },
+  { source: "We provide a marketplace connecting investors with businesses seeking capital, and related services. We are a facilitator and do not provide investment, legal, or tax advice.", context: "Legal — Terms of Service" },
+  { source: "You are responsible for keeping your credentials secure and for activity under your account. Tell us promptly if you believe it has been compromised.", context: "Legal — Terms of Service" },
+  { source: "Your account", context: "Legal — Terms of Service" },
+  { source: "Accreditation gate", context: "Marketplace" },
+  { source: "Agree & sign", context: "Marketplace" },
+  { source: "AI fit breakdown", context: "Marketplace" },
+  { source: "AI-generated quality signals for this business.", context: "Marketplace" },
+  { source: "All financials, documents, projections and materials in the data room are confidential and provided solely to evaluate a potential investment.", context: "Marketplace" },
+  { source: "Ask", context: "Marketplace" },
+  { source: "Assets & Capital Ltd", context: "Marketplace" },
+  { source: "Between", context: "Marketplace" },
+  { source: "Bridging the gap — one opportunity at a time. Every listing is screened, verified, and scored against your mandate.", context: "Marketplace" },
+  { source: "Browse vetted investment opportunities across sectors and geographies, ranked by fit to your mandate.", context: "Marketplace" },
+  { source: "Business imagery", context: "Marketplace" },
+  { source: "Business scorecard", context: "Marketplace" },
+  { source: "Business verification", context: "Marketplace" },
+  { source: "Cancel", context: "Marketplace" },
+  { source: "Clean", context: "Marketplace" },
+  { source: "Clear all filters", context: "Marketplace" },
+  { source: "Clear filters", context: "Marketplace" },
+  { source: "Cleared", context: "Marketplace" },
+  { source: "Compliance readiness", context: "Marketplace" },
+  { source: "Confidential information.", context: "Marketplace" },
+  { source: "Core details · free", context: "Marketplace" },
+  { source: "Data room", context: "Marketplace" },
+  { source: "Demonstration NDA for the platform prototype — not a substitute for legal advice.", context: "Marketplace" },
+  { source: "Est. EBITDA margin", context: "Marketplace" },
+  { source: "Est. headcount", context: "Marketplace" },
+  { source: "Est. revenue", context: "Marketplace" },
+  { source: "Explore top", context: "Marketplace" },
+  { source: "Express interest", context: "Marketplace" },
+  { source: "Express interest to open this business's data room, AI scorecard and the breakdown of how it fits your mandate.", context: "Marketplace" },
+  { source: "Express interest to reveal your personalised match score, the AI breakdown and this business's documents.", context: "Marketplace" },
+  { source: "Filters", context: "Marketplace" },
+  { source: "Full business details are an investor subscription feature", context: "Marketplace" },
+  { source: "Full financials &amp; metrics", context: "Marketplace" },
+  { source: "Global coverage", context: "Marketplace" },
+  { source: "Grid view", context: "Marketplace" },
+  { source: "Instrument", context: "Marketplace" },
+  { source: "Interest expressed", context: "Marketplace" },
+  { source: "List view", context: "Marketplace" },
+  { source: "Listing tier", context: "Marketplace" },
+  { source: "Locked", context: "Marketplace" },
+  { source: "Mandate-matched scoring", context: "Marketplace" },
+  { source: "Match scores are neutral, criteria-based signals against your mandate — not investment advice.", context: "Marketplace" },
+  { source: "Mutual Non-Disclosure Agreement", context: "Marketplace" },
+  { source: "NDA signed", context: "Marketplace" },
+  { source: "NDA status", context: "Marketplace" },
+  { source: "Next image", context: "Marketplace" },
+  { source: "No circumvention.", context: "Marketplace" },
+  { source: "No offer.", context: "Marketplace" },
+  { source: "No opportunities match your filters", context: "Marketplace" },
+  { source: "Non-disclosure.", context: "Marketplace" },
+  { source: "Open", context: "Marketplace" },
+  { source: "Overview", context: "Marketplace" },
+  { source: "Previous image", context: "Marketplace" },
+  { source: "Required", context: "Marketplace" },
+  { source: "Risk level", context: "Marketplace" },
+  { source: "Sanctions / PEP screen", context: "Marketplace" },
+  { source: "Saving…", context: "Marketplace" },
+  { source: "Screened & verified", context: "Marketplace" },
+  { source: "Search opportunities", context: "Marketplace" },
+  { source: "Search opportunities, sectors, countries…", context: "Marketplace" },
+  { source: "See investor plans", context: "Marketplace" },
+  { source: "Sign in to express interest", context: "Marketplace" },
+  { source: "Sign in to subscribe", context: "Marketplace" },
+  { source: "Sign NDA", context: "Marketplace" },
+  { source: "Sign the mutual NDA to open the data room", context: "Marketplace" },
+  { source: "Signed", context: "Marketplace" },
+  { source: "Signing…", context: "Marketplace" },
+  { source: "Snapshot", context: "Marketplace" },
+  { source: "Sort", context: "Marketplace" },
+  { source: "Subscribe and express interest to reveal your personalised match score and AI profile for this business.", context: "Marketplace" },
+  { source: "Subscribe to express interest", context: "Marketplace" },
+  { source: "Subscribe, then express interest, to open the data room, AI scorecard and your personalised match rate.", context: "Marketplace" },
+  { source: "Target return", context: "Marketplace" },
+  { source: "Term.", context: "Marketplace" },
+  { source: "The materials do not constitute investment advice or an offer of securities.", context: "Marketplace" },
+  { source: "These obligations remain in force for 24 months from the date of signature.", context: "Marketplace" },
+  { source: "Try widening your criteria or clearing a filter to see more of the marketplace.", context: "Marketplace" },
+  { source: "Unlock the AI profile, documents & your match rate", context: "Marketplace" },
+  { source: "Verified", context: "Marketplace" },
+  { source: "Why this match", context: "Marketplace" },
+  { source: "You will not share, copy or distribute the materials to any third party without prior written consent.", context: "Marketplace" },
+  { source: "You will not use the information to bypass Assets & Capital or approach the business outside the platform.", context: "Marketplace" },
+  { source: "Your match rate is locked", context: "Marketplace" },
+  { source: "About us", context: "Navigation" },
+  { source: "Aligned incentives", context: "Navigation" },
+  { source: "Browse the marketplace", context: "Navigation" },
+  { source: "Build your mandate", context: "Navigation" },
+  { source: "Business Services", context: "Navigation" },
+  { source: "Company", context: "Navigation" },
+  { source: "Contact", context: "Navigation" },
+  { source: "Deals scored against your mandate", context: "Navigation" },
+  { source: "Defensible projections", context: "Navigation" },
+  { source: "Events", context: "Navigation" },
+  { source: "For Investors", context: "Navigation" },
+  { source: "Get matched automatically", context: "Navigation" },
+  { source: "How it works", context: "Navigation" },
+  { source: "Insights", context: "Navigation" },
+  { source: "Invest", context: "Navigation" },
+  { source: "Investor Services", context: "Navigation" },
+  { source: "Investor-ready narrative", context: "Navigation" },
+  { source: "List your business", context: "Navigation" },
+  { source: "Make a strong first impression", context: "Navigation" },
+  { source: "Market intelligence & research", context: "Navigation" },
+  { source: "Marketplace", context: "Navigation" },
+  { source: "Meet pre-screened opportunities", context: "Navigation" },
+  { source: "On-the-ground market insight", context: "Navigation" },
+  { source: "Our mission and team", context: "Navigation" },
+  { source: "Pricing", context: "Navigation" },
+  { source: "Raise Capital", context: "Navigation" },
+  { source: "Roadshows and forums", context: "Navigation" },
+  { source: "Screened and verified listings", context: "Navigation" },
+  { source: "Standard & premium tiers", context: "Navigation" },
+  { source: "Success-fee model", context: "Navigation" },
+  { source: "Suppliers, buyers, partners", context: "Navigation" },
+  { source: "Talk to our team", context: "Navigation" },
+  { source: "Teaser & pitch prep", context: "Navigation" },
+  { source: "Why invest with us", context: "Navigation" },
+  { source: "Accept all", context: "Navigation & footer" },
+  { source: "Advertising and retargeting. We do not currently use these; the choice is here so nothing can be added without your say.", context: "Navigation & footer" },
+  { source: "Aggregate usage measurement, so we can see which parts of the platform are useful.", context: "Navigation & footer" },
+  { source: "Always on", context: "Navigation & footer" },
+  { source: "Appearance", context: "Navigation & footer" },
+  { source: "Assets & Capital — home", context: "Navigation & footer" },
+  { source: "Auto — dark after 7pm", context: "Navigation & footer" },
+  { source: "Browse marketplace", context: "Navigation & footer" },
+  { source: "Close menu", context: "Navigation & footer" },
+  { source: "Colour theme", context: "Navigation & footer" },
+  { source: "cookie policy", context: "Navigation & footer" },
+  { source: "Cookie policy", context: "Navigation & footer" },
+  { source: "Cookie settings", context: "Navigation & footer" },
+  { source: "Dark", context: "Navigation & footer" },
+  { source: "Dashboard", context: "Navigation & footer" },
+  { source: "Display currency", context: "Navigation & footer" },
+  { source: "Email address", context: "Navigation & footer" },
+  { source: "Hide options", context: "Navigation & footer" },
+  { source: "Joining…", context: "Navigation & footer" },
+  { source: "Language", context: "Navigation & footer" },
+  { source: "Legal", context: "Navigation & footer" },
+  { source: "Light", context: "Navigation & footer" },
+  { source: "LinkedIn", context: "Navigation & footer" },
+  { source: "Manage options", context: "Navigation & footer" },
+  { source: "Market intelligence and new opportunities. No spam.", context: "Navigation & footer" },
+  { source: "Open menu", context: "Navigation & footer" },
+  { source: "Privacy policy", context: "Navigation & footer" },
+  { source: "Reject all", context: "Navigation & footer" },
+  { source: "Roadshows", context: "Navigation & footer" },
+  { source: "Save choices", context: "Navigation & footer" },
+  { source: "Sign out", context: "Navigation & footer" },
+  { source: "Sign-in, security and your cookie choices. Always on — the platform cannot work without them.", context: "Navigation & footer" },
+  { source: "Site menu", context: "Navigation & footer" },
+  { source: "Subscribe", context: "Navigation & footer" },
+  { source: "Terms of service", context: "Navigation & footer" },
+  { source: "Why Assets & Capital", context: "Navigation & footer" },
+  { source: "Work email", context: "Navigation & footer" },
+  { source: "You're on the list.", context: "Navigation & footer" },
+  { source: "Your cookie choices", context: "Navigation & footer" },
+  { source: "90-day listing window", context: "Pricing — listing tiers" },
+  { source: "A managed raise, run by our team end to end.", context: "Pricing — listing tiers" },
+  { source: "Actively promoted to matched investors.", context: "Pricing — listing tiers" },
+  { source: "Appears in marketplace search", context: "Pricing — listing tiers" },
+  { source: "Basic performance analytics", context: "Pricing — listing tiers" },
+  { source: "Be visible to investors searching the marketplace.", context: "Pricing — listing tiers" },
+  { source: "Business plan & financial modelling", context: "Pricing — listing tiers" },
+  { source: "Data room (up to 25 documents)", context: "Pricing — listing tiers" },
+  { source: "Dedicated deal manager", context: "Pricing — listing tiers" },
+  { source: "Direct mandate-matched outreach", context: "Pricing — listing tiers" },
+  { source: "Everything in Gold", context: "Pricing — listing tiers" },
+  { source: "Everything in Silver", context: "Pricing — listing tiers" },
+  { source: "Everything in Standard", context: "Pricing — listing tiers" },
+  { source: "Extended 180-day window", context: "Pricing — listing tiers" },
+  { source: "Featured-opportunity badge", context: "Pricing — listing tiers" },
+  { source: "Higher placement, plus a data room for your documents.", context: "Pricing — listing tiers" },
+  { source: "Homepage & newsletter features", context: "Pricing — listing tiers" },
+  { source: "Multiple targeted roadshows", context: "Pricing — listing tiers" },
+  { source: "One personalised roadshow", context: "Pricing — listing tiers" },
+  { source: "Priority search placement", context: "Pricing — listing tiers" },
+  { source: "Priority success-fee terms", context: "Pricing — listing tiers" },
+  { source: "Secure messaging with investors", context: "Pricing — listing tiers" },
+  { source: "Shadow investor search", context: "Pricing — listing tiers" },
+  { source: "Verified business listing", context: "Pricing — listing tiers" },
+  { source: "Add expert support as you need it", context: "Pricing page" },
+  { source: "Beyond the listing fee, businesses pay a success fee on capital successfully raised through the platform. Investors pay only for roadshows and partnerships they ask us to arrange.", context: "Pricing page" },
+  { source: "Free", context: "Pricing page" },
+  { source: "Free to join. Subscribe to go deep.", context: "Pricing page" },
+  { source: "From $490", context: "Pricing page" },
+  { source: "Investor sign-up", context: "Pricing page" },
+  { source: "List your business to reach our global investor network, add expert services as you need them, and pay a success fee only when a deal closes.", context: "Pricing page" },
+  { source: "Listing fee", context: "Pricing page" },
+  { source: "Most popular", context: "Pricing page" },
+  { source: "On closed deals only", context: "Pricing page" },
+  { source: "Pay a success fee only when you close", context: "Pricing page" },
+  { source: "Pricing & Listing Tiers", context: "Pricing page" },
+  { source: "Questions, answered", context: "Pricing page" },
+  { source: "Registering and browsing core details is always free. An investor subscription unlocks full business details across the marketplace — then expressing interest opens each business's data room, AI profile and your personalised match rate.", context: "Pricing page" },
+  { source: "Simple tiers. Aligned incentives.", context: "Pricing page" },
+  { source: "Success fee", context: "Pricing page" },
+  { source: "Transparent listing tiers from Standard to Platinum, à la carte services, and a success-fee model aligned to your outcome.", context: "Pricing page" },
+  { source: "About you", context: "Registration" },
+  { source: "Accredited / qualified investor?", context: "Registration" },
+  { source: "Add services", context: "Registration" },
+  { source: "Aggressive IRR (%)", context: "Registration" },
+  { source: "Allocation & exit", context: "Registration" },
+  { source: "Allocation & governance", context: "Registration" },
+  { source: "Allocation & lock-up", context: "Registration" },
+  { source: "Amount needed (USD)", context: "Registration" },
+  { source: "Asset classes", context: "Registration" },
+  { source: "Asset types & strategies", context: "Registration" },
+  { source: "Back", context: "Registration" },
+  { source: "Biographical and identification information.", context: "Registration" },
+  { source: "Build your investment mandate", context: "Registration" },
+  { source: "Build your investment mandate and receive opportunities scored against it, wherever they come from.", context: "Registration" },
+  { source: "Build your investment mandate and start receiving mandate-matched opportunities from Assets & Capital.", context: "Registration" },
+  { source: "Capital and liquidity tolerance.", context: "Registration" },
+  { source: "Capital, liquidity and governance.", context: "Registration" },
+  { source: "Choose your path — it takes just a few minutes to get set up.", context: "Registration" },
+  { source: "Company & contact", context: "Registration" },
+  { source: "Confirm your mandate.", context: "Registration" },
+  { source: "Contact email", context: "Registration" },
+  { source: "Contact person", context: "Registration" },
+  { source: "Contact phone", context: "Registration" },
+  { source: "Continue", context: "Registration" },
+  { source: "Create a verified profile with your ask and the services you need. We actively put your opportunity in front of the investors whose mandate fits.", context: "Registration" },
+  { source: "Date founded", context: "Registration" },
+  { source: "Deployment timeline", context: "Registration" },
+  { source: "Deployment, liquidity and governance.", context: "Registration" },
+  { source: "Development vs stabilized", context: "Registration" },
+  { source: "Drop an image, or click to browse", context: "Registration" },
+  { source: "Drop to upload", context: "Registration" },
+  { source: "Equity stake offered (%)", context: "Registration" },
+  { source: "Exclusionary criteria", context: "Registration" },
+  { source: "Exclusions (e.g. prohibited industries)", context: "Registration" },
+  { source: "Exit strategy", context: "Registration" },
+  { source: "Expected capital growth (%)", context: "Registration" },
+  { source: "Explore the marketplace", context: "Registration" },
+  { source: "Featured image", context: "Registration" },
+  { source: "Fee structure preferences", context: "Registration" },
+  { source: "Founders & key contacts (with roles)", context: "Registration" },
+  { source: "Fund Investor", context: "Registration" },
+  { source: "Fund types & strategies", context: "Registration" },
+  { source: "Geographic & sector preferences", context: "Registration" },
+  { source: "Geographic focus", context: "Registration" },
+  { source: "Get Started", context: "Registration" },
+  { source: "Governance & fees", context: "Registration" },
+  { source: "Governance interests", context: "Registration" },
+  { source: "Governance preferences", context: "Registration" },
+  { source: "Headquarters country", context: "Registration" },
+  { source: "How can we help you raise?", context: "Registration" },
+  { source: "I confirm the information provided is accurate and I consent to Assets & Capital reviewing and listing my business.", context: "Registration" },
+  { source: "I confirm the information provided is accurate and reflects my investment intentions. I consent to Assets & Capital using it to refer investment opportunities to me. Submitting electronically has the same effect as a wet-ink signature.", context: "Registration" },
+  { source: "I'm an investor", context: "Registration" },
+  { source: "I'm raising capital", context: "Registration" },
+  { source: "Investment goals & constraints", context: "Registration" },
+  { source: "Investment horizon", context: "Registration" },
+  { source: "Investment instruments", context: "Registration" },
+  { source: "Investment objectives", context: "Registration" },
+  { source: "Investment stage", context: "Registration" },
+  { source: "Investor / entity name", context: "Registration" },
+  { source: "Investor Registration", context: "Registration" },
+  { source: "Investor type", context: "Registration" },
+  { source: "Join Assets & Capital as an investor or list your business seeking capital.", context: "Registration" },
+  { source: "KYC / AML documentation available?", context: "Registration" },
+  { source: "Legal domicile & jurisdiction", context: "Registration" },
+  { source: "Legal structure", context: "Registration" },
+  { source: "Level of control", context: "Registration" },
+  { source: "Liquidity / exit preference", context: "Registration" },
+  { source: "Liquidity profile", context: "Registration" },
+  { source: "List Your Business", context: "Registration" },
+  { source: "List your business on Assets & Capital and reach a global network of vetted investors ready to deploy capital.", context: "Registration" },
+  { source: "List your business, add investor-ready services, and reach a global network of vetted investors.", context: "Registration" },
+  { source: "List your business, reach ready capital", context: "Registration" },
+  { source: "Listing submitted", context: "Registration" },
+  { source: "Mandate scope & strategies", context: "Registration" },
+  { source: "Mandate submitted", context: "Registration" },
+  { source: "Max per asset (USD)", context: "Registration" },
+  { source: "Max per deal (USD)", context: "Registration" },
+  { source: "Min per asset (USD)", context: "Registration" },
+  { source: "Min per deal (USD)", context: "Registration" },
+  { source: "Minimum IRR (%)", context: "Registration" },
+  { source: "Minimum return (%)", context: "Registration" },
+  { source: "Objectives and return metrics.", context: "Registration" },
+  { source: "Objectives, return and horizon.", context: "Registration" },
+  { source: "Performance metrics required", context: "Registration" },
+  { source: "Permitted categories and styles.", context: "Registration" },
+  { source: "Permitted classes and structures.", context: "Registration" },
+  { source: "Permitted fund categories", context: "Registration" },
+  { source: "Permitted strategies and instruments.", context: "Registration" },
+  { source: "Preferences on control and fee structure.", context: "Registration" },
+  { source: "Preferred sectors", context: "Registration" },
+  { source: "Preferred styles", context: "Registration" },
+  { source: "Primary contact name", context: "Registration" },
+  { source: "Primary objectives", context: "Registration" },
+  { source: "Private Equity", context: "Registration" },
+  { source: "Private equity strategies", context: "Registration" },
+  { source: "Progress", context: "Registration" },
+  { source: "Purpose of investment", context: "Registration" },
+  { source: "Real Estate", context: "Registration" },
+  { source: "Real estate goals", context: "Registration" },
+  { source: "Replace", context: "Registration" },
+  { source: "Required instrument", context: "Registration" },
+  { source: "Return offer (%)", context: "Registration" },
+  { source: "Review & consent", context: "Registration" },
+  { source: "Risk profile", context: "Registration" },
+  { source: "Risk tolerance", context: "Registration" },
+  { source: "Saved", context: "Registration" },
+  { source: "See the marketplace", context: "Registration" },
+  { source: "Select", context: "Registration" },
+  { source: "Services & listing", context: "Registration" },
+  { source: "Shown on your marketplace card. A photo of your operations works best — it is converted to WebP under 100KB automatically.", context: "Registration" },
+  { source: "Sign in", context: "Registration" },
+  { source: "Structure preference", context: "Registration" },
+  { source: "Submit listing", context: "Registration" },
+  { source: "Submit mandate", context: "Registration" },
+  { source: "Target IRR (%)", context: "Registration" },
+  { source: "Target markets", context: "Registration" },
+  { source: "Target markets.", context: "Registration" },
+  { source: "Target NOI yield (%)", context: "Registration" },
+  { source: "Target per asset (USD)", context: "Registration" },
+  { source: "Target per deal (USD)", context: "Registration" },
+  { source: "Target return (%)", context: "Registration" },
+  { source: "Target total return / IRR (%)", context: "Registration" },
+  { source: "Targeted strategies", context: "Registration" },
+  { source: "Tell us about your business.", context: "Registration" },
+  { source: "Tell us your objectives, strategy, geographies and ticket size. We'll match you with opportunities that fit — and only notify you when they do.", context: "Registration" },
+  { source: "Thank you. Our team will review your business and reach out to confirm your listing and any services you selected. We'll then start putting your opportunity in front of the right investors.", context: "Registration" },
+  { source: "Thank you. Your investment mandate is being reviewed by our team. You'll start receiving mandate-matched opportunities as soon as your account is verified.", context: "Registration" },
+  { source: "The ask", context: "Registration" },
+  { source: "This field is required.", context: "Registration" },
+  { source: "This tailors your mandate to the right questions. You can change it anytime.", context: "Registration" },
+  { source: "Time horizon", context: "Registration" },
+  { source: "Title", context: "Registration" },
+  { source: "Tolerance for lock-ups / notice periods", context: "Registration" },
+  { source: "Total capital commitment (USD)", context: "Registration" },
+  { source: "Total capital for fund investments (USD)", context: "Registration" },
+  { source: "Total investable capital (USD)", context: "Registration" },
+  { source: "Upload featured image — drop a file or click to browse", context: "Registration" },
+  { source: "Upside goal (%)", context: "Registration" },
+  { source: "Website / social media", context: "Registration" },
+  { source: "What are you optimising for?", context: "Registration" },
+  { source: "What kind of investor are you?", context: "Registration" },
+  { source: "Where and in what you invest.", context: "Registration" },
+  { source: "Which side of the deal are you on?", context: "Registration" },
+  { source: "Your draft is saved to this device automatically.", context: "Registration" },
+  { source: "Your featured image", context: "Registration" },
+  { source: "Your investment requirement.", context: "Registration" },
+  { source: "2FA, sessions, team & roles", context: "Search" },
+  { source: "Admin — email automation", context: "Search" },
+  { source: "Admin — matching engine", context: "Search" },
+  { source: "Admin — roadshows & events", context: "Search" },
+  { source: "Agreements & e-signature", context: "Search" },
+  { source: "Assets & Capital", context: "Search" },
+  { source: "Browse vetted opportunities", context: "Search" },
+  { source: "Build a mandate", context: "Search" },
+  { source: "Calls & scheduling", context: "Search" },
+  { source: "Close search", context: "Search" },
+  { source: "Contacts, tasks & activity", context: "Search" },
+  { source: "CRM & relationships", context: "Search" },
+  { source: "Data rooms", context: "Search" },
+  { source: "Deal pipeline", context: "Search" },
+  { source: "Events & roadshows", context: "Search" },
+  { source: "Investor dashboard", context: "Search" },
+  { source: "Kanban & analytics", context: "Search" },
+  { source: "Lifecycle journeys", context: "Search" },
+  { source: "Messages", context: "Search" },
+  { source: "NDAs, term sheets, audit trail", context: "Search" },
+  { source: "Plans and success-fee model", context: "Search" },
+  { source: "Popular", context: "Search" },
+  { source: "Pricing & listing tiers", context: "Search" },
+  { source: "Recent", context: "Search" },
+  { source: "Registration & check-in", context: "Search" },
+  { source: "Research & market views", context: "Search" },
+  { source: "Search by", context: "Search" },
+  { source: "Search opportunities, pages, actions…", context: "Search" },
+  { source: "Secure conversations", context: "Search" },
+  { source: "Secure documents", context: "Search" },
+  { source: "Security & settings", context: "Search" },
+  { source: "Tune weights", context: "Search" },
+  { source: "Upcoming sessions", context: "Search" },
+  { source: "Video meetings", context: "Search" },
+  { source: "Your workspace", context: "Search" },
+  { source: "A teaser and deck written to earn the second meeting.", context: "Services" },
+  { source: "Business plan writing", context: "Services" },
+  { source: "Events in the markets you are targeting, hosted alongside operators and advisers who work there.", context: "Services" },
+  { source: "Financial modelling", context: "Services" },
+  { source: "Introductions to suppliers, buyers and partners once the investment is made.", context: "Services" },
+  { source: "Local events access", context: "Services" },
+  { source: "Market access support", context: "Services" },
+  { source: "Models where every assumption is stated and can be traced back to its source.", context: "Services" },
+  { source: "Plans built around what investors read first: the market, the model, the numbers and the team.", context: "Services" },
+  { source: "Sessions built around your mandate, with every business screened against it before the invitation goes out.", context: "Services" },
+  { source: "Specialised roadshows", context: "Services" },
+  { source: "Teaser & pitch preparation", context: "Services" },
+  { source: "Already have an account?", context: "Shared interface" },
+  { source: "Business seeking capital", context: "Shared interface" },
+  { source: "Checking…", context: "Shared interface" },
+  { source: "Company name", context: "Shared interface" },
+  { source: "Create account", context: "Shared interface" },
+  { source: "Create an account", context: "Shared interface" },
+  { source: "Creating account…", context: "Shared interface" },
+  { source: "Current plan", context: "Shared interface" },
+  { source: "Enter", context: "Shared interface" },
+  { source: "Express interest to reveal your match rate", context: "Shared interface" },
+  { source: "Full name", context: "Shared interface" },
+  { source: "How can we help?", context: "Shared interface" },
+  { source: "I am a(n)", context: "Shared interface" },
+  { source: "Investor", context: "Shared interface" },
+  { source: "Investor Elite", context: "Shared interface" },
+  { source: "Investor Free", context: "Shared interface" },
+  { source: "Investor Pro", context: "Shared interface" },
+  { source: "Jane Doe", context: "Shared interface" },
+  { source: "Match locked", context: "Shared interface" },
+  { source: "Message sent", context: "Shared interface" },
+  { source: "New to Assets & Capital?", context: "Shared interface" },
+  { source: "Other", context: "Shared interface" },
+  { source: "Partner / advisor", context: "Shared interface" },
+  { source: "Password", context: "Shared interface" },
+  { source: "Payments run in test mode — checkout is fully simulated (no real charge) and unlocks the complete investor experience across the marketplace.", context: "Shared interface" },
+  { source: "Preview access code", context: "Shared interface" },
+  { source: "Remove from saved", context: "Shared interface" },
+  { source: "Save", context: "Shared interface" },
+  { source: "Save opportunity", context: "Shared interface" },
+  { source: "Seeking:", context: "Shared interface" },
+  { source: "Select…", context: "Shared interface" },
+  { source: "Sending…", context: "Shared interface" },
+  { source: "Signing in…", context: "Shared interface" },
+  { source: "Something went wrong. Please try again.", context: "Shared interface" },
+  { source: "Tell us a little about what you're looking for…", context: "Shared interface" },
+  { source: "Thank you — our team will be in touch within one business day.", context: "Shared interface" },
+  { source: "you@company.com", context: "Shared interface" },
+  { source: "Your full name", context: "Shared interface" },
+  { source: "Businesses pay a success fee when a raise closes. If it doesn't close, there's no fee to collect.", context: "Why us" },
+  { source: "Every opportunity is scored on fifteen weighted criteria drawn from your written mandate, and each score shows the reasoning behind it.", context: "Why us" },
+  { source: "Financials, ownership and documents are checked before a business goes live. Listings that fail that check never reach the marketplace.", context: "Why us" },
+  { source: "Our team meets business owners where they operate, so what reaches you is informed by more than a data room.", context: "Why us" },
+  { source: "Paid on outcomes", context: "Why us" },
+  { source: "People in the market", context: "Why us" },
+  { source: "Scored against your mandate", context: "Why us" },
+  { source: "Screened before listed", context: "Why us" },
 ];

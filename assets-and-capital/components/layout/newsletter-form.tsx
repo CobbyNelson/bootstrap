@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { ArrowRight, Check, AlertCircle } from "lucide-react";
 import { isEmail } from "@/lib/validation";
+import { useTl } from "@/components/i18n/locale-provider";
 
 export function NewsletterForm() {
+  const tl = useTl();
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
@@ -27,7 +29,7 @@ export function NewsletterForm() {
     <form onSubmit={onSubmit} noValidate className="mt-4">
       {status === "done" ? (
         <p className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-emerald-50 px-4 py-2.5 text-sm font-medium text-emerald-700 ring-1 ring-emerald-600/20">
-          <Check className="h-4 w-4" /> You&apos;re on the list.
+          <Check className="h-4 w-4" /> {tl("You're on the list.")}
         </p>
       ) : (
         <>
@@ -36,9 +38,9 @@ export function NewsletterForm() {
               type="email"
               value={email}
               onChange={(e) => { setEmail(e.target.value); if (error) setError(null); }}
-              placeholder="Work email"
+              placeholder={tl("Work email")}
               className="min-w-0 flex-1 bg-transparent px-4 text-sm text-ink placeholder:text-ink/55 focus:outline-none"
-              aria-label="Email address"
+              aria-label={tl("Email address")}
               aria-invalid={!!error}
             />
             <button
@@ -46,7 +48,7 @@ export function NewsletterForm() {
               disabled={status === "loading"}
               className="inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-button)] bg-brand-600 px-4 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
             >
-              {status === "loading" ? "Joining…" : "Subscribe"}
+              {status === "loading" ? tl("Joining…") : tl("Subscribe")}
               {status !== "loading" && <ArrowRight className="h-3.5 w-3.5" />}
             </button>
           </div>
@@ -57,7 +59,7 @@ export function NewsletterForm() {
           )}
         </>
       )}
-      <p className="mt-2.5 text-xs text-ink/60">Market intelligence and new opportunities. No spam.</p>
+      <p className="mt-2.5 text-xs text-ink/60">{tl("Market intelligence and new opportunities. No spam.")}</p>
     </form>
   );
 }

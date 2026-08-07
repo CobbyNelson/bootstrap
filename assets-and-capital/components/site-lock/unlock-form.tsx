@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTl } from "@/components/i18n/locale-provider";
 
 /**
  * Bypass-code entry for the pre-launch gate.
@@ -10,6 +11,7 @@ import { useState } from "react";
  * be used to probe whether a given code was "close".
  */
 export function UnlockForm() {
+  const tl = useTl();
   const [code, setCode] = useState("");
   const [state, setState] = useState<"idle" | "checking" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -48,7 +50,7 @@ export function UnlockForm() {
   return (
     <form onSubmit={submit} className="mx-auto mt-10 max-w-sm">
       <label htmlFor="unlock-code" className="sr-only">
-        Preview access code
+        {tl("Preview access code")}
       </label>
       <div className="flex gap-2">
         <input
@@ -69,7 +71,7 @@ export function UnlockForm() {
             setCode(e.target.value);
             if (state === "error") setState("idle");
           }}
-          placeholder="Preview access code"
+          placeholder={tl("Preview access code")}
           aria-invalid={state === "error"}
           aria-describedby={state === "error" ? "unlock-error" : undefined}
           className="min-w-0 flex-1 rounded-lg border border-white/25 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/55 focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-400/40"
@@ -79,7 +81,7 @@ export function UnlockForm() {
           disabled={state === "checking" || !code.trim()}
           className="shrink-0 rounded-lg bg-brand-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-400/60 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {state === "checking" ? "Checking…" : "Enter"}
+          {state === "checking" ? tl("Checking…") : tl("Enter")}
         </button>
       </div>
 

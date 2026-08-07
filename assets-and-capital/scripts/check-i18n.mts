@@ -48,9 +48,64 @@ const ALLOW_FILES = new Set<string>([
   "components/layout/theme-toggle.tsx",
 ]);
 
+/**
+ * JSX escapes, resolved to the characters they stand for.
+ *
+ * Without this the check went BLIND to any sentence containing one: `&apos;`
+ * carries a semicolon, semicolons mean code, and so every line with an
+ * apostrophe in it — "Hello, I&apos;m Kwaku", most of the chat greeting, a
+ * quarter of the marketing copy — was silently skipped. Twenty-four lines were
+ * hiding behind that one character.
+ *
+ * The decoding is also what makes wrapping correct rather than merely detected:
+ * inside a tl() call the text is a JavaScript string, where `&apos;` is five
+ * literal characters rather than an apostrophe.
+ */
+const ENTITIES: Record<string, string> = {
+  "&amp;": "&",
+  "&apos;": "'",
+  "&quot;": '"',
+  "&lt;": "<",
+  "&gt;": ">",
+  "&nbsp;": " ",
+  "&mdash;": "—",
+  "&ndash;": "–",
+  "&hellip;": "…",
+  "&rsquo;": "’",
+  "&lsquo;": "‘",
+  "&ldquo;": "“",
+  "&rdquo;": "”",
+};
+
+export function decodeEntities(s: string): string {
+  return s.replace(/&[a-z]+;/g, (m) => ENTITIES[m] ?? m);
+}
+
+/**
+ * A Tailwind class list, which the ternary pass would otherwise report as copy.
+ *
+ * `cn(active ? "bg-brand-50 text-brand-700" : "text-ink/70")` has exactly the
+ * shape of a label that flips on state, because it IS one — just for styling.
+ * Matching on utility prefixes rather than on "looks lowercase" keeps real
+ * lowercase copy ("private-capital marketplace") out of the exclusion.
+ */
+const TW = new RegExp(
+  "^(bg|text|border|ring|from|to|via|hover|focus|active|group|peer|dark|sm|md|lg|xl|" +
+  "p|px|py|pt|pb|pl|pr|m|mx|my|mt|mb|ml|mr|w|h|min|max|flex|grid|col|row|gap|space|" +
+  "rounded|shadow|opacity|z|inset|top|bottom|left|right|translate|scale|rotate|" +
+  "transition|duration|ease|animate|font|leading|tracking|overflow|cursor|select|" +
+  "outline|underline|items|justify|self|place|order|object|fill|stroke)[-:]",
+);
+
+function looksLikeClassNames(t: string): boolean {
+  const tokens = t.split(/\s+/);
+  return tokens.some((tok) => TW.test(tok));
+}
+
 /** Text that is not copy: codes, symbols, numbers, single lowercase tokens. */
 function isCopy(s: string): boolean {
-  const t = s.trim();
+  const t = decodeEntities(s).trim();
+  if (looksLikeClassNames(t)) return false;
   if (t.length < 4) return false;
   if (!/[a-z]{2}/.test(t)) return false;                 // needs real letters
   if (/^[a-z][a-z0-9-]*$/.test(t)) return false;          // css-ish / api token
@@ -66,6 +121,13 @@ function isCopy(s: string): boolean {
   if (/[;={}()[\]]|=>|\+\+|&&|\|\|/.test(t)) return false;
   if (/\b(const|let|return|function|await|async|import|export|typeof)\b/.test(t)) return false;
 
+  // A type intersection or union between two generics reads as a text node for
+  // the same reason: `HTMLAttributes<X> & VariantProps<Y>` closes one angle
+  // bracket and opens another, so `& VariantProps` looks like copy between two
+  // tags. Both real cases were exactly this shape — a lone operator followed by
+  // a PascalCase type — which no sentence a visitor reads ever is.
+  if (/^[&|]\s*[A-Z][A-Za-z]*$/.test(t)) return false;
+
   // Real copy is either a phrase, or a capitalised label.
   return /\s/.test(t) || /^[A-Z]/.test(t);
 }
@@ -77,6 +139,33 @@ function scan(file: string): Finding[] {
   const out: Finding[] = [];
   const lineOf = (idx: number) => src.slice(0, idx).split("\n").length;
 
+  /**
+   * Per-line opt-out: `i18n-exempt` in a comment on the string's line or the
+   * one above it.
+   *
+   * Some copy is genuinely the same in every language — a brand name, a product
+   * name — and allowlisting the whole FILE to excuse one such string would
+   * silently excuse every future string added beside it. Marking the line keeps
+   * the exemption where the reader is, next to the reason someone had to write.
+   *
+   * Collected before comments are stripped, for the obvious reason.
+   */
+  const exempt = new Set<number>();
+  const srcLines = src.split("\n");
+  srcLines.forEach((line, i) => {
+    if (!line.includes("i18n-exempt")) return;
+    exempt.add(i + 1); // the marker's own line
+    // Then the next line that is actually CODE. A reason worth writing rarely
+    // fits on one line, and stopping at i+2 exempted the second line of the
+    // comment instead of the string underneath it.
+    for (let j = i + 1; j < srcLines.length; j++) {
+      const t = srcLines[j].trim();
+      if (!t || t.startsWith("//") || t.startsWith("/*") || t.startsWith("*") || t.startsWith("{/*")) continue;
+      exempt.add(j + 1);
+      break;
+    }
+  });
+
   // Strip the parts of the file that cannot render: comments, and the props
   // that carry machine-read values rather than words.
   const cleaned = src
@@ -86,14 +175,46 @@ function scan(file: string): Finding[] {
   // Bare JSX text nodes. Anything wrapped already contains { }, which the
   // pattern excludes, so a translated string can never be reported.
   for (const m of cleaned.matchAll(/>([^<>{}]+)</g)) {
-    const text = m[1].replace(/\s+/g, " ").trim();
-    if (isCopy(text)) out.push({ file, line: lineOf(m.index!), text, kind: "jsx-text" });
+    const text = decodeEntities(m[1].replace(/\s+/g, " ").trim());
+    const line = lineOf(m.index!);
+    if (isCopy(text) && !exempt.has(line)) out.push({ file, line, text, kind: "jsx-text" });
+  }
+
+  /**
+   * Copy inside a JSX expression: `{saved ? "Saved" : "Save"}`.
+   *
+   * The text-node pattern above excludes `{` and `}` by design — that is what
+   * stops it reporting an already-wrapped string — and the cost is that it
+   * cannot see INTO an expression either. Every button whose label flips on
+   * state was therefore invisible, on pages that were otherwise fully wired.
+   *
+   * Anchored on the ternary and `&&` because those are what actually render a
+   * literal. Matching a bare `: "..."` instead would report every object
+   * literal in the content files, which are translated by translateContent and
+   * are not a defect.
+   */
+  const STR = `"((?:[^"\\\\]|\\\\.){4,}?)"`;
+  const BRANCH = `(?:tl\\([^)]*\\)|t\\.tl\\([^)]*\\)|${STR})`;
+  for (const m of cleaned.matchAll(new RegExp(`\\?\\s*${BRANCH}\\s*:\\s*${BRANCH}`, "g"))) {
+    for (const g of [m[1], m[2]]) {
+      const text = g && decodeEntities(g);
+      const line = lineOf(m.index!);
+      if (text && isCopy(text) && !exempt.has(line)) {
+        out.push({ file, line, text, kind: "jsx-ternary" });
+      }
+    }
+  }
+  for (const m of cleaned.matchAll(new RegExp(`&&\\s*${STR}\\s*[)}]`, "g"))) {
+    const text = decodeEntities(m[1]);
+    const line = lineOf(m.index!);
+    if (isCopy(text) && !exempt.has(line)) out.push({ file, line, text, kind: "jsx-and" });
   }
 
   // Copy passed as a literal prop.
   const PROPS = "title|subtitle|label|description|placeholder|heading|eyebrow|caption|summary|alt";
   for (const m of cleaned.matchAll(new RegExp(`(?:${PROPS})=\\{?"([^"]{4,})"`, "g"))) {
-    if (isCopy(m[1])) out.push({ file, line: lineOf(m.index!), text: m[1], kind: "literal-prop" });
+    const line = lineOf(m.index!);
+    if (isCopy(m[1]) && !exempt.has(line)) out.push({ file, line, text: m[1], kind: "literal-prop" });
   }
 
   return out;
@@ -159,6 +280,14 @@ function report() {
     }
     if (list.length > 4) console.log(`    …and ${list.length - 4} more`);
   }
+}
+
+// --json emits every finding, untruncated, for tooling that has to act on them
+// rather than read them. --list summarises for a human and caps each file at
+// four; a codemod needs all of them.
+if (process.argv.includes("--json")) {
+  console.log(JSON.stringify(findings, null, 2));
+  process.exit(0);
 }
 
 if (listOnly) {

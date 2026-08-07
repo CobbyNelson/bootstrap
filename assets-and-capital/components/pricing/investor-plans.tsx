@@ -6,6 +6,7 @@ import { Check, Sparkles, ArrowRight } from "lucide-react";
 import { cancelSubscription } from "@/lib/actions/entitlements";
 import { CheckoutDialog } from "@/components/payments/checkout-dialog";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 type Plan = {
   name: string;
@@ -71,6 +72,7 @@ export function InvestorPlans({
   active?: boolean;
   plan?: string | null;
 }) {
+  const tl = useTl();
   const router = useRouter();
   const [checkout, setCheckout] = useState<Plan | null>(null);
   const [, startTransition] = useTransition();
@@ -120,7 +122,7 @@ export function InvestorPlans({
           >
             {p.featured && (
               <span className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-brand-600 px-3 py-1 text-xs font-semibold text-white">
-                <Sparkles className="h-3 w-3" /> Most popular
+                <Sparkles className="h-3 w-3" /> {tl("Most popular")}
               </span>
             )}
             <p className="font-display text-xl font-semibold text-navy-700">{p.name}</p>
@@ -147,13 +149,13 @@ export function InvestorPlans({
             >
               {current ? (
                 <>
-                  <Check className="h-4 w-4" /> Current plan
+                  <Check className="h-4 w-4" /> {tl("Current plan")}
                 </>
               ) : p.activates === null ? (
                 "Switch to Free"
               ) : (
                 <>
-                  Subscribe <ArrowRight className="h-4 w-4" />
+                  {tl("Subscribe")} <ArrowRight className="h-4 w-4" />
                 </>
               )}
             </button>

@@ -66,14 +66,25 @@ export async function generateMetadata({
  * Kwaku sits here rather than in the root layout so he does not appear on the
  * pre-launch gate, which has no navigation and nothing for him to answer about.
  */
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
+export default async function SiteLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  // From the route segment, NOT from headers(). A header read here would make
+  // every page under this layout dynamic — the prerender regression that has
+  // already been reintroduced three times.
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslator((isLocale(locale) ? locale : "en") as Locale);
   return (
     <>
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-[var(--radius-button)] focus:bg-ink focus:px-4 focus:py-2 focus:text-white"
       >
-        Skip to content
+        {t.tl("Skip to content")}
       </a>
       <Navbar />
       <main id="main">{children}</main>

@@ -5,7 +5,7 @@ import { getOpportunityBySlug, scoreOpportunity, DEMO_MANDATE, derive, slugify }
 import { scoreBusiness, overallReadiness } from "@/lib/business-scoring";
 import { Money } from "@/components/ui/money";
 import { cn } from "@/lib/utils";
-import { getTranslator } from "@/lib/i18n/store";
+import { getTranslator, type Translator } from "@/lib/i18n/store";
 import { translateContent } from "@/lib/i18n/translate-content";
 import type { Locale } from "@/lib/i18n/config";
 
@@ -33,7 +33,7 @@ export default async function ComparePage({
       <div className="container-x">
         <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
           <span className="text-navy-700">{t.tl("Compare")} </span>
-          <span className="text-brand-600">opportunities.</span>
+          <span className="text-brand-600">{t.tl("opportunities.")}</span>
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-ink/60">{t.tl("Weigh mandate fit, terms and fundamentals side by side.")}</p>
 
@@ -49,14 +49,24 @@ export default async function ComparePage({
             </Link>
           </div>
         ) : (
-          <ComparisonTable opps={opps} />
+          <ComparisonTable opps={opps} t={t} />
         )}
       </div>
     </div>
   );
 }
 
-function ComparisonTable({ opps }: { opps: NonNullable<ReturnType<typeof getOpportunityBySlug>>[] }) {
+// The translator arrives as a prop rather than being fetched here: this is a
+// synchronous component, and awaiting getTranslator inside it would mean making
+// it async for one string while the page above already holds the same
+// translator for the same request.
+function ComparisonTable({
+  opps,
+  t,
+}: {
+  opps: NonNullable<ReturnType<typeof getOpportunityBySlug>>[];
+  t: Translator;
+}) {
   const cols = opps.map((o) => {
     const match = scoreOpportunity(DEMO_MANDATE, o);
     const d = derive(o);
@@ -101,7 +111,7 @@ function ComparisonTable({ opps }: { opps: NonNullable<ReturnType<typeof getOppo
                 <div className="p-3">
                   <p className="font-display text-sm font-bold leading-tight text-brand-600">{c.o.name}</p>
                   <Link href={`/marketplace/${slugify(c.o.name)}`} className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-navy-700 hover:text-brand-600">
-                    View <ArrowRight className="h-3 w-3" />
+                    {t.tl("View")} <ArrowRight className="h-3 w-3" />
                   </Link>
                 </div>
               </div>

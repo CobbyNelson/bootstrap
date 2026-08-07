@@ -2,8 +2,11 @@ import { Quote } from "lucide-react";
 import { TESTIMONIALS } from "@/lib/content";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
+import { getTranslator } from "@/lib/i18n/store";
+import type { Locale } from "@/lib/i18n/config";
 
-export function Testimonials() {
+export async function Testimonials({ locale }: { locale: Locale }) {
+  const t = await getTranslator(locale);
   // Nothing to show until real, attributed quotes exist.
   if (TESTIMONIALS.length === 0) return null;
 
@@ -12,7 +15,7 @@ export function Testimonials() {
       <div className="container-x">
         <SectionHeading
           align="center"
-          title="Trusted by investors and founders"
+          title={t.tl("Trusted by investors and founders")}
           className="mx-auto"
         />
         <div className="mt-14 grid gap-6 lg:grid-cols-3">

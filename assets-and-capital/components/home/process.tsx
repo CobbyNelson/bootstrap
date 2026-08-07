@@ -76,8 +76,7 @@ export async function Process({ locale }: { locale: Locale }) {
               {t.tl("How we work")}
             </h2>
             <p className="mt-4 text-base leading-relaxed text-ink/65">
-              A disciplined pipeline that turns capital–opportunity fit into closed
-              allocations, with expert support at every stage.
+              {t.tl("A disciplined pipeline that turns capital–opportunity fit into closed allocations, with expert support at every stage.")}
             </p>
             <PillButton href="/register/investor" tone="brand" className="mt-7">
               {t.tl("Start with a mandate")}

@@ -38,7 +38,7 @@ export default async function RegisterPage({ params }: { params: Promise<{ local
   const t = await getTranslator(locale);
   return (
     <>
-      <PageHeader title={t.tl("Which side of the deal are you on?")} subtitle={t.tl("Choose your path \u2014 it takes just a few minutes to get set up.")} />
+      <PageHeader title={t.tl("Which side of the deal are you on?")} subtitle={t.tl("Choose your path — it takes just a few minutes to get set up.")} />
       <section className="py-12 md:py-16">
         <div className="container-x grid gap-6 md:grid-cols-2">
           {translateContent(PATHS, t).map((p) => (

@@ -11,6 +11,7 @@ import {
   parseConsent,
   serialiseConsent,
 } from "@/lib/consent";
+import { useTl } from "@/components/i18n/locale-provider";
 
 /**
  * Cookie banner and preference centre.
@@ -43,6 +44,7 @@ function readConsentCookie(): string | undefined {
 }
 
 export function CookieConsent() {
+  const tl = useTl();
   const pathname = usePathname();
   // The cookie can only be read on the client, and reading it must not happen
   // during the server render or hydration would mismatch. `mounted` gates that;
@@ -104,7 +106,7 @@ export function CookieConsent() {
           </span>
           <div className="flex-1">
             <h2 id="cookie-consent-title" className="text-sm font-semibold text-ink">
-              Your cookie choices
+              {tl("Your cookie choices")}
             </h2>
             <p className="mt-1 text-sm leading-relaxed text-ink/70">
               We use cookies that are necessary to run the platform. With your
@@ -113,7 +115,7 @@ export function CookieConsent() {
                 href="/legal/cookies"
                 className="font-medium text-brand-700 underline-offset-2 hover:underline"
               >
-                cookie policy
+                {tl("cookie policy")}
               </Link>
               .
             </p>
@@ -123,19 +125,19 @@ export function CookieConsent() {
         {detail && (
           <div className="mt-4 space-y-3 border-t border-ink/10 pt-4">
             <Row
-              title="Strictly necessary"
-              description="Sign-in, security and your cookie choices. Always on — the platform cannot work without them."
+              title={tl("Strictly necessary")}
+              description={tl("Sign-in, security and your cookie choices. Always on — the platform cannot work without them.")}
               checked
               disabled
             />
             <Row
-              title="Analytics"
-              description="Aggregate usage measurement, so we can see which parts of the platform are useful."
+              title={tl("Analytics")}
+              description={tl("Aggregate usage measurement, so we can see which parts of the platform are useful.")}
               checked={analytics}
               onChange={setAnalytics}
             />
             <Row
-              title="Marketing"
+              title={tl("Marketing")}
               description="Advertising and retargeting. We do not currently use these; the choice is here so nothing can be added without your say."
               checked={marketing}
               onChange={setMarketing}
@@ -148,14 +150,14 @@ export function CookieConsent() {
             onClick={() => setDetail((d) => !d)}
             className="rounded-[var(--radius-button)] px-4 py-2 text-sm font-medium text-ink/70 underline-offset-2 transition-colors hover:text-ink hover:underline"
           >
-            {detail ? "Hide options" : "Manage options"}
+            {detail ? tl("Hide options") : tl("Manage options")}
           </button>
           {detail && (
             <button
               onClick={() => decide(analytics, marketing)}
               className="rounded-[var(--radius-button)] border border-ink/15 px-4 py-2 text-sm font-medium text-ink/80 transition-colors hover:border-ink/30"
             >
-              Save choices
+              {tl("Save choices")}
             </button>
           )}
           {/* Reject and Accept share styling weight deliberately: an easier
@@ -164,13 +166,13 @@ export function CookieConsent() {
             onClick={() => decide(false, false)}
             className="rounded-[var(--radius-button)] border border-ink/15 px-5 py-2 text-sm font-semibold text-ink/80 transition-colors hover:border-ink/30"
           >
-            Reject all
+            {tl("Reject all")}
           </button>
           <button
             onClick={() => decide(true, true)}
             className="rounded-[var(--radius-button)] bg-brand-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
           >
-            Accept all
+            {tl("Accept all")}
           </button>
         </div>
       </div>
@@ -191,6 +193,7 @@ function Row({
   disabled?: boolean;
   onChange?: (v: boolean) => void;
 }) {
+  const tl = useTl();
   return (
     <label className="flex cursor-pointer items-start gap-3">
       <input
@@ -203,7 +206,7 @@ function Row({
       <span>
         <span className="block text-sm font-medium text-ink">
           {title}
-          {disabled && <span className="ml-2 text-xs font-normal text-ink/50">Always on</span>}
+          {disabled && <span className="ml-2 text-xs font-normal text-ink/50">{tl("Always on")}</span>}
         </span>
         <span className="mt-0.5 block text-xs leading-relaxed text-ink/60">{description}</span>
       </span>

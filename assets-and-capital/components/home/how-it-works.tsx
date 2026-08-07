@@ -45,8 +45,8 @@ export function HowItWorks() {
       <div className="container-x">
         <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
           <SectionHeading
-            title="From first look to closed deal — in one place"
-            subtitle="A guided, transparent path whether you're deploying capital or raising it."
+            title={tl("From first look to closed deal — in one place")}
+            subtitle={tl("A guided, transparent path whether you're deploying capital or raising it.")}
           />
           {/* One pill, moved and resized to sit behind the active tab.
               framer-motion did this with layoutId; measuring the button is
@@ -92,7 +92,7 @@ export function HowItWorks() {
                   <p className="mt-2 text-sm leading-relaxed text-ink/65">{step.body}</p>
                 </div>
                 <div className="flex items-center justify-between bg-ink px-6 py-3">
-                  <span className="kicker text-[0.7rem] text-white/60">Step</span>
+                  <span className="kicker text-[0.7rem] text-white/60">{tl("Step")}</span>
                   <span className="font-grotesk text-sm font-semibold text-brand-400 tnum">
                     {String(i + 1).padStart(2, "0")}
                   </span>

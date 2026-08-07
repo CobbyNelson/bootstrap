@@ -68,7 +68,7 @@ export default async function MarketplacePage({ params }: { params: Promise<{ lo
             <span className="text-brand-600">businesses.</span>
           </h1>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink/60">
-            {t.tl("Bridging the gap \u2014 one opportunity at a time. Every listing is screened, verified, and scored against your mandate.")}
+            {t.tl("Bridging the gap — one opportunity at a time. Every listing is screened, verified, and scored against your mandate.")}
           </p>
 
           <div className="mt-7 flex flex-wrap gap-2.5">

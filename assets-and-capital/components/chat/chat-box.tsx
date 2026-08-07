@@ -128,29 +128,29 @@ export function ChatBox() {
       {open && (
         <div
           role="dialog"
-          aria-label="Chat with Kwaku"
+          aria-label={tl("Chat with Kwaku")}
           className="fixed bottom-20 right-5 z-[120] flex h-[min(32rem,calc(100dvh-7rem))] w-[min(24rem,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-[var(--radius-button)] border border-ink/12 bg-paper"
         >
           <header className="flex flex-none items-center justify-between border-b border-ink/10 bg-navy-900 px-4 py-3 text-white">
             <div>
+              {/* i18n-exempt: the assistant's name, same in every language. */}
               <p className="label-cta text-[0.68rem]">Kwaku</p>
               <p className="mt-0.5 text-xs text-white/70">
-                {state?.status === "LIVE" ? "Talking to the team" : "Assets & Capital assistant"}
+                {state?.status === "LIVE" ? tl("Talking to the team") : tl("Assets & Capital assistant")}
               </p>
             </div>
             {/* Presence is the honest signal: derived from staff heartbeats, so
                 it cannot say "live" when the desk is empty. */}
             <span className="inline-flex items-center gap-1.5 text-[0.65rem] text-white/80">
               <span className={cn("h-2 w-2 rounded-full", live ? "bg-emerald-400" : "bg-white/30")} />
-              {live ? "Team online" : "Team away"}
+              {live ? tl("Team online") : tl("Team away")}
             </span>
           </header>
 
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
             {(state?.messages.length ?? 0) === 0 && (
               <p className="text-sm leading-relaxed text-ink/65">
-                Hello, I&apos;m Kwaku. Ask me about listing, fees, how matching works, or any business on the
-                marketplace.
+                {tl("Hello, I'm Kwaku. Ask me about listing, fees, how matching works, or any business on the marketplace.")}
               </p>
             )}
             {state?.messages.map((m) => (
@@ -166,7 +166,7 @@ export function ChatBox() {
                 )}
               >
                 {m.role === "STAFF" && (
-                  <span className="label-cta mb-1 block text-[0.6rem] text-white/70">Assets &amp; Capital team</span>
+                  <span className="label-cta mb-1 block text-[0.6rem] text-white/70">{tl("Assets & Capital team")}</span>
                 )}
                 {renderBody(m.body)}
               </div>
@@ -175,7 +175,7 @@ export function ChatBox() {
             {state?.needsEmail && (
               <form onSubmit={leaveEmail} className="rounded-[var(--radius-button)] bg-white p-3 ring-1 ring-ink/[0.07]">
                 <label htmlFor="chat-email" className="block text-xs font-medium text-ink">
-                  Where should the team reply?
+                  {tl("Where should the team reply?")}
                 </label>
                 <div className="mt-2 flex gap-2">
                   <input
@@ -191,7 +191,7 @@ export function ChatBox() {
                     type="submit"
                     className="rounded-[var(--radius-button)] bg-ink px-3 text-xs font-semibold text-white"
                   >
-                    Send
+                    {tl("Send")}
                   </button>
                 </div>
               </form>
@@ -202,8 +202,8 @@ export function ChatBox() {
             <input
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              placeholder="Ask a question…"
-              aria-label="Your message"
+              placeholder={tl("Ask a question…")}
+              aria-label={tl("Your message")}
               className="min-w-0 flex-1 bg-transparent text-sm text-ink placeholder:text-ink/50 focus:outline-none"
             />
             {state?.status === "BOT" && (
@@ -212,13 +212,13 @@ export function ChatBox() {
                 onClick={askForPerson}
                 className="whitespace-nowrap text-[0.65rem] font-medium text-brand-600 hover:text-brand-700"
               >
-                Talk to a person
+                {tl("Talk to a person")}
               </button>
             )}
             <button
               type="submit"
               disabled={!draft.trim() || busy}
-              aria-label="Send message"
+              aria-label={tl("Send message")}
               className="grid h-9 w-9 flex-none place-items-center rounded-[var(--radius-button)] bg-brand-600 text-white transition-colors hover:bg-brand-700 disabled:opacity-40"
             >
               <Send className="h-4 w-4" />

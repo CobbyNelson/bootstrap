@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Lock, Sparkles, Check, ArrowRight, Loader2 } from "lucide-react";
 import { expressInterest } from "@/lib/actions/entitlements";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 /**
  * Locked placeholder rendered IN PLACE OF gated content. The gated data never
@@ -81,6 +82,7 @@ export function ExpressInterestButton({
   signedIn?: boolean;
   className?: string;
 }) {
+  const tl = useTl();
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState("");
@@ -95,7 +97,7 @@ export function ExpressInterestButton({
           className
         )}
       >
-        {signedIn ? "Subscribe to express interest" : "Sign in to express interest"} <ArrowRight className="h-4 w-4" />
+        {signedIn ? tl("Subscribe to express interest") : tl("Sign in to express interest")} <ArrowRight className="h-4 w-4" />
       </Link>
     );
   }
@@ -123,15 +125,15 @@ export function ExpressInterestButton({
       >
         {pending ? (
           <>
-            <Loader2 className="h-4 w-4 animate-spin" /> Saving…
+            <Loader2 className="h-4 w-4 animate-spin" /> {tl("Saving…")}
           </>
         ) : interested ? (
           <>
-            <Check className="h-4 w-4" /> Interest expressed
+            <Check className="h-4 w-4" /> {tl("Interest expressed")}
           </>
         ) : (
           <>
-            Express interest <ArrowRight className="h-4 w-4" />
+            {tl("Express interest")} <ArrowRight className="h-4 w-4" />
           </>
         )}
       </button>

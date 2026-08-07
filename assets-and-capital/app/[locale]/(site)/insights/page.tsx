@@ -28,7 +28,7 @@ export default async function InsightsPage({ params }: { params: Promise<{ local
     <>
       <PageHeader
         title={t.tl("Intelligence for capital and opportunity")}
-        subtitle={t.tl("Research, country reports, investment guides, and case studies from the Assets & Capital team \u2014 built for allocators and founders operating in Africa and emerging markets.")}
+        subtitle={t.tl("Research, country reports, investment guides, and case studies from the Assets & Capital team — built for allocators and founders operating in Africa and emerging markets.")}
       />
 
       {/* economic indicators */}

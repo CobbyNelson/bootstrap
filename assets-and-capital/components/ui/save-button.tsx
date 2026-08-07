@@ -3,6 +3,7 @@
 import { Bookmark } from "lucide-react";
 import { useSaved } from "@/lib/use-collection";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 /**
  * Bookmark toggle for an opportunity (by slug). "overlay" is for card image
@@ -17,6 +18,7 @@ export function SaveButton({
   variant?: "overlay" | "solid" | "detail";
   className?: string;
 }) {
+  const tl = useTl();
   const { has, toggle } = useSaved();
   const saved = has(slug);
 
@@ -39,7 +41,7 @@ export function SaveButton({
         )}
       >
         <Bookmark className={cn("h-4 w-4", saved && "fill-current")} />
-        {saved ? "Saved" : "Save"}
+        {saved ? tl("Saved") : tl("Save")}
       </button>
     );
   }
@@ -57,7 +59,7 @@ export function SaveButton({
         )}
       >
         <Bookmark className={cn("h-4 w-4", saved && "fill-current")} />
-        {saved ? "Saved" : "Save"}
+        {saved ? tl("Saved") : tl("Save")}
       </button>
     );
   }
@@ -66,7 +68,7 @@ export function SaveButton({
     <button
       type="button"
       onClick={onClick}
-      aria-label={saved ? "Remove from saved" : "Save opportunity"}
+      aria-label={saved ? tl("Remove from saved") : tl("Save opportunity")}
       aria-pressed={saved}
       className={cn(
         "grid h-8 w-8 place-items-center rounded-[var(--radius-button)] bg-white/95 text-ink/70 shadow-sm backdrop-blur transition-colors hover:text-brand-600",

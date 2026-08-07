@@ -178,6 +178,27 @@ for (const f of walkDir("components")) {
 out.sort((a, b) => a.context.localeCompare(b.context) || a.source.localeCompare(b.source));
 fs.writeFileSync("/tmp/strings.json", JSON.stringify(out, null, 2));
 
+/**
+ * Write the registry the header claims this script generates.
+ *
+ * It previously stopped at the temp file above and someone regenerated
+ * lib/i18n/translatable.ts by hand, which is the same as not regenerating it:
+ * the file drifted 45 strings behind the extractor, and every one of those was
+ * a string wired correctly in a component, invisible in the admin editor, and
+ * therefore impossible for a translator to ever fix. The gap was silent because
+ * both halves looked healthy on their own.
+ */
+const REGISTRY = "lib/i18n/translatable.ts";
+const header = fs.readFileSync(REGISTRY, "utf8").split("export const TRANSLATABLE")[0];
+fs.writeFileSync(
+  REGISTRY,
+  header +
+    "export const TRANSLATABLE: { source: string; context: string }[] = [\n" +
+    out.map((e) => `  { source: ${JSON.stringify(e.source)}, context: ${JSON.stringify(e.context)} },`).join("\n") +
+    "\n];\n",
+);
+console.log(`  registry written: ${REGISTRY} (${out.length} entries)`);
+
 const byCtx: Record<string, number> = {};
 for (const e of out) byCtx[e.context] = (byCtx[e.context] || 0) + 1;
 fs.writeFileSync("/tmp/confirms.json", JSON.stringify(confirms, null, 2));

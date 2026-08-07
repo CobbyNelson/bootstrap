@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   const t = await getTranslator((await params).locale);
   return {
     title: t.tl("Pricing & Listing Tiers"),
-    description: t.tl("Transparent listing tiers from Standard to Platinum, \u00e0 la carte services, and a success-fee model aligned to your outcome."),
+    description: t.tl("Transparent listing tiers from Standard to Platinum, à la carte services, and a success-fee model aligned to your outcome."),
   };
 }
 
@@ -97,7 +97,7 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
           <SectionHeading
             align="center"
             title={t.tl("Free to join. Subscribe to go deep.")}
-            subtitle={t.tl("Registering and browsing core details is always free. An investor subscription unlocks full business details across the marketplace \u2014 then expressing interest opens each business's data room, AI profile and your personalised match rate.")}
+            subtitle={t.tl("Registering and browsing core details is always free. An investor subscription unlocks full business details across the marketplace — then expressing interest opens each business's data room, AI profile and your personalised match rate.")}
             className="mx-auto"
           />
           <div className="mt-12">

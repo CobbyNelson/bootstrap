@@ -5,8 +5,10 @@ import { Check, ChevronDown, Globe } from "lucide-react";
 import { CURRENCIES } from "@/lib/i18n";
 import { useCurrency } from "@/components/providers/currency-provider";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 export function CurrencySwitcher({ variant = "light" }: { variant?: "light" | "dark" }) {
+  const tl = useTl();
   const { currency, setCode } = useCurrency();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -49,7 +51,7 @@ export function CurrencySwitcher({ variant = "light" }: { variant?: "light" | "d
           role="listbox"
         >
           <p className="px-3 pb-1.5 pt-2 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink/60">
-            Display currency
+            {tl("Display currency")}
           </p>
           {CURRENCIES.map((c) => (
             <button

@@ -7,6 +7,7 @@ import {
   Briefcase, Building2, PieChart, Check, ArrowRight, ArrowLeft, Cloud, ShieldCheck, PartyPopper,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 /* ------------------------------------------------------------------ config */
 
@@ -173,6 +174,7 @@ type Values = Record<string, string | string[]>;
 const STORAGE_KEY = "ac_investor_mandate_v1";
 
 export function InvestorWizard() {
+  const tl = useTl();
   const [branch, setBranch] = useState<string>("");
   const [values, setValues] = useState<Values>({});
   const [stepIndex, setStepIndex] = useState(0);
@@ -285,13 +287,12 @@ export function InvestorWizard() {
           <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100">
             <PartyPopper className="h-7 w-7" />
           </div>
-          <h2 className="mt-6 font-display text-2xl font-semibold text-navy-700">Mandate submitted</h2>
+          <h2 className="mt-6 font-display text-2xl font-semibold text-navy-700">{tl("Mandate submitted")}</h2>
           <p className="mt-3 text-ink/60">
-            Thank you. Your investment mandate is being reviewed by our team. You&apos;ll start receiving
-            mandate-matched opportunities as soon as your account is verified.
+            {tl("Thank you. Your investment mandate is being reviewed by our team. You'll start receiving mandate-matched opportunities as soon as your account is verified.")}
           </p>
           <Link href="/marketplace" className="mt-7 inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-6 py-3 text-sm font-medium text-white hover:bg-brand-700">
-            Explore the marketplace <ArrowRight className="h-4 w-4" />
+            {tl("Explore the marketplace")} <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </div>
@@ -304,8 +305,8 @@ export function InvestorWizard() {
       <div className="container-x py-12 md:py-16">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-medium text-ink/65">Step 1 of {totalSteps}</p>
-          <h2 className="mt-3 font-display text-3xl font-semibold text-navy-700">What kind of investor are you?</h2>
-          <p className="mt-3 text-ink/60">This tailors your mandate to the right questions. You can change it anytime.</p>
+          <h2 className="mt-3 font-display text-3xl font-semibold text-navy-700">{tl("What kind of investor are you?")}</h2>
+          <p className="mt-3 text-ink/60">{tl("This tailors your mandate to the right questions. You can change it anytime.")}</p>
         </div>
         <div className="mx-auto mt-10 grid max-w-4xl gap-5 md:grid-cols-3">
           {BRANCHES.map((b) => (
@@ -324,7 +325,7 @@ export function InvestorWizard() {
               <h3 className="mt-5 text-lg font-semibold text-ink">{b.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-ink/65">{b.desc}</p>
               <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-600">
-                Select <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                {tl("Select")} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </span>
             </button>
           ))}
@@ -340,7 +341,7 @@ export function InvestorWizard() {
       {/* progress rail */}
       <aside className="lg:sticky lg:top-24 lg:self-start">
         <div className="mb-4 flex items-center justify-between text-xs text-ink/65">
-          <span>Progress</span>
+          <span>{tl("Progress")}</span>
           <span className="tnum">{progress}%</span>
         </div>
         <div className="h-1.5 overflow-hidden rounded-full bg-ink/[0.08]">
@@ -394,7 +395,7 @@ export function InvestorWizard() {
                 saved ? "bg-emerald-50 text-emerald-700 opacity-100" : "text-ink/30 opacity-0"
               )}
             >
-              <Cloud className="h-3.5 w-3.5" /> Saved
+              <Cloud className="h-3.5 w-3.5" /> {tl("Saved")}
             </span>
           </div>
 
@@ -417,19 +418,19 @@ export function InvestorWizard() {
 
           <div className="mt-8 flex items-center justify-between border-t border-ink/[0.06] pt-6">
             <button onClick={back} className="inline-flex items-center gap-2 rounded-[var(--radius-button)] px-4 py-2.5 text-sm font-medium text-ink/60 hover:text-ink">
-              <ArrowLeft className="h-4 w-4" /> Back
+              <ArrowLeft className="h-4 w-4" /> {tl("Back")}
             </button>
             <button
               onClick={next}
               disabled={step.id === "review" && !consent}
               className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-50"
             >
-              {step.id === "review" ? "Submit mandate" : "Continue"} <ArrowRight className="h-4 w-4" />
+              {step.id === "review" ? tl("Submit mandate") : tl("Continue")} <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         </div>
         <p className="mt-4 flex items-center justify-center gap-1.5 text-xs text-ink/60">
-          <ShieldCheck className="h-3.5 w-3.5" /> Your draft is saved to this device automatically.
+          <ShieldCheck className="h-3.5 w-3.5" /> {tl("Your draft is saved to this device automatically.")}
         </p>
       </div>
     </div>
@@ -451,6 +452,7 @@ function FieldControl({
   onChange: (v: string) => void;
   onToggle: (opt: string) => void;
 }) {
+  const tl = useTl();
   const base = "w-full rounded-xl border bg-paper-2/60 px-3.5 py-2.5 text-sm text-ink placeholder:text-ink/60 focus:outline-none focus:ring-2 focus:ring-brand-600/30";
   const border = error ? "border-brand-400" : "border-ink/10";
   const wrap = field.span === 2 || field.type === "chips" || field.type === "textarea" ? "sm:col-span-2" : "";
@@ -483,7 +485,7 @@ function FieldControl({
       ) : field.type === "select" ? (
         <select value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value)} className={cn(base, border)}>
           <option value="" disabled>
-            Select…
+            {tl("Select…")}
           </option>
           {field.options!.map((o) => (
             <option key={o} value={o}>
@@ -520,7 +522,7 @@ function FieldControl({
       )}
 
       {field.help && <p className="mt-1 text-xs text-ink/60">{field.help}</p>}
-      {error && <p className="mt-1 text-xs text-brand-600">This field is required.</p>}
+      {error && <p className="mt-1 text-xs text-brand-600">{tl("This field is required.")}</p>}
     </div>
   );
 }
@@ -538,6 +540,7 @@ function ReviewStep({
   consent: boolean;
   setConsent: (v: boolean) => void;
 }) {
+  const tl = useTl();
   const fieldSteps = steps.filter((s) => s.fields.length > 0);
   return (
     <div className="mt-7">
@@ -565,9 +568,7 @@ function ReviewStep({
       <label className="mt-8 flex cursor-pointer items-start gap-3 rounded-2xl bg-paper-2/60 p-4 text-sm text-ink/70">
         <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 accent-brand-600" />
         <span>
-          I confirm the information provided is accurate and reflects my investment intentions. I consent to Assets &amp;
-          Capital using it to refer investment opportunities to me. Submitting electronically has the same effect as a
-          wet-ink signature.
+          {tl("I confirm the information provided is accurate and reflects my investment intentions. I consent to Assets & Capital using it to refer investment opportunities to me. Submitting electronically has the same effect as a wet-ink signature.")}
         </span>
       </label>
     </div>

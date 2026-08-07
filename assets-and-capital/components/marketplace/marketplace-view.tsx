@@ -145,7 +145,7 @@ export function MarketplaceView({
             long facet list never gets clipped. */}
         <div className="sticky top-18 border-r border-white/10 bg-navy-900 p-5 text-white lg:max-h-[calc(100dvh-4.5rem)] lg:overflow-y-auto">
           <div className="flex items-center justify-between">
-            <p className="label-cta text-[0.68rem] text-white/60">Filters</p>
+            <p className="label-cta text-[0.68rem] text-white/60">{tl("Filters")}</p>
             {activeCount > 0 && (
               <button onClick={clearAll} className="text-xs font-medium text-brand-400 hover:text-brand-300">
                 Clear all ({activeCount})
@@ -193,9 +193,9 @@ export function MarketplaceView({
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search opportunities, sectors, countries…"
+              placeholder={tl("Search opportunities, sectors, countries…")}
               className="h-10 w-full bg-transparent text-sm text-ink placeholder:text-ink/60 focus:outline-none"
-              aria-label="Search opportunities"
+              aria-label={tl("Search opportunities")}
             />
           </div>
           <div className="flex items-center gap-2">
@@ -203,13 +203,13 @@ export function MarketplaceView({
               onClick={() => setShowFilters((v) => !v)}
               className="inline-flex h-10 items-center gap-2 rounded-xl border border-ink/10 px-3 text-sm font-medium text-ink/70 lg:hidden"
             >
-              <SlidersHorizontal className="h-4 w-4" /> Filters
+              <SlidersHorizontal className="h-4 w-4" /> {tl("Filters")}
             </button>
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as typeof sort)}
               className="h-10 rounded-xl border border-ink/10 bg-white px-3 text-sm text-ink/70 focus:outline-none"
-              aria-label="Sort"
+              aria-label={tl("Sort")}
             >
               {SORTS.map((s) => (
                 <option key={s.key} value={s.key}>
@@ -222,14 +222,14 @@ export function MarketplaceView({
               <button
                 onClick={() => setView("grid")}
                 className={cn("grid h-9 w-9 place-items-center rounded-lg", view === "grid" ? "bg-ink text-white" : "text-ink/65")}
-                aria-label="Grid view"
+                aria-label={tl("Grid view")}
               >
                 <LayoutGrid className="h-4 w-4" />
               </button>
               <button
                 onClick={() => setView("list")}
                 className={cn("grid h-9 w-9 place-items-center rounded-lg", view === "list" ? "bg-ink text-white" : "text-ink/65")}
-                aria-label="List view"
+                aria-label={tl("List view")}
               >
                 <List className="h-4 w-4" />
               </button>
@@ -243,7 +243,7 @@ export function MarketplaceView({
           </p>
           {activeCount > 0 && (
             <button onClick={clearAll} className="inline-flex items-center gap-1 text-xs font-medium text-ink/65 hover:text-ink">
-              <X className="h-3.5 w-3.5" /> Clear filters
+              <X className="h-3.5 w-3.5" /> {tl("Clear filters")}
             </button>
           )}
         </div>
@@ -253,10 +253,10 @@ export function MarketplaceView({
             <div className="grid h-14 w-14 place-items-center rounded-2xl bg-paper-2 text-ink/60">
               <Search className="h-6 w-6" />
             </div>
-            <p className="mt-4 font-medium text-ink">No opportunities match your filters</p>
-            <p className="mt-1 max-w-sm text-sm text-ink/65">Try widening your criteria or clearing a filter to see more of the marketplace.</p>
+            <p className="mt-4 font-medium text-ink">{tl("No opportunities match your filters")}</p>
+            <p className="mt-1 max-w-sm text-sm text-ink/65">{tl("Try widening your criteria or clearing a filter to see more of the marketplace.")}</p>
             <button onClick={clearAll} className="mt-5 rounded-[var(--radius-button)] bg-ink px-5 py-2.5 text-sm font-medium text-white hover:bg-ink-2">
-              Clear all filters
+              {tl("Clear all filters")}
             </button>
           </div>
         ) : view === "grid" ? (
@@ -306,13 +306,13 @@ export function MarketplaceView({
 
                 {/* seeking */}
                 <div className="w-24 flex-none text-right">
-                  <p className="text-[0.6rem] uppercase tracking-wide text-ink/60">Seeking</p>
+                  <p className="text-[0.6rem] uppercase tracking-wide text-ink/60">{tl("Seeking")}</p>
                   <p className="font-bold text-ink tnum"><Money usd={o.ask} /></p>
                 </div>
 
                 {/* invest */}
                 <span className="hidden flex-none rounded-lg bg-paper-2 px-3.5 py-1.5 text-xs font-semibold text-ink transition-colors group-hover:bg-brand-600 group-hover:text-white sm:inline-block">
-                  Invest
+                  {tl("Invest")}
                 </span>
               </Link>
             ))}

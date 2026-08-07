@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { X, FileSignature, Check, ShieldCheck, Loader2 } from "lucide-react";
 import { signNda } from "@/lib/actions/entitlements";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 /**
  * Sign-NDA control + agreement dialog. Signing records the signature for this
@@ -24,6 +25,7 @@ export function SignNdaButton({
   primary?: boolean;
   className?: string;
 }) {
+  const tl = useTl();
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState("");
@@ -64,11 +66,11 @@ export function SignNdaButton({
       <button type="button" onClick={() => !signed && setOpen(true)} className={btnClass}>
         {signed ? (
           <>
-            <Check className="h-4 w-4" /> NDA signed
+            <Check className="h-4 w-4" /> {tl("NDA signed")}
           </>
         ) : (
           <>
-            <FileSignature className="h-4 w-4" /> Sign NDA
+            <FileSignature className="h-4 w-4" /> {tl("Sign NDA")}
           </>
         )}
       </button>
@@ -77,19 +79,19 @@ export function SignNdaButton({
         <div className="fixed inset-0 z-[200] grid place-items-center p-4" role="dialog" aria-modal="true">
           <button
             className="absolute inset-0 bg-ink/50 backdrop-blur-sm"
-            aria-label="Close"
+            aria-label={tl("Close")}
             onClick={() => setOpen(false)}
           />
           <div className="relative flex max-h-[85vh] w-full max-w-lg flex-col overflow-hidden rounded-3xl border border-ink/10 bg-white shadow-[var(--shadow-lift)]">
             <div className="flex items-center justify-between border-b border-ink/[0.07] px-6 py-4">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-brand-600" />
-                <h3 className="font-display text-lg font-semibold text-navy-700">Mutual Non-Disclosure Agreement</h3>
+                <h3 className="font-display text-lg font-semibold text-navy-700">{tl("Mutual Non-Disclosure Agreement")}</h3>
               </div>
               <button
                 onClick={() => setOpen(false)}
                 className="grid h-8 w-8 place-items-center rounded-[var(--radius-button)] text-ink/50 hover:bg-paper-2"
-                aria-label="Close"
+                aria-label={tl("Close")}
               >
                 <X className="h-4 w-4" />
               </button>
@@ -97,34 +99,28 @@ export function SignNdaButton({
 
             <div className="overflow-y-auto px-6 py-5 text-sm leading-relaxed text-ink/70">
               <p className="text-ink/60">
-                Between <strong className="text-ink">Assets &amp; Capital Ltd</strong> (on behalf of {businessName}) and
+                {tl("Between")} <strong className="text-ink">{tl("Assets & Capital Ltd")}</strong> (on behalf of {businessName}) and
                 you, the receiving investor.
               </p>
               <ol className="mt-4 list-decimal space-y-3 pl-5">
                 <li>
-                  <strong className="text-ink/80">Confidential information.</strong> All financials, documents,
-                  projections and materials in the data room are confidential and provided solely to evaluate a
-                  potential investment.
+                  <strong className="text-ink/80">{tl("Confidential information.")}</strong> {tl("All financials, documents, projections and materials in the data room are confidential and provided solely to evaluate a potential investment.")}
                 </li>
                 <li>
-                  <strong className="text-ink/80">Non-disclosure.</strong> You will not share, copy or distribute the
-                  materials to any third party without prior written consent.
+                  <strong className="text-ink/80">{tl("Non-disclosure.")}</strong> {tl("You will not share, copy or distribute the materials to any third party without prior written consent.")}
                 </li>
                 <li>
-                  <strong className="text-ink/80">No circumvention.</strong> You will not use the information to bypass
-                  Assets &amp; Capital or approach the business outside the platform.
+                  <strong className="text-ink/80">{tl("No circumvention.")}</strong> {tl("You will not use the information to bypass Assets & Capital or approach the business outside the platform.")}
                 </li>
                 <li>
-                  <strong className="text-ink/80">Term.</strong> These obligations remain in force for 24 months from the
-                  date of signature.
+                  <strong className="text-ink/80">{tl("Term.")}</strong> {tl("These obligations remain in force for 24 months from the date of signature.")}
                 </li>
                 <li>
-                  <strong className="text-ink/80">No offer.</strong> The materials do not constitute investment advice or
-                  an offer of securities.
+                  <strong className="text-ink/80">{tl("No offer.")}</strong> {tl("The materials do not constitute investment advice or an offer of securities.")}
                 </li>
               </ol>
               <p className="mt-4 text-xs text-ink/50">
-                Demonstration NDA for the platform prototype — not a substitute for legal advice.
+                {tl("Demonstration NDA for the platform prototype — not a substitute for legal advice.")}
               </p>
             </div>
 
@@ -144,7 +140,7 @@ export function SignNdaButton({
                   onClick={() => setOpen(false)}
                   className="rounded-[var(--radius-button)] border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/70 hover:border-ink/25"
                 >
-                  Cancel
+                  {tl("Cancel")}
                 </button>
                 <button
                   onClick={sign}
@@ -152,9 +148,9 @@ export function SignNdaButton({
                   className="inline-flex items-center gap-1.5 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 disabled:opacity-50"
                 >
                   {pending ? (
-                    <><Loader2 className="h-4 w-4 animate-spin" /> Signing…</>
+                    <><Loader2 className="h-4 w-4 animate-spin" /> {tl("Signing…")}</>
                   ) : (
-                    <><FileSignature className="h-4 w-4" /> Agree &amp; sign</>
+                    <><FileSignature className="h-4 w-4" /> {tl("Agree & sign")}</>
                   )}
                 </button>
               </div>

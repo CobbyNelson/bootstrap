@@ -216,7 +216,7 @@ export function Navbar() {
                 size="sm"
                 className={onDarkHero ? "text-white/85 hover:bg-white/10 hover:text-white" : undefined}
               >
-                Dashboard
+                {tl("Dashboard")}
               </Button>
               <form action={logoutUser}>
                 <button
@@ -228,7 +228,7 @@ export function Navbar() {
                       : "border-ink/15 bg-white/60 text-ink hover:border-ink/30 hover:bg-white"
                   )}
                 >
-                  Sign out
+                  {tl("Sign out")}
                 </button>
               </form>
             </>
@@ -259,7 +259,7 @@ export function Navbar() {
             onDarkHero ? "text-white hover:bg-white/10" : "text-ink hover:bg-ink/5"
           )}
           onClick={() => setMobileOpen(true)}
-          aria-label="Open menu"
+          aria-label={tl("Open menu")}
           aria-expanded={mobileOpen}
         >
           <Menu className="h-6 w-6" />
@@ -278,7 +278,7 @@ export function Navbar() {
                 a large tap target for dismissing without hunting for the X. */}
             <button
               type="button"
-              aria-label="Close menu"
+              aria-label={tl("Close menu")}
               data-state={drawer.state}
               onClick={() => {
                 setMobileOpen(false);
@@ -290,7 +290,7 @@ export function Navbar() {
             <div
               role="dialog"
               aria-modal="true"
-              aria-label="Site menu"
+              aria-label={tl("Site menu")}
               data-state={drawer.state}
               // anim-drawer carries ease-out-expo: fast to start, settling
               // rather than bouncing.
@@ -306,7 +306,7 @@ export function Navbar() {
                     setMobileOpen(false);
                     toggleRef.current?.focus();
                   }}
-                  aria-label="Close menu"
+                  aria-label={tl("Close menu")}
                   className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-button)] text-ink transition-colors hover:bg-ink/5"
                 >
                   <X className="h-6 w-6" />
@@ -350,7 +350,7 @@ export function Navbar() {
               {user ? (
                 <>
                   <Button href={dashHref} variant="primary" size="lg" onClick={() => setMobileOpen(false)}>
-                    Dashboard
+                    {tl("Dashboard")}
                   </Button>
                   <form action={logoutUser} className="contents">
                     <button
@@ -358,7 +358,7 @@ export function Navbar() {
                       onClick={() => setMobileOpen(false)}
                       className="inline-flex h-13 items-center justify-center rounded-[var(--radius-button)] border border-ink/15 bg-white px-8 text-base font-medium text-ink"
                     >
-                      Sign out
+                      {tl("Sign out")}
                     </button>
                   </form>
                 </>

@@ -35,7 +35,7 @@ export default async function InvestorsPage({ params }: { params: Promise<{ loca
     <>
       <PageHeader
         title={t.tl("Find opportunities that fit your mandate")}
-        subtitle={t.tl("Our global team engages business owners and screens opportunities to deliver the best options to our investor network \u2014 matched to you with advanced technology.")}
+        subtitle={t.tl("Our global team engages business owners and screens opportunities to deliver the best options to our investor network — matched to you with advanced technology.")}
       >
         <Button href="/register/investor" variant="primary" size="lg">
           {t.tl("Register with us")} <ArrowRight className="h-4 w-4" />

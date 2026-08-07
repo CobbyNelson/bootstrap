@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight, ArrowLeft, Check, Cloud, PartyPopper } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FeaturedImageUpload } from "./featured-image-upload";
+import { useTl } from "@/components/i18n/locale-provider";
 
 type FieldType = "text" | "email" | "tel" | "textarea" | "select" | "chips";
 type Field = { name: string; label: string; type: FieldType; options?: string[]; placeholder?: string; required?: boolean; span?: 1 | 2 };
@@ -52,6 +53,7 @@ type Values = Record<string, string | string[]>;
 const STORAGE_KEY = "ac_business_intake_v1";
 
 export function BusinessIntake() {
+  const tl = useTl();
   const [values, setValues] = useState<Values>({});
   const [stepIndex, setStepIndex] = useState(0);
   const [errors, setErrors] = useState<Record<string, boolean>>({});
@@ -141,13 +143,12 @@ export function BusinessIntake() {
           <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100">
             <PartyPopper className="h-7 w-7" />
           </div>
-          <h2 className="mt-6 font-display text-2xl font-semibold text-navy-700">Listing submitted</h2>
+          <h2 className="mt-6 font-display text-2xl font-semibold text-navy-700">{tl("Listing submitted")}</h2>
           <p className="mt-3 text-ink/60">
-            Thank you. Our team will review your business and reach out to confirm your listing and any services you
-            selected. We&apos;ll then start putting your opportunity in front of the right investors.
+            {tl("Thank you. Our team will review your business and reach out to confirm your listing and any services you selected. We'll then start putting your opportunity in front of the right investors.")}
           </p>
           <Link href="/marketplace" className="mt-7 inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-6 py-3 text-sm font-medium text-white hover:bg-brand-700">
-            See the marketplace <ArrowRight className="h-4 w-4" />
+            {tl("See the marketplace")} <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </div>
@@ -158,7 +159,7 @@ export function BusinessIntake() {
     <div className="container-x grid gap-10 py-12 lg:grid-cols-[240px_1fr] md:py-16">
       <aside className="lg:sticky lg:top-24 lg:self-start">
         <div className="mb-4 flex items-center justify-between text-xs text-ink/65">
-          <span>Progress</span>
+          <span>{tl("Progress")}</span>
           <span className="tnum">{progress}%</span>
         </div>
         <div className="h-1.5 overflow-hidden rounded-full bg-ink/[0.08]">
@@ -187,7 +188,7 @@ export function BusinessIntake() {
               {step.subtitle && <p className="mt-1.5 text-sm text-ink/65">{step.subtitle}</p>}
             </div>
             <span className={cn("inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs transition-opacity", saved ? "bg-emerald-50 text-emerald-700 opacity-100" : "text-ink/30 opacity-0")}>
-              <Cloud className="h-3.5 w-3.5" /> Saved
+              <Cloud className="h-3.5 w-3.5" /> {tl("Saved")}
             </span>
           </div>
 
@@ -216,7 +217,7 @@ export function BusinessIntake() {
                     </div>
                   ) : f.type === "select" ? (
                     <select value={(val as string) ?? ""} onChange={(e) => setField(f.name, e.target.value)} className={cn(base, border)}>
-                      <option value="" disabled>Select…</option>
+                      <option value="" disabled>{tl("Select…")}</option>
                       {f.options!.map((o) => (<option key={o} value={o}>{o}</option>))}
                     </select>
                   ) : f.type === "textarea" ? (
@@ -224,7 +225,7 @@ export function BusinessIntake() {
                   ) : (
                     <input type={f.type} value={(val as string) ?? ""} onChange={(e) => setField(f.name, e.target.value)} placeholder={f.placeholder} className={cn(base, border)} />
                   )}
-                  {err && <p className="mt-1 text-xs text-brand-600">This field is required.</p>}
+                  {err && <p className="mt-1 text-xs text-brand-600">{tl("This field is required.")}</p>}
                 </div>
               );
             })}
@@ -241,16 +242,16 @@ export function BusinessIntake() {
           {isLast && (
             <label className="mt-7 flex cursor-pointer items-start gap-3 rounded-2xl bg-paper-2/60 p-4 text-sm text-ink/70">
               <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 accent-brand-600" />
-              <span>I confirm the information provided is accurate and I consent to Assets &amp; Capital reviewing and listing my business.</span>
+              <span>{tl("I confirm the information provided is accurate and I consent to Assets & Capital reviewing and listing my business.")}</span>
             </label>
           )}
 
           <div className="mt-8 flex items-center justify-between border-t border-ink/[0.06] pt-6">
             <button onClick={() => setStepIndex((i) => Math.max(0, i - 1))} disabled={stepIndex === 0} className="inline-flex items-center gap-2 rounded-[var(--radius-button)] px-4 py-2.5 text-sm font-medium text-ink/60 hover:text-ink disabled:opacity-40">
-              <ArrowLeft className="h-4 w-4" /> Back
+              <ArrowLeft className="h-4 w-4" /> {tl("Back")}
             </button>
             <button onClick={next} disabled={isLast && !consent} className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-50">
-              {isLast ? "Submit listing" : "Continue"} <ArrowRight className="h-4 w-4" />
+              {isLast ? tl("Submit listing") : tl("Continue")} <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         </div>

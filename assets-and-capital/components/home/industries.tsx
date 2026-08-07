@@ -13,8 +13,8 @@ export async function Industries({ locale }: { locale: Locale }) {
       <div className="container-x">
         <SectionHeading
           align="center"
-          title="Depth across every major sector"
-          subtitle="From technology and healthcare to energy, real estate and agriculture — opportunities spanning fourteen industry groups."
+          title={t.tl("Depth across every major sector")}
+          subtitle={t.tl("From technology and healthcare to energy, real estate and agriculture — opportunities spanning fourteen industry groups.")}
           className="mx-auto"
         />
         <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

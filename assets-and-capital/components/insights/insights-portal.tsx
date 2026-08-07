@@ -6,6 +6,7 @@ import { Clock, ArrowUpRight, ArrowRight } from "lucide-react";
 import { CATEGORIES } from "@/lib/insights-data";
 import type { PublicArticle } from "@/lib/articles";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 const GRADIENT: Record<string, string> = {
   "Market Intelligence": "from-brand-600 to-brand-900",
@@ -55,6 +56,7 @@ function Cover({
 }
 
 export function InsightsPortal({ articles }: { articles: PublicArticle[] }) {
+  const tl = useTl();
   const [cat, setCat] = useState<(typeof CATEGORIES)[number]>("All");
 
   const featured = articles.find((a) => a.featured) ?? articles[0];
@@ -71,7 +73,7 @@ export function InsightsPortal({ articles }: { articles: PublicArticle[] }) {
   if (!featured) {
     return (
       <p className="rounded-2xl border border-dashed border-ink/15 py-16 text-center text-sm text-ink/55">
-        No insights published yet.
+        {tl("No insights published yet.")}
       </p>
     );
   }
@@ -96,7 +98,7 @@ export function InsightsPortal({ articles }: { articles: PublicArticle[] }) {
             <span>{featured.date}</span>
           </div>
           <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600">
-            Read article <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            {tl("Read article")} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </span>
         </div>
       </Link>

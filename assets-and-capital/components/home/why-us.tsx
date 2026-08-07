@@ -41,8 +41,7 @@ export async function WhyUs({ locale }: { locale: Locale }) {
           </Reveal>
           <Reveal delay={0.06}>
             <p className="max-w-md text-[0.95rem] leading-relaxed text-white/70 lg:pb-2">
-              Modern tooling paired with a team in-market, so both sides of a deal get
-              the same standard of scrutiny.
+              {t.tl("Modern tooling paired with a team in-market, so both sides of a deal get the same standard of scrutiny.")}
             </p>
           </Reveal>
         </div>

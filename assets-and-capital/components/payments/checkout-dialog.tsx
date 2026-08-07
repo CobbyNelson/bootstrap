@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { X, Lock, Check, Loader2, TriangleAlert, ArrowRight, FlaskConical } from "lucide-react";
 import { PAY_PROVIDERS, TEST_CARDS, paymentsTestMode, type ProviderId } from "@/lib/payments";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 type Status = "idle" | "processing" | "success" | "declined";
 
@@ -20,6 +21,7 @@ export function CheckoutDialog({
   planName: string;
   priceLabel: string;
 }) {
+  const tl = useTl();
   const testMode = paymentsTestMode();
   const [providerId, setProviderId] = useState<ProviderId>("stripe");
   const [status, setStatus] = useState<Status>("idle");
@@ -113,12 +115,12 @@ export function CheckoutDialog({
 
   return (
     <div className="fixed inset-0 z-[200] grid place-items-center p-4" role="dialog" aria-modal="true">
-      <button className="absolute inset-0 bg-ink/50 backdrop-blur-sm" aria-label="Close" onClick={onClose} />
+      <button className="absolute inset-0 bg-ink/50 backdrop-blur-sm" aria-label={tl("Close")} onClick={onClose} />
       <div className="relative flex max-h-[90vh] w-full max-w-md flex-col overflow-hidden rounded-3xl border border-ink/10 bg-white shadow-[var(--shadow-lift)]">
         {/* header */}
         <div className="flex items-center justify-between border-b border-ink/[0.07] px-6 py-4">
           <div>
-            <h3 className="font-display text-lg font-semibold text-navy-700">Checkout</h3>
+            <h3 className="font-display text-lg font-semibold text-navy-700">{tl("Checkout")}</h3>
             <p className="text-xs text-ink/60">
               {planName} · <span className="font-medium text-ink/80">{priceLabel}</span>
             </p>
@@ -126,7 +128,7 @@ export function CheckoutDialog({
           <button
             onClick={onClose}
             className="grid h-8 w-8 place-items-center rounded-[var(--radius-button)] text-ink/50 hover:bg-paper-2"
-            aria-label="Close"
+            aria-label={tl("Close")}
           >
             <X className="h-4 w-4" />
           </button>
@@ -137,34 +139,34 @@ export function CheckoutDialog({
             <div className="grid h-16 w-16 place-items-center rounded-[var(--radius-button)] bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200">
               <Check className="h-8 w-8" />
             </div>
-            <p className="mt-4 font-display text-xl font-semibold text-navy-700">Payment successful</p>
+            <p className="mt-4 font-display text-xl font-semibold text-navy-700">{tl("Payment successful")}</p>
             <p className="mt-1 text-sm text-ink/65">
-              You&apos;re now on <strong className="text-ink">{planName}</strong>. Full access is unlocked.
+              {tl("You're now on")} <strong className="text-ink">{planName}</strong>{tl(". Full access is unlocked.")}
             </p>
-            {testMode && <p className="mt-2 text-xs text-ink/45">Test mode — no real charge was made.</p>}
+            {testMode && <p className="mt-2 text-xs text-ink/45">{tl("Test mode — no real charge was made.")}</p>}
           </div>
         ) : (
           <div className="overflow-y-auto px-6 py-5">
             {testMode && (
               <div className="mb-5 rounded-2xl border border-amber-300/60 bg-amber-50 px-4 py-3">
                 <p className="flex items-center gap-1.5 text-sm font-semibold text-amber-800">
-                  <FlaskConical className="h-4 w-4" /> Test mode
+                  <FlaskConical className="h-4 w-4" /> {tl("Test mode")}
                 </p>
                 <p className="mt-1 text-xs leading-relaxed text-amber-800/80">
-                  No real charge. Card <strong>{TEST_CARDS.success}</strong> approves; <strong>{TEST_CARDS.decline}</strong>{" "}
+                  {tl("No real charge. Card")} <strong>{TEST_CARDS.success}</strong> approves; <strong>{TEST_CARDS.decline}</strong>{" "}
                   declines. Any future expiry & CVC.
                 </p>
                 <button
                   onClick={fillTestCard}
                   className="mt-2 text-xs font-semibold text-amber-900 underline underline-offset-2 hover:text-amber-950"
                 >
-                  Autofill test card
+                  {tl("Autofill test card")}
                 </button>
               </div>
             )}
 
             {/* provider selector */}
-            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/55">Payment method</p>
+            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/55">{tl("Payment method")}</p>
             <div className="mt-2.5 grid grid-cols-2 gap-2">
               {PAY_PROVIDERS.map((p) => {
                 const active = p.id === providerId;
@@ -201,7 +203,7 @@ export function CheckoutDialog({
               {provider.kind === "card" ? (
                 <div className="space-y-3">
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-ink/70">Card number</label>
+                    <label className="mb-1 block text-xs font-medium text-ink/70">{tl("Card number")}</label>
                     <input
                       inputMode="numeric"
                       value={card.number}
@@ -212,7 +214,7 @@ export function CheckoutDialog({
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="mb-1 block text-xs font-medium text-ink/70">Expiry</label>
+                      <label className="mb-1 block text-xs font-medium text-ink/70">{tl("Expiry")}</label>
                       <input
                         value={card.exp}
                         onChange={(e) => setCard((c) => ({ ...c, exp: e.target.value }))}
@@ -232,11 +234,11 @@ export function CheckoutDialog({
                     </div>
                   </div>
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-ink/70">Name on card</label>
+                    <label className="mb-1 block text-xs font-medium text-ink/70">{tl("Name on card")}</label>
                     <input
                       value={card.name}
                       onChange={(e) => setCard((c) => ({ ...c, name: e.target.value }))}
-                      placeholder="Full name"
+                      placeholder={tl("Full name")}
                       className="w-full rounded-xl border border-ink/12 bg-paper-2/50 px-3.5 py-2.5 text-sm text-ink placeholder:text-ink/45 focus:border-brand-600/40 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
                     />
                   </div>
@@ -250,8 +252,7 @@ export function CheckoutDialog({
                     <provider.icon className="h-5 w-5" />
                   </span>
                   <p className="mt-3 text-sm text-ink/70">
-                    You&apos;ll be redirected to <strong className="text-ink">{provider.via}</strong> to approve this
-                    payment securely.
+                    {tl("You'll be redirected to")} <strong className="text-ink">{provider.via}</strong> {tl("to approve this payment securely.")}
                   </p>
                 </div>
               )}
@@ -271,7 +272,7 @@ export function CheckoutDialog({
             >
               {processing ? (
                 <>
-                  <Loader2 className="h-4 w-4 animate-spin" /> Processing…
+                  <Loader2 className="h-4 w-4 animate-spin" /> {tl("Processing…")}
                 </>
               ) : provider.kind === "card" ? (
                 <>
@@ -285,7 +286,7 @@ export function CheckoutDialog({
             </button>
 
             <p className="mt-3 flex items-center justify-center gap-1.5 text-[0.7rem] text-ink/45">
-              <Lock className="h-3 w-3" /> Payments are encrypted. We never store your card details.
+              <Lock className="h-3 w-3" /> {tl("Payments are encrypted. We never store your card details.")}
             </p>
           </div>
         )}

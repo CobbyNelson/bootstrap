@@ -6,6 +6,8 @@ import type { PublicArticle } from "@/lib/articles";
 import { SectionHeading, CircleArrow } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
+import { getTranslator } from "@/lib/i18n/store";
+import type { Locale } from "@/lib/i18n/config";
 
 const GRADIENTS = [
   "from-brand-600 to-brand-900",
@@ -13,19 +15,22 @@ const GRADIENTS = [
   "from-ink to-ink-2",
 ];
 
-export function Insights({ articles }: { articles: PublicArticle[] }) {
+// locale arrives as a prop, like every other section on the home page. Resolving
+// it here instead would read a header and make the page dynamic.
+export async function Insights({ articles, locale }: { articles: PublicArticle[]; locale: Locale }) {
   if (!articles.length) return null;
+  const t = await getTranslator(locale);
 
   return (
     <section className="py-14 md:py-20">
       <div className="container-x">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
-            title="Intelligence for capital and opportunity"
-            subtitle="Research, market views, and practical guides from our team."
+            title={t.tl("Intelligence for capital and opportunity")}
+            subtitle={t.tl("Research, market views, and practical guides from our team.")}
           />
           <Button href="/insights" variant="primary" size="md" className="shrink-0">
-            Read the journal
+            {t.tl("Read the journal")}
           </Button>
         </div>
 

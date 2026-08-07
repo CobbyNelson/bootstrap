@@ -112,12 +112,12 @@ export function BusinessDetail({
     { k: "Accreditation gate", v: "Cleared", ok: true },
     { k: "Sanctions / PEP screen", v: "Clean", ok: true },
     { k: "Business verification", v: "Verified", ok: true },
-    { k: "NDA status", v: ndaSigned ? "Signed" : "Required", ok: ndaSigned },
-    { k: "Data room", v: documents ? "Open" : "Locked", ok: !!documents },
+    { k: "NDA status", v: ndaSigned ? tl("Signed") : tl("Required"), ok: ndaSigned },
+    { k: "Data room", v: documents ? tl("Open") : tl("Locked"), ok: !!documents },
   ];
 
   const subscribeHref = signedIn ? "/pricing#investor" : `/login?next=/marketplace/${slug}`;
-  const subscribeCta = signedIn ? "See investor plans" : "Sign in to subscribe";
+  const subscribeCta = signedIn ? tl("See investor plans") : tl("Sign in to subscribe");
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
@@ -154,7 +154,7 @@ export function BusinessDetail({
         <div className={card}>
           <div className="flex items-center justify-between">
             <h2 className="font-display text-xl font-semibold text-navy-700">{tl("Snapshot")}</h2>
-            {!subscribed && <span className="text-xs font-medium text-ink/50">{tl("Core details \u00b7 free")}</span>}
+            {!subscribed && <span className="text-xs font-medium text-ink/50">{tl("Core details · free")}</span>}
           </div>
           <dl className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
             {coreSnapshot.map((m) => (
@@ -296,7 +296,7 @@ export function BusinessDetail({
                     ))}
                   </div>
                   <p className="mt-4 text-xs text-ink/60">
-                    {tl("Match scores are neutral, criteria-based signals against your mandate \u2014 not investment advice.")}
+                    {tl("Match scores are neutral, criteria-based signals against your mandate — not investment advice.")}
                   </p>
                 </>
               ) : (
@@ -319,8 +319,8 @@ export function BusinessDetail({
             title={tl("Unlock the AI profile, documents & your match rate")}
             desc={
               subscribed
-                ? "Express interest to open this business's data room, AI scorecard and the breakdown of how it fits your mandate."
-                : "Subscribe, then express interest, to open the data room, AI scorecard and your personalised match rate."
+                ? tl("Express interest to open this business's data room, AI scorecard and the breakdown of how it fits your mandate.")
+                : tl("Subscribe, then express interest, to open the data room, AI scorecard and your personalised match rate.")
             }
             action={subscribed ? <ExpressInterestButton slug={slug} subscribed={subscribed} interested={access.interested} className="mx-auto max-w-xs" /> : undefined}
             cta={subscribed ? undefined : subscribeCta}
@@ -377,8 +377,8 @@ export function BusinessDetail({
               <p className="mt-4 font-display text-lg font-semibold text-navy-700">{tl("Your match rate is locked")}</p>
               <p className="mt-1.5 text-sm leading-relaxed text-ink/60">
                 {subscribed
-                  ? "Express interest to reveal your personalised match score, the AI breakdown and this business's documents."
-                  : "Subscribe and express interest to reveal your personalised match score and AI profile for this business."}
+                  ? tl("Express interest to reveal your personalised match score, the AI breakdown and this business's documents.")
+                  : tl("Subscribe and express interest to reveal your personalised match score and AI profile for this business.")}
               </p>
             </div>
           )}

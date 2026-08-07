@@ -125,7 +125,7 @@ export function Hero() {
     <section
       className="relative isolate overflow-hidden"
       aria-roledescription="carousel"
-      aria-label="Sectors on the marketplace"
+      aria-label={tl("Sectors on the marketplace")}
       onKeyDown={onKeyDown}
       // Autoplay stops while a pointer is over the hero or focus is inside it.
       // Moving the slide out from under someone mid-read is the thing that
@@ -221,7 +221,7 @@ export function Hero() {
                   <button
                     type="button"
                     onClick={() => setPlaying((p) => !p)}
-                    aria-label={playing ? "Pause sector slideshow" : "Play sector slideshow"}
+                    aria-label={playing ? tl("Pause sector slideshow") : tl("Play sector slideshow")}
                     className="grid h-11 w-11 place-items-center rounded-[var(--radius-button)] border border-white/30 text-white/80 backdrop-blur transition-colors hover:bg-white/15 hover:text-white"
                   >
                     {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
@@ -230,7 +230,7 @@ export function Hero() {
                 <button
                   type="button"
                   onClick={() => go(index - 1)}
-                  aria-label="Previous sector"
+                  aria-label={tl("Previous sector")}
                   className="grid h-11 w-11 place-items-center rounded-[var(--radius-button)] border border-white/30 text-white/80 backdrop-blur transition-colors hover:bg-white/15 hover:text-white"
                 >
                   <ArrowLeft className="h-4 w-4" />
@@ -238,7 +238,7 @@ export function Hero() {
                 <button
                   type="button"
                   onClick={() => go(index + 1)}
-                  aria-label="Next sector"
+                  aria-label={tl("Next sector")}
                   className="grid h-11 w-11 place-items-center rounded-[var(--radius-button)] bg-white text-ink transition-colors hover:bg-white/90"
                 >
                   <ArrowRight className="h-4 w-4" />
@@ -252,7 +252,7 @@ export function Hero() {
             <div className="container-x">
               <div
                 role="tablist"
-                aria-label="Choose a sector"
+                aria-label={tl("Choose a sector")}
                 className="flex gap-1 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
                 {SLIDES.map((slide, i) => (

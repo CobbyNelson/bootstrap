@@ -20,7 +20,7 @@ export default async function InvestorRegisterPage({ params }: { params: Promise
     <>
       <PageHeader
         title={t.tl("Build your investment mandate")}
-        subtitle={t.tl("Tell us your objectives, strategy, geographies and ticket size. We'll match you with opportunities that fit \u2014 and only notify you when they do.")}
+        subtitle={t.tl("Tell us your objectives, strategy, geographies and ticket size. We'll match you with opportunities that fit — and only notify you when they do.")}
       />
       <InvestorWizard />
     </>

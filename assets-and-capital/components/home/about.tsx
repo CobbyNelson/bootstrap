@@ -26,18 +26,13 @@ export async function About({ locale }: { locale: Locale }) {
         <Reveal>
           <div>
             <h2 className="font-display text-3xl leading-tight text-navy-700 sm:text-4xl">
-              About Assets &amp; Capital
+              {t.tl("About Assets & Capital")}
             </h2>
             <p className="mt-6 max-w-lg text-base leading-relaxed text-ink/65">
-              We are a private-capital marketplace connecting vetted businesses raising
-              capital with a global network of investors. Every listing is screened before
-              it goes live, and every opportunity is scored against an investor&apos;s
-              written mandate rather than pushed to the whole list.
+              {t.tl("We are a private-capital marketplace connecting vetted businesses raising capital with a global network of investors. Every listing is screened before it goes live, and every opportunity is scored against an investor's written mandate rather than pushed to the whole list.")}
             </p>
             <p className="mt-4 max-w-lg text-base leading-relaxed text-ink/65">
-              Our team meets business owners where they operate, so what reaches an
-              investor is informed by more than a data room — and businesses pay only when
-              a raise actually closes.
+              {t.tl("Our team meets business owners where they operate, so what reaches an investor is informed by more than a data room — and businesses pay only when a raise actually closes.")}
             </p>
           </div>
         </Reveal>

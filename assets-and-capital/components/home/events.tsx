@@ -6,8 +6,11 @@ import { Reveal } from "@/components/ui/reveal";
 import { Badge } from "@/components/ui/badge";
 import { ImageLayer } from "@/components/ui/image-layer";
 import { IMAGERY } from "@/lib/imagery";
+import { getTranslator } from "@/lib/i18n/store";
+import type { Locale } from "@/lib/i18n/config";
 
-export function Events() {
+export async function Events({ locale }: { locale: Locale }) {
+  const t = await getTranslator(locale);
   return (
     <section className="relative overflow-hidden bg-paper-2/60 py-20 md:py-28">
       <ImageLayer
@@ -19,11 +22,11 @@ export function Events() {
       <div className="container-x relative">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
-            title="Meet capital and opportunity in person"
-            subtitle="Roadshows built around a mandate, and forums where the introductions happen face to face."
+            title={t.tl("Meet capital and opportunity in person")}
+            subtitle={t.tl("Roadshows built around a mandate, and forums where the introductions happen face to face.")}
           />
           <Link href="/events" className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-700 hover:text-brand-800">
-            View all events <ArrowRight className="h-4 w-4" />
+            {t.tl("View all events")} <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 

@@ -6,11 +6,13 @@ import { User, Mail, Lock, ArrowRight, Loader2, AlertCircle } from "lucide-react
 import { isEmail, minLen } from "@/lib/validation";
 import { loginUser, registerUser } from "@/lib/actions/auth";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 type Mode = "signin" | "signup";
 type Role = "INVESTOR" | "BUSINESS";
 
 export function LoginForm() {
+  const tl = useTl();
   const router = useRouter();
   const params = useSearchParams();
   const next = params.get("next");
@@ -86,12 +88,12 @@ export function LoginForm() {
                   role === r ? "border-brand-600 bg-brand-50 text-brand-700" : "border-ink/10 text-ink/70 hover:border-ink/25"
                 )}
               >
-                {r === "INVESTOR" ? "I'm an investor" : "I'm raising capital"}
+                {r === "INVESTOR" ? tl("I'm an investor") : tl("I'm raising capital")}
               </button>
             ))}
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-ink/80">Name</label>
+            <label className="mb-1.5 block text-sm font-medium text-ink/80">{tl("Name")}</label>
             <div className="relative">
               <User className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/60" />
               <input
@@ -99,7 +101,7 @@ export function LoginForm() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 onBlur={() => { setTouched((t) => ({ ...t, name: true })); setErrors(validate()); }}
-                placeholder="Your full name"
+                placeholder={tl("Your full name")}
                 className={input(touched.name ? errors.name : undefined)}
               />
             </div>
@@ -111,7 +113,7 @@ export function LoginForm() {
       )}
 
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-ink/80">Email</label>
+        <label className="mb-1.5 block text-sm font-medium text-ink/80">{tl("Email")}</label>
         <div className="relative">
           <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/60" />
           <input
@@ -130,7 +132,7 @@ export function LoginForm() {
 
       <div>
         <div className="mb-1.5 flex items-center justify-between">
-          <label className="text-sm font-medium text-ink/80">Password</label>
+          <label className="text-sm font-medium text-ink/80">{tl("Password")}</label>
           {mode === "signin" && <span className="text-xs font-medium text-ink/45">8+ characters</span>}
         </div>
         <div className="relative">
@@ -155,20 +157,20 @@ export function LoginForm() {
         className="inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-brand-600 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
       >
         {status === "loading" ? (
-          <><Loader2 className="h-4 w-4 animate-spin" /> {mode === "signin" ? "Signing in…" : "Creating account…"}</>
+          <><Loader2 className="h-4 w-4 animate-spin" /> {mode === "signin" ? tl("Signing in…") : tl("Creating account…")}</>
         ) : (
-          <>{mode === "signin" ? "Sign in" : "Create account"} <ArrowRight className="h-4 w-4" /></>
+          <>{mode === "signin" ? tl("Sign in") : tl("Create account")} <ArrowRight className="h-4 w-4" /></>
         )}
       </button>
 
       <p className="text-center text-sm text-ink/65">
-        {mode === "signin" ? "New to Assets & Capital? " : "Already have an account? "}
+        {mode === "signin" ? tl("New to Assets & Capital?") + " " : tl("Already have an account?") + " "}
         <button
           type="button"
           onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setFormError(""); setErrors({}); setTouched({}); }}
           className="font-medium text-brand-700 hover:text-brand-800"
         >
-          {mode === "signin" ? "Create an account" : "Sign in"}
+          {mode === "signin" ? tl("Create an account") : tl("Sign in")}
         </button>
       </p>
     </form>

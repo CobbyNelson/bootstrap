@@ -6,6 +6,7 @@ import { Search, ArrowRight, Building2, FileText, LayoutDashboard, Clock, Trendi
 import { MARKETPLACE } from "@/lib/marketplace-data";
 import { slugify } from "@/lib/matching";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 type Item = {
   id: string;
@@ -78,6 +79,7 @@ function highlight(text: string, q: string) {
 }
 
 export function CommandPalette() {
+  const tl = useTl();
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
@@ -173,7 +175,7 @@ export function CommandPalette() {
 
   return (
     <div className="fixed inset-0 z-[200] flex items-start justify-center px-4 pt-[12vh]" role="dialog" aria-modal="true">
-      <button className="absolute inset-0 bg-ink/40 backdrop-blur-sm" aria-label="Close search" onClick={() => setOpen(false)} />
+      <button className="absolute inset-0 bg-ink/40 backdrop-blur-sm" aria-label={tl("Close search")} onClick={() => setOpen(false)} />
       <div className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-[var(--shadow-lift)]">
         <div className="flex items-center gap-3 border-b border-ink/[0.07] px-4">
           <Search className="h-[18px] w-[18px] text-ink/60" />
@@ -182,7 +184,7 @@ export function CommandPalette() {
             value={q}
             onChange={(e) => { setQ(e.target.value); setActive(0); }}
             onKeyDown={onKeyDown}
-            placeholder="Search opportunities, pages, actions…"
+            placeholder={tl("Search opportunities, pages, actions…")}
             className="h-14 w-full bg-transparent text-[0.95rem] text-ink placeholder:text-ink/60 focus:outline-none"
           />
           <kbd className="rounded border border-ink/15 px-1.5 py-0.5 text-[0.65rem] text-ink/60">ESC</kbd>
@@ -193,7 +195,7 @@ export function CommandPalette() {
             <div className="px-2 py-2">
               {recent.length > 0 && (
                 <>
-                  <p className="px-2 pb-1.5 pt-2 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink/60">Recent</p>
+                  <p className="px-2 pb-1.5 pt-2 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink/60">{tl("Recent")}</p>
                   {recent.map((r) => (
                     <button key={r} onClick={() => setQ(r)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm text-ink/70 hover:bg-paper-2">
                       <Clock className="h-4 w-4 text-ink/60" /> {r}
@@ -201,7 +203,7 @@ export function CommandPalette() {
                   ))}
                 </>
               )}
-              <p className="px-2 pb-1.5 pt-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink/60">Popular</p>
+              <p className="px-2 pb-1.5 pt-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink/60">{tl("Popular")}</p>
               <div className="flex flex-wrap gap-2 px-2 pt-1">
                 {POPULAR.map((p) => (
                   <button key={p} onClick={() => setQ(p)} className="rounded-[var(--radius-button)] border border-ink/12 px-3 py-1.5 text-sm text-ink/60 hover:border-ink/25 hover:text-ink">
@@ -250,7 +252,7 @@ export function CommandPalette() {
             <kbd className="rounded border border-ink/15 px-1.5">↑</kbd><kbd className="rounded border border-ink/15 px-1.5">↓</kbd> navigate
             <kbd className="rounded border border-ink/15 px-1.5">↵</kbd> open
           </span>
-          <span className="flex items-center gap-1">Search by <span className="font-medium text-ink/60">Assets &amp; Capital</span> <ArrowRight className="h-3 w-3" /></span>
+          <span className="flex items-center gap-1">{tl("Search by")} <span className="font-medium text-ink/60">{tl("Assets & Capital")}</span> <ArrowRight className="h-3 w-3" /></span>
         </div>
       </div>
     </div>

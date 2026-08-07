@@ -176,7 +176,7 @@ export function FeaturedCarousel({
           <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
-              aria-label="Previous featured businesses"
+              aria-label={tl("Previous featured businesses")}
               onClick={() => scrollByCard(-1)}
               className="grid h-11 w-11 place-items-center rounded-[var(--radius-button)] border border-ink/12 text-ink/70 transition-colors hover:border-ink/30 hover:bg-white hover:text-ink"
             >
@@ -184,7 +184,7 @@ export function FeaturedCarousel({
             </button>
             <button
               type="button"
-              aria-label="Next featured businesses"
+              aria-label={tl("Next featured businesses")}
               onClick={() => scrollByCard(1)}
               className="grid h-11 w-11 place-items-center rounded-[var(--radius-button)] bg-ink text-white transition-colors hover:bg-navy-700"
             >

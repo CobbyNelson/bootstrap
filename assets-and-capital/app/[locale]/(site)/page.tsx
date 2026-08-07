@@ -75,8 +75,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
       <Process locale={locale} />
       <WhyUs locale={locale} />
       <Featured locale={locale} />
-      <Insights articles={teasers} />
-      <FinalCTA />
+      <Insights articles={teasers} locale={locale} />
+      <FinalCTA locale={locale} />
     </>
   );
 }

@@ -30,14 +30,19 @@ export function Logo({ invert = false, className }: { invert?: boolean; classNam
     <Link
       href="/"
       className={cn("inline-flex items-center", className)}
+      // i18n-exempt: the company name, which does not translate. The mark also
+      // renders on the admin shell, the dashboard and the error pages, none of
+      // which sit under a locale segment or have a translator to reach.
       aria-label="Assets & Capital — home"
     >
       {invert ? (
         /* eslint-disable-next-line @next/next/no-img-element */
+        // i18n-exempt: company name
         <img src={LOGO_DARK_SRC} alt="Assets & Capital" className="h-9 w-auto" />
       ) : (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
+          {/* i18n-exempt: company name */}
           <img src={LOGO_SRC} alt="Assets & Capital" data-logo-light className="h-9 w-auto" />
           {/* alt="" so screen readers announce the logo once, not twice. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}

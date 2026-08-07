@@ -19,7 +19,7 @@ export async function StatsBand({ locale }: { locale: Locale }) {
       <div className="container-x relative">
         <Reveal>
           <p className="kicker text-center text-[0.8rem] text-brand-400">
-            Trusted worldwide to make the connection
+            {t.tl("Trusted worldwide to make the connection")}
           </p>
         </Reveal>
         <div className="mt-10 grid grid-cols-2 gap-y-10 md:grid-cols-4">

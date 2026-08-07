@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { UploadCloud, Loader2, Check, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTl } from "@/components/i18n/locale-provider";
 
 /**
  * The featured-image step of the business intake.
@@ -27,6 +28,7 @@ export function FeaturedImageUpload({
   companyName: string;
   onUploaded: (src: string) => void;
 }) {
+  const tl = useTl();
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -65,17 +67,16 @@ export function FeaturedImageUpload({
   return (
     <div className="mt-7">
       <label className="mb-1.5 block text-sm font-medium text-ink/80">
-        Featured image <span className="font-normal text-ink/45">(optional)</span>
+        {tl("Featured image")} <span className="font-normal text-ink/45">(optional)</span>
       </label>
       <p className="mb-3 text-xs leading-relaxed text-ink/55">
-        Shown on your marketplace card. A photo of your operations works best — it is
-        converted to WebP under 100KB automatically.
+        {tl("Shown on your marketplace card. A photo of your operations works best — it is converted to WebP under 100KB automatically.")}
       </p>
 
       <div
         role="button"
         tabIndex={0}
-        aria-label="Upload featured image — drop a file or click to browse"
+        aria-label={tl("Upload featured image — drop a file or click to browse")}
         onClick={() => inputRef.current?.click()}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
@@ -102,9 +103,9 @@ export function FeaturedImageUpload({
         {value ? (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={value} alt="Your featured image" className="aspect-[16/9] w-full object-cover" />
+            <img src={value} alt={tl("Your featured image")} className="aspect-[16/9] w-full object-cover" />
             <span className="absolute bottom-2 right-2 inline-flex items-center gap-1.5 rounded-full bg-ink/70 px-3 py-1.5 text-xs font-medium text-white backdrop-blur">
-              <RefreshCw className="h-3 w-3" /> Replace
+              <RefreshCw className="h-3 w-3" /> {tl("Replace")}
             </span>
           </>
         ) : (
@@ -115,7 +116,7 @@ export function FeaturedImageUpload({
               <UploadCloud className="h-6 w-6" />
             )}
             <span className="text-sm">
-              {busy ? "Converting to WebP…" : dragging ? "Drop to upload" : "Drop an image, or click to browse"}
+              {busy ? "Converting to WebP…" : dragging ? tl("Drop to upload") : tl("Drop an image, or click to browse")}
             </span>
           </div>
         )}

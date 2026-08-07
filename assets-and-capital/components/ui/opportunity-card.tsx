@@ -78,7 +78,7 @@ export function OpportunityCard({
         ) : (
           <span
             className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full bg-ink/70 px-2.5 py-1 text-[0.62rem] font-semibold text-white backdrop-blur-sm"
-            title="Express interest to reveal your match rate"
+            title={tl("Express interest to reveal your match rate")}
           >
             <Lock className="h-3 w-3" /> {tl("Match locked")}
           </span>
