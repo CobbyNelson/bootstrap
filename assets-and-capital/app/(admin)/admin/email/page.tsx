@@ -29,7 +29,7 @@ export default async function AdminEmailPage() {
           failed: count("failed"),
           skipped: count("skipped"),
           configured: Boolean(process.env.RESEND_API_KEY),
-          from: process.env.EMAIL_FROM || "hello@assetsandcapitalltd.com",
+          from: process.env.EMAIL_FROM || "info@assetsandcapitalltd.com",
           recent,
         }}
       />

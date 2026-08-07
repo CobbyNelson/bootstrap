@@ -292,7 +292,7 @@ export const TRANSLATABLE: { source: string; context: string }[] = [
   { source: "While we screen and verify businesses before listing, investors are responsible for their own due diligence. Match scores are informational signals, not recommendations.", context: "Legal — Disclosures" },
   { source: "Access a copy of your data — download it as a file at any time.", context: "Legal — Privacy Policy" },
   { source: "Account data — for as long as your account is open, then deleted or anonymised when you close it.", context: "Legal — Privacy Policy" },
-  { source: "Assets and Capital Limited is the data controller for the personal data described in this notice. You can reach us about anything on this page at privacy@assetsandcapitalltd.com.", context: "Legal — Privacy Policy" },
+  { source: "Assets and Capital Limited is the data controller for the personal data described in this notice. You can reach us about anything on this page at info@assetsandcapitalltd.com.", context: "Legal — Privacy Policy" },
   { source: "Changes", context: "Legal — Privacy Policy" },
   { source: "Children", context: "Legal — Privacy Policy" },
   { source: "Complain to a supervisory authority. In Ghana this is the Data Protection Commission; in the UK the ICO; in the EU your national authority. We would rather you came to us first.", context: "Legal — Privacy Policy" },

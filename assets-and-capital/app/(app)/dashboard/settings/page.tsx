@@ -80,8 +80,8 @@ export default async function SettingsPage() {
         </dl>
         <p className="mt-5 border-t border-ink/[0.06] pt-4 text-sm text-ink/65">
           To change your name, email or password, email{" "}
-          <a href="mailto:support@assetsandcapitalltd.com" className="font-medium text-brand-700 hover:text-brand-800">
-            support@assetsandcapitalltd.com
+          <a href="mailto:info@assetsandcapitalltd.com" className="font-medium text-brand-700 hover:text-brand-800">
+            info@assetsandcapitalltd.com
           </a>{" "}
           — self-service editing isn&rsquo;t available yet.
         </p>

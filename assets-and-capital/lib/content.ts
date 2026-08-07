@@ -13,7 +13,7 @@ export const SITE = {
   legalName: "Assets and Capital Limited",
   short: "A&C",
   domain: SITE_HOST,
-  email: "hello@assetsandcapitalltd.com",
+  email: "info@assetsandcapitalltd.com",
   phone: "+971 52 680 1658",
   tagline: "Where quality assets meet ready capital.",
   description:

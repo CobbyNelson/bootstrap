@@ -31,7 +31,7 @@ export async function sendEmail(input: {
   html: string;
 }): Promise<SendResult> {
   const key = process.env.RESEND_API_KEY;
-  const from = process.env.EMAIL_FROM || "Assets & Capital <hello@assetsandcapitalltd.com>";
+  const from = process.env.EMAIL_FROM || "Assets & Capital <info@assetsandcapitalltd.com>";
   if (!key) {
     console.info(`[email skipped: no RESEND_API_KEY] to=${input.to} subject=${input.subject}`);
     await record(input.to, input.subject, "skipped");

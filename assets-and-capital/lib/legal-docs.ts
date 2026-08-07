@@ -23,7 +23,15 @@ export type Doc = {
   sections: { h: string; p: string; list?: string[]; table?: { head: string[]; rows: string[][] } }[];
 };
 
-const CONTACT = "privacy@assetsandcapitalltd.com";
+/**
+ * The privacy contact.
+ *
+ * This was privacy@, and the settings page pointed at support@, and the site
+ * at hello@ — three addresses where one mailbox exists. A privacy policy is
+ * the worst place to name one that bounces: it is the address a regulator
+ * expects a data-subject request to reach.
+ */
+const CONTACT = SITE.email;
 
 export const LEGAL_DOCS: Record<string, Doc> = {
   privacy: {
