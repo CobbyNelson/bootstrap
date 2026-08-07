@@ -72,6 +72,7 @@ export const TRANSLATABLE: { source: string; context: string }[] = [
   { source: "You'll be redirected to", context: "Checkout" },
   { source: "You're now on", context: "Checkout" },
   { source: "Email", context: "Contact page" },
+  { source: "Global, with teams in-market", context: "Contact page" },
   { source: "Let's make the connection", context: "Contact page" },
   { source: "Phone", context: "Contact page" },
   { source: "Reach", context: "Contact page" },

@@ -22,7 +22,11 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
     { icon: Mail, label: "Email", value: SITE.email, href: `mailto:${SITE.email}` },
     { icon: Phone, label: "Phone", value: SITE.phone, href: `tel:${SITE.phone.replace(/\s/g, "")}` },
     { icon: Globe, label: "Website", value: SITE.domain, href: `https://${SITE.domain}` },
-    { icon: MapPin, label: "Reach", value: "Global, with teams in-market" },
+    // `value` is on translateContent's skip list, correctly: it holds the
+    // email, the phone number and the domain on the three cards above. This one
+    // holds a sentence, so it is translated here rather than by widening a rule
+    // that exists to stop a phone number being "translated".
+    { icon: MapPin, label: "Reach", value: t.tl("Global, with teams in-market") },
   ], t);
 
   return (
