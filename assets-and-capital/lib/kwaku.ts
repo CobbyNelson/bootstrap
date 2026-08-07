@@ -126,16 +126,15 @@ const TOPICS: Topic[] = [
     answer: () =>
       `Alongside listings we offer ${SERVICES.slice(0, 5).map((s) => s.title.toLowerCase()).join(", ")}. ` +
       `These are priced separately and requested as you need them.`,
-    // These point at real routes. The link here used to be "All services" →
-    // /services, and there is no index page at /services — only /services/
-    // [slug] — so the single answer whose whole job is to send a visitor
-    // somewhere was sending them to a 404. Kwaku is meant to be the grounded
-    // part of the site; handing out a dead link is the version of inventing
-    // something that is hardest to notice, because the answer above it is true.
+    // "All services" resolved to a 404 for as long as it existed: /services had
+    // only a [slug] route and no index. The index exists now, so the link is
+    // honest — but the lesson is the link, not the page. Kwaku is the grounded
+    // part of the site, and a dead link is the version of inventing something
+    // that is hardest to notice, because the answer above it is true.
     links: [
+      { label: "All services", href: "/services" },
       { label: "Business plan writing", href: "/services/business-plan" },
       { label: "Financial modelling", href: "/services/financial-modelling" },
-      { label: "Specialised roadshows", href: "/services/roadshows" },
     ],
   },
   {

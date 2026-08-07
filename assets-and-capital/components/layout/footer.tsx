@@ -77,9 +77,15 @@ export function Footer() {
           {/* brand + newsletter */}
           <div className="max-w-sm">
             <Logo />
+            {/* Two sentences, translated separately rather than as a template:
+                the tagline is already its own registry entry (it appears in
+                metadata and on the gate too), and the second sentence stands
+                alone, so neither needs a hole cut in it. */}
             <p className="mt-5 text-[0.95rem] leading-relaxed text-ink/70">
-              {SITE.tagline} We connect vetted businesses with a global network of ready investors — for
-              capital raising, partnerships, and market expansion.
+              {tl(SITE.tagline)}{" "}
+              {tl(
+                "We connect vetted businesses with a global network of ready investors — for capital raising, partnerships, and market expansion.",
+              )}
             </p>
             <NewsletterForm />
             <div className="mt-6 flex items-center gap-2">
@@ -128,12 +134,17 @@ export function Footer() {
         </div>
 
         <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-ink/10 pt-8 text-sm text-ink/65 sm:flex-row sm:items-center">
+          {/* A template, not a fragment: ". All rights reserved." on its own is
+              not something a translator can place, and the year and company name
+              do not sit in that order in every language. */}
           <p>
-            © {new Date().getFullYear()} {SITE.legalName}. All rights reserved.
+            {tl("© {year} {company}. All rights reserved.")
+              .replace("{year}", String(new Date().getFullYear()))
+              .replace("{company}", SITE.legalName)}
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <p className="hidden text-ink/65 md:block">
-              {SITE.domain} · Capital-raising & deal-making platform.
+              {tl("{domain} · Capital-raising & deal-making platform.").replace("{domain}", SITE.domain)}
             </p>
             {/* Appearance lives here rather than in the header: it is a
                 preference set once, not a navigation control, and the header

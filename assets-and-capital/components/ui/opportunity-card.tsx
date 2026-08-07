@@ -73,7 +73,7 @@ export function OpportunityCard({
         <SaveButton slug={slug} className="absolute right-3 top-3" />
         {unlocked ? (
           <span className="absolute bottom-3 left-3 rounded-full bg-brand-600 px-2.5 py-1 text-[0.65rem] font-semibold text-white tnum">
-            {o.match}% match
+            {tl("{n}% match").replace("{n}", String(o.match))}
           </span>
         ) : (
           <span

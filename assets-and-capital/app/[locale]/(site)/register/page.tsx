@@ -66,7 +66,7 @@ export default async function RegisterPage({ params }: { params: Promise<{ local
           ))}
         </div>
         <p className="container-x mt-8 text-center text-sm text-ink/65">
-          Already have an account?{" "}
+          {t.tl("Already have an account?")}{" "}
           <Link href="/login" className="font-medium text-brand-700 hover:text-brand-800">
             {t.tl("Sign in")}
           </Link>

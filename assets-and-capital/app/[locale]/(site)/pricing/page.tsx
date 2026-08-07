@@ -75,7 +75,7 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
                   size="md"
                   className="mt-6 w-full"
                 >
-                  Choose {tier.name}
+                  {t.tl("Choose {tier}").replace("{tier}", tier.name)}
                 </Button>
                 <ul className="mt-7 space-y-3">
                   {tier.features.map((f) => (

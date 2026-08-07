@@ -112,7 +112,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
  </span>
  <div>
  <p className="font-medium text-ink">{a.author}</p>
- <p className="text-sm text-ink/65">{a.authorRole}, Assets &amp; Capital</p>
+ <p className="text-sm text-ink/65">{t.tl("{role}, Assets & Capital").replace("{role}", a.authorRole)}</p>
  </div>
  </div>
  </article>

@@ -153,8 +153,9 @@ export function CheckoutDialog({
                   <FlaskConical className="h-4 w-4" /> {tl("Test mode")}
                 </p>
                 <p className="mt-1 text-xs leading-relaxed text-amber-800/80">
-                  {tl("No real charge. Card")} <strong>{TEST_CARDS.success}</strong> approves; <strong>{TEST_CARDS.decline}</strong>{" "}
-                  declines. Any future expiry & CVC.
+                  {tl("No real charge. Card {ok} approves; {bad} declines. Any future expiry & CVC.")
+                    .replace("{ok}", TEST_CARDS.success)
+                    .replace("{bad}", TEST_CARDS.decline)}
                 </p>
                 <button
                   onClick={fillTestCard}
@@ -280,7 +281,7 @@ export function CheckoutDialog({
                 </>
               ) : (
                 <>
-                  Continue with {provider.name} <ArrowRight className="h-4 w-4" />
+                  {tl("Continue with {provider}").replace("{provider}", provider.name)} <ArrowRight className="h-4 w-4" />
                 </>
               )}
             </button>

@@ -108,16 +108,30 @@ export function CookieConsent() {
             <h2 id="cookie-consent-title" className="text-sm font-semibold text-ink">
               {tl("Your cookie choices")}
             </h2>
+            {/* The link sits INSIDE the sentence, so the sentence is one string
+                with a hole in it and the link text is another. A translator
+                moves the link by moving {policy} — which is the only way this
+                reads naturally in a language that orders the clause differently.
+                Wrapping the two prose halves separately would have pinned the
+                link to the end of the sentence in every language. */}
             <p className="mt-1 text-sm leading-relaxed text-ink/70">
-              We use cookies that are necessary to run the platform. With your
-              permission we would also measure how it is used. See our{" "}
-              <Link
-                href="/legal/cookies"
-                className="font-medium text-brand-700 underline-offset-2 hover:underline"
-              >
-                {tl("cookie policy")}
-              </Link>
-              .
+              {tl(
+                "We use cookies that are necessary to run the platform. With your permission we would also measure how it is used. See our {policy}.",
+              )
+                .split("{policy}")
+                .map((part, i) => (
+                  <span key={i}>
+                    {part}
+                    {i === 0 && (
+                      <Link
+                        href="/legal/cookies"
+                        className="font-medium text-brand-700 underline-offset-2 hover:underline"
+                      >
+                        {tl("cookie policy")}
+                      </Link>
+                    )}
+                  </span>
+                ))}
             </p>
           </div>
         </div>

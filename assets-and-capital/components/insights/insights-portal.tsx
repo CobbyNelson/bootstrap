@@ -87,7 +87,9 @@ export function InsightsPortal({ articles }: { articles: PublicArticle[] }) {
       >
         <Cover type={featured.type} cover={featured.cover} className="aspect-[16/10] lg:aspect-auto" />
         <div className="flex flex-col justify-center p-8 md:p-10">
-          <span className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-700">Featured · {featured.category}</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-700">
+              {tl("Featured · {category}").replace("{category}", tl(featured.category))}
+            </span>
           <h2 className="mt-3 font-display text-2xl font-semibold leading-tight text-navy-700 group-hover:text-brand-700 md:text-3xl">{/* i18n-exempt: an article headline is editorial copy a person wrote, not interface text; a machine translation of it is a different headline. */}{featured.title}</h2>
           <p className="mt-3 leading-relaxed text-ink/60">{featured.excerpt}</p>
           <div className="mt-6 flex items-center gap-3 text-sm text-ink/65">

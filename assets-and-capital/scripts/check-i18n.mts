@@ -129,7 +129,9 @@ function isCopy(s: string): boolean {
   // words: "a(n)", "(optional)".
   // A text node never opens with a closing bracket or ends with an opening one:
   // ") : interested ? (" is a JSX ternary, sliced between a `>` and a `<`.
-  if (/^[)\]}]/.test(t) || /[([{]$/.test(t)) return false;
+  // Also `:` and `?` — an arm of a ternary sliced out of a className
+  // expression ("… : primary ? cn(…"). No sentence opens with either.
+  if (/^[)\]}:?]/.test(t) || /[([{]$/.test(t)) return false;
   if (/\(\s*\)/.test(t)) return false;
   if ((t.match(/\(/g) ?? []).length !== (t.match(/\)/g) ?? []).length) return false;
   if (/\b(const|let|return|function|await|async|import|export|typeof)\b/.test(t)) return false;
@@ -140,6 +142,18 @@ function isCopy(s: string): boolean {
   // tags. Both real cases were exactly this shape — a lone operator followed by
   // a PascalCase type — which no sentence a visitor reads ever is.
   if (/^[&|]\s*[A-Z][A-Za-z]*$/.test(t)) return false;
+
+  // Type annotations and statements, which the interpolated-text pass slices out
+  // of `.tsx` because a generic's angle brackets are indistinguishable from
+  // tags: "params: Promise", "heroes?: Record", "region: new Set".
+  if (/^\w+\??:\s*[A-Z]/.test(t)) return false;
+  if (/\bnew\s+[A-Z]/.test(t)) return false;
+  if (/^(if|else|for|while|switch|try|catch|return)\b/.test(t)) return false;
+  if (/[,;]$/.test(t)) return false;
+  // Bare TypeScript utility types. Listed rather than inferred, because they are
+  // indistinguishable from a one-word button label — "Omit" and "Choose" have
+  // exactly the same shape, and only one of them is a word anybody reads.
+  if (/^(Omit|Pick|Record|Partial|Required|Readonly|Promise|Array|Set|Map|NonNullable|ReturnType|Awaited|Exclude|Extract|Parameters)$/.test(t)) return false;
 
   // Real copy is either a phrase, or a capitalised label.
   return /\s/.test(t) || /^[A-Z]/.test(t);
@@ -191,6 +205,36 @@ function scan(file: string): Finding[] {
     const text = decodeEntities(m[1].replace(/\s+/g, " ").trim());
     const line = lineOf(m.index!);
     if (isCopy(text) && !exempt.has(line)) out.push({ file, line, text, kind: "jsx-text" });
+  }
+
+  /**
+   * Text nodes that CONTAIN an interpolation, e.g.
+   *
+   *     <p>{SITE.tagline} We connect vetted businesses with a global …</p>
+   *
+   * The bare-text pattern above excludes `{` and `}` outright, which is what
+   * stops it reporting an already-wrapped string — and the cost was that a
+   * paragraph became invisible the moment ANY value was interpolated into it.
+   * The footer's entire brand blurb, its copyright line and its platform
+   * description were untranslated for that reason, on every page of the site.
+   *
+   * Stripping the braces first is what makes this safe rather than noisy: for
+   * `{tl("Hello")}` nothing remains once the expression is removed, so a
+   * wrapped string still cannot be reported. What remains is exactly the prose
+   * a reader sees and the translator never got.
+   */
+  const stripExpressions = (t: string) => {
+    let prev;
+    do { prev = t; t = t.replace(/\{[^{}]*\}/g, " "); } while (t !== prev);
+    return t;
+  };
+  for (const m of cleaned.matchAll(/>((?:[^<>]|\{[^{}]*\})*\{[^{}]*\}(?:[^<>]|\{[^{}]*\})*)</g)) {
+    const line = lineOf(m.index!);
+    if (exempt.has(line)) continue;
+    for (const frag of stripExpressions(m[1]).split(/\s{2,}|\n/)) {
+      const text = decodeEntities(frag.replace(/\s+/g, " ").trim());
+      if (isCopy(text)) out.push({ file, line, text, kind: "interpolated-text" });
+    }
   }
 
   /**

@@ -217,7 +217,7 @@ export function CommandPalette() {
               </div>
             </div>
           ) : results.length === 0 ? (
-            <p className="px-4 py-10 text-center text-sm text-ink/60">No results for “{q}”.</p>
+            <p className="px-4 py-10 text-center text-sm text-ink/60">{tl("No results for “{query}”.").replace("{query}", q)}</p>
           ) : (
             groups.map(([group, items]) => (
               <div key={group} className="pb-1">

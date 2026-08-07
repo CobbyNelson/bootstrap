@@ -99,8 +99,8 @@ export function SignNdaButton({
 
             <div className="overflow-y-auto px-6 py-5 text-sm leading-relaxed text-ink/70">
               <p className="text-ink/60">
-                {tl("Between")} <strong className="text-ink">{tl("Assets & Capital Ltd")}</strong> (on behalf of {businessName}) and
-                you, the receiving investor.
+                {tl("Between")} <strong className="text-ink">{tl("Assets & Capital Ltd")}</strong>{" "}
+                {tl("(on behalf of {business}) and you, the receiving investor.").replace("{business}", businessName)}
               </p>
               <ol className="mt-4 list-decimal space-y-3 pl-5">
                 <li>
@@ -132,7 +132,7 @@ export function SignNdaButton({
                   onChange={(e) => setAgreed(e.target.checked)}
                   className="mt-0.5 h-4 w-4 accent-brand-600"
                 />
-                I have read and agree to the terms of this NDA for {businessName}.
+                {tl("I have read and agree to the terms of this NDA for {business}.").replace("{business}", businessName)}
               </label>
               {error && <p className="mt-3 text-sm font-medium text-brand-700">{error}</p>}
               <div className="mt-4 flex justify-end gap-2">

@@ -247,7 +247,9 @@ export function BusinessDetail({
             <div className={card}>
               <div className="flex items-center justify-between">
                 <h2 className="font-display text-xl font-semibold text-navy-700">{tl("AI fit breakdown")}</h2>
-                <span className="text-xs text-ink/60">{deal.dimensions.length} weighted criteria</span>
+                <span className="text-xs text-ink/60">
+                    {tl("{n} weighted criteria").replace("{n}", String(deal.dimensions.length))}
+                  </span>
               </div>
               <div className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
                 {deal.dimensions.map((dim) => (
@@ -330,7 +332,7 @@ export function BusinessDetail({
                   </div>
                   <p className="mt-3 font-medium text-ink">{tl("Sign the mutual NDA to open the data room")}</p>
                   <p className="mx-auto mt-1 max-w-sm text-sm text-ink/60">
-                    Documents are released once you&apos;ve signed the non-disclosure agreement for {o.name}.
+                    {tl("Documents are released once you've signed the non-disclosure agreement for {business}.").replace("{business}", o.name)}
                   </p>
                   <SignNdaButton slug={slug} businessName={o.name} signed={ndaSigned} primary className="mt-4" />
                 </div>
@@ -376,7 +378,7 @@ export function BusinessDetail({
                 <span className="mt-1.5 text-sm font-semibold" style={{ color: starColor(deal.stars) }}>
                   {deal.tier}
                 </span>
-                <p className="mt-1 text-xs text-ink/60">vs. mandate: {mandateName}</p>
+                <p className="mt-1 text-xs text-ink/60">{tl("vs. mandate: {mandate}").replace("{mandate}", mandateName)}</p>
               </div>
 
               <div className="space-y-2 border-t border-ink/[0.06] pt-5">
