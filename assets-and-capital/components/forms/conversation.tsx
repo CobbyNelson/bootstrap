@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Check, Loader2 } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTl } from "@/components/i18n/locale-provider";
 
@@ -255,7 +255,7 @@ export function Conversation({
                 aria-label={q.ask}
                 aria-invalid={Boolean(problem)}
                 className={cn(
-                  "min-h-24 w-full resize-none border-0 border-b border-ink/25 bg-transparent pb-3 font-display leading-snug text-brand-700 caret-brand-600 outline-none transition-all duration-300 placeholder:text-ink/40 focus:border-brand-600",
+                  "answer-line min-h-24 w-full resize-none pb-3 font-display leading-snug text-brand-700 caret-brand-600 transition-all duration-300 placeholder:text-ink/40",
                   sizeFor(draft.length),
                 )}
               />
@@ -272,7 +272,7 @@ export function Conversation({
                 aria-label={q.ask}
                 aria-invalid={Boolean(problem)}
                 className={cn(
-                  "w-full border-0 border-b border-ink/25 bg-transparent pb-3 font-display text-brand-700 caret-brand-600 outline-none transition-all duration-300 placeholder:text-ink/40 focus:border-brand-600",
+                  "answer-line w-full pb-3 font-display text-brand-700 caret-brand-600 transition-all duration-300 placeholder:text-ink/40",
                   sizeFor(draft.length),
                 )}
               />
@@ -286,8 +286,10 @@ export function Conversation({
               className="inline-flex shrink-0 items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
             >
               {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-              {last ? submitLabel : tl("OK")}
-              {!submitting && !last && <ArrowRight className="h-4 w-4" />}
+              {last ? submitLabel : tl("Enter")}
+              {!submitting && !last && (
+                <span aria-hidden className="text-base leading-none">&#8629;</span>
+              )}
             </button>
           </div>
         )}

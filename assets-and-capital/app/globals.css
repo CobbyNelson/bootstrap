@@ -647,3 +647,28 @@ body {
   --chart-grid: color-mix(in srgb, white 12%, transparent);
   --chart-axis: color-mix(in srgb, white 55%, transparent);
 }
+
+/**
+ * The conversational form's answer line: a 1px rule underneath, and nothing else.
+ *
+ * The site-wide `:focus-visible` ring is a 2px outline with a 6px radius — right
+ * for buttons and links, wrong here, where it draws a box around a field whose
+ * whole design is a single line. So these fields opt out of the box and carry
+ * the focus signal on the rule itself.
+ *
+ * NOT an accessibility regression, which is the only reason this is acceptable:
+ * WCAG needs a focus indicator that is VISIBLE, not one that is a rectangle.
+ * The rule goes from ink/25 to solid brand-600 — a change of both colour and
+ * contrast against the same background, on the element that has focus.
+ */
+.answer-line {
+  border: 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--color-ink) 25%, transparent);
+  border-radius: 0;
+  background: transparent;
+}
+.answer-line:focus,
+.answer-line:focus-visible {
+  outline: none;
+  border-bottom-color: var(--color-brand-600);
+}
