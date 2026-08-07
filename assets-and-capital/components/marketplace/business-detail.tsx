@@ -254,7 +254,7 @@ export function BusinessDetail({
                   <div key={dim.key}>
                     <div className="mb-1 flex items-center justify-between text-xs">
                       <span className="text-ink/70">
-                        {dim.label} <span className="text-ink/30">· {dim.weight}%</span>
+                        {tl(dim.label)} <span className="text-ink/30">· {dim.weight}%</span>
                       </span>
                       <span className="font-medium text-ink tnum">{Math.round(dim.f * 100)}</span>
                     </div>
@@ -282,7 +282,7 @@ export function BusinessDetail({
                   const tone = good ? "text-emerald-700" : mid ? "text-navy-600" : "text-brand-600";
                   return (
                     <div key={b.key} className="rounded-2xl border border-ink/[0.06] p-4">
-                      <p className="text-xs text-ink/65">{b.label}</p>
+                      <p className="text-xs text-ink/65">{tl(b.label)}</p>
                       <p className={cn("mt-1 font-display text-2xl font-semibold tnum", tone)}>{b.value}</p>
                       <p className="mt-1 text-[0.7rem] leading-snug text-ink/60">{b.recommendations[0]}</p>
                     </div>

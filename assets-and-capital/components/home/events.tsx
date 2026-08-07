@@ -32,7 +32,7 @@ export async function Events({ locale }: { locale: Locale }) {
 
         <div className="mt-14 grid gap-5 md:grid-cols-3">
           {EVENTS.map((ev, i) => (
-            <Reveal key={ev.title} delay={i * 0.08}>
+            <Reveal key={t.tl(ev.title)} delay={i * 0.08}>
               <Link
                 href="/events"
                 className="group flex h-full items-center gap-5 rounded-3xl border border-ink/[0.07] bg-white p-6 transition-all hover:shadow-[var(--shadow-card)]"
@@ -43,7 +43,7 @@ export async function Events({ locale }: { locale: Locale }) {
                 </div>
                 <div className="min-w-0">
                   <Badge variant="gold" size="sm">{ev.type}</Badge>
-                  <h3 className="mt-2 font-semibold leading-snug text-ink">{ev.title}</h3>
+                  <h3 className="mt-2 font-semibold leading-snug text-ink">{t.tl(ev.title)}</h3>
                   <p className="mt-1 inline-flex items-center gap-1 text-xs text-ink/65">
                     <MapPin className="h-3 w-3" /> {ev.location}
                   </p>

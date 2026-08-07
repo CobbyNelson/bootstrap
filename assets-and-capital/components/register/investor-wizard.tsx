@@ -304,7 +304,9 @@ export function InvestorWizard() {
     return (
       <div className="container-x py-12 md:py-16">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-medium text-ink/65">Step 1 of {totalSteps}</p>
+          <p className="text-sm font-medium text-ink/65">
+            {tl("Step {n} of {total}").replace("{n}", "1").replace("{total}", String(totalSteps))}
+          </p>
           <h2 className="mt-3 font-display text-3xl font-semibold text-navy-700">{tl("What kind of investor are you?")}</h2>
           <p className="mt-3 text-ink/60">{tl("This tailors your mandate to the right questions. You can change it anytime.")}</p>
         </div>
@@ -322,8 +324,8 @@ export function InvestorWizard() {
               <span className="grid h-12 w-12 place-items-center rounded-2xl bg-brand-50 text-brand-600 ring-1 ring-brand-100 transition-colors group-hover:bg-brand-600 group-hover:text-white">
                 <b.icon className="h-5 w-5" />
               </span>
-              <h3 className="mt-5 text-lg font-semibold text-ink">{b.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink/65">{b.desc}</p>
+              <h3 className="mt-5 text-lg font-semibold text-ink">{tl(b.title)}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink/65">{tl(b.desc)}</p>
               <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-600">
                 {tl("Select")} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </span>
@@ -374,7 +376,7 @@ export function InvestorWizard() {
                 >
                   {state === "done" ? <Check className="h-3.5 w-3.5" /> : i + 2}
                 </span>
-                {s.title}
+                {tl(s.title)}
               </li>
             );
           })}
@@ -386,8 +388,8 @@ export function InvestorWizard() {
         <div className="rounded-3xl border border-ink/[0.07] bg-white p-6 shadow-[var(--shadow-soft)] md:p-9">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 className="font-display text-2xl font-semibold text-navy-700">{step.title}</h2>
-              {step.subtitle && <p className="mt-1.5 text-sm text-ink/65">{step.subtitle}</p>}
+              <h2 className="font-display text-2xl font-semibold text-navy-700">{tl(step.title)}</h2>
+              {step.subtitle && <p className="mt-1.5 text-sm text-ink/65">{tl(step.subtitle)}</p>}
             </div>
             <span
               className={cn(
@@ -460,7 +462,7 @@ function FieldControl({
   return (
     <div className={wrap}>
       <label className="mb-1.5 block text-sm font-medium text-ink/80">
-        {field.label} {field.required && <span className="text-brand-600">*</span>}
+        {tl(field.label)} {field.required && <span className="text-brand-600">*</span>}
       </label>
 
       {field.type === "chips" ? (
@@ -547,7 +549,7 @@ function ReviewStep({
       <div className="space-y-6">
         {fieldSteps.map((s) => (
           <div key={s.id}>
-            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/60">{s.title}</p>
+            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/60">{tl(s.title)}</p>
             <dl className="mt-2 grid gap-x-6 gap-y-1.5 sm:grid-cols-2">
               {s.fields.map((f) => {
                 const v = values[f.name];
@@ -555,7 +557,7 @@ function ReviewStep({
                 if (!display) return null;
                 return (
                   <div key={f.name} className="flex justify-between gap-4 border-b border-dashed border-ink/[0.08] py-1.5 text-sm">
-                    <dt className="text-ink/65">{f.label}</dt>
+                    <dt className="text-ink/65">{tl(f.label)}</dt>
                     <dd className="text-right font-medium text-ink">{display}</dd>
                   </div>
                 );

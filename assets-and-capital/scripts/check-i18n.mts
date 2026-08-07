@@ -210,6 +210,35 @@ function scan(file: string): Finding[] {
     if (isCopy(text) && !exempt.has(line)) out.push({ file, line, text, kind: "jsx-and" });
   }
 
+  /**
+   * Copy read out of an object and rendered raw: `{b.desc}`, `{step.title}`.
+   *
+   * No literal appears at the render site at all, so nothing above can see it —
+   * and this is where most of the copy on a form-heavy page actually lives. The
+   * investor wizard's three branch cards, every step heading, the compliance
+   * table's labels: all held in const arrays, all English in three languages.
+   *
+   * There are two legitimate ways to translate such data, and only one of them
+   * is visible here. A file that calls translateContent has already translated
+   * the whole object before it reaches JSX, so `{b.desc}` there is correct and
+   * must not be reported — which is why this pass is skipped for those files
+   * entirely rather than trying to prove it property by property.
+   */
+  // `name` is deliberately absent. On this codebase it is almost never copy:
+  // it holds a business ("Sahara Solar Grid"), a person, a payment provider, a
+  // form field id, or the site itself — proper nouns and identifiers, which
+  // translating would corrupt rather than localise. Including it produced 14
+  // findings, every one of them wrong.
+  const COPY_PROPS = "title|subtitle|label|desc|description|blurb|body|text|copy|answer|question|summary|caption|intro|heading";
+  if (!src.includes("translateContent")) {
+    for (const m of cleaned.matchAll(new RegExp(`\\{\\s*(\\w+)\\.(${COPY_PROPS})\\s*\\}`, "g"))) {
+      const line = lineOf(m.index!);
+      if (!exempt.has(line)) {
+        out.push({ file, line, text: `${m[1]}.${m[2]}`, kind: "raw-object-copy" });
+      }
+    }
+  }
+
   // Copy passed as a literal prop.
   // Every prop name that was found carrying a sentence, not the ten that were
   // guessed. `desc=` alone hid a paragraph on the marketplace detail page for as

@@ -109,7 +109,7 @@ export function MarketplaceView({
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     const list = MARKETPLACE.filter((o) => {
-      if (q && !`${o.name} ${tl(o.sector)} ${o.country} ${o.blurb}`.toLowerCase().includes(q)) return false;
+      if (q && !`${o.name} ${tl(o.sector)} ${o.country} ${tl(o.blurb)}`.toLowerCase().includes(q)) return false;
       if (filters.region.size && !filters.region.has(o.region)) return false;
       if (filters.sector.size && !filters.sector.has(o.sector)) return false;
       if (filters.stage.size && !filters.stage.has(o.stage)) return false;
@@ -155,7 +155,7 @@ export function MarketplaceView({
           <div className="mt-4 space-y-6">
             {facetGroups.map((g) => (
               <div key={g.key}>
-                <p className="label-cta text-[0.68rem] text-white/55">{g.label}</p>
+                <p className="label-cta text-[0.68rem] text-white/55">{tl(g.label)}</p>
                 <div className="mt-2.5 space-y-1.5">
                   {g.options.map((opt) => {
                     const checked = filters[g.key].has(opt);
@@ -213,7 +213,7 @@ export function MarketplaceView({
             >
               {SORTS.map((s) => (
                 <option key={s.key} value={s.key}>
-                  {s.label}
+                  {tl(s.label)}
                 </option>
               ))}
             </select>

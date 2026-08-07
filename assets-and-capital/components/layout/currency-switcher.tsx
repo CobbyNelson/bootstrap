@@ -70,7 +70,7 @@ export function CurrencySwitcher({ variant = "light" }: { variant?: "light" | "d
               <span className="text-base leading-none">{c.flag}</span>
               <span className="min-w-0 flex-1">
                 <span className="block font-medium">{c.code} · {c.symbol}</span>
-                <span className="block text-xs text-ink/60">{c.label}</span>
+                <span className="block text-xs text-ink/60">{tl(c.label)}</span>
               </span>
               {c.code === currency.code && <Check className="h-4 w-4 flex-none text-brand-600" />}
             </button>

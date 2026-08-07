@@ -1,6 +1,15 @@
 import Link from "next/link";
 import { ArrowRight, type LucideIcon } from "lucide-react";
 
+/*
+ * Presentational: every string arrives as a prop, already translated.
+ *
+ * The action label is exempt below — adding useTl here would make this a
+ * client component for one word, and its only caller today is the dashboard,
+ * which is staff-facing and English by design. The moment a localised page
+ * uses it, the caller translates, exactly as it does for title and
+ * description.
+ */
 export function EmptyState({
   icon: Icon,
   title,
@@ -10,6 +19,7 @@ export function EmptyState({
   icon: LucideIcon;
   title: string;
   description: string;
+  /** Already translated by the caller — see the note above. */
   action?: { label: string; href: string };
 }) {
   return (
@@ -24,6 +34,7 @@ export function EmptyState({
           href={action.href}
           className="mt-6 inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
         >
+          {/* i18n-exempt: translated by the caller, like title and description. */}
           {action.label} <ArrowRight className="h-4 w-4" />
         </Link>
       )}

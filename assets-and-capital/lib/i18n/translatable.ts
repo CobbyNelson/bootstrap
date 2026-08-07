@@ -646,6 +646,7 @@ export const TRANSLATABLE: { source: string; context: string }[] = [
   { source: "Services & listing", context: "Registration" },
   { source: "Shown on your marketplace card. A photo of your operations works best — it is converted to WebP under 100KB automatically.", context: "Registration" },
   { source: "Sign in", context: "Registration" },
+  { source: "Step {n} of {total}", context: "Registration" },
   { source: "Structure preference", context: "Registration" },
   { source: "Submit listing", context: "Registration" },
   { source: "Submit mandate", context: "Registration" },

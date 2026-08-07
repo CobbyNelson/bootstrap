@@ -60,7 +60,7 @@ export async function Insights({ articles, locale }: { articles: PublicArticle[]
                 </div>
                 <div className="flex flex-1 flex-col p-6">
                   <h3 className="text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-brand-700">
-                    {post.title}
+                    {/* i18n-exempt: an article headline is editorial copy a person wrote, not interface text; a machine translation of it is a different headline. */}{post.title}
                   </h3>
                   <div className="mt-auto flex items-center justify-between pt-6">
                     <span className="inline-flex items-center gap-1.5 text-xs font-medium text-brand-600">

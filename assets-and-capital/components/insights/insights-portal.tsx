@@ -88,7 +88,7 @@ export function InsightsPortal({ articles }: { articles: PublicArticle[] }) {
         <Cover type={featured.type} cover={featured.cover} className="aspect-[16/10] lg:aspect-auto" />
         <div className="flex flex-col justify-center p-8 md:p-10">
           <span className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-700">Featured · {featured.category}</span>
-          <h2 className="mt-3 font-display text-2xl font-semibold leading-tight text-navy-700 group-hover:text-brand-700 md:text-3xl">{featured.title}</h2>
+          <h2 className="mt-3 font-display text-2xl font-semibold leading-tight text-navy-700 group-hover:text-brand-700 md:text-3xl">{/* i18n-exempt: an article headline is editorial copy a person wrote, not interface text; a machine translation of it is a different headline. */}{featured.title}</h2>
           <p className="mt-3 leading-relaxed text-ink/60">{featured.excerpt}</p>
           <div className="mt-6 flex items-center gap-3 text-sm text-ink/65">
             <span className="font-medium text-ink/70">{featured.author}</span>
@@ -129,7 +129,7 @@ export function InsightsPortal({ articles }: { articles: PublicArticle[] }) {
           >
             <Cover type={a.type} cover={a.cover} className="aspect-[16/10]" />
             <div className="flex flex-1 flex-col p-6">
-              <h3 className="text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-brand-700">{a.title}</h3>
+              <h3 className="text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-brand-700">{/* i18n-exempt: an article headline is editorial copy a person wrote, not interface text; a machine translation of it is a different headline. */}{a.title}</h3>
               <p className="mt-2 line-clamp-2 text-sm text-ink/65">{a.excerpt}</p>
               <div className="mt-auto flex items-center justify-between pt-6 text-xs font-medium text-brand-600">
                 <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> {a.readTime} · {a.date}</span>

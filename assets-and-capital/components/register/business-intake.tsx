@@ -173,7 +173,7 @@ export function BusinessIntake() {
                 <span className={cn("grid h-6 w-6 place-items-center rounded-[var(--radius-button)] text-xs", state === "done" && "bg-emerald-500 text-white", state === "now" && "bg-brand-600 text-white", state === "todo" && "border border-ink/20 text-ink/60")}>
                   {state === "done" ? <Check className="h-3.5 w-3.5" /> : i + 1}
                 </span>
-                {s.title}
+                {tl(s.title)}
               </li>
             );
           })}
@@ -184,8 +184,8 @@ export function BusinessIntake() {
         <div className="rounded-3xl border border-ink/[0.07] bg-white p-6 shadow-[var(--shadow-soft)] md:p-9">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 className="font-display text-2xl font-semibold text-navy-700">{step.title}</h2>
-              {step.subtitle && <p className="mt-1.5 text-sm text-ink/65">{step.subtitle}</p>}
+              <h2 className="font-display text-2xl font-semibold text-navy-700">{tl(step.title)}</h2>
+              {step.subtitle && <p className="mt-1.5 text-sm text-ink/65">{tl(step.subtitle)}</p>}
             </div>
             <span className={cn("inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs transition-opacity", saved ? "bg-emerald-50 text-emerald-700 opacity-100" : "text-ink/30 opacity-0")}>
               <Cloud className="h-3.5 w-3.5" /> {tl("Saved")}
@@ -202,7 +202,7 @@ export function BusinessIntake() {
               return (
                 <div key={f.name} className={wrap}>
                   <label className="mb-1.5 block text-sm font-medium text-ink/80">
-                    {f.label} {f.required && <span className="text-brand-600">*</span>}
+                    {tl(f.label)} {f.required && <span className="text-brand-600">*</span>}
                   </label>
                   {f.type === "chips" ? (
                     <div className="flex flex-wrap gap-2">

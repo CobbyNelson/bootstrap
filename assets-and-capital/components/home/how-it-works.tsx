@@ -81,15 +81,15 @@ export function HowItWorks() {
         <ol key={tab} className="tab-panel mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {active.steps.map((step, i) => (
               <li
-                key={step.title}
+                key={tl(step.title)}
                 className="group relative flex flex-col overflow-hidden rounded-3xl border border-ink/[0.07] bg-white transition-all hover:shadow-[var(--shadow-card)]"
               >
                 <div className="flex-1 p-6">
                   <span className="font-grotesk text-5xl font-semibold text-brand-600/15 transition-colors group-hover:text-brand-600/35">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="mt-3 text-lg font-semibold text-ink">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink/65">{step.body}</p>
+                  <h3 className="mt-3 text-lg font-semibold text-ink">{tl(step.title)}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink/65">{tl(step.body)}</p>
                 </div>
                 <div className="flex items-center justify-between bg-ink px-6 py-3">
                   <span className="kicker text-[0.7rem] text-white/60">{tl("Step")}</span>
