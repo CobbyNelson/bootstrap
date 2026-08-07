@@ -45,7 +45,31 @@ export type Question = {
   autoComplete?: string;
   /** Returns a message when the answer is not acceptable, null when it is. */
   validate?: (v: string) => string | null;
+  /**
+   * Something that is not a question with an answer — an upload, a consent
+   * tick. It renders in place of the input and the button still advances, so a
+   * long form does not have to break out of the conversation for one step.
+   */
+  node?:
+    | React.ReactNode
+    | ((ctx: {
+        /** Everything answered so far, so a step can use an earlier answer. */
+        values: Record<string, string>;
+        /** This step's own value, and how to set it. */
+        value: string;
+        set: (v: string) => void;
+      }) => React.ReactNode);
+  /** A single thing to agree to. Advancing requires it to be ticked. */
+  confirm?: string;
 };
+
+/**
+ * Where a honeypot hit is reported.
+ *
+ * Deliberately not "website": the input is NAMED website because that is what
+ * a bot looks for, but a form may legitimately ask for one.
+ */
+export const HONEYPOT_KEY = "__trap";
 
 /** Grows the answer as it is typed, so a short one looks considered rather than lost. */
 function sizeFor(len: number): string {
@@ -59,6 +83,12 @@ export function Conversation({
   onComplete,
   submitting = false,
   submitLabel = "Send",
+  /**
+   * Where to keep the draft. A ten-question form that loses everything when
+   * somebody closes the tab to go and look up a figure is a form they do not
+   * come back to.
+   */
+  storageKey,
   /** Rendered instead of the conversation once it has been submitted. */
   done,
   error,
@@ -67,6 +97,7 @@ export function Conversation({
   onComplete: (values: Record<string, string>) => void;
   submitting?: boolean;
   submitLabel?: string;
+  storageKey?: string;
   done?: React.ReactNode;
   error?: string | null;
 }) {
@@ -94,6 +125,42 @@ export function Conversation({
     setProblem("");
   }
 
+  // Restore a draft once, on mount. Seeding editable state from storage is not
+  // mirroring an external store — the visitor edits it afterwards — so
+  // useSyncExternalStore does not apply here.
+  useEffect(() => {
+    if (!storageKey) return;
+    try {
+      const raw = window.localStorage.getItem(storageKey);
+      if (!raw) return;
+      const saved = JSON.parse(raw) as { values?: Record<string, string>; idx?: number };
+      if (saved.values && Object.keys(saved.values).length) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setValues(saved.values);
+        const at = Math.min(saved.idx ?? 0, questions.length - 1);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setIdx(at);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setDraft(saved.values[questions[at].key] ?? "");
+      }
+    } catch {
+      /* a corrupt draft is not worth blocking the form over */
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!storageKey || Object.keys(values).length === 0) return;
+    const t = window.setTimeout(() => {
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify({ values, idx }));
+      } catch {
+        /* storage full or blocked — the form still works */
+      }
+    }, 500);
+    return () => window.clearTimeout(t);
+  }, [values, idx, storageKey]);
+
   // The effect does only what an effect is for: moving focus after the question
   // has animated in.
   useEffect(() => {
@@ -107,7 +174,11 @@ export function Conversation({
 
   function commit(raw?: string) {
     const v = (raw ?? draft).trim();
-    if (!v && !q.optional) {
+    if (q.confirm && v !== "yes") {
+      setProblem(tl("Please confirm to continue."));
+      return;
+    }
+    if (!v && !q.optional && !q.node && !q.confirm) {
       setProblem(q.validate?.("") ?? tl("We do need this one."));
       return;
     }
@@ -122,7 +193,12 @@ export function Conversation({
     setValues(next);
     // A bot that filled the hidden field gets the same journey and nothing
     // sent — see the honeypot at the foot of this component.
-    if (last) onComplete(hp ? { ...next, website: hp } : next);
+    //
+    // Reported under HONEYPOT_KEY, not under the field's own name. The input is
+    // called "website" because that is what a bot expects to fill, and the
+    // business intake asks a real question keyed `website` — so reporting it by
+    // name would have overwritten a company's actual URL with the bot's.
+    if (last) onComplete(hp ? { ...next, [HONEYPOT_KEY]: hp } : next);
     else {
       setIdx(idx + 1);
       setDraft(values[questions[idx + 1].key] ?? "");
@@ -240,8 +316,30 @@ export function Conversation({
           </div>
         )}
 
-        {/* The answer line. Absent for single-choice, where clicking answered it. */}
-        {!q.choices && (
+        {/* Whatever this step actually is, when it is not a question. */}
+        {q.node && (
+          <div className="mt-6">
+            {typeof q.node === "function"
+              ? q.node({ values, value: draft, set: (v) => { setDraft(v); setProblem(""); } })
+              : q.node}
+          </div>
+        )}
+
+        {q.confirm && (
+          <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-2xl bg-paper-2/60 p-4 text-sm text-ink/75">
+            <input
+              type="checkbox"
+              checked={draft === "yes"}
+              onChange={(e) => { setDraft(e.target.checked ? "yes" : ""); setProblem(""); }}
+              className="mt-0.5 h-4 w-4 accent-[var(--color-brand-600)]"
+            />
+            <span>{q.confirm}</span>
+          </label>
+        )}
+
+        {/* The answer line. Absent for single-choice, where clicking answered
+            it, and for node/confirm steps, which are not typed into. */}
+        {!q.choices && !q.node && !q.confirm && (
           <div className="mt-7 flex items-end gap-4">
             {q.multiline ? (
               <textarea
@@ -292,6 +390,19 @@ export function Conversation({
               )}
             </button>
           </div>
+        )}
+
+        {(q.node || q.confirm || q.multi) && (
+          <button
+            type="button"
+            onClick={() => commit()}
+            disabled={submitting}
+            className="mt-7 inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
+          >
+            {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+            {last ? submitLabel : tl("Enter")}
+            {!submitting && !last && <span aria-hidden className="text-base leading-none">&#8629;</span>}
+          </button>
         )}
 
         {problem && <p role="alert" className="mt-3 text-sm font-medium text-brand-700">{problem}</p>}

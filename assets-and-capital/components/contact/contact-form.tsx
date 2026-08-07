@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Check } from "lucide-react";
 import { isEmail, minLen } from "@/lib/validation";
 import { useTl } from "@/components/i18n/locale-provider";
-import { Conversation, type Question } from "@/components/forms/conversation";
+import { Conversation, HONEYPOT_KEY, type Question } from "@/components/forms/conversation";
 
 /**
  * The contact form, asked one question at a time.
@@ -72,7 +72,7 @@ export function ContactForm() {
   async function submit(values: Record<string, string>) {
     // A bot filled the hidden field. It gets the same thank-you and nothing is
     // sent — telling it otherwise only teaches it what to change.
-    if (values.website) {
+    if (values[HONEYPOT_KEY]) {
       setStatus("done");
       return;
     }
