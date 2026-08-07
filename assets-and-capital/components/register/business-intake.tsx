@@ -201,11 +201,11 @@ export function BusinessIntake() {
               const val = values[f.name];
               return (
                 <div key={f.name} className={wrap}>
-                  <label className="mb-1.5 block text-sm font-medium text-ink/80">
+                  <label htmlFor={`bi-${f.name}`} className="mb-1.5 block text-sm font-medium text-ink/80">
                     {tl(f.label)} {f.required && <span className="text-brand-600">*</span>}
                   </label>
                   {f.type === "chips" ? (
-                    <div className="flex flex-wrap gap-2">
+                    <div role="group" aria-label={tl(f.label)} className="flex flex-wrap gap-2">
                       {f.options!.map((opt) => {
                         const on = Array.isArray(val) && val.includes(opt);
                         return (
@@ -216,14 +216,14 @@ export function BusinessIntake() {
                       })}
                     </div>
                   ) : f.type === "select" ? (
-                    <select value={(val as string) ?? ""} onChange={(e) => setField(f.name, e.target.value)} className={cn(base, border)}>
+                    <select id={`bi-${f.name}`} value={(val as string) ?? ""} onChange={(e) => setField(f.name, e.target.value)} className={cn(base, border)}>
                       <option value="" disabled>{tl("Select…")}</option>
                       {f.options!.map((o) => (<option key={o} value={o}>{o}</option>))}
                     </select>
                   ) : f.type === "textarea" ? (
-                    <textarea value={(val as string) ?? ""} onChange={(e) => setField(f.name, e.target.value)} placeholder={f.placeholder} rows={3} className={cn(base, border, "resize-y")} />
+                    <textarea id={`bi-${f.name}`} value={(val as string) ?? ""} onChange={(e) => setField(f.name, e.target.value)} placeholder={f.placeholder} rows={3} className={cn(base, border, "resize-y")} />
                   ) : (
-                    <input type={f.type} value={(val as string) ?? ""} onChange={(e) => setField(f.name, e.target.value)} placeholder={f.placeholder} className={cn(base, border)} />
+                    <input id={`bi-${f.name}`} type={f.type} value={(val as string) ?? ""} onChange={(e) => setField(f.name, e.target.value)} placeholder={f.placeholder} className={cn(base, border)} />
                   )}
                   {err && <p className="mt-1 text-xs text-brand-600">{tl("This field is required.")}</p>}
                 </div>

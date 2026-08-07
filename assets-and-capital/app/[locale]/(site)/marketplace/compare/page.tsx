@@ -44,7 +44,11 @@ export default async function ComparePage({
             <span className="grid h-14 w-14 place-items-center rounded-2xl bg-brand-50 text-brand-600 ring-1 ring-brand-100">
               <Scale className="h-6 w-6" />
             </span>
-            <h3 className="mt-5 font-display text-lg font-bold text-navy-700">{t.tl("Pick at least two to compare")}</h3>
+            {/* h2, not h3. Nothing sits between this and the page's h1, so a
+                screen reader reading the outline by level is told a level was
+                skipped — which reads as a missing section rather than a styling
+                choice. The size is a class, not the tag. */}
+            <h2 className="mt-5 font-display text-lg font-bold text-navy-700">{t.tl("Pick at least two to compare")}</h2>
             <p className="mt-1.5 max-w-sm text-sm text-ink/65">{t.tl("Save opportunities from the marketplace, then compare your shortlist here.")}</p>
             <Link href="/marketplace" className="mt-6 inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700">
               {t.tl("Browse the marketplace")} <ArrowRight className="h-4 w-4" />

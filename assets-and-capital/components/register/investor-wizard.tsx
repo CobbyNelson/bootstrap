@@ -461,12 +461,12 @@ function FieldControl({
 
   return (
     <div className={wrap}>
-      <label className="mb-1.5 block text-sm font-medium text-ink/80">
+      <label htmlFor={`iw-${field.name}`} className="mb-1.5 block text-sm font-medium text-ink/80">
         {tl(field.label)} {field.required && <span className="text-brand-600">*</span>}
       </label>
 
       {field.type === "chips" ? (
-        <div className="flex flex-wrap gap-2">
+        <div role="group" aria-label={tl(field.label)} className="flex flex-wrap gap-2">
           {field.options!.map((opt) => {
             const on = Array.isArray(value) && value.includes(opt);
             return (
@@ -485,7 +485,7 @@ function FieldControl({
           })}
         </div>
       ) : field.type === "select" ? (
-        <select value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value)} className={cn(base, border)}>
+        <select id={`iw-${field.name}`} value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value)} className={cn(base, border)}>
           <option value="" disabled>
             {tl("Select…")}
           </option>
@@ -512,9 +512,9 @@ function FieldControl({
           ))}
         </div>
       ) : field.type === "textarea" ? (
-        <textarea value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value)} placeholder={field.placeholder} rows={3} className={cn(base, border, "resize-y")} />
+        <textarea id={`iw-${field.name}`} value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value)} placeholder={field.placeholder} rows={3} className={cn(base, border, "resize-y")} />
       ) : (
-        <input
+        <input id={`iw-${field.name}`}
           type={field.type}
           value={(value as string) ?? ""}
           onChange={(e) => onChange(e.target.value)}
