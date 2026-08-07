@@ -89,7 +89,10 @@ export function OpportunityCard({
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h3 className="font-display text-lg font-bold leading-tight text-brand-600">{o.name}</h3>
+            {/* h2, not h3. These sit directly under the page's h1 with nothing
+                between, so a screen reader reading the outline by level is told a
+                level was skipped. The visual size is the class, not the tag. */}
+            <h2 className="font-display text-lg font-bold leading-tight text-brand-600">{o.name}</h2>
             <p className="mt-1 flex items-center gap-1 text-xs font-medium text-navy-700">
               <MapPin className="h-3 w-3" /> {o.country} · {tl(o.region)}
             </p>

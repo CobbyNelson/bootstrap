@@ -48,7 +48,10 @@ export default async function EventsPage({ params }: { params: Promise<{ locale:
                   </div>
                   <Badge variant="gold" size="sm">{ev.type}</Badge>
                 </div>
-                <h3 className="mt-5 text-lg font-semibold leading-snug text-ink">{ev.title}</h3>
+                {/* h2, not h3. These sit directly under the page's h1 with nothing
+                    between, so a screen reader reading the outline by level is told a
+                    level was skipped. The visual size is the class, not the tag. */}
+                <h2 className="mt-5 text-lg font-semibold leading-snug text-ink">{ev.title}</h2>
                 <p className="mt-2 inline-flex items-center gap-1 text-sm text-ink/65">
                   <MapPin className="h-3.5 w-3.5" /> {ev.location} · {formatDateShort(ev.date, locale)}
                 </p>
