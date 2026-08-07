@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { sanitizeArticleHtml, htmlToText, estimateReadTime } from "@/lib/sanitize";
@@ -30,6 +31,24 @@ function slugify(s: string) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 80);
+}
+
+/**
+ * Publishing an article has to reach the sitemap.
+ *
+ * /sitemap.xml is statically prerendered — it appears as `○` in the build — so
+ * without this it is a snapshot of whatever the Article table held at deploy
+ * time. An article published from the admin would be live at its own URL and
+ * absent from the sitemap until somebody happened to deploy, which is the same
+ * disagreement between the sitemap and reality that made it advertise eight
+ * 404s in the first place, just pointing the other way.
+ *
+ * /insights is dynamically rendered and needs no help, but it is revalidated
+ * too so the two cannot drift if that ever changes.
+ */
+function revalidatePublicInsights() {
+  revalidatePath("/sitemap.xml");
+  revalidatePath("/insights");
 }
 
 export async function GET() {
@@ -92,6 +111,7 @@ export async function POST(request: Request) {
     },
   });
 
+  revalidatePublicInsights();
   return NextResponse.json({ ok: true, article });
 }
 
@@ -147,6 +167,7 @@ export async function PATCH(request: Request) {
     },
   });
 
+  revalidatePublicInsights();
   return NextResponse.json({ ok: true, article });
 }
 
@@ -158,5 +179,6 @@ export async function DELETE(request: Request) {
   if (!id) return NextResponse.json({ error: "Missing id." }, { status: 400 });
 
   await prisma.article.delete({ where: { id } }).catch(() => null);
+  revalidatePublicInsights();
   return NextResponse.json({ ok: true });
 }

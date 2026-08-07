@@ -7,6 +7,17 @@ import { LOCALES, localePath, type Locale } from "@/lib/i18n/config";
 const base = `https://${SITE.domain}`;
 
 /**
+ * Regenerated hourly as well as on publish.
+ *
+ * The publish path calls revalidatePath("/sitemap.xml"), which makes a new
+ * article appear immediately. This is the floor underneath that: a sitemap is
+ * prerendered, so any future write path that forgets to revalidate would leave
+ * it frozen at deploy time with nothing to indicate it. An hour is far inside
+ * any crawl interval and costs one query.
+ */
+export const revalidate = 3600;
+
+/**
  * Pages that live under app/[locale], so they exist in all four languages.
  */
 const LOCALISED_ROUTES = [
