@@ -121,12 +121,16 @@ function scanFile(file: string, context: string) {
   // REMOVES it from the registry — `title="X"` stops matching the moment it
   // becomes `title={t.tl("X")}` — so doing the right thing would silently
   // delete the translation the next time the registry regenerated.
+  // `desc` was absent from this list AND from the prop list, in two different
+  // scanners — so the investor wizard's three branch descriptions were wired
+  // correctly, reported clean, and had no registry entry to translate against.
+  // The two lists are meant to agree; they now do.
   // Copy held in const arrays rather than JSX — `{ label: "Logistics", any:
   // "Any sector" }`. These are rendered through tl() at the call site, so they
   // ARE translatable, but neither the JSX nor the prop pattern sees them: they
   // are object properties, not attributes. Nine strings reached production
   // untranslated this way, wired correctly and never extracted.
-  for (const m of src.matchAll(/(?:^|[\s{,])(?:label|any|title|name|blurb|body|text|copy|answer|question|description|subtitle|heading|caption|summary|intro|v|k)\s*:\s*"([^"]{3,300})"/gm)) {
+  for (const m of src.matchAll(/(?:^|[\s{,])(?:label|any|title|name|blurb|body|text|copy|answer|question|description|desc|subtitle|heading|caption|summary|intro|tag|cta|note|hint|v|k)\s*:\s*"([^"]{3,300})"/gm)) {
     add(m[1], context);
   }
   // The trailing comma is not cosmetic tolerance: a formatter breaks any long
