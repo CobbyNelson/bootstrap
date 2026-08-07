@@ -95,3 +95,52 @@ test("every URL in the sitemap actually resolves", async ({ request }) => {
   }
   expect(broken, "sitemap URLs that do not return 200").toEqual([]);
 });
+
+/**
+ * Every language version of a page must be listed, and every entry must carry
+ * the whole alternates set including a pointer back at itself — Google ignores
+ * an hreflang cluster that is not reciprocal rather than half-applying it.
+ */
+test("the sitemap lists all four languages with reciprocal alternates", async ({ request }) => {
+  const xml = await (await request.get("/sitemap.xml")).text();
+
+  // <url> blocks, so each entry's alternates stay attached to their own loc.
+  const blocks = [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((m) => m[1]);
+  expect(blocks.length).toBeGreaterThan(40);
+
+  const locs = blocks.map((b) => (b.match(/<loc>([^<]+)<\/loc>/) ?? [])[1] ?? "");
+  for (const path of ["/about", "/pricing", "/marketplace"]) {
+    for (const prefix of ["", "/fr", "/es", "/ar"]) {
+      expect(locs, `${prefix}${path} should be in the sitemap`)
+        .toContain(`https://assetsandcapitalltd.com${prefix}${path}`);
+    }
+  }
+
+  const about = blocks.find((b) => b.includes("<loc>https://assetsandcapitalltd.com/about</loc>"))!;
+  for (const [lang, href] of [
+    ["en", "https://assetsandcapitalltd.com/about"],   // self-reference
+    ["fr", "https://assetsandcapitalltd.com/fr/about"],
+    ["es", "https://assetsandcapitalltd.com/es/about"],
+    ["ar", "https://assetsandcapitalltd.com/ar/about"],
+    ["x-default", "https://assetsandcapitalltd.com/about"],
+  ]) {
+    expect(about, `/about alternate ${lang}`).toContain(`hreflang="${lang}" href="${href}"`);
+  }
+
+  // The home page must not gain a trailing slash here when the canonical header
+  // and the hreflang tags both emit it without one.
+  expect(locs).toContain("https://assetsandcapitalltd.com");
+  expect(locs).not.toContain("https://assetsandcapitalltd.com/");
+
+  // Articles are English-only: the /fr URL renders the English article, because
+  // article bodies have never been through translation the way page copy has.
+  // Claiming otherwise is the one thing hreflang exists to prevent.
+  const articleLocs = locs.filter((l) => l.includes("/insights/"));
+  const translatedArticleClaims = articleLocs.filter((l) => /\/(fr|es|ar)\/insights\//.test(l));
+  expect(translatedArticleClaims, "articles must not claim translated versions").toEqual([]);
+  for (const block of blocks) {
+    if (/<loc>[^<]*\/insights\/[^<]+<\/loc>/.test(block)) {
+      expect(block, "an article entry must carry no hreflang alternates").not.toContain("hreflang");
+    }
+  }
+});
