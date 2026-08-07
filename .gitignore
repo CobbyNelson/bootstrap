@@ -35,3 +35,7 @@ nbproject
 .idea
 node_modules
 dist
+
+# Ephemeral worktrees created by spawned tasks — never part of the tree.
+.claude/worktrees/
+**/.claude/worktrees/
