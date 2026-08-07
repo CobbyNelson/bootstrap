@@ -173,6 +173,64 @@ const TOPICS: Topic[] = [
     links: [{ label: "Browse the marketplace", href: "/marketplace" }],
   },
   {
+    id: "verification",
+    cues: ["kyc", "verify", "verification", "verified", "accredited", "aml", "sanctions", "identity check", "compliance"],
+    answer: () =>
+      "Verification is identity and sanctions screening, plus accreditation where an opportunity is restricted to accredited investors. " +
+      "You start it from Verification in your dashboard: legal name and country, then a compliance officer decides — usually within two business days. " +
+      "It has to be cleared before you can commit capital.",
+    links: [{ label: "Verification", href: "/dashboard/verification" }],
+  },
+  {
+    id: "committing",
+    cues: ["commit", "commitment", "invest in", "how do i invest", "soft circle", "allocation", "wire", "fund the deal", "ticket size"],
+    answer: () =>
+      "Committing runs in stages: you soft-commit an amount, we confirm allocation, an agreement is sent and countersigned, then funds settle. " +
+      "You can only soft-commit or withdraw yourself — allocation and settlement are operated by our team, and every stage shows in your deal pipeline. " +
+      "Before the first step you need a subscription, registered interest, a signed NDA and cleared verification.",
+    links: [{ label: "Deal pipeline", href: "/dashboard/pipeline" }],
+  },
+  {
+    id: "dashboard",
+    cues: ["dashboard", "portal", "my account", "workspace", "saved", "watchlist", "shortlist", "notification", "log in", "sign in", "password"],
+    answer: () =>
+      "Your dashboard carries saved opportunities, registered interest, signed NDAs, your deal pipeline and verification status. " +
+      "Businesses see their own listing's views, investor interest and commitments there instead. " +
+      "Anything you save is on your account, so it follows you between devices.",
+    links: [{ label: "Open your dashboard", href: "/dashboard" }],
+  },
+  {
+    id: "events",
+    cues: ["roadshow", "event", "conference", "forum", "summit", "attend", "in person"],
+    answer: () =>
+      "Roadshows put a shortlist of businesses in front of matched investors in one room, and Gold and Platinum listings include one. " +
+      "Upcoming dates are on the events page.",
+    links: [{ label: "Events & roadshows", href: "/events" }],
+  },
+  {
+    id: "timeline",
+    cues: ["how long", "how fast", "timeline", "how quickly", "turnaround", "when will", "time to close"],
+    answer: () =>
+      "It depends on the raise, but the platform is built to shorten the search rather than the diligence. " +
+      "Verification is usually two business days; listings go live once vetting completes. " +
+      "How long a deal takes after that is down to the parties and their advisers, and we will not pretend to a number we cannot stand behind.",
+  },
+  {
+    id: "languages",
+    cues: ["language", "french", "spanish", "arabic", "translate", "en francais", "espanol"],
+    answer: () =>
+      "The site is available in English, French, Spanish and Arabic — use the globe in the header. " +
+      "Arabic is laid out right-to-left throughout.",
+  },
+  {
+    id: "security",
+    cues: ["secure", "security", "safe", "encrypted", "hacked", "fraud", "scam", "trust you"],
+    answer: () =>
+      "Business data sits behind a subscription and a signed NDA per business, and every document access is logged and attributable. " +
+      "Payments are handled by the provider — card details never touch our servers.",
+    links: [{ label: "Disclosures", href: "/legal/disclosures" }],
+  },
+  {
     id: "privacy",
     cues: ["privacy", "my data", "gdpr", "delete my account", "cookies", "personal data"],
     answer: () =>
@@ -181,6 +239,60 @@ const TOPICS: Topic[] = [
     links: [{ label: "Privacy policy", href: "/legal/privacy" }],
   },
 ];
+
+/**
+ * Questions Kwaku must not answer confidently, however well they score.
+ *
+ * The topic scorer measures what matched; it cannot tell the difference between
+ * "what is your phone number" and "give me the phone number of a business
+ * owner". Both hit the contact cues, and the second was being answered with the
+ * company switchboard — a wrong answer to a question about somebody else, on a
+ * platform whose entire product is that introductions are brokered rather than
+ * looked up.
+ *
+ * Each guard carries the reason it fired, so the visitor is told why they are
+ * being handed to a person rather than getting a flat "I can't help".
+ *
+ * These run BEFORE scoring, so a guarded question can never reach an answer.
+ */
+const GUARDS: { id: string; test: RegExp; answer: string }[] = [
+  {
+    // Contact details FOR someone else, as opposed to ours.
+    id: "third-party-contact",
+    test: /\b(phone|number|email|address|contact details?|whatsapp|linkedin)\b[\s\S]*\b(of|for)\b[\s\S]*\b(a |the |any )?(business|company|investor|founder|owner|ceo|seller|buyer|client|member)/,
+    answer:
+      "I can't pass on another party's contact details — introductions here are made by our team once both sides have agreed, " +
+      "which is deliberate rather than an obstacle. Let me get someone who can arrange one.",
+  },
+  {
+    id: "introduction-request",
+    test: /\b(introduce me|put me in touch|connect me (to|with)|get me (a )?(meeting|intro)|speak directly)\b/,
+    answer:
+      "Introductions are arranged by our deal team rather than self-served, so both sides opt in and the NDA is in place first. " +
+      "I'll hand you over so someone can set one up.",
+  },
+  {
+    id: "investment-advice",
+    test: /\b(should i invest|is (this|it) a good (investment|deal|buy)|worth investing|will i (make|lose)|guarantee[ds]?|how much (will|would) i (make|earn)|best returns?|recommend (a|an|any) (deal|business|investment))\b/,
+    answer:
+      "I can't tell you whether something is a good investment — that is regulated advice and I am a website assistant, not an adviser. " +
+      "I can put you in front of the team, who will point you at the numbers and your own advisers.",
+  },
+  {
+    id: "confidential-position",
+    test: /\b(who else is (bidding|looking|interested)|how much has .{2,30} raised|their valuation|other investors|competing (bid|offer)|inside information)\b/,
+    answer:
+      "I can't share another party's position in a live deal — who else is looking, or on what terms. " +
+      "Our team can tell you what the business itself has chosen to disclose.",
+  },
+];
+
+function matchGuard(n: string): KwakuReply | null {
+  for (const g of GUARDS) {
+    if (g.test.test(n)) return { confident: false, answer: g.answer };
+  }
+  return null;
+}
 
 /** Normalise for matching: lowercase, strip punctuation, collapse whitespace. */
 function norm(s: string) {
@@ -288,6 +400,11 @@ export function askKwaku(question: string): KwakuReply {
   if (!n) {
     return { confident: false, answer: "" };
   }
+
+  // Before anything else: a guarded question must not reach an answer, even
+  // when it scores well.
+  const guarded = matchGuard(n);
+  if (guarded) return guarded;
 
   const listing = matchListing(question);
   if (listing) return listing;

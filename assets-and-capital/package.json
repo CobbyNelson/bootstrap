@@ -23,7 +23,8 @@
     "db:studio": "prisma studio",
     "db:setup": "npm run db:up && sleep 4 && npm run db:migrate && npm run db:seed",
     "check:i18n": "tsx scripts/check-i18n.mts",
-    "extract:i18n": "tsx scripts/extract-strings.mts"
+    "extract:i18n": "tsx scripts/extract-strings.mts",
+    "check:kwaku": "tsx --tsconfig tsconfig.scripts.json scripts/check-kwaku.mts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
@@ -39,6 +40,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "sanitize-html": "^2.17.6",
+    "server-only": "^0.0.1",
     "sharp": "^0.35.3",
     "tailwind-merge": "^3.6.0"
   },

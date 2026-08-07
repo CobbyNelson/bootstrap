@@ -81,13 +81,21 @@ export async function POST(req: NextRequest) {
       });
     } else {
       const online = await staffOnline();
+      const handover = online
+        ? "Someone from the team is online — connecting you now."
+        : "Nobody is at the desk right now, so leave your email and the team will reply there, with a link back to this conversation.";
+      // Kwaku's own words when it has them. A guarded question — somebody else's
+      // phone number, "should I invest in this" — knows exactly why it is being
+      // handed over, and saying so is worth more than a flat "that is outside
+      // what I can answer", which reads as the assistant being thick rather than
+      // the answer being one we decline to give.
       await prisma.chatMessage.create({
         data: {
           conversationId: convo.id,
           role: "KWAKU",
-          body: online
-            ? "That is outside what I can answer from the site — someone from the team is online, connecting you now."
-            : "That is outside what I can answer from the site. Nobody is at the desk right now, so leave your email and the team will reply there, with a link back to this conversation.",
+          body: reply.answer
+            ? `${reply.answer}\n\n${handover}`
+            : `That is outside what I can answer from the site. ${handover}`,
         },
       });
       await prisma.chatConversation.update({
