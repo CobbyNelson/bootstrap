@@ -2,6 +2,7 @@ import "server-only";
 import { randomUUID } from "crypto";
 import { prisma } from "@/lib/prisma";
 import { paymentsTestMode, TEST_CARDS } from "@/lib/payments";
+import { startCharge, providerConfigured } from "@/lib/payment-providers";
 
 /**
  * Server-authoritative payment flow.
@@ -15,13 +16,27 @@ import { paymentsTestMode, TEST_CARDS } from "@/lib/payments";
  * provider webhook calls settle() instead of the test-mode branch.
  */
 
-export type CreateResult = { ok: boolean; reference?: string; error?: string };
+export type CreateResult = { ok: boolean; reference?: string; error?: string; redirectUrl?: string };
 export type ConfirmResult = { ok: boolean; plan?: string; error?: string; declined?: boolean };
 
 const PLAN_PRICES: Record<string, string> = {
   "Investor Pro": "$149 / month",
   "Investor Elite": "$399 / month",
 };
+
+/**
+ * The charge in the smallest currency unit.
+ *
+ * Kept beside the labels rather than parsed out of them: "$149 / month" is
+ * copy, and deriving money from a display string means a wording change can
+ * alter what a card is charged.
+ */
+const PLAN_AMOUNTS_MINOR: Record<string, number> = {
+  "Investor Pro": 14900,
+  "Investor Elite": 39900,
+};
+
+const CURRENCY = process.env.PAYMENTS_CURRENCY || "USD";
 
 export function isKnownPlan(plan: string): boolean {
   return Object.prototype.hasOwnProperty.call(PLAN_PRICES, plan);
@@ -30,7 +45,8 @@ export function isKnownPlan(plan: string): boolean {
 export async function createIntent(
   userId: string,
   provider: string,
-  plan: string
+  plan: string,
+  email: string,
 ): Promise<CreateResult> {
   if (!isKnownPlan(plan)) return { ok: false, error: "Unknown plan." };
   try {

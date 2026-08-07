@@ -86,7 +86,19 @@ export function CheckoutDialog({
         return;
       }
 
-      // Give the flow a realistic beat.
+      /*
+       * LIVE MODE: the server has created a real session and returned where to
+       * send the visitor. Hand off and stop — the provider takes the payment
+       * and its signed webhook settles the intent. Nothing after this point
+       * runs, which is correct: this client must never be the thing that
+       * decides a subscription is active.
+       */
+      if (intent.redirectUrl) {
+        window.location.assign(intent.redirectUrl);
+        return;
+      }
+
+      // TEST MODE from here. Give the flow a realistic beat.
       await new Promise((r) => setTimeout(r, 900));
 
       // 2) confirm it — the server validates and settles; the client cannot

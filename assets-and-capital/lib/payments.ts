@@ -7,7 +7,7 @@ import { CreditCard, Wallet, Landmark, Smartphone } from "lucide-react";
  * end-to-end and activates the subscription without a real charge.
  */
 
-export type ProviderId = "stripe" | "paystack" | "paypal" | "googlepay";
+export type ProviderId = "stripe" | "paystack" | "paypal" | "momo";
 export type PayKind = "card" | "redirect" | "wallet";
 
 export type PayProvider = {
@@ -49,15 +49,29 @@ export const PAY_PROVIDERS: PayProvider[] = [
     kind: "redirect",
   },
   {
-    id: "googlepay",
-    name: "Google Pay",
-    sub: "Fast wallet checkout",
-    via: "Google",
-    accent: "#1A73E8",
+    id: "momo",
+    name: "Mobile Money",
+    sub: "MTN MoMo · Vodafone · AirtelTigo",
+    via: "Paystack",
+    accent: "#FFCC00",
     icon: Smartphone,
-    kind: "wallet",
+    kind: "redirect",
   },
 ];
+
+/**
+ * Google Pay and Apple Pay are absent from this list on purpose.
+ *
+ * They are not processors. They are wallets that appear on Stripe's own payment
+ * sheet for eligible devices once enabled in the Stripe dashboard — so listing
+ * them here would offer a visitor a fourth "provider" that resolves to the card
+ * option they already picked, and would need a fourth reconciliation for money
+ * that settles through Stripe either way.
+ *
+ * Mobile Money is listed because the CHANNEL is worth naming even though it
+ * settles through Paystack: someone in Accra looks for MoMo, not for Paystack,
+ * and a payment method nobody can find is not offered.
+ */
 
 /** Stripe/Paystack-style test cards for the simulated card flow. */
 export const TEST_CARDS = {

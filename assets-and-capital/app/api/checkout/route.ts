@@ -38,8 +38,15 @@ export async function POST(req: Request) {
     return Response.json({ ok: false, error: "Missing provider or plan." }, { status: 400 });
   }
 
-  const result = await createIntent(user.id, provider, plan);
+  const result = await createIntent(user.id, provider, plan, user.email);
   if (!result.ok) return Response.json(result, { status: 400 });
 
-  return Response.json({ ok: true, reference: result.reference, testMode: paymentsTestMode() });
+  // redirectUrl is present only in live mode with a configured provider. The
+  // dialog sends the visitor there; in test mode it stays put and simulates.
+  return Response.json({
+    ok: true,
+    reference: result.reference,
+    redirectUrl: result.redirectUrl,
+    testMode: paymentsTestMode(),
+  });
 }
