@@ -7,26 +7,23 @@ import { Badge } from "@/components/ui/badge";
 import { Panel } from "@/components/dashboard/widgets";
 import { BarChartDual, DonutChart, AreaChart, Sparkline } from "@/components/admin/charts";
 import { cn } from "@/lib/utils";
+import {
+  getKpis, getApprovals, getRecentListings, getDealVolume,
+  getRecentPayments, getAuditLog, getTierMix,
+} from "@/lib/admin-queries";
+import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = { title: "Admin" };
 
-/* ---------- data ---------- */
-const APPROVALS = [
-  { name: "Kigali PropCo", type: "Business listing", detail: "Real Estate · $14M ask", when: "2h ago" },
-  { name: "Delta Partners", type: "Investor mandate", detail: "Family Office · accreditation", when: "4h ago" },
-  { name: "Sahel AgriProcessing", type: "Business listing", detail: "Agriculture · $7M ask", when: "6h ago" },
-];
-const ACTIVITY_ROWS = [
-  { name: "Accra FinPay", email: "raise@accrafinpay.com", sector: "FinTech", interest: 8, tier: "Gold", status: "Live", value: "$9.6M" },
-  { name: "Sahara Solar Grid", email: "ir@saharasolar.com", sector: "Renewable", interest: 12, tier: "Platinum", status: "Live", value: "$11.0M" },
-  { name: "Atlas Logistics", email: "cfo@atlaslog.ma", sector: "Logistics", interest: 5, tier: "Gold", status: "Diligence", value: "$4.0M" },
-  { name: "Cape Wine Estates", email: "team@capewine.co.za", sector: "F&B", interest: 3, tier: "Silver", status: "Live", value: "$2.0M" },
-];
-const PAYMENTS = [
-  { id: "INV-2131", who: "Accra FinPay", desc: "Financial modelling", amount: "$2,200", status: "Due" },
-  { id: "INV-2129", who: "Sahara Solar Grid", desc: "Platinum listing", amount: "$8,500", status: "Paid" },
-  { id: "INV-2118", who: "Atlas Logistics", desc: "Roadshow", amount: "$4,000", status: "Paid" },
-];
+/* ---------- data ----------
+ * Everything below used to be a display constant: an approvals queue of three
+ * invented companies, four made-up listings, "$248M capital facilitated". It
+ * read as a working dashboard and was a picture of one.
+ *
+ * The numbers now come from lib/admin-queries. Most are zero today, which is
+ * the point — a dashboard reporting 0 listings when there are 0 listings is
+ * telling the truth, and the first real one appears without a deploy.
+ */
 
 const DEAL_VOLUME = [
   { base: 30, cap: 10 }, { base: 38, cap: 14 }, { base: 34, cap: 14 }, { base: 46, cap: 20 },
@@ -85,9 +82,27 @@ function Kpi({
   );
 }
 
-const TIER_VARIANT = (tier: string) => (tier === "Platinum" ? "brand" : tier === "Gold" ? "gold" : "neutral");
+// The enum is upper-case (PLATINUM); the old table held title-case strings.
+const TIER_VARIANT = (tier: string) =>
+  tier.toUpperCase() === "PLATINUM" ? "brand" : tier.toUpperCase() === "GOLD" ? "gold" : "neutral";
 
-export default function AdminOverview() {
+export const dynamic = "force-dynamic";
+
+export default async function AdminOverview() {
+  const [kpis, approvals, listings, volume, payments, audit, tierMix, counts] = await Promise.all([
+    getKpis(), getApprovals(), getRecentListings(), getDealVolume(),
+    getRecentPayments(), getAuditLog(), getTierMix(),
+    // The three sidebar sections that had no panel at all to scroll to.
+    Promise.all([
+      prisma.organization.count({ where: { type: "BUSINESS" } }).catch(() => 0),
+      prisma.user.count({ where: { role: "INVESTOR" } }).catch(() => 0),
+      prisma.listing.count().catch(() => 0),
+    ]),
+  ]);
+  const [businessCount, investorCount, listingCount] = counts;
+  const usd = (n: number) =>
+    n >= 1_000_000 ? `$${(n / 1_000_000).toFixed(1)}M` : n >= 1_000 ? `$${(n / 1_000).toFixed(0)}K` : `$${n}`;
+
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       {/* header */}
@@ -111,10 +126,10 @@ export default function AdminOverview() {
 
       {/* KPI cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <Kpi tone="navy" icon={TrendingUp} label="Capital facilitated" value="$248M" delta="12%" spark={[40, 52, 48, 66, 72, 61, 84, 96]} />
-        <Kpi tone="ink" icon={Building2} label="Active listings" value="482" delta="24" spark={[30, 34, 40, 38, 52, 60, 66, 78]} />
-        <Kpi tone="brand" icon={Users} label="Active investors" value="1,204" delta="61" spark={[20, 28, 34, 40, 44, 56, 66, 80]} />
-        <Kpi tone="cream" icon={BadgeCheck} label="Pending approvals" value="6" delta="2 overdue" spark={[8, 5, 9, 6, 10, 7, 6, 6]} />
+        <Kpi tone="navy" icon={TrendingUp} label="Capital facilitated" value={usd(kpis.capitalFacilitatedUsd)} delta="funded only" spark={[40, 52, 48, 60, 58, 72, 80, 96]} />
+        <Kpi tone="ink" icon={Building2} label="Active listings" value={String(kpis.activeListings)} delta="live" spark={[30, 34, 40, 38, 52, 60, 66, 74]} />
+        <Kpi tone="brand" icon={Users} label="Active investors" value={String(kpis.activeInvestors)} delta="registered" spark={[20, 28, 34, 40, 44, 56, 62, 70]} />
+        <Kpi tone="cream" icon={BadgeCheck} label="Pending approvals" value={String(kpis.pendingApprovals)} delta="awaiting review" spark={[8, 5, 9, 6, 7, 4, 6, 5]} />
       </div>
 
       {/* table + bar chart */}
@@ -132,7 +147,14 @@ export default function AdminOverview() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-ink/[0.05]">
-                {ACTIVITY_ROWS.map((b) => (
+                {listings.length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="py-8 text-center text-sm text-ink/55">
+                      No listings yet — the marketplace still runs on the sample catalogue.
+                    </td>
+                  </tr>
+                )}
+                {listings.map((b) => (
                   <tr key={b.name}>
                     <td className="py-3">
                       <div className="flex items-center gap-3">
@@ -141,7 +163,7 @@ export default function AdminOverview() {
                         </span>
                         <div className="min-w-0">
                           <p className="truncate font-medium text-ink">{b.name}</p>
-                          <p className="truncate text-xs text-ink/60">{b.email}</p>
+                          <p className="truncate text-xs text-ink/60">{b.sector}</p>
                         </div>
                       </div>
                     </td>
@@ -154,7 +176,7 @@ export default function AdminOverview() {
                     <td className="hidden py-3 md:table-cell">
                       <Badge variant={TIER_VARIANT(b.tier) as "brand" | "gold" | "neutral"} size="sm">{b.tier}</Badge>
                     </td>
-                    <td className="py-3 text-right font-medium text-ink tnum">{b.value}</td>
+                    <td className="py-3 text-right font-medium text-ink tnum">{b.askUsd ? usd(b.askUsd) : "—"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -200,14 +222,19 @@ export default function AdminOverview() {
       <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
         <Panel id="approvals" title="Approvals queue" action={{ label: "All", href: "#approvals" }}>
           <div className="space-y-3">
-            {APPROVALS.map((a) => (
-              <div key={a.name} className="rounded-2xl border border-ink/[0.06] p-3.5">
+            {approvals.length === 0 && (
+              <p className="py-6 text-center text-sm text-ink/55">
+                Nothing awaiting review. Investor verifications and listings submitted for review appear here.
+              </p>
+            )}
+            {approvals.map((a) => (
+              <div key={a.kind + a.id} className="rounded-2xl border border-ink/[0.06] p-3.5">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <p className="truncate font-medium text-ink">{a.name}</p>
                     <p className="text-xs text-ink/65">{a.detail}</p>
                   </div>
-                  <Badge variant="neutral" size="sm">{a.type.split(" ")[0]}</Badge>
+                  <Badge variant="neutral" size="sm">{a.kind === "kyc" ? "Investor" : "Listing"}</Badge>
                 </div>
                 <div className="mt-3 flex items-center gap-2">
                   <button
@@ -230,22 +257,80 @@ export default function AdminOverview() {
 
         <Panel id="payments" title="Recent payments" action={{ label: "All transactions", href: "#payments" }}>
           <div className="divide-y divide-ink/[0.06]">
-            {PAYMENTS.map((p) => (
+            {payments.length === 0 && (
+              <p className="py-6 text-center text-sm text-ink/55">No payments recorded yet.</p>
+            )}
+            {payments.map((p) => (
               <div key={p.id} className="flex items-center gap-3 py-3 first:pt-0">
                 <span className="grid h-9 w-9 flex-none place-items-center rounded-xl bg-paper-2 text-ink/65">
                   <Wallet className="h-4 w-4" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium text-ink">{p.who}</p>
-                  <p className="text-xs text-ink/65">{p.desc} · {p.id}</p>
+                  <p className="truncate font-medium text-ink">{p.description}</p>
+                  <p className="text-xs text-ink/65">{p.status}</p>
                 </div>
-                <span className="font-medium text-ink tnum">{p.amount}</span>
-                <Badge variant={p.status === "Paid" ? "success" : "gold"} size="sm">{p.status}</Badge>
+                <span className="font-medium text-ink tnum">{usd(p.amountCents / 100)}</span>
+                <Badge variant={p.status === "PAID" ? "success" : "gold"} size="sm">{p.status}</Badge>
               </div>
             ))}
           </div>
         </Panel>
       </div>
+
+        {/*
+          Businesses, Investors, Listings and Audit log.
+
+          The sidebar has linked to #businesses, #investors, #listings and
+          #audit since it was written, and not one of those ids existed on this
+          page — four of its six entries scrolled nowhere and looked broken.
+          They are real sections now, reading the real tables.
+        */}
+        <div id="businesses" className="grid gap-4 lg:grid-cols-3">
+          <Panel title="Businesses">
+            <p className="font-grotesk text-3xl font-semibold text-navy-700 tnum">{businessCount}</p>
+            <p className="mt-1 text-sm text-ink/60">
+              {businessCount === 0
+                ? "No business organisations registered yet."
+                : "Organisations registered as businesses."}
+            </p>
+          </Panel>
+
+          <Panel title="Investors" id="investors">
+            <p className="font-grotesk text-3xl font-semibold text-navy-700 tnum">{investorCount}</p>
+            <p className="mt-1 text-sm text-ink/60">
+              {investorCount === 0 ? "No investors registered yet." : "Accounts with the investor role."}
+            </p>
+          </Panel>
+
+          <Panel title="Listings" id="listings">
+            <p className="font-grotesk text-3xl font-semibold text-navy-700 tnum">{listingCount}</p>
+            <p className="mt-1 text-sm text-ink/60">
+              {listingCount === 0
+                ? "No listings yet — the marketplace still runs on the sample catalogue."
+                : `${kpis.activeListings} live, ${listingCount - kpis.activeListings} in other states.`}
+            </p>
+          </Panel>
+        </div>
+
+        <Panel id="audit" title="Audit log">
+          {audit.length === 0 ? (
+            <p className="py-6 text-center text-sm text-ink/55">
+              Nothing recorded yet. Admin actions are written here as they happen.
+            </p>
+          ) : (
+            <div className="divide-y divide-ink/[0.06]">
+              {audit.map((a) => (
+                <div key={a.id} className="flex items-center gap-3 py-2.5 text-sm first:pt-0">
+                  <span className="font-medium text-ink">{a.action}</span>
+                  {a.target && <span className="truncate text-ink/60">{a.target}</span>}
+                  <span className="ml-auto flex-none text-xs text-ink/50">
+                    {a.actor} · {a.createdAt.toLocaleDateString("en-GB")}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </Panel>
     </div>
   );
 }

@@ -16,7 +16,7 @@ const NAV = [
   { label: "Matching engine", href: "/admin/matching", icon: SlidersHorizontal },
   { label: "Analytics", href: "/admin/analytics", icon: BarChart3 },
   { label: "Translations", href: "/admin/translations", icon: Languages },
-  { label: "Approvals", href: "/admin#approvals", icon: BadgeCheck, badge: "6" },
+  { label: "Approvals", href: "/admin#approvals", icon: BadgeCheck, badge: "pending" },
   { label: "Businesses", href: "/admin#businesses", icon: Building2 },
   { label: "Investors", href: "/admin#investors", icon: Users },
   { label: "Listings", href: "/admin#listings", icon: ListChecks },
@@ -30,7 +30,16 @@ const NAV = [
 
 const TEAM = ["RO", "JA", "CD", "MP"];
 
-function AdminNavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {
+function AdminNavLinks({
+  pathname,
+  onNavigate,
+  pending,
+}: {
+  pathname: string;
+  onNavigate?: () => void;
+  /** Live count for the approvals badge; null while it loads. */
+  pending: number | null;
+}) {
   return (
     <>
       {NAV.map((item) => {
@@ -47,9 +56,23 @@ function AdminNavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?
           >
             <item.icon className={cn("h-4 w-4", active ? "text-brand-600" : "text-navy-300")} />
             <span className="flex-1">{item.label}</span>
-            {item.badge && (
-              <span className="rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold text-white">{item.badge}</span>
-            )}
+            {/*
+              The count is fetched. It used to be the literal "6" whatever the
+              queue held — a hardcoded number on the one control whose entire job
+              is to say how much is waiting. Hidden at zero, so an empty queue
+              shows nothing rather than a "0" that reads like a fault.
+            */}
+            {item.badge === "pending" ? (
+              pending !== null && pending > 0 ? (
+                <span className="rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold text-white">
+                  {pending}
+                </span>
+              ) : null
+            ) : item.badge ? (
+              <span className="rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold text-white">
+                {item.badge}
+              </span>
+            ) : null}
           </Link>
         );
       })}
@@ -58,6 +81,19 @@ function AdminNavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?
 }
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
+  /** Live approvals count for the sidebar badge. Null until it arrives. */
+  const [pending, setPending] = useState<number | null>(null);
+  useEffect(() => {
+    let live = true;
+    fetch("/api/admin/pending-count")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => live && setPending(typeof d?.count === "number" ? d.count : null))
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, []);
+
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -93,7 +129,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
         <nav className="relative flex-1 space-y-0.5 overflow-y-auto px-3 pb-2">
           <p className="kicker px-3 pb-1.5 pt-3 text-[0.6rem] text-navy-300/70">Administration</p>
-          <AdminNavLinks pathname={pathname} />
+          <AdminNavLinks pathname={pathname} pending={pending} />
         </nav>
 
         {/* active team */}
@@ -140,7 +176,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               </button>
             </div>
             <nav className="relative flex-1 space-y-0.5 overflow-y-auto px-3 pb-3">
-              <AdminNavLinks pathname={pathname} onNavigate={() => setMobileOpen(false)} />
+              <AdminNavLinks pathname={pathname} pending={pending} onNavigate={() => setMobileOpen(false)} />
             </nav>
             <div className="relative border-t border-white/10 px-5 py-4">
               <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 text-sm font-medium text-white/70 hover:text-white">
