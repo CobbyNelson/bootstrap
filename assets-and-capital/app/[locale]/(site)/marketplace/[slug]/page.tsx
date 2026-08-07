@@ -14,6 +14,7 @@ import { getTranslator } from "@/lib/i18n/store";
 import { translateContent } from "@/lib/i18n/translate-content";
 import type { Locale } from "@/lib/i18n/config";
 import { getWeights } from "@/lib/matching-weights";
+import { ogImageFor, ogUrl } from "@/lib/og";
 
 export async function generateMetadata({
   params,
@@ -27,7 +28,26 @@ export async function generateMetadata({
   // The description is what a search engine shows and what a link preview
   // renders, so an untranslated one is the first thing a French or Arabic
   // visitor reads — before the page they are about to translate correctly.
-  return { title: `${o.name} — ${t.tl(o.sector)}`, description: t.tl(o.blurb) };
+  //
+  // The image is the business's own uploaded hero when there is one, so a
+  // shared listing shows the actual asset rather than a sector stand-in. Where
+  // they have not uploaded yet, ogImageFor falls through the admin override to
+  // a library photograph — never to nothing, which is what it was.
+  const heroes = await getListingHeroes();
+  const image = await ogImageFor(`/marketplace/${slug}`, heroes[slug]);
+  const title = `${o.name} — ${t.tl(o.sector)}`;
+  return {
+    title,
+    description: t.tl(o.blurb),
+    openGraph: {
+      type: "website",
+      title,
+      description: t.tl(o.blurb),
+      url: ogUrl(`/marketplace/${slug}`),
+      images: [image],
+    },
+    twitter: { card: "summary_large_image", title, description: t.tl(o.blurb), images: [image.url] },
+  };
 }
 
 export function generateStaticParams() {

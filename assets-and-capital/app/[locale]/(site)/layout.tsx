@@ -7,6 +7,7 @@ import { ChatBox } from "@/components/chat/chat-box";
 import { PageBeacon } from "@/components/analytics/page-beacon";
 import { JsonLd } from "@/components/seo/json-ld";
 import { organisationSchema, websiteSchema } from "@/lib/seo";
+import { ogImageFor, ogUrl } from "@/lib/og";
 import type { Metadata } from "next";
 
 /**
@@ -61,10 +62,25 @@ export async function generateMetadata({
         "x-default": "/",
       },
     },
+    // Every page on this site shared as a bare grey card: fourteen checked,
+    // fourteen with no og:image at all. Pages that own a real photograph — a
+    // listing's hero, an article's cover — override this in their own
+    // generateMetadata; everything else inherits the site image, or whichever
+    // one a super admin has chosen. See lib/og.ts.
     openGraph: {
+      type: "website",
+      siteName: SITE.name,
       title: `${SITE.name} — ${t.tl(SITE.tagline)}`,
       description: t.tl(SITE.description),
       locale,
+      url: ogUrl(locale === "en" ? "/" : `/${locale}`),
+      images: [await ogImageFor("/")],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${SITE.name} — ${t.tl(SITE.tagline)}`,
+      description: t.tl(SITE.description),
+      images: [(await ogImageFor("/")).url],
     },
   };
 }

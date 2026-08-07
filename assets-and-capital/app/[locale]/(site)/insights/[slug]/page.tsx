@@ -10,6 +10,7 @@ import { getTranslator } from "@/lib/i18n/store";
 import { translateContent } from "@/lib/i18n/translate-content";
 import type { Locale } from "@/lib/i18n/config";
 import { formatDateShort } from "@/lib/dates";
+import { ogImageFor, ogUrl } from "@/lib/og";
 
 const GRADIENT: Record<string, string> = {
  "Market Intelligence": "from-brand-600 to-brand-900",
@@ -37,8 +38,24 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
  return {
  title: a.title,
  description: a.excerpt,
- openGraph: { type: "article", title: a.title, description: a.excerpt, authors: [a.author], publishedTime: a.date },
- twitter: { card: "summary_large_image", title: a.title, description: a.excerpt },
+ // The article's own cover when staff have uploaded one, so a shared link shows
+ // the piece rather than the site's stock hero. ogImageFor falls back through
+ // the admin override to a library photograph.
+ openGraph: {
+  type: "article",
+  title: a.title,
+  description: a.excerpt,
+  authors: [a.author],
+  publishedTime: a.date,
+  url: ogUrl(`/insights/${slug}`),
+  images: [await ogImageFor(`/insights/${slug}`, a.cover)],
+ },
+ twitter: {
+  card: "summary_large_image",
+  title: a.title,
+  description: a.excerpt,
+  images: [(await ogImageFor(`/insights/${slug}`, a.cover)).url],
+ },
  };
 }
 
