@@ -143,7 +143,7 @@ export function BusinessDetail({
         {/* Overview — core, always visible */}
         <div className={card}>
           <h2 className="font-display text-xl font-semibold text-navy-700">{tl("Overview")}</h2>
-          <p className="mt-3 leading-relaxed text-ink/65">{o.blurb}</p>
+          <p className="mt-3 leading-relaxed text-ink/65">{tl(o.blurb)}</p>
           {/*
             One sentence with placeholders, not four fragments around
             interpolations. The fragments — " is seeking ", " in " — are what a

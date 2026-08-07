@@ -14,11 +14,19 @@ import { getTranslator } from "@/lib/i18n/store";
 import { translateContent } from "@/lib/i18n/translate-content";
 import type { Locale } from "@/lib/i18n/config";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: Locale }>;
+}): Promise<Metadata> {
+  const { slug, locale } = await params;
   const o = getOpportunityBySlug(slug);
-  if (!o) return { title: "Opportunity" };
-  return { title: `${o.name} — ${o.sector}`, description: o.blurb };
+  const t = await getTranslator(locale);
+  if (!o) return { title: t.tl("Opportunity") };
+  // The description is what a search engine shows and what a link preview
+  // renders, so an untranslated one is the first thing a French or Arabic
+  // visitor reads — before the page they are about to translate correctly.
+  return { title: `${o.name} — ${t.tl(o.sector)}`, description: t.tl(o.blurb) };
 }
 
 export function generateStaticParams() {
@@ -98,14 +106,14 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
               <div>
                 <h1 className="font-display text-3xl font-semibold text-navy-700 sm:text-4xl">{o.name}</h1>
                 <p className="mt-1.5 flex items-center gap-2 text-ink/65">
-                  <MapPin className="h-4 w-4" /> {o.country} · {o.region}
-                  <span className="text-ink/25">|</span> {o.sector}
+                  <MapPin className="h-4 w-4" /> {t.tl(o.country)} · {t.tl(o.region)}
+                  <span className="text-ink/25">|</span> {t.tl(o.sector)}
                 </p>
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
               <Badge variant={o.tier === "Platinum" ? "brand" : o.tier === "Gold" ? "gold" : "neutral"}>
-                {o.tier} listing
+                {t.tl("{tier} listing").replace("{tier}", o.tier)}
               </Badge>
               <Badge variant="success">{t.tl("Verified")}</Badge>
             </div>

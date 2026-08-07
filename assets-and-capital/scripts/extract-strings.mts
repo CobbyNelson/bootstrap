@@ -150,9 +150,28 @@ function scanFile(file: string, context: string) {
   }
 }
 
-for (const [route, context] of Object.entries(PAGES)) {
-  const f = `app/[locale]/(site)/${route}/page.tsx`;
-  if (fs.existsSync(f)) scanFile(f, context);
+/**
+ * Every page under the locale segment, not the routes someone remembered.
+ *
+ * PAGES names twelve routes and is used only to give them a nicer heading in
+ * the editor. It was ALSO the list of files scanned, which meant dynamic routes
+ * were invisible: `marketplace/[slug]/page.tsx` is where a listing's metadata
+ * and its tier badge live, and neither has ever been extracted. A hardcoded
+ * list of routes drifts the moment anyone adds a page — walking the directory
+ * cannot.
+ */
+function walkPages(dir: string, out: string[] = []): string[] {
+  if (!fs.existsSync(dir)) return out;
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = `${dir}/${e.name}`;
+    if (e.isDirectory()) walkPages(full, out);
+    else if (e.name === "page.tsx" || e.name === "layout.tsx") out.push(full);
+  }
+  return out;
+}
+for (const f of walkPages("app/[locale]")) {
+  const route = f.replace("app/[locale]/(site)/", "").replace(/\/(page|layout)\.tsx$/, "");
+  scanFile(f, PAGES[route] ?? PAGES[route.split("/")[0]] ?? "Shared interface");
 }
 
 // Every component that renders public copy. Admin and dashboard are excluded:

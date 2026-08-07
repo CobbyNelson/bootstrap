@@ -11,7 +11,9 @@ import { useTl } from "@/components/i18n/locale-provider";
 type Item = {
   id: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
+  /** Pre-split so each part can be translated at render. */
+  subtitleParts?: string[];
   href: string;
   group: "Opportunities" | "Pages" | "Workspace";
   icon: typeof Search;
@@ -40,7 +42,9 @@ const PAGES: Item[] = [
 const OPPS: Item[] = MARKETPLACE.map((o) => ({
   id: `o-${slugify(o.name)}`,
   title: o.name,
-  subtitle: `${o.sector} · ${o.country} · ${o.ask}`,
+  // The parts are translated where the palette renders them, not here: this
+  // array is built at module scope, where no translator exists yet.
+  subtitleParts: [o.sector, o.country, o.ask],
   href: `/marketplace/${slugify(o.name)}`,
   group: "Opportunities",
   icon: Building2,
@@ -129,7 +133,7 @@ export function CommandPalette() {
 
   const results = useMemo(() => {
     if (!q.trim()) return [] as Item[];
-    return ALL.map((it) => ({ it, s: Math.max(rank(q, it.title), rank(q, it.subtitle) - 10) }))
+    return ALL.map((it) => ({ it, s: Math.max(rank(q, it.title), rank(q, it.subtitle ?? it.subtitleParts?.join(" ") ?? "") - 10) }))
       .filter((r) => r.s > 0)
       .sort((a, b) => b.s - a.s)
       .slice(0, 8)
@@ -236,7 +240,9 @@ export function CommandPalette() {
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-medium text-ink">{highlight(it.title, q)}</span>
-                        <span className="block truncate text-xs text-ink/60">{it.subtitle}</span>
+                        <span className="block truncate text-xs text-ink/60">
+                          {it.subtitleParts ? it.subtitleParts.map(tl).join(" · ") : tl(it.subtitle ?? "")}
+                        </span>
                       </span>
                       {active === idx && <CornerDownLeft className="h-3.5 w-3.5 text-ink/30" />}
                     </button>
