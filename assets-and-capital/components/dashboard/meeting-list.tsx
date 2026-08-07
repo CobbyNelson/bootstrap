@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useNow } from "@/lib/use-now";
 import Link from "next/link";
 import { Video, CalendarPlus, MapPin, ArrowUpRight } from "lucide-react";
 import { PROVIDER_LABEL, type MeetingRow } from "@/lib/meeting-kinds";
@@ -39,18 +39,10 @@ export function MeetingList({
    * "Is this joinable yet" is a question about now, and a server-rendered
    * answer is stale the moment it is sent — somebody sitting on this page two
    * minutes before a call would never see the button appear without reloading.
-   * It ticks every 30 seconds, which is finer than the fifteen-minute window
-   * needs and cheap enough not to matter.
    *
-   * Starts at 0 so the server and the first client render agree; anything else
-   * is a hydration mismatch by construction.
+   * 0 until mounted, which the checks below read as "not yet".
    */
-  const [now, setNow] = useState(0);
-  useEffect(() => {
-    setNow(Date.now());
-    const t = setInterval(() => setNow(Date.now()), 30_000);
-    return () => clearInterval(t);
-  }, []);
+  const now = useNow();
   if (meetings.length === 0) {
     return (
       <EmptyState
