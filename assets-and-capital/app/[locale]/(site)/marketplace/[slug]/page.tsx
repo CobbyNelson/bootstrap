@@ -13,6 +13,7 @@ import { BusinessDetail } from "@/components/marketplace/business-detail";
 import { getTranslator } from "@/lib/i18n/store";
 import { translateContent } from "@/lib/i18n/translate-content";
 import type { Locale } from "@/lib/i18n/config";
+import { getWeights } from "@/lib/matching-weights";
 
 export async function generateMetadata({
   params,
@@ -66,9 +67,10 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
       })()
     : null;
 
+  const weights = await getWeights();
   const deal = access.deal
     ? (() => {
-        const m = scoreOpportunity(DEMO_MANDATE, o);
+        const m = scoreOpportunity(DEMO_MANDATE, o, weights);
         return {
           score: m.score,
           stars: m.stars,

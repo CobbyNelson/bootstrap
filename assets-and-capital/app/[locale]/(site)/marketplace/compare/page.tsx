@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { getTranslator, type Translator } from "@/lib/i18n/store";
 import { translateContent } from "@/lib/i18n/translate-content";
 import type { Locale } from "@/lib/i18n/config";
+import { getWeights } from "@/lib/matching-weights";
 
 export const metadata: Metadata = { title: "Compare opportunities" };
 
@@ -24,6 +25,7 @@ export default async function ComparePage({
 }) {
   const { locale } = await params;
   const t = await getTranslator(locale);
+  const weights = await getWeights();
   const { ids } = await searchParams;
   const slugs = (ids ?? "").split(",").map((s) => s.trim()).filter(Boolean).slice(0, 3);
   const opps = slugs.map((s) => getOpportunityBySlug(s)).filter(Boolean) as NonNullable<ReturnType<typeof getOpportunityBySlug>>[];
@@ -49,7 +51,7 @@ export default async function ComparePage({
             </Link>
           </div>
         ) : (
-          <ComparisonTable opps={opps} t={t} />
+          <ComparisonTable opps={opps} t={t} weights={weights} />
         )}
       </div>
     </div>
@@ -63,12 +65,15 @@ export default async function ComparePage({
 function ComparisonTable({
   opps,
   t,
+  weights,
 }: {
   opps: NonNullable<ReturnType<typeof getOpportunityBySlug>>[];
   t: Translator;
+  /** Same reason as the translator: this component is synchronous. */
+  weights: Awaited<ReturnType<typeof getWeights>>;
 }) {
   const cols = opps.map((o) => {
-    const match = scoreOpportunity(DEMO_MANDATE, o);
+    const match = scoreOpportunity(DEMO_MANDATE, o, weights);
     const d = derive(o);
     const biz = overallReadiness(scoreBusiness(o));
     return { o, match, d, biz };

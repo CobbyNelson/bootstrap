@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { RotateCcw, Save, Check } from "lucide-react";
 import { DEFAULT_WEIGHTS, WEIGHT_LABELS, scoreOpportunity, DEMO_MANDATE, type Weights } from "@/lib/matching";
 import { MARKETPLACE } from "@/lib/marketplace-data";
@@ -11,6 +11,30 @@ const KEYS = Object.keys(DEFAULT_WEIGHTS);
 export default function AdminMatchingPage() {
   const [weights, setWeights] = useState<Weights>({ ...DEFAULT_WEIGHTS });
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState("");
+  const [loaded, setLoaded] = useState(false);
+
+  /*
+   * Start from the model that is actually in force, not from the defaults.
+   *
+   * The page opened on DEFAULT_WEIGHTS every time, so an operator who had
+   * already tuned the platform saw the shipped values and no indication that
+   * anything differed — the one screen whose job is to show the current model
+   * was the one place it was never shown.
+   */
+  useEffect(() => {
+    let live = true;
+    fetch("/api/admin/matching-weights")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (live && d?.weights) setWeights(d.weights);
+      })
+      .catch(() => {})
+      .finally(() => live && setLoaded(true));
+    return () => {
+      live = false;
+    };
+  }, []);
 
   const total = KEYS.reduce((s, k) => s + weights[k], 0);
 
@@ -28,13 +52,34 @@ export default function AdminMatchingPage() {
     setWeights({ ...DEFAULT_WEIGHTS });
     setSaved(false);
   }
-  function save() {
+  /*
+   * Saves to the SERVER.
+   *
+   * This wrote to localStorage under "ac_matching_weights" — a key written and
+   * never read back, not even by this page. So an operator could change how
+   * every opportunity on the platform is scored, watch the preview reorder,
+   * press Save, see "Saved", and change nothing for a single visitor. These
+   * weights decide what investors are shown and in what order; they belong on
+   * the server, and the marketplace pages are revalidated so the new model
+   * applies on the next view rather than whenever the cache expired.
+   */
+  async function save() {
+    setError("");
     try {
-      localStorage.setItem("ac_matching_weights", JSON.stringify(weights));
+      const res = await fetch("/api/admin/matching-weights", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ weights }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Could not save.");
+        return;
+      }
+      setSaved(true);
     } catch {
-      /* ignore */
+      setError("Could not reach the server.");
     }
-    setSaved(true);
   }
 
   return (
@@ -52,9 +97,15 @@ export default function AdminMatchingPage() {
           <button onClick={reset} className="inline-flex items-center gap-2 rounded-[var(--radius-button)] border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/70 hover:border-ink/25">
             <RotateCcw className="h-4 w-4" /> Reset
           </button>
-          <button onClick={save} className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
+          <button onClick={save} disabled={!loaded} className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-700">
             {saved ? <><Check className="h-4 w-4" /> Saved</> : <><Save className="h-4 w-4" /> Save weights</>}
           </button>
+          {error && <p className="mt-2 text-sm font-medium text-brand-700">{error}</p>}
+          {saved && (
+            <p className="mt-2 text-sm text-ink/60">
+              Live now — the marketplace and the match API score against these.
+            </p>
+          )}
         </div>
       </div>
 

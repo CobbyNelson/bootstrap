@@ -827,3 +827,17 @@ model EmailLog {
 
   @@index([createdAt])
 }
+
+/// Small key/value store for platform settings that an admin can change.
+///
+/// Added for the matching weights, which govern how every opportunity on the
+/// platform is scored. The admin page tuned them and saved to localStorage —
+/// written, never read back, not even by the page that wrote it — so an
+/// operator could change the scoring model, see "Saved", and change nothing
+/// anywhere. A setting that decides what investors are shown belongs on the
+/// server.
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}

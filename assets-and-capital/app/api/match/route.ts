@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/session";
 import { rateLimit } from "@/lib/rate-limit";
 import { MARKETPLACE } from "@/lib/marketplace-data";
 import { DEMO_MANDATE, DEFAULT_WEIGHTS, scoreOpportunity, slugify, type Mandate } from "@/lib/matching";
+import { getWeights } from "@/lib/matching-weights";
 
 /**
  * Live matching endpoint — runs the explainable scoring engine server-side.
@@ -56,12 +57,12 @@ function rank(mandate: Mandate, weights = DEFAULT_WEIGHTS) {
   }).sort((a, b) => b.score - a.score);
 }
 
-export function GET(request: Request) {
+export async function GET(request: Request) {
   // Scoring walks the whole catalogue per call. Cheap on sample data, not
   // cheap once this is a database query — and unmetered either way was an
   // open invitation.
   const limit = Number(new URL(request.url).searchParams.get("limit") ?? 10) || 10;
-  const results = rank(DEMO_MANDATE).slice(0, limit);
+  const results = rank(DEMO_MANDATE, await getWeights()).slice(0, limit);
   return NextResponse.json({ mandate: "demo", count: results.length, results });
 }
 
@@ -91,7 +92,10 @@ export async function POST(request: NextRequest) {
     /* empty body is fine */
   }
   const mandate: Mandate = { ...DEMO_MANDATE, ...(body.mandate ?? {}) };
-  const weights = body.weights ?? DEFAULT_WEIGHTS;
+  // The caller may override for a what-if, but the DEFAULT is now the
+  // platform's saved model rather than the shipped constant — otherwise tuning
+  // the weights in the admin changed the preview and nothing else.
+  const weights = body.weights ?? (await getWeights());
   const limit = Math.min(Math.max(Number(body.limit) || 10, 1), 100);
   const results = rank(mandate, weights).slice(0, limit);
   return NextResponse.json({ count: results.length, results });
