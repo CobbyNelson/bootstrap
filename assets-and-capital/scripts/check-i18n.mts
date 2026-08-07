@@ -40,9 +40,16 @@ const ALLOW_DIRS = [
   "components/analytics",
   "components/providers",
   "components/seo",
-  "app/[locale]/(site)/legal", // language-of-record notice, deliberately English
 ];
 
+/*
+ * app/[locale]/(site)/legal was here, excused by one sentence in it that was
+ * deliberately English. A directory-wide allowlist to excuse one line is the
+ * exact failure the per-line `i18n-exempt` marker exists to prevent: it also
+ * excused the document titles, the "Last updated" line, and the fact that the
+ * page never called translateContent at all — so every legal document rendered
+ * in English in all three languages while its translations sat in the database.
+ */
 const ALLOW_FILES = new Set<string>([
   // Renders the visitor's own language names — always in that language.
   "components/layout/theme-toggle.tsx",

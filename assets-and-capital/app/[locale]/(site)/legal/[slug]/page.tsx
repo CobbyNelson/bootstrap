@@ -15,22 +15,28 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: Locale }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  const t = await getTranslator(locale);
   const d = LEGAL_DOCS[slug];
-  return { title: d ? d.title : "Legal" };
+  return { title: d ? t.tl(d.title) : t.tl("Legal") };
 }
 
 export default async function LegalPage({ params }: { params: Promise<{ slug: string; locale: Locale }> }) {
   const { locale, slug } = await params;
   const t = await getTranslator(locale);
-  const doc = LEGAL_DOCS[slug];
-  if (!doc) notFound();
+  const raw = LEGAL_DOCS[slug];
+  if (!raw) notFound();
+  // translateContent was imported here and never called. Every legal document
+  // — privacy, terms, cookies, disclosures — rendered in English on /fr, /es
+  // and /ar, with its translations sitting in the database and a notice above
+  // it saying the page was "provided for convenience".
+  const doc = translateContent(raw, t);
 
   return (
     <>
-      <PageHeader title={doc.title} subtitle={`Last updated ${doc.updated}.`} />
+      <PageHeader title={doc.title} subtitle={t.tl("Last updated {date}.").replace("{date}", doc.updated)} />
       <section className="py-16 md:py-20">
         <div className="container-x max-w-3xl">
           {/* Language-of-record notice.
@@ -43,15 +49,29 @@ export default async function LegalPage({ params }: { params: Promise<{ slug: st
               nothing to disambiguate. */}
           {locale !== DEFAULT_LOCALE && (
             <p className="mb-8 rounded-[var(--radius-button)] border border-ink/10 bg-paper-2/60 px-4 py-3 text-sm leading-relaxed text-ink/70">
-              This page is provided for convenience. The{" "}
-              <Link
-                href={localePath(`/legal/${slug}`, DEFAULT_LOCALE)}
-                hrefLang="en"
-                className="underline underline-offset-2 hover:text-ink"
-              >
-                {t.tl("English version")}
-              </Link>{" "}
-              is the authoritative text and prevails in the event of any discrepancy.
+              {/* Translated, not left in English. The point of a
+                  language-of-record notice is that the reader UNDERSTANDS which
+                  text governs, and a French reader is not served by being told
+                  so in English. Which version prevails is stated by the sentence
+                  either way, and the link still names the language. */}
+              {t.tl(
+                "This page is provided for convenience. The {link} is the authoritative text and prevails in the event of any discrepancy.",
+              )
+                .split("{link}")
+                .map((part, i) => (
+                  <span key={i}>
+                    {part}
+                    {i === 0 && (
+                      <Link
+                        href={localePath(`/legal/${slug}`, DEFAULT_LOCALE)}
+                        hrefLang="en"
+                        className="underline underline-offset-2 hover:text-ink"
+                      >
+                        {t.tl("English version")}
+                      </Link>
+                    )}
+                  </span>
+                ))}
             </p>
           )}
 
