@@ -18,12 +18,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
 export default async function ContactPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = await getTranslator(locale);
-  const details = [
+  const details = translateContent([
     { icon: Mail, label: "Email", value: SITE.email, href: `mailto:${SITE.email}` },
     { icon: Phone, label: "Phone", value: SITE.phone, href: `tel:${SITE.phone.replace(/\s/g, "")}` },
     { icon: Globe, label: "Website", value: SITE.domain, href: `https://${SITE.domain}` },
     { icon: MapPin, label: "Reach", value: "Global, with teams in-market" },
-  ];
+  ], t);
 
   return (
     <>

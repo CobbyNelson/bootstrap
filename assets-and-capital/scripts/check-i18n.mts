@@ -118,7 +118,20 @@ function isCopy(s: string): boolean {
   // Reject code. `useState<Errors>(...)` reads as a JSX text node to a regex —
   // the generic's angle brackets are indistinguishable from tags — so anything
   // carrying operator or call syntax is source, not copy.
-  if (/[;={}()[\]]|=>|\+\+|&&|\|\|/.test(t)) return false;
+  // Parentheses alone are NOT code. "I am a(n)" was rejected by this rule and
+  // rendered in English on the contact form in all three languages, with a
+  // translation sitting in the registry the whole time. What marks source is a
+  // CALL — an identifier immediately followed by `(` — or the other operators.
+  if (/[;={}[\]]|=>|\+\+|&&|\|\|/.test(t)) return false;
+  // Empty or unbalanced parentheses are code caught mid-expression — the
+  // fragment "(), sector: new Set" is what a regex sees of `new Set(), sector:
+  // new Set(`. Copy that legitimately uses parentheses closes them around
+  // words: "a(n)", "(optional)".
+  // A text node never opens with a closing bracket or ends with an opening one:
+  // ") : interested ? (" is a JSX ternary, sliced between a `>` and a `<`.
+  if (/^[)\]}]/.test(t) || /[([{]$/.test(t)) return false;
+  if (/\(\s*\)/.test(t)) return false;
+  if ((t.match(/\(/g) ?? []).length !== (t.match(/\)/g) ?? []).length) return false;
   if (/\b(const|let|return|function|await|async|import|export|typeof)\b/.test(t)) return false;
 
   // A type intersection or union between two generics reads as a text node for

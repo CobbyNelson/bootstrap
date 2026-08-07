@@ -104,7 +104,7 @@ export function ContactForm() {
         <input id="contact-company" value={values.company} onChange={set("company")} className={cls("company")} placeholder={tl("Company name")} />
       </div>
       <div>
-        <label htmlFor="contact-role" className="mb-1.5 block text-sm font-medium text-ink/80">I am a(n)</label>
+        <label htmlFor="contact-role" className="mb-1.5 block text-sm font-medium text-ink/80">{tl("I am a(n)")}</label>
         <select id="contact-role" aria-invalid={!!errorFor("role")} aria-describedby={errorFor("role") ? "contact-role-error" : undefined} value={values.role} onChange={set("role")} onBlur={blur("role")} className={cls("role")}>
           <option value="" disabled>{tl("Select…")}</option>
           <option>{tl("Investor")}</option>

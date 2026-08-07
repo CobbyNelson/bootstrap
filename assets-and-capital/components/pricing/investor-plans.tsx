@@ -173,8 +173,7 @@ export function InvestorPlans({
       })}
       {error && <p className="lg:col-span-3 text-center text-sm font-medium text-brand-700">{error}</p>}
       <p className="lg:col-span-3 text-center text-xs text-ink/50">
-        Payments run in test mode — checkout is fully simulated (no real charge) and unlocks the complete investor
-        experience across the marketplace.
+        {tl("Payments run in test mode — checkout is fully simulated (no real charge) and unlocks the complete investor experience across the marketplace.")}
       </p>
 
       <CheckoutDialog

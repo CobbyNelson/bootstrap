@@ -93,7 +93,15 @@ def is_copy(s: str) -> bool:
         return False
     if re.match(r"^https?:|^/|^@", t):
         return False
-    if re.search(r"[;={}()\[\]]|=>|\+\+|&&|\|\|", t):
+    # Mirrors check-i18n: parentheses alone are not code. A text node never
+    # opens with a closing bracket, ends with an opening one, contains empty
+    # parens, or leaves them unbalanced — all of which real copy ("a(n)",
+    # "(optional)") satisfies and sliced source does not.
+    if re.search(r"[;={}\[\]]|=>|\+\+|&&|\|\|", t):
+        return False
+    if re.match(r"^[)\]}]", t) or re.search(r"[(\[{]$", t):
+        return False
+    if re.search(r"\(\s*\)", t) or t.count("(") != t.count(")"):
         return False
     if re.search(r"\b(const|let|return|function|await|async|import|export|typeof)\b", t):
         return False
