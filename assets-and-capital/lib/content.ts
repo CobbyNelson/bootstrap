@@ -103,23 +103,32 @@ export const STATS: Stat[] = [
 
 /* ---------------------------------------------------------------- Industries (from questionnaire taxonomy) */
 
-export type Industry = { name: string; icon: LucideIcon; blurb: string; count: number };
+/**
+ * `short` is the display name for tight spaces — the sector strip on the home
+ * page. It is DATA rather than `name.split(" & ")[0]`, which is how that strip
+ * used to build it: splitting produced strings like "Information Technology"
+ * that appear in no source file, so the extractor could not see them and no
+ * translator could ever reach them. Seven of the eight rendered in English on
+ * the Arabic page; the eighth translated only because "Healthcare" happens to
+ * also be a sector value elsewhere.
+ */
+export type Industry = { name: string; short: string; icon: LucideIcon; blurb: string; count: number };
 
 export const INDUSTRIES: Industry[] = [
-  { name: "Information Technology & Digital", icon: Cpu, blurb: "SaaS, cloud, AI/ML, fintech, cybersecurity, e-commerce", count: 214 },
-  { name: "Healthcare & Life Sciences", icon: HeartPulse, blurb: "Providers, pharma & biotech, devices, digital health", count: 138 },
-  { name: "Financial Services", icon: Landmark, blurb: "Banking, insurance, wealth management, payments", count: 121 },
-  { name: "Consumer & Retail", icon: ShoppingBag, blurb: "FMCG, retail chains, luxury, food & beverage", count: 96 },
-  { name: "Energy & Utilities", icon: Zap, blurb: "Oil & gas, renewables, energy infrastructure, utilities", count: 88 },
-  { name: "Industrials & Manufacturing", icon: Factory, blurb: "Logistics, machinery, aerospace, automotive, supply chain", count: 74 },
-  { name: "Materials & Natural Resources", icon: Mountain, blurb: "Mining & metals, chemicals, construction materials", count: 61 },
-  { name: "Real Estate & Property", icon: Building2, blurb: "Residential, commercial, logistics, hospitality, REITs", count: 152 },
-  { name: "Communications & Media", icon: Radio, blurb: "Telecom, broadcasting & streaming, digital media", count: 43 },
-  { name: "Infrastructure", icon: TrafficCone, blurb: "Transport, utilities & digital/telecom infrastructure", count: 57 },
-  { name: "Agriculture & Food Systems", icon: Wheat, blurb: "Farming, agri-tech, food processing & distribution", count: 69 },
-  { name: "Hospitality, Travel & Leisure", icon: Plane, blurb: "Hotels, resorts, airlines, travel services", count: 38 },
-  { name: "Education & Workforce", icon: GraduationCap, blurb: "EdTech, training services, corporate learning", count: 31 },
-  { name: "ESG & Sustainability", icon: Leaf, blurb: "Clean energy, green infrastructure, water & waste", count: 84 },
+  { name: "Information Technology & Digital", short: "Information Technology", icon: Cpu, blurb: "SaaS, cloud, AI/ML, fintech, cybersecurity, e-commerce", count: 214 },
+  { name: "Healthcare & Life Sciences", short: "Healthcare", icon: HeartPulse, blurb: "Providers, pharma & biotech, devices, digital health", count: 138 },
+  { name: "Financial Services", short: "Financial Services", icon: Landmark, blurb: "Banking, insurance, wealth management, payments", count: 121 },
+  { name: "Consumer & Retail", short: "Consumer", icon: ShoppingBag, blurb: "FMCG, retail chains, luxury, food & beverage", count: 96 },
+  { name: "Energy & Utilities", short: "Energy", icon: Zap, blurb: "Oil & gas, renewables, energy infrastructure, utilities", count: 88 },
+  { name: "Industrials & Manufacturing", short: "Industrials", icon: Factory, blurb: "Logistics, machinery, aerospace, automotive, supply chain", count: 74 },
+  { name: "Materials & Natural Resources", short: "Materials", icon: Mountain, blurb: "Mining & metals, chemicals, construction materials", count: 61 },
+  { name: "Real Estate & Property", short: "Real Estate", icon: Building2, blurb: "Residential, commercial, logistics, hospitality, REITs", count: 152 },
+  { name: "Communications & Media", short: "Communications", icon: Radio, blurb: "Telecom, broadcasting & streaming, digital media", count: 43 },
+  { name: "Infrastructure", short: "Infrastructure", icon: TrafficCone, blurb: "Transport, utilities & digital/telecom infrastructure", count: 57 },
+  { name: "Agriculture & Food Systems", short: "Agriculture", icon: Wheat, blurb: "Farming, agri-tech, food processing & distribution", count: 69 },
+  { name: "Hospitality, Travel & Leisure", short: "Hospitality", icon: Plane, blurb: "Hotels, resorts, airlines, travel services", count: 38 },
+  { name: "Education & Workforce", short: "Education", icon: GraduationCap, blurb: "EdTech, training services, corporate learning", count: 31 },
+  { name: "ESG & Sustainability", short: "ESG", icon: Leaf, blurb: "Clean energy, green infrastructure, water & waste", count: 84 },
 ];
 
 /* ---------------------------------------------------------------- How it works */

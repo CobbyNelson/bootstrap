@@ -138,7 +138,7 @@ function scanFile(file: string, context: string) {
   // ARE translatable, but neither the JSX nor the prop pattern sees them: they
   // are object properties, not attributes. Nine strings reached production
   // untranslated this way, wired correctly and never extracted.
-  for (const m of src.matchAll(/(?:^|[\s{,])(?:label|any|title|name|blurb|body|text|copy|answer|question|q|a|description|desc|subtitle|heading|caption|summary|intro|tag|cta|note|hint|v|k)\s*:\s*"([^"]{3,300})"/gm)) {
+  for (const m of src.matchAll(/(?:^|[\s{,])(?:label|any|title|name|short|blurb|body|text|copy|answer|question|q|a|description|desc|subtitle|heading|caption|summary|intro|tag|cta|note|hint|v|k)\s*:\s*"([^"]{3,300})"/gm)) {
     add(m[1], context);
   }
   // The trailing comma is not cosmetic tolerance: a formatter breaks any long

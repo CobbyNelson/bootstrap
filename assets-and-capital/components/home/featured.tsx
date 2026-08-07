@@ -16,7 +16,7 @@ import type { Locale } from "@/lib/i18n/config";
 export async function Featured({ locale }: { locale: Locale }) {
   const t = await getTranslator(locale);
   const heroes = await getListingHeroes();
-  const sectors = INDUSTRIES.slice(0, 8).map((i) => t.tl(i.name.split(" & ")[0]));
+  const sectors = INDUSTRIES.slice(0, 8).map((i) => t.tl(i.short));
 
   return (
     <section className="py-14 md:py-20">
