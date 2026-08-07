@@ -22,8 +22,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function ServicePage({ params }: { params: Promise<{ slug: string; locale: Locale }> }) {
   const { locale, slug } = await params;
   const t = await getTranslator(locale);
-  const s = SERVICES[slug];
-  if (!s) notFound();
+  const raw = SERVICES[slug];
+  if (!raw) notFound();
+  // translateContent was imported here and never called, so every service page
+  // rendered in English in all three languages — including its title, which is
+  // the one string the metadata above also uses.
+  const s = translateContent(raw, t);
 
   return (
     <>

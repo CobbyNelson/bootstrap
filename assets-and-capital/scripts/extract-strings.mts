@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import { LEGAL_DOCS } from "../lib/legal-docs";
 import * as C from "../lib/content";
+import { SERVICES as SERVICE_PAGES } from "../lib/services";
 
 /**
  * Walk the real objects instead of regexing the source.
@@ -91,6 +92,13 @@ for (const [name, context] of Object.entries(GROUPS)) {
   const v = (C as Record<string, unknown>)[name];
   if (v) walk(v, context);
 }
+// The five service pages. Their `features` are a bare array of strings —
+// no key, no JSX, no tl() — so not one of the source patterns could see them,
+// and the bullets rendered in English on a page that was otherwise fully
+// translated. Walking the real object is what the const-array patterns are an
+// approximation of; where the object is importable, use it.
+walk(SERVICE_PAGES, "Services");
+
 add(C.SITE.tagline, "Brand");
 add(C.SITE.description, "Brand");
 
