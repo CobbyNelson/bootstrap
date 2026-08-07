@@ -139,6 +139,18 @@ model User {
    * visitors see — presence is derived from recency, not a boolean someone
    * has to remember to switch off.
    */
+  /**
+   * /**
+   * Bumped to invalidate every session this account holds.
+   * The session token is self-contained, so without this there was no way to
+   * say "not any more": signing out only cleared the cookie, and a captured
+   * token kept working for its full seven days. Raising this number makes every
+   * token issued before now fail on its next request.
+   * It is also what makes a role change take effect at once — see
+   * getCurrentUser, which reads the CURRENT role rather than the one the token
+   * was minted with.
+   */
+  tokenVersion       Int                   @default(0)
   staffSeenAt        DateTime?
   meetingsAsInvestor Meeting[]             @relation("MeetingInvestor")
   meetingsAsBusiness Meeting[]             @relation("MeetingBusiness")

@@ -29,6 +29,25 @@ export async function GET(req: Request, ctx: { params: Promise<{ id: string }> }
     );
   }
 
+  /**
+   * Refuse a cross-site request before anything is written.
+   *
+   * This is a GET that has a side effect — it records who opened which document
+   * and when. With SameSite=Lax the cookie IS sent on a cross-site GET, so a
+   * third-party page could embed this URL and write audit entries attributed to
+   * whoever happened to be signed in. It could never read the response, but an
+   * audit trail somebody can write to from outside is not one you can rely on
+   * in a dispute, and this trail exists precisely for disputes.
+   *
+   * Sec-Fetch-Site is set by the browser and cannot be forged by page script.
+   * A request without it is a non-browser client — curl, a server — which is
+   * allowed through: those carry no ambient cookie to abuse.
+   */
+  const site = req.headers.get("sec-fetch-site");
+  if (site && site !== "same-origin" && site !== "none") {
+    return Response.json({ ok: false, error: "Cross-site requests are not accepted here." }, { status: 403 });
+  }
+
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
   await prisma.documentAccessLog.create({
     data: { userId: user.id, documentId: doc.id, action: "download", ip },

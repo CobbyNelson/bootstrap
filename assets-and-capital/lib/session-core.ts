@@ -15,8 +15,16 @@ function key() {
   return new TextEncoder().encode(secret);
 }
 
-export async function signSessionToken(user: SessionUser): Promise<string> {
-  return new SignJWT({ email: user.email, name: user.name, role: user.role })
+/**
+ * `v` is the account's tokenVersion at the moment of signing.
+ *
+ * Compared against the database on every authenticated request (see
+ * getCurrentUser), which is what turns a self-contained token into a revocable
+ * one: raising the number on the account invalidates every token issued before
+ * it, without a session table.
+ */
+export async function signSessionToken(user: SessionUser, tokenVersion = 0): Promise<string> {
+  return new SignJWT({ email: user.email, name: user.name, role: user.role, v: tokenVersion })
     .setProtectedHeader({ alg: ALG })
     .setSubject(user.id)
     .setIssuedAt()
@@ -24,7 +32,19 @@ export async function signSessionToken(user: SessionUser): Promise<string> {
     .sign(key());
 }
 
-export async function verifySessionToken(token: string): Promise<SessionUser | null> {
+/**
+ * Signature and expiry ONLY. Deliberately no database.
+ *
+ * This runs in middleware, on the edge runtime, where Prisma cannot go — so it
+ * is a cheap gate that answers "is this token authentic", not "is this account
+ * still allowed". The freshness check belongs to getCurrentUser, which runs on
+ * the server runtime and is what every route and page actually authorises on.
+ *
+ * The consequence is deliberate and worth stating: a revoked token still gets
+ * PAST middleware, and is then rejected by the page or route behind it. The gate
+ * is not the authority.
+ */
+export async function verifySessionToken(token: string): Promise<(SessionUser & { v: number }) | null> {
   try {
     const { payload } = await jwtVerify(token, key());
     return {
@@ -32,6 +52,7 @@ export async function verifySessionToken(token: string): Promise<SessionUser | n
       email: String(payload.email),
       name: (payload.name as string) ?? null,
       role: String(payload.role),
+      v: typeof payload.v === "number" ? payload.v : 0,
     };
   } catch {
     return null;

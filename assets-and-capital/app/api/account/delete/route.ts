@@ -93,6 +93,13 @@ export async function POST(req: NextRequest) {
         passwordHash: null,
         twoFactorOn: false,
         emailVerified: null,
+        // Inside the same transaction as the anonymisation, so a closed
+        // account cannot still be signed in somewhere else. destroySession
+        // below only clears the cookie in THIS browser; the token is
+        // self-contained and would otherwise keep working elsewhere for the
+        // rest of its seven days — on an account whose owner has just asked to
+        // be erased.
+        tokenVersion: { increment: 1 },
       },
     });
 
