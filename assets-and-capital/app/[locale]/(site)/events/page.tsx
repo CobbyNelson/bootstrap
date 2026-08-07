@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { MapPin, ArrowRight } from "lucide-react";
-import { EVENTS } from "@/lib/content";
+import { listPublicEvents } from "@/lib/events";
 import { PageHeader } from "@/components/layout/page-header";
 import { Reveal } from "@/components/ui/reveal";
 import { Badge } from "@/components/ui/badge";
@@ -18,16 +18,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   };
 }
 
-const ALL_EVENTS = [
-  ...EVENTS,
-  { title: "MENA Private Capital Summit", type: "Summit", location: "Dubai, UAE", date: "12 Nov 2026", month: "NOV", day: "12" },
-  { title: "Southern Africa Real Assets Day", type: "Roadshow", location: "Cape Town, SA", date: "26 Nov 2026", month: "NOV", day: "26" },
-  { title: "Family Office Connect", type: "Networking", location: "Geneva, CH", date: "09 Dec 2026", month: "DEC", day: "09" },
-];
 
 export default async function EventsPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = await getTranslator(locale);
+  const events = await listPublicEvents();
   return (
     <>
       <PageHeader
@@ -41,7 +36,7 @@ export default async function EventsPage({ params }: { params: Promise<{ locale:
 
       <section className="py-16 md:py-20">
         <div className="container-x grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {translateContent(ALL_EVENTS, t).map((ev, i) => {
+          {translateContent(events, t).map((ev, i) => {
             const badge = dateBadge(ev.date, locale);
             return (
             <Reveal key={ev.title} delay={(i % 3) * 0.08}>

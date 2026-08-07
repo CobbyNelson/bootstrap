@@ -1,198 +1,257 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Calendar, MapPin, Users, Ticket, QrCode, Plus, TrendingUp, CheckCircle2,
-  Globe, DollarSign, ArrowUpRight, Search,
-} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { CalendarDays, MapPin, Plus, Trash2, Pencil, X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-type EventStatus = "Live" | "Upcoming" | "Draft" | "Closed";
-type Ev = {
-  id: number;
+export type AdminEvent = {
+  id: string;
   title: string;
-  type: "Roadshow" | "Demo Day" | "Webinar" | "Summit";
+  type: string;
+  location: string | null;
   date: string;
-  city: string;
-  mode: "In-person" | "Virtual" | "Hybrid";
-  status: EventStatus;
-  registered: number;
-  capacity: number;
-  checkedIn: number;
-  revenue: string;
 };
 
-const STATUS_STYLE: Record<EventStatus, string> = {
-  Live: "bg-emerald-50 text-emerald-700 ring-emerald-100",
-  Upcoming: "bg-sky-50 text-sky-700 ring-sky-100",
-  Draft: "bg-ink/[0.05] text-ink/65 ring-ink/10",
-  Closed: "bg-ink/[0.05] text-ink/60 ring-ink/10",
-};
+/**
+ * Event management, reduced to what the schema actually holds.
+ *
+ * This page used to show four statistics — active events, total registrations,
+ * live check-ins, ticket revenue — a registrant list and a QR code for
+ * door scanning. The Event model has four fields: title, type, location, date.
+ * There is no registration, ticket or check-in table anywhere in the schema, so
+ * three of those four numbers, the registrant list and the QR panel were
+ * describing a ticketing product that does not exist and is not being built.
+ *
+ * Ticketing is a real feature if it is wanted, with its own tables and its own
+ * decisions about payment and capacity. What it was not is nearly finished,
+ * which is what that page implied to anyone reading it.
+ *
+ * What remains is the loop the site is designed around: an admin maintains the
+ * event list and the public /events page shows it.
+ */
 
-const EVENTS: Ev[] = [
-  { id: 1, title: "Lagos Capital Summit 2026", type: "Summit", date: "24 Jul 2026", city: "Lagos, NG", mode: "Hybrid", status: "Live", registered: 412, capacity: 500, checkedIn: 287, revenue: "$61,800" },
-  { id: 2, title: "Nairobi Investor Roadshow", type: "Roadshow", date: "31 Jul 2026", city: "Nairobi, KE", mode: "In-person", status: "Upcoming", registered: 168, capacity: 200, checkedIn: 0, revenue: "$25,200" },
-  { id: 3, title: "Fintech Demo Day — Q3", type: "Demo Day", date: "14 Aug 2026", city: "Virtual", mode: "Virtual", status: "Upcoming", registered: 934, capacity: 2000, checkedIn: 0, revenue: "$0" },
-  { id: 4, title: "Family Office Masterclass", type: "Webinar", date: "22 Aug 2026", city: "Virtual", mode: "Virtual", status: "Draft", registered: 0, capacity: 300, checkedIn: 0, revenue: "$0" },
-  { id: 5, title: "Accra Growth Capital Forum", type: "Summit", date: "12 Jun 2026", city: "Accra, GH", mode: "Hybrid", status: "Closed", registered: 386, capacity: 400, checkedIn: 351, revenue: "$57,900" },
-];
+const TYPES = ["Roadshow", "Forum", "Summit", "Networking", "Webinar"];
 
-const REGISTRANTS = [
-  { name: "David Mensah", org: "Accra FinPay", tier: "VIP", checkedIn: true, time: "09:12" },
-  { name: "Aurora Family Office", org: "Aurora Capital", tier: "Investor", checkedIn: true, time: "09:20" },
-  { name: "Nadia Okonkwo", org: "Sahel Ventures", tier: "Investor", checkedIn: true, time: "09:31" },
-  { name: "Marcus Lindqvist", org: "Nordstar Advisory", tier: "Speaker", checkedIn: true, time: "08:45" },
-  { name: "Zainab Bello", org: "Lagos AgriTech", tier: "General", checkedIn: false, time: "—" },
-  { name: "Kwame Asante", org: "Kumasi Logistics", tier: "General", checkedIn: false, time: "—" },
-];
+type Draft = { id?: string; title: string; type: string; location: string; date: string };
 
-const TIER_STYLE: Record<string, string> = {
-  VIP: "bg-navy-100 text-navy-700",
-  Investor: "bg-brand-50 text-brand-700",
-  Speaker: "bg-violet-50 text-violet-700",
-  General: "bg-ink/[0.05] text-ink/65",
-};
+const EMPTY: Draft = { title: "", type: TYPES[0], location: "", date: "" };
 
-function Stat({ icon: Icon, label, value, sub }: { icon: typeof Users; label: string; value: string; sub?: string }) {
-  return (
-    <div className="rounded-2xl border border-ink/[0.07] bg-white p-5">
-      <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand-50 text-brand-600 ring-1 ring-brand-100"><Icon className="h-4 w-4" /></span>
-      <p className="mt-4 font-display text-2xl font-semibold text-navy-700 tnum">{value}</p>
-      <p className="mt-0.5 text-sm text-ink/65">{label}</p>
-      {sub && <p className="mt-1 text-xs font-medium text-emerald-700">{sub}</p>}
-    </div>
-  );
-}
+export function EventsManager({ events }: { events: AdminEvent[] }) {
+  const router = useRouter();
+  const [draft, setDraft] = useState<Draft | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
 
-export function EventsManager() {
-  const [activeId, setActiveId] = useState(1);
-  const active = EVENTS.find((e) => e.id === activeId)!;
-  const [registrants, setRegistrants] = useState(REGISTRANTS);
-  const checkedIn = registrants.filter((r) => r.checkedIn).length;
+  const iso = (d: string) => (d ? new Date(d).toISOString().slice(0, 10) : "");
+
+  async function save() {
+    if (!draft) return;
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/events", {
+        method: draft.id ? "PATCH" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(draft),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Could not save.");
+        return;
+      }
+      setDraft(null);
+      router.refresh();
+    } catch {
+      setError("Could not reach the server.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function remove(id: string) {
+    setBusy(true);
+    try {
+      await fetch(`/api/admin/events?id=${encodeURIComponent(id)}`, { method: "DELETE" });
+      router.refresh();
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const upcoming = events.filter((e) => new Date(e.date) >= new Date()).length;
 
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-700">Roadshows &amp; events</p>
-          <h1 className="mt-1 font-display text-2xl font-semibold text-navy-700">Event management</h1>
-          <p className="mt-1 text-sm text-ink/65">Registration, ticketing, QR check-in and live attendance.</p>
+          <p className="kicker text-[0.7rem] text-brand-700">Roadshows &amp; events</p>
+          <h1 className="mt-1.5 font-display text-3xl font-medium text-navy-700">Event management</h1>
+          <p className="mt-1 text-sm text-ink/65">
+            {events.length} event{events.length === 1 ? "" : "s"}
+            {events.length > 0 && ` · ${upcoming} upcoming`}. These appear on the public events page.
+          </p>
         </div>
         <button
-          disabled
-          title="Event creation is not built yet — this page shows sample events."
-          className="inline-flex cursor-not-allowed items-center gap-2 rounded-[var(--radius-button)] opacity-40 bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"><Plus className="h-4 w-4" /> Create event</button>
+          type="button"
+          onClick={() => setDraft({ ...EMPTY })}
+          className="inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-700"
+        >
+          <Plus className="h-4 w-4" /> Create event
+        </button>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <Stat icon={Calendar} label="Active events" value="4" />
-        <Stat icon={Users} label="Total registrations" value="1,900" sub="+218 this week" />
-        <Stat icon={CheckCircle2} label="Live check-ins" value="287" sub="70% of registered" />
-        <Stat icon={DollarSign} label="Ticket revenue" value="$144.9K" sub="+$25.2K pending" />
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-[1fr_400px]">
-        {/* events table */}
-        <div className="overflow-hidden rounded-2xl border border-ink/[0.07] bg-white">
-          <div className="border-b border-ink/[0.06] p-4">
-            <h2 className="font-display text-base font-semibold text-navy-700">All events</h2>
-          </div>
-          <div className="divide-y divide-ink/[0.04]">
-            {EVENTS.map((e) => (
-              <button key={e.id} onClick={() => setActiveId(e.id)} className={cn("flex w-full items-center gap-4 px-4 py-4 text-left transition-colors", activeId === e.id ? "bg-brand-50/40" : "hover:bg-paper-2/40")}>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <p className="truncate text-sm font-medium text-ink">{e.title}</p>
-                    <span className={cn("rounded-full px-2 py-0.5 text-[0.65rem] font-medium ring-1", STATUS_STYLE[e.status])}>{e.status}</span>
-                  </div>
-                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink/65">
-                    <span className="inline-flex items-center gap-1"><Calendar className="h-3 w-3" /> {e.date}</span>
-                    <span className="inline-flex items-center gap-1"><MapPin className="h-3 w-3" /> {e.city}</span>
-                    <span className="inline-flex items-center gap-1"><Globe className="h-3 w-3" /> {e.mode}</span>
-                  </div>
-                </div>
-                <div className="hidden text-right sm:block">
-                  <p className="text-sm font-medium text-ink tnum">{e.registered}/{e.capacity}</p>
-                  <p className="text-xs text-ink/60">registered</p>
-                </div>
-                <div className="hidden w-24 sm:block">
-                  <div className="h-1.5 overflow-hidden rounded-full bg-ink/[0.06]">
-                    <div className="h-full rounded-full bg-brand-500" style={{ width: `${Math.round((e.registered / e.capacity) * 100)}%` }} />
-                  </div>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* check-in panel */}
-        <div className="space-y-4">
-          <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-ink/60">{active.type}</p>
-                <h3 className="mt-1 font-display text-lg font-semibold text-navy-700">{active.title}</h3>
-              </div>
-              <span className={cn("rounded-full px-2.5 py-1 text-xs font-medium ring-1", STATUS_STYLE[active.status])}>{active.status}</span>
-            </div>
-
-            <div className="mt-5 grid grid-cols-3 gap-3 text-center">
-              {[
-                { label: "Registered", value: active.registered, icon: Ticket },
-                { label: "Checked in", value: active.status === "Live" ? checkedIn : active.checkedIn, icon: CheckCircle2 },
-                { label: "Capacity", value: active.capacity, icon: Users },
-              ].map((s) => (
-                <div key={s.label} className="rounded-xl bg-paper-2/60 p-3">
-                  <s.icon className="mx-auto h-4 w-4 text-brand-600" />
-                  <p className="mt-1.5 font-display text-lg font-semibold text-navy-700 tnum">{s.value}</p>
-                  <p className="text-[0.65rem] text-ink/65">{s.label}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-5 grid place-items-center rounded-2xl border border-dashed border-ink/15 bg-paper-2/40 p-6">
-              <div className="grid h-28 w-28 place-items-center rounded-2xl bg-white shadow-sm ring-1 ring-ink/[0.06]">
-                <QrCode className="h-20 w-20 text-ink" strokeWidth={1} />
-              </div>
-              <p className="mt-3 text-xs font-medium text-ink/60">Scan to check in</p>
-              <p className="text-[0.7rem] text-ink/60">events.assetsandcapitalltd.com/{active.id}</p>
-            </div>
-          </div>
-
-          <div className="rounded-3xl border border-ink/[0.07] bg-white p-5">
-            <div className="mb-3 flex items-center justify-between">
-              <h3 className="font-display text-base font-semibold text-navy-700">Registrants</h3>
-              <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700"><TrendingUp className="h-3.5 w-3.5" /> {checkedIn} checked in</span>
-            </div>
-            <div className="mb-3 flex items-center gap-2 rounded-[var(--radius-button)] bg-paper-2 px-3.5">
-              <Search className="h-4 w-4 text-ink/60" />
-              <input placeholder="Search registrants…" className="h-8 w-full bg-transparent text-sm text-ink placeholder:text-ink/60 focus:outline-none" />
-            </div>
-            <div className="space-y-1">
-              {registrants.map((r, i) => (
-                <div key={i} className="flex items-center gap-3 rounded-lg px-1.5 py-2 hover:bg-paper-2/50">
-                  <span className="grid h-8 w-8 flex-none place-items-center rounded-[var(--radius-button)] bg-ink text-[0.65rem] font-semibold text-white">
-                    {r.name.split(" ").slice(0, 2).map((w) => w[0]).join("")}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium text-ink">{r.name}</p>
-                    <p className="truncate text-xs text-ink/60">{r.org}</p>
-                  </div>
-                  <span className={cn("rounded px-1.5 py-0.5 text-[0.6rem] font-medium", TIER_STYLE[r.tier])}>{r.tier}</span>
-                  {r.checkedIn ? (
-                    <span className="inline-flex items-center gap-1 text-[0.7rem] font-medium text-emerald-700"><CheckCircle2 className="h-3.5 w-3.5" /> {r.time}</span>
-                  ) : (
-                    <button onClick={() => setRegistrants((prev) => prev.map((x, xi) => xi === i ? { ...x, checkedIn: true, time: "Now" } : x))} className="rounded-[var(--radius-button)] border border-ink/12 px-2.5 py-1 text-[0.7rem] font-medium text-ink/60 hover:bg-paper-2">Check in</button>
-                  )}
-                </div>
-              ))}
-            </div>
+      {draft && (
+        <div className="rounded-3xl border border-ink/[0.07] bg-white p-6">
+          <div className="flex items-center justify-between">
+            <p className="font-display text-lg font-semibold text-navy-700">
+              {draft.id ? "Edit event" : "New event"}
+            </p>
             <button
-              disabled
-              title="Attendance export is not built yet."
-            className="mt-3 inline-flex cursor-not-allowed items-center gap-1 text-sm font-medium text-brand-700 opacity-40">Export attendance <ArrowUpRight className="h-3.5 w-3.5" /></button>
+              type="button"
+              onClick={() => setDraft(null)}
+              aria-label="Close"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-[var(--radius-button)] text-ink/60 hover:bg-ink/5"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            <label className="block">
+              <span className="mb-1.5 block text-sm font-medium text-ink/80">Title</span>
+              <input
+                value={draft.title}
+                onChange={(e) => setDraft({ ...draft, title: e.target.value })}
+                className="w-full rounded-[var(--radius-button)] border border-ink/15 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none"
+              />
+            </label>
+            <label className="block">
+              <span className="mb-1.5 block text-sm font-medium text-ink/80">Type</span>
+              <select
+                value={draft.type}
+                onChange={(e) => setDraft({ ...draft, type: e.target.value })}
+                className="w-full rounded-[var(--radius-button)] border border-ink/15 bg-white px-3 py-2 text-sm focus:border-brand-500 focus:outline-none"
+              >
+                {TYPES.map((t) => (
+                  <option key={t}>{t}</option>
+                ))}
+              </select>
+            </label>
+            <label className="block">
+              <span className="mb-1.5 block text-sm font-medium text-ink/80">Location</span>
+              <input
+                value={draft.location}
+                onChange={(e) => setDraft({ ...draft, location: e.target.value })}
+                placeholder="Nairobi, Kenya"
+                className="w-full rounded-[var(--radius-button)] border border-ink/15 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none"
+              />
+            </label>
+            <label className="block">
+              <span className="mb-1.5 block text-sm font-medium text-ink/80">Date</span>
+              <input
+                type="date"
+                value={iso(draft.date)}
+                onChange={(e) => setDraft({ ...draft, date: e.target.value })}
+                className="w-full rounded-[var(--radius-button)] border border-ink/15 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none"
+              />
+            </label>
+          </div>
+
+          {error && <p className="mt-3 text-sm font-medium text-brand-700">{error}</p>}
+
+          <div className="mt-5 flex justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => setDraft(null)}
+              className="rounded-[var(--radius-button)] border border-ink/12 px-4 py-2.5 text-sm font-medium text-ink/70 hover:border-ink/25"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={save}
+              disabled={busy}
+              className="rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-40"
+            >
+              {busy ? "Saving…" : draft.id ? "Save changes" : "Create event"}
+            </button>
           </div>
         </div>
+      )}
+
+      <div className="rounded-3xl border border-ink/[0.07] bg-white">
+        {events.length === 0 ? (
+          <p className="px-6 py-14 text-center text-sm text-ink/55">
+            No events yet. The public page falls back to the three sample events until you add one —
+            the first real event replaces all of them.
+          </p>
+        ) : (
+          <ul className="divide-y divide-ink/[0.06]">
+            {events.map((e) => {
+              const past = new Date(e.date) < new Date();
+              return (
+                <li key={e.id} className="flex flex-wrap items-center gap-4 px-6 py-4">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="font-medium text-ink">{e.title}</p>
+                      <Badge variant={past ? "neutral" : "gold"} size="sm">
+                        {past ? "Past" : e.type}
+                      </Badge>
+                    </div>
+                    <p className="mt-1 inline-flex flex-wrap items-center gap-3 text-sm text-ink/60">
+                      <span className="inline-flex items-center gap-1">
+                        <CalendarDays className="h-3.5 w-3.5" />
+                        {new Date(e.date).toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </span>
+                      {e.location && (
+                        <span className="inline-flex items-center gap-1">
+                          <MapPin className="h-3.5 w-3.5" />
+                          {e.location}
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setDraft({
+                          id: e.id,
+                          title: e.title,
+                          type: e.type,
+                          location: e.location ?? "",
+                          date: e.date,
+                        })
+                      }
+                      aria-label={`Edit ${e.title}`}
+                      className={cn(
+                        "inline-flex h-9 w-9 items-center justify-center rounded-[var(--radius-button)]",
+                        "text-ink/60 transition-colors hover:bg-ink/5 hover:text-ink",
+                      )}
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => remove(e.id)}
+                      disabled={busy}
+                      aria-label={`Delete ${e.title}`}
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-[var(--radius-button)] text-ink/60 transition-colors hover:bg-brand-50 hover:text-brand-700 disabled:opacity-40"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </div>
   );
