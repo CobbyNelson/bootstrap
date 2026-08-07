@@ -684,8 +684,32 @@ body {
  * neutralises every animation, which is why these are declared as animations
  * rather than as transitions somebody has to remember to guard.
  */
+/**
+ * A question arriving, and a question leaving.
+ *
+ * The two are deliberately not mirror images. Entry is SOFT — it rises a short
+ * way and settles, because the visitor is about to read it and movement that
+ * is still finishing is movement they have to wait out. Exit is DRAMATIC but
+ * brief: the answer they just committed lifts away and blurs, which reads as
+ * the form taking it rather than the form redrawing.
+ *
+ * Exit is faster than entry on purpose. A slow departure is a stutter between
+ * questions; a quick one is momentum.
+ */
+@keyframes qIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes qOut {
+  from { opacity: 1; transform: none; filter: blur(0); }
+  to   { opacity: 0; transform: translateY(-22px) scale(0.985); filter: blur(3px); }
+}
 .q-in {
-  animation: riseIn 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: qIn 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.q-out {
+  animation: qOut 260ms cubic-bezier(0.4, 0, 1, 1) both;
+  pointer-events: none;
 }
 .section-in {
   animation: riseIn 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -699,3 +723,23 @@ body {
   transform-origin: left;
   animation: ruleDraw 620ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
 }
+
+/**
+ * The answers, as columns that scroll.
+ *
+ * A long form's recap becomes a wall — nineteen rows stacked above the question
+ * you are trying to read. As columns it stays one band deep however many
+ * answers there are, and scrolls sideways like a carousel.
+ *
+ * Snap points land a column at the left edge rather than mid-word. The
+ * scrollbar is hidden because the columns themselves are the affordance, and a
+ * horizontal bar under a form reads as a mistake.
+ */
+.answer-rail {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+}
+.answer-rail::-webkit-scrollbar { display: none; }
+.answer-rail > * { scroll-snap-align: start; }

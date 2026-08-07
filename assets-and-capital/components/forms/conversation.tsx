@@ -43,6 +43,14 @@ export type Question = {
   multi?: string[];
   type?: string;
   autoComplete?: string;
+  /**
+   * Sits against the answer as a unit rather than in the placeholder — "$" in
+   * front of a figure, "%" behind one. A currency hint that lives in the
+   * placeholder disappears the moment somebody types, which is exactly when
+   * they need to know which unit is expected.
+   */
+  prefix?: string;
+  suffix?: string;
   /** Returns a message when the answer is not acceptable, null when it is. */
   validate?: (v: string) => string | null;
   /**
@@ -73,9 +81,9 @@ export const HONEYPOT_KEY = "__trap";
 
 /** Grows the answer as it is typed, so a short one looks considered rather than lost. */
 function sizeFor(len: number): string {
-  if (len > 90) return "text-lg md:text-xl";
-  if (len > 45) return "text-xl md:text-2xl";
-  return "text-2xl md:text-3xl";
+  if (len > 90) return "text-xl md:text-2xl";
+  if (len > 45) return "text-2xl md:text-3xl";
+  return "text-3xl md:text-4xl";
 }
 
 export function Conversation({
@@ -134,6 +142,8 @@ export function Conversation({
    * anything, and re-announcing would make the correction feel like a reset.
    */
   const [announcing, setAnnouncing] = useState(true);
+  /** Set while the outgoing question plays its exit, before the next arrives. */
+  const [leaving, setLeaving] = useState(false);
   const showAnnouncement = announcing && isSectionOpener;
   const questionsInSection = questions.filter((x) => x.section === q.section).length;
 
@@ -185,6 +195,27 @@ export function Conversation({
     return () => window.clearTimeout(t);
   }, [values, idx, storageKey]);
 
+  /**
+   * Cmd/Ctrl + Backspace steps back a question.
+   *
+   * Bound to the document rather than the input, so it works while a choice
+   * step has focus on a chip and while a section is being announced — the
+   * places somebody is most likely to realise they got the last one wrong.
+   * Plain Backspace is left alone: it is how you delete a character.
+   */
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key !== "Backspace" || !(e.metaKey || e.ctrlKey)) return;
+      if (idx === 0 && !announcing) return;
+      e.preventDefault();
+      if (announcing) setAnnouncing(false);
+      else goTo(idx - 1);
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx, announcing, values]);
+
   // The effect does only what an effect is for: moving focus after the question
   // has animated in.
   useEffect(() => {
@@ -227,9 +258,16 @@ export function Conversation({
     // name would have overwritten a company's actual URL with the bot's.
     if (last) onComplete(hp ? { ...next, [HONEYPOT_KEY]: hp } : next);
     else {
-      // Announce only when the next question opens a section the visitor has
-      // not just been in.
-      goTo(idx + 1, questions[idx + 1].section !== q.section);
+      // Let the answer leave before the next question arrives. The delay
+      // matches the exit animation; anything longer is a pause the visitor
+      // feels, anything shorter cuts the movement off mid-way.
+      setLeaving(true);
+      window.setTimeout(() => {
+        setLeaving(false);
+        // Announce only when the next question opens a section the visitor has
+        // not just been in.
+        goTo(idx + 1, questions[idx + 1].section !== q.section);
+      }, 240);
     }
   }
 
@@ -295,35 +333,37 @@ export function Conversation({
         </span>
       </div>
 
-      {/* Everything answered so far, grouped the way the rail groups it, and
-          still listed while the next section is being announced. Any line goes
-          back to the question that produced it. */}
+      {/* Everything answered so far, as columns that scroll sideways.
+          Stacked, nineteen answers become a wall above the question you are
+          trying to read. As columns it stays one band deep however long the
+          form is, and the rows are ruled so a value lines up with its label
+          instead of floating between two. */}
       {answered.length > 0 && (
-        <div className="mt-7 space-y-5">
+        <div className="answer-rail -mx-1 mt-7 flex gap-8 overflow-x-auto px-1 pb-2">
           {sections.map((name) => {
-            const rows = answered
-              .map((a, i) => ({ a, i }))
-              .filter(({ a }) => a.section === name);
+            const rows = answered.map((a, i) => ({ a, i })).filter(({ a }) => a.section === name);
             if (rows.length === 0) return null;
             return (
-              <div key={name}>
-                <p className="text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-ink/40">{name}</p>
-                <div className="mt-2 space-y-1.5">
+              <div key={name} className="min-w-[15rem] flex-none sm:min-w-[19rem]">
+                <p className="text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-brand-600">{name}</p>
+                <div className="mt-2 divide-y divide-ink/[0.07] border-t border-ink/[0.07]">
                   {rows.map(({ a, i }) => (
                     <button
                       key={a.key}
                       type="button"
                       onClick={() => goTo(i)}
-                      className="group flex w-full items-baseline gap-4 text-left"
+                      className="group flex w-full items-baseline gap-3 py-2 text-left"
                       title={tl("Change this answer")}
                     >
-                      <span className="w-32 shrink-0 truncate text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-brand-600">
+                      <span className="w-24 shrink-0 truncate text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-ink/45">
                         {a.key.replace(/([A-Z])/g, " $1")}
                       </span>
-                      <span className="min-w-0 truncate text-sm text-ink/65 transition-colors group-hover:text-brand-700">
-                        {values[a.key] || <em className="not-italic opacity-60">{tl("skipped")}</em>}
+                      <span className="min-w-0 flex-1 truncate text-sm text-ink/75 transition-colors group-hover:text-brand-700">
+                        {values[a.key]
+                          ? `${a.prefix ?? ""}${values[a.key]}${a.suffix ?? ""}`
+                          : <em className="not-italic text-ink/40">{tl("skipped")}</em>}
                       </span>
-                      <span aria-hidden className="ml-auto shrink-0 text-[0.65rem] text-ink/55 opacity-0 transition-opacity group-hover:opacity-100">
+                      <span aria-hidden className="shrink-0 text-[0.6rem] text-ink/45 opacity-0 transition-opacity group-hover:opacity-100">
                         {tl("edit")}
                       </span>
                     </button>
@@ -363,7 +403,7 @@ export function Conversation({
       )}
 
       {/* The question. Keyed so it remounts, and re-animates, per step. */}
-      <div key={q.key} className={cn("q-in mt-10", showAnnouncement && "hidden")}>
+      <div key={q.key} className={cn(leaving ? "q-out" : "q-in", "mt-10", showAnnouncement && "hidden")}>
         <p className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-ink/55">{q.section}</p>
         <h2 className="mt-2 font-display text-2xl font-semibold leading-tight text-navy-700 md:text-3xl">
           {q.ask}{" "}
@@ -444,7 +484,12 @@ export function Conversation({
         {/* The answer line. Absent for single-choice, where clicking answered
             it, and for node/confirm steps, which are not typed into. */}
         {!q.choices && !q.node && !q.confirm && (
-          <div className="mt-7 flex items-end gap-4">
+          <div className="mt-8 flex items-end gap-4">
+            {q.prefix && (
+              <span aria-hidden className={cn("shrink-0 pb-3 font-display text-ink/35", sizeFor(draft.length))}>
+                {q.prefix}
+              </span>
+            )}
             {q.multiline ? (
               <textarea
                 ref={areaRef}
@@ -480,6 +525,11 @@ export function Conversation({
               />
             )}
 
+            {q.suffix && (
+              <span aria-hidden className={cn("shrink-0 pb-3 font-display text-ink/35", sizeFor(draft.length))}>
+                {q.suffix}
+              </span>
+            )}
             <button
               type="button"
               onClick={() => commit()}

@@ -122,7 +122,9 @@ export function BusinessIntake() {
       key: "amount", section: S2,
       ask: tl("How much are you raising?"),
       hint: tl("In US dollars."),
-      placeholder: "$",
+      prefix: "$",
+      placeholder: "15,000,000",
+      type: "text",
       validate: required(tl("We need the amount.")),
     },
     {
@@ -135,13 +137,15 @@ export function BusinessIntake() {
     {
       key: "equityStake", section: S2,
       ask: tl("What stake are you offering?"),
-      placeholder: "%",
+      suffix: "%",
+      placeholder: "18",
       optional: true,
     },
     {
       key: "returnOffer", section: S2,
       ask: tl("And the return you are offering?"),
-      placeholder: "%",
+      suffix: "%",
+      placeholder: "22",
       optional: true,
     },
 
@@ -210,7 +214,7 @@ export function BusinessIntake() {
        viewport. The card matches the contact page's, which is the other place
        a Conversation is mounted. */
     <section className="container-x py-12 md:py-16">
-      <div className="max-w-4xl rounded-3xl border border-ink/[0.07] bg-white p-6 shadow-[var(--shadow-soft)] md:p-9">
+      <div className="rounded-3xl border border-ink/[0.07] bg-white p-6 shadow-[var(--shadow-soft)] md:p-10">
     <Conversation
       questions={QUESTIONS}
       onComplete={submit}
