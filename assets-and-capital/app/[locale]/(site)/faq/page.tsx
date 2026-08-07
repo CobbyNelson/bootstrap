@@ -5,6 +5,8 @@ import { PageHeader } from "@/components/layout/page-header";
 import { getTranslator } from "@/lib/i18n/store";
 import { translateContent } from "@/lib/i18n/translate-content";
 import type { Locale } from "@/lib/i18n/config";
+import { JsonLd } from "@/components/seo/json-ld";
+import { faqSchema } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const t = await getTranslator((await params).locale);
@@ -51,6 +53,11 @@ export default async function FaqPage({ params }: { params: Promise<{ locale: Lo
       <section className="py-16 md:py-20">
         <div className="container-x grid gap-12 lg:grid-cols-[1fr_320px]">
           <div className="space-y-10">
+            {/* Built from the same GROUPS the page maps over, so a question
+                added to the page is in the schema by construction rather than
+                by remembering. Untranslated on purpose: the English page is the
+                canonical one, and a rich result should match what it quotes. */}
+            <JsonLd data={faqSchema(GROUPS.flatMap((g) => g.items))} />
             {translateContent(GROUPS, t).map((g) => (
               <div key={g.title}>
                 <h2 className="font-display text-xl font-bold text-navy-700">{g.title}</h2>

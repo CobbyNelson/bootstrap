@@ -11,6 +11,7 @@ import { translateContent } from "@/lib/i18n/translate-content";
 import type { Locale } from "@/lib/i18n/config";
 import { formatDateShort } from "@/lib/dates";
 import { ogImageFor, ogUrl } from "@/lib/og";
+import { breadcrumbSchema } from "@/lib/seo";
 
 const GRADIENT: Record<string, string> = {
  "Market Intelligence": "from-brand-600 to-brand-900",
@@ -84,6 +85,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
  return (
  <>
  <JsonLd data={jsonLd} />
+ {/* The trail a crawler shows under the result, and the one the page already
+     draws in its own header. breadcrumbSchema has existed since the SEO work
+     and nothing had ever called it. */}
+ <JsonLd
+  data={breadcrumbSchema([
+   { name: "Insights", path: "/insights" },
+   { name: a.title, path: `/insights/${slug}` },
+  ])}
+ />
  {/* hero */}
  <section className={cn("relative overflow-hidden bg-gradient-to-br pt-32 pb-14 text-white md:pt-40 md:pb-20", GRADIENT[a.type] ?? "from-brand-600 to-brand-900")}>
  <div className="grid-noise pointer-events-none absolute inset-0 opacity-25" aria-hidden />

@@ -77,3 +77,47 @@ export function breadcrumbSchema(trail: { name: string; path: string }[]) {
     })),
   };
 }
+
+/**
+ * FAQPage, from the questions the page already renders.
+ *
+ * /faq is literally a list of questions and answers and carried no FAQPage
+ * markup, so none of it was eligible for the answer rich result it is shaped
+ * for. Built from the same GROUPS the page maps over, so a question added to
+ * the page is in the schema by construction rather than by remembering.
+ *
+ * Answers are stripped of tags: schema.org wants text, and a stray element in
+ * an answer is how the whole block gets ignored.
+ */
+export function faqSchema(entries: { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: entries.map((e) => ({
+      "@type": "Question",
+      name: e.q,
+      acceptedAnswer: { "@type": "Answer", text: e.a.replace(/<[^>]*>/g, "") },
+    })),
+  };
+}
+
+/**
+ * ItemList for a listing index.
+ *
+ * Tells a crawler the marketplace is an ordered set of distinct things rather
+ * than one page of prose, and gives each entry a URL to follow.
+ */
+export function itemListSchema(name: string, items: { name: string; path: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name,
+    numberOfItems: items.length,
+    itemListElement: items.map((it, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: it.name,
+      url: `https://${SITE.domain}${it.path}`,
+    })),
+  };
+}

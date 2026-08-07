@@ -7,6 +7,10 @@ import { getListingHeroes } from "@/lib/listing-heroes";
 import { getTranslator } from "@/lib/i18n/store";
 import { translateContent } from "@/lib/i18n/translate-content";
 import type { Locale } from "@/lib/i18n/config";
+import { JsonLd } from "@/components/seo/json-ld";
+import { itemListSchema } from "@/lib/seo";
+import { MARKETPLACE } from "@/lib/marketplace-data";
+import { slugify } from "@/lib/matching";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const t = await getTranslator((await params).locale);
@@ -55,6 +59,16 @@ export default async function MarketplacePage({ params }: { params: Promise<{ lo
   const heroes = await getListingHeroes();
   return (
     <>
+    {/* Tells a crawler this is an ordered set of distinct things with their
+        own URLs, rather than one page of prose that happens to name sixteen
+        companies. Names are untranslated on purpose — a company name is a
+        proper noun, not copy. */}
+    <JsonLd
+      data={itemListSchema(
+        "Investment opportunities",
+        MARKETPLACE.map((o) => ({ name: o.name, path: `/marketplace/${slugify(o.name)}` })),
+      )}
+    />
       <section className="relative overflow-hidden border-b border-ink/[0.06] pt-32 pb-12 md:pt-40 md:pb-16">
         <div className="grid-noise pointer-events-none absolute inset-0 opacity-50" aria-hidden />
         <div

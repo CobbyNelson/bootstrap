@@ -15,6 +15,8 @@ import { translateContent } from "@/lib/i18n/translate-content";
 import type { Locale } from "@/lib/i18n/config";
 import { getWeights } from "@/lib/matching-weights";
 import { ogImageFor, ogUrl } from "@/lib/og";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbSchema } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -109,6 +111,15 @@ export default async function OpportunityPage({ params }: { params: Promise<{ sl
 
   return (
     <>
+      {/* The trail a crawler shows under the result, matching the one the page
+          draws below. breadcrumbSchema has existed since the SEO work and
+          nothing had ever called it. */}
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Marketplace", path: "/marketplace" },
+          { name: o.name, path: `/marketplace/${slug}` },
+        ])}
+      />
       {/* header — core, always visible */}
       <section className="relative overflow-hidden border-b border-ink/[0.06] pt-32 pb-10 md:pt-40 md:pb-14">
         <div className="grid-noise pointer-events-none absolute inset-0 opacity-50" aria-hidden />
