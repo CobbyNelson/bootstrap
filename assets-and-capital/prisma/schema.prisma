@@ -804,3 +804,26 @@ model Translation {
   @@unique([locale, source])
   @@index([locale, context])
 }
+
+/// Every transactional send, so the admin can answer "did it go out?".
+///
+/// The email page reported "15,560 sent · 63.4% open rate · 27.8% click rate".
+/// Nothing recorded a send at all, and open and click rates need provider
+/// webhooks that were never built. Sends are recordable; engagement is not,
+/// without a feature nobody asked for — so this stores the first and the page
+/// stopped claiming the second.
+///
+/// No body is stored. A transactional email contains the reader's own details,
+/// and keeping a copy turns a mail log into a personal-data store with its own
+/// retention question.
+model EmailLog {
+  id        String   @id @default(cuid())
+  to        String
+  subject   String
+  /// sent | skipped (no provider configured) | failed
+  status    String
+  error     String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}

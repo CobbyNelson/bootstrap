@@ -1,4 +1,5 @@
 import "server-only";
+import { prisma } from "@/lib/prisma";
 
 /**
  * Transactional email. Uses Resend when RESEND_API_KEY is set; otherwise logs
@@ -6,6 +7,23 @@ import "server-only";
  * (never throws into a user action).
  */
 export type SendResult = { ok: boolean; skipped?: boolean; error?: string };
+
+/**
+ * Record the attempt. Never let recording break the send.
+ *
+ * A mail log that can throw turns a logging problem into a failed registration,
+ * which is the wrong way round: the email matters and the record of it does
+ * not. No body is stored — a transactional email contains the reader's own
+ * details, and keeping a copy turns this into a personal-data store with its
+ * own retention question.
+ */
+async function record(to: string, subject: string, status: string, error?: string) {
+  try {
+    await prisma.emailLog.create({ data: { to, subject, status, error: error ?? null } });
+  } catch {
+    /* the send is what matters */
+  }
+}
 
 export async function sendEmail(input: {
   to: string;
@@ -16,6 +34,7 @@ export async function sendEmail(input: {
   const from = process.env.EMAIL_FROM || "Assets & Capital <hello@assetsandcapitalltd.com>";
   if (!key) {
     console.info(`[email skipped: no RESEND_API_KEY] to=${input.to} subject=${input.subject}`);
+    await record(input.to, input.subject, "skipped");
     return { ok: true, skipped: true };
   }
   try {
@@ -27,11 +46,14 @@ export async function sendEmail(input: {
     if (!res.ok) {
       const body = await res.text().catch(() => "");
       console.error("sendEmail failed", res.status, body);
+      await record(input.to, input.subject, "failed", `Provider returned ${res.status}`);
       return { ok: false, error: `Email provider returned ${res.status}` };
     }
+    await record(input.to, input.subject, "sent");
     return { ok: true };
   } catch (e) {
     console.error("sendEmail threw", e);
+    await record(input.to, input.subject, "failed", "Could not reach the provider");
     return { ok: false, error: "Could not reach the email provider." };
   }
 }
