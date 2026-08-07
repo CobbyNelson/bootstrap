@@ -52,6 +52,14 @@ export type PortalIdentity = {
    * sidebar and the business identity card.
    */
   kind: "investor" | "business";
+  /**
+   * The account's actual role, spelled out.
+   *
+   * Distinct from `kind`, which only says which workspace to render. Staff read
+   * the portal as investors, so a Super admin was being labelled "Investor
+   * account" in the header chip — the one place whose job is to say who you are.
+   */
+  roleLabel: string;
   orgName: string | null;
   initials: string;
 };
@@ -66,6 +74,14 @@ export function initialsOf(name: string | null, email: string): string {
       .join("") || "?"
   );
 }
+
+const ROLE_LABEL: Record<string, string> = {
+  INVESTOR: "Investor",
+  BUSINESS: "Business",
+  ADMIN: "Admin",
+  SUPER_ADMIN: "Super admin",
+  STAFF: "Staff",
+};
 
 /** Staff opening a portal page read it as investors — they have no mandate. */
 function kindOf(role: string): "investor" | "business" {
@@ -89,6 +105,7 @@ export async function getPortalIdentity(): Promise<PortalIdentity | null> {
     name: user.name || user.email,
     email: user.email,
     kind: kindOf(user.role),
+    roleLabel: ROLE_LABEL[user.role] ?? user.role,
     orgName: org,
     initials: initialsOf(user.name, user.email),
   };
@@ -514,14 +531,6 @@ export type AccountSettingsData = {
   memberSince: Date | null;
   emailVerified: boolean;
   team: TeamMember[];
-};
-
-const ROLE_LABEL: Record<string, string> = {
-  INVESTOR: "Investor",
-  BUSINESS: "Business",
-  ADMIN: "Admin",
-  SUPER_ADMIN: "Super admin",
-  STAFF: "Staff",
 };
 
 /**

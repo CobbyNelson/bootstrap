@@ -80,6 +80,10 @@ export function ProfileMenu({
           >
             <User className="h-4 w-4" /> Your profile
           </Link>
+          {/* Skipped when it would repeat the item above it — in the portal
+              both resolve to the same settings page, and two rows going to one
+              destination is a menu pretending to offer a choice. */}
+          {settingsHref !== profileHref && (
           <Link
             href={settingsHref}
             role="menuitem"
@@ -88,6 +92,7 @@ export function ProfileMenu({
           >
             <Settings className="h-4 w-4" /> {settingsLabel}
           </Link>
+          )}
           {/* A server action, so the session cookie is cleared server-side
               rather than the client merely forgetting it exists. */}
           <form action={logoutUser} className="border-t border-ink/[0.06]">

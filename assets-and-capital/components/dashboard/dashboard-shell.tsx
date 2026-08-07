@@ -115,7 +115,7 @@ function SidebarBody({
  * "Accra FinPay"; a business account on /dashboard was "Aurora Family Office".
  */
 type Chrome = {
-  me: { name: string; kind: "investor" | "business"; orgName: string | null; initials: string };
+  me: { name: string; kind: "investor" | "business"; roleLabel: string; orgName: string | null; initials: string };
   unread: number;
   canSwitch: boolean;
 };
@@ -211,7 +211,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                 chrome
                   ? {
                       name: chrome.me.name,
-                      role: chrome.me.orgName ?? `${roleLabel} account`,
+                      role: chrome.me.orgName ?? chrome.me.roleLabel,
                       initials: chrome.me.initials,
                     }
                   : null
