@@ -51,6 +51,16 @@ export type Question = {
    */
   prefix?: string;
   suffix?: string;
+  /**
+   * What this field will accept, applied as it is typed.
+   *
+   * Rejecting at submit tells somebody their answer was wrong after they
+   * finished writing it; refusing the keystroke tells them while their finger
+   * is still on the key. Control characters are stripped from every field
+   * regardless — they are invisible, they survive a copy-paste out of a PDF,
+   * and they break everything downstream that assumes text is text.
+   */
+  accept?: "digits" | "decimal" | "phone" | "email" | "name" | "url";
   /** Returns a message when the answer is not acceptable, null when it is. */
   validate?: (v: string) => string | null;
   /**
@@ -79,6 +89,36 @@ export type Question = {
  */
 export const HONEYPOT_KEY = "__trap";
 
+/**
+ * Characters no field accepts.
+ *
+ * C0 and C1 control codes, plus the zero-width and bidirectional-override
+ * characters. All invisible, all routinely carried in on a paste from a PDF or
+ * a spreadsheet, and the bidi ones can make a stored string RENDER as something
+ * other than what it is — which on a marketplace is worth refusing outright.
+ */
+// eslint-disable-next-line no-control-regex
+const FORBIDDEN = /[\u0000-\u001F\u007F-\u009F\u200B-\u200F\u202A-\u202E\u2066-\u2069]/g;
+
+const FILTERS: Record<NonNullable<Question["accept"]>, RegExp> = {
+  // Figures keep their thousands separators — somebody typing 15,000,000 is
+  // being clear, not wrong.
+  digits: /[^0-9,\s]/g,
+  decimal: /[^0-9.,\s]/g,
+  // ITU-T E.164 shapes, plus the punctuation people actually type.
+  phone: /[^0-9+\-() \u00A0.]/g,
+  email: /[\s,;:<>()[\]\\]/g,
+  // Unicode letters, so Ama Mensah and Amaëlle both pass.
+  name: /[^\p{L}\p{M}'\u2019\- .]/gu,
+  url: /[\s<>"'{}|\\^`]/g,
+};
+
+/** Everything a field will take, applied on every keystroke and paste. */
+function clean(raw: string, accept?: Question["accept"]): string {
+  const stripped = raw.replace(FORBIDDEN, "");
+  return accept ? stripped.replace(FILTERS[accept], "") : stripped;
+}
+
 /** Rows before a section spills into the next column. */
 const COLUMN_ROWS = 5;
 
@@ -92,6 +132,9 @@ function sizeFor(len: number): string {
 export function Conversation({
   questions,
   onComplete,
+  /** The form's own heading, above the sections. */
+  title,
+  intro,
   submitting = false,
   submitLabel = "Send",
   /**
@@ -106,6 +149,8 @@ export function Conversation({
 }: {
   questions: Question[];
   onComplete: (values: Record<string, string>) => void;
+  title?: string;
+  intro?: string;
   submitting?: boolean;
   submitLabel?: string;
   storageKey?: string;
@@ -294,6 +339,13 @@ export function Conversation({
 
   return (
     <div className="relative">
+      {title && (
+        <div className="mb-8">
+          <h2 className="font-display text-3xl font-semibold leading-tight text-navy-700 md:text-4xl">{title}</h2>
+          {intro && <p className="mt-2 max-w-2xl text-sm text-ink/65">{intro}</p>}
+        </div>
+      )}
+
       {/* The whole journey, up front.
           A conversation that only ever shows the next question tells you
           nothing about how long it is — so the sections are listed the way a
@@ -359,9 +411,17 @@ export function Conversation({
             const chunks: typeof rows[] = [];
             for (let i = 0; i < rows.length; i += COLUMN_ROWS) chunks.push(rows.slice(i, i + COLUMN_ROWS));
             return chunks.map((chunk, ci) => ({ name, rows: chunk, ci, of: chunks.length }));
-          }).map(({ name, rows, ci, of }) => {
+          }).map(({ name, rows, ci, of }, gi) => {
             return (
-              <div key={`${name}-${ci}`} className="min-w-[15rem] flex-none sm:min-w-[18rem]">
+              <div
+                key={`${name}-${ci}`}
+                className={cn(
+                  "min-w-[15rem] flex-none sm:min-w-[18rem]",
+                  // A rule between groups, not around them — the first column
+                  // starts at the edge, so a border there would read as a box.
+                  gi > 0 && "border-l border-ink/[0.09] pl-8",
+                )}
+              >
                 <p className="text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-brand-600">
                   {ci === 0 ? name : <span className="text-ink/30">{name} {tl("cont.")}</span>}
                   {of > 1 && ci === 0 && <span className="ml-1 text-ink/30">→</span>}
@@ -517,7 +577,7 @@ export function Conversation({
                 rows={2}
                 value={draft}
                 placeholder={q.placeholder}
-                onChange={(e) => { setDraft(e.target.value); setProblem(""); }}
+                onChange={(e) => { setDraft(clean(e.target.value, q.accept)); setProblem(""); }}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); commit(); } }}
                 aria-label={q.ask}
                 aria-invalid={Boolean(problem)}
@@ -534,7 +594,7 @@ export function Conversation({
                 autoComplete={q.autoComplete}
                 value={draft}
                 placeholder={q.placeholder}
-                onChange={(e) => { setDraft(e.target.value); setProblem(""); }}
+                onChange={(e) => { setDraft(clean(e.target.value, q.accept)); setProblem(""); }}
                 onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); commit(); } }}
                 aria-label={q.ask}
                 aria-invalid={Boolean(problem)}

@@ -50,6 +50,7 @@ export function BusinessIntake() {
       ask: tl("Where is it headquartered?"),
       placeholder: tl("Country"),
       autoComplete: "country-name",
+      accept: "name",
       validate: required(tl("We need the country.")),
     },
     {
@@ -63,12 +64,14 @@ export function BusinessIntake() {
       ask: tl("Where can we see you online?"),
       hint: tl("A website, or the social account you are most active on."),
       placeholder: "https://",
+      accept: "url",
       optional: true,
     },
     {
       key: "founded", section: S1,
       ask: tl("When was the company founded?"),
       placeholder: tl("e.g. 2019"),
+      accept: "digits",
       optional: true,
     },
     {
@@ -90,6 +93,7 @@ export function BusinessIntake() {
       ask: tl("Who should we deal with?"),
       placeholder: tl("Full name"),
       autoComplete: "name",
+      accept: "name",
       validate: required(tl("We need a contact name.")),
     },
     {
@@ -98,6 +102,7 @@ export function BusinessIntake() {
       placeholder: "name@company.com",
       type: "email",
       autoComplete: "email",
+      accept: "email",
       validate: (v) => (!v ? tl("We need an email.") : /^[^@\s]+@[^@\s.]+\.[^@\s]+$/.test(v) ? null : tl("Enter a valid email address.")),
     },
     {
@@ -106,6 +111,7 @@ export function BusinessIntake() {
       placeholder: "+233…",
       type: "tel",
       autoComplete: "tel",
+      accept: "phone",
       optional: true,
     },
 
@@ -125,6 +131,7 @@ export function BusinessIntake() {
       prefix: "$",
       placeholder: "15,000,000",
       type: "text",
+      accept: "digits",
       validate: required(tl("We need the amount.")),
     },
     {
@@ -139,6 +146,7 @@ export function BusinessIntake() {
       ask: tl("What stake are you offering?"),
       suffix: "%",
       placeholder: "18",
+      accept: "decimal",
       optional: true,
     },
     {
@@ -146,6 +154,7 @@ export function BusinessIntake() {
       ask: tl("And the return you are offering?"),
       suffix: "%",
       placeholder: "22",
+      accept: "decimal",
       optional: true,
     },
 
@@ -219,6 +228,8 @@ export function BusinessIntake() {
       questions={QUESTIONS}
       onComplete={submit}
       storageKey={STORAGE_KEY}
+      title={tl("List your business")}
+      intro={tl("Eighteen questions, in three parts. Your answers save as you go, so you can leave and come back.")}
       submitLabel={tl("Submit listing")}
       done={
         submitted ? (

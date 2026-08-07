@@ -29,6 +29,7 @@ export function ContactForm() {
       ask: tl("Who are we speaking with?"),
       placeholder: tl("Your full name"),
       autoComplete: "name",
+      accept: "name",
       validate: (v) => (v ? null : tl("Please enter your name.")),
     },
     {
@@ -39,6 +40,7 @@ export function ContactForm() {
       placeholder: "you@company.com",
       type: "email",
       autoComplete: "email",
+      accept: "email",
       validate: (v) => (!v ? tl("Please enter your email.") : isEmail(v) ? null : tl("Enter a valid email address.")),
     },
     {
@@ -91,6 +93,8 @@ export function ContactForm() {
       questions={QUESTIONS}
       onComplete={submit}
       submitting={status === "loading"}
+      title={tl("Send us a note")}
+      intro={tl("Five questions. We reply by email, usually within a working day.")}
       submitLabel={tl("Send")}
       error={status === "error" ? tl("Something went wrong. Please try again.") : null}
       done={

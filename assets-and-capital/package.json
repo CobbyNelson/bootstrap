@@ -25,7 +25,8 @@
     "check:i18n": "tsx scripts/check-i18n.mts",
     "extract:i18n": "tsx scripts/extract-strings.mts",
     "check:kwaku": "tsx --tsconfig tsconfig.scripts.json scripts/check-kwaku.mts",
-    "check:ics": "tsx --tsconfig tsconfig.scripts.json scripts/check-ics.mts"
+    "check:ics": "tsx --tsconfig tsconfig.scripts.json scripts/check-ics.mts",
+    "check:filters": "tsx --tsconfig tsconfig.scripts.json scripts/check-input-filters.mts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
