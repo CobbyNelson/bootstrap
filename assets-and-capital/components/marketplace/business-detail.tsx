@@ -103,8 +103,8 @@ export function BusinessDetail({
 
   const coreSnapshot = [
     { k: "Ask", v: <Money usd={o.ask} /> },
-    { k: "Instrument", v: o.instrument },
-    { k: "Stage", v: o.stage },
+    { k: "Instrument", v: tl(o.instrument) },
+    { k: "Stage", v: tl(o.stage) },
     { k: "Listing tier", v: o.tier },
   ];
 
@@ -196,7 +196,7 @@ export function BusinessDetail({
                   { k: "Est. revenue", v: <Money usd={`$${full.revenueM}M`} /> },
                   { k: "Est. EBITDA margin", v: `${full.ebitdaMargin}%` },
                   { k: "Est. headcount", v: `${full.employees}` },
-                  { k: "Risk level", v: full.riskLevel },
+                  { k: "Risk level", v: tl(full.riskLevel) },
                 ].map((m) => (
                   <div key={m.k} className="rounded-2xl bg-paper-2/60 p-4">
                     <dt className="text-[0.65rem] uppercase tracking-wide text-ink/60">{tl(m.k)}</dt>
