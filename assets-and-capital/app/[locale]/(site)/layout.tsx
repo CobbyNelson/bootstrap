@@ -10,16 +10,20 @@ import { organisationSchema, websiteSchema } from "@/lib/seo";
 import type { Metadata } from "next";
 
 /**
- * Canonical URL for every public page.
+ * The canonical URL is NOT declared here. It is sent as a `Link` header from
+ * middleware — see the note there.
  *
- * "./" is resolved by Next against metadataBase AND the current pathname, so
- * one declaration here gives each route its own correct canonical instead of
- * pointing the whole site at the homepage — which is what a literal URL in a
- * layout would do.
+ * It used to be `alternates.canonical: "./"`, which Next resolves against the
+ * current pathname. That was right while every locale was prefixed, and became
+ * half-right the moment English moved to the root: the English pages are still
+ * ROUTED at /en/…, so a prerendered page baked its build-time route and /about
+ * declared itself canonical at /en/about — a URL that now 308s away. Only the
+ * dynamically rendered pages, resolving at request time, got it right.
  *
- * It matters here specifically because the marketplace takes filter query
- * parameters: without a canonical, every combination is a separate URL
- * competing with the others for the same content.
+ * A canonical pointing at a redirect is worse than no canonical: it is a
+ * conflicting signal about the same page. Middleware is the one place that sees
+ * the address the visitor actually used, before any rewrite, so that is where
+ * it is now built.
  */
 /**
  * Metadata for the whole localised tree.
@@ -45,13 +49,16 @@ export async function generateMetadata({
     },
     description: t.tl(SITE.description),
     alternates: {
-      canonical: "./",
+      // English is the bare domain. Pointing en or x-default at /en would aim
+      // both at a URL that 308s, which is the one thing an alternate must
+      // never be — a crawler following it is told the page it was just given
+      // lives somewhere else.
       languages: {
-        en: "/en",
+        en: "/",
         fr: "/fr",
         es: "/es",
         ar: "/ar",
-        "x-default": "/en",
+        "x-default": "/",
       },
     },
     openGraph: {

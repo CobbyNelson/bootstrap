@@ -56,6 +56,57 @@ const nextConfig: NextConfig = {
       "tsconfig.tsbuildinfo",
     ],
   },
+  /**
+   * English lives at the root; the other three languages live in subfolders.
+   *
+   * `/pricing` IS the English pricing page — it does not redirect anywhere. The
+   * pages themselves live under app/[locale], so the request is rewritten onto
+   * `/en/pricing` internally and the visitor's URL never changes.
+   *
+   * WHY HERE AND NOT IN MIDDLEWARE. Middleware tried exactly this and failed
+   * three times behind the VPS's TLS-terminating proxy (see the note in
+   * middleware.ts): `NextResponse.rewrite()` takes an absolute URL, `nextUrl`
+   * reports an origin matching neither the request nor the server, and Next
+   * dials anything it does not recognise as internal — so the rewrite left the
+   * process and could not get back in. The workaround at the time was to give
+   * up on unprefixed English and 308 `/pricing` to `/en/pricing`.
+   *
+   * A config rewrite is a different mechanism, not a retry of the same one. It
+   * is an entry in Next's own routing table, matched inside the router before
+   * the filesystem is consulted. No URL is constructed, no origin is resolved,
+   * nothing is dialled — so the proxy cannot participate in it at all.
+   *
+   * `beforeFiles` specifically, because the destination is a real route: with
+   * `afterFiles` the filesystem is checked first, `/pricing` 404s, and the
+   * rewrite never runs.
+   *
+   * THE SOURCE PATTERN excludes, in order: the four locale prefixes (so
+   * `/fr/pricing` is left alone and `/en/pricing` can be redirected by
+   * middleware rather than rewritten into itself), the routes that do not live
+   * under app/[locale], and anything with a file extension. Each alternative is
+   * anchored with `(?:/|$)` so a page called `/energy` or `/apiary` is not
+   * mistaken for `/en` or `/api` — a plain `(?!en|api)` would swallow both.
+   */
+  async rewrites() {
+    const RESERVED = [
+      // Locale prefixes: already routed, or handled by middleware.
+      "en", "fr", "es", "ar",
+      // Not under app/[locale]. Kept in step with NOT_LOCALISED in middleware.ts.
+      "api", "admin", "dashboard", "chat", "coming-soon", "login", "logout", "_next",
+    ].join("|");
+
+    return {
+      beforeFiles: [
+        { source: "/", destination: "/en" },
+        {
+          source: `/:path((?!(?:${RESERVED})(?:/|$))(?!.*\\.[a-zA-Z0-9]+$).*)`,
+          destination: "/en/:path",
+        },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },

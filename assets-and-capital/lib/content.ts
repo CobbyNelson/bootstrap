@@ -4,6 +4,7 @@ import {
   Search, FileText, Presentation, LineChart, ShieldCheck, Users,
   type LucideIcon,
 } from "lucide-react";
+import { SITE_HOST } from "@/lib/site-url";
 
 /* ---------------------------------------------------------------- Site */
 
@@ -11,7 +12,7 @@ export const SITE = {
   name: "Assets & Capital",
   legalName: "Assets and Capital Limited",
   short: "A&C",
-  domain: "assetsandcapitalltd.com",
+  domain: SITE_HOST,
   email: "hello@assetsandcapitalltd.com",
   phone: "+971 52 680 1658",
   tagline: "Where quality assets meet ready capital.",

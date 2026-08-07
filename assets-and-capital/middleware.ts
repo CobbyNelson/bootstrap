@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { splitLocale, DEFAULT_LOCALE } from "@/lib/i18n/config";
+import { SITE_ORIGIN } from "@/lib/site-url";
 import type { NextRequest } from "next/server";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session-core";
 import {
@@ -10,6 +11,15 @@ import {
 } from "@/lib/site-lock";
 
 const ADMIN_ROLES = new Set(["ADMIN", "SUPER_ADMIN", "STAFF"]);
+
+/**
+ * Surfaces that get no canonical header: they are not public pages, so a
+ * canonical would be inviting a crawler to index a signed-in surface.
+ *
+ * Deliberately checked against the RAW path, not the locale-stripped one — the
+ * canonical is about the address the visitor typed.
+ */
+const NOT_CANONICAL = ["/api", "/admin", "/dashboard", "/chat", "/coming-soon", "/login", "/logout", "/_next"];
 
 /**
  * Content-Security-Policy.
@@ -114,54 +124,75 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  // A localised URL is rewritten to the unprefixed route, so /fr/pricing
-  // renders the pricing page. Rewrite rather than redirect: the visitor keeps
-  // the /fr URL in the address bar, which is the whole point of having it.
-  /**
-   * Paths that do NOT live under app/[locale] and must never be rewritten onto
-   * it.
-   *
-   * Rewriting /coming-soon to /en/coming-soon is what took the site down: the
-   * target does not exist, so the gate redirected to /coming-soon again, which
-   * was rewritten again — an infinite loop that returned 307 for every URL on
-   * the site including the gate itself and the unlock endpoint.
-   */
-  const NOT_LOCALISED = ["/api", "/admin", "/dashboard", "/chat", "/coming-soon", "/login", "/logout", "/_next"];
-  const skipRewrite =
-    NOT_LOCALISED.some((p) => pathname === p || pathname.startsWith(`${p}/`)) ||
-    // Files at the root: /favicon.ico, /robots.txt, /sitemap.xml, /icon.svg.
-    /\.[a-z0-9]+$/i.test(pathname);
+  // ---- English has no prefix ----------------------------------------------
+  //
+  // `/pricing` IS the English pricing page. `/en/pricing` is a second address
+  // for the same page, so it is sent home rather than served.
+  //
+  // This reverses a redirect that used to run in the other direction. That one
+  // existed because three attempts at an internal rewrite failed behind this
+  // proxy: `NextResponse.rewrite()` takes an absolute URL, `nextUrl` reports an
+  // origin matching neither the request nor the server, and Next dials anything
+  // it does not recognise as internal — so the rewrite left the process and
+  // could not get back in. Giving English a prefix was the way out at the time.
+  //
+  // The rewrite now lives in next.config.ts. That is a different mechanism, not
+  // a fourth attempt at the same one: a routing-table entry matched inside the
+  // router, which constructs no URL and dials nothing, so the proxy cannot
+  // participate in it. English can therefore sit at the root, and all that is
+  // left here is retiring the prefixed form.
+  //
+  // Above the auth check on purpose. Otherwise `/en/dashboard` signed-out would
+  // bounce to /login carrying `?next=/en/dashboard`, and sign-in would land on
+  // a URL that only redirects again.
+  //
+  // 308, not 307: this is the permanent shape of the URL, and only a permanent
+  // redirect consolidates a duplicate rather than merely tolerating it.
+  if (prefixed && locale === DEFAULT_LOCALE) {
+    const url = req.nextUrl.clone();
+    url.pathname = pathname;
+    return withCsp(NextResponse.redirect(url, 308));
+  }
 
+  // Anything else already sits on the route that serves it — /fr/pricing
+  // natively, /pricing via the config rewrite. next() with modified request
+  // headers is the documented way to hand the locale to the root layout, which
+  // owns <html lang dir> and sits above the segment.
   const pass = () => {
     const headers = new Headers(req.headers);
     headers.set("x-locale", locale);
+    const res = withCsp(NextResponse.next({ request: { headers } }));
 
-    // Localised URLs already sit on the right route; next() with modified
-    // request headers is the documented way to hand the locale to the root
-    // layout, which owns <html lang dir> and is above the segment.
-    if (prefixed || skipRewrite) return withCsp(NextResponse.next({ request: { headers } }));
-
-    // Default locale: same page, unprefixed URL, so it rewrites onto the
-    // segment.
-    //
-    // Redirect, not rewrite.
-    //
-    // Three attempts at an internal rewrite failed here, each on a different
-    // real cause: a pinned host Next would not treat as its own (connection
-    // refused), the request's own origin (external scheme), and the corrected
-    // scheme (still dialled). Behind this proxy nextUrl reports an origin that
-    // matches neither the request nor the server, and Next dials anything it
-    // does not recognise as internal.
-    //
-    // So English is prefixed too, and /pricing redirects to /en/pricing. The
-    // cost is that existing URLs move — 308 preserves their ranking and every
-    // shared link still works — and in exchange every locale takes the same
-    // path through the router, with nothing depending on how a proxy rewrites
-    // a scheme. A redirect is also visible in a log, which a rewrite is not.
-    const url = req.nextUrl.clone();
-    url.pathname = `/${DEFAULT_LOCALE}${pathname === "/" ? "" : pathname}`;
-    return withCsp(NextResponse.redirect(url, 308));
-  }
+    /**
+     * The canonical URL, from the only place that knows it.
+     *
+     * This used to be `alternates.canonical: "./"` in the site layout, which
+     * Next resolves against the pathname. That worked while every locale was
+     * prefixed. Once English moved to the root it broke for exactly the pages
+     * that are prerendered: they are still ROUTED at /en/…, so /about baked its
+     * build-time route and declared itself canonical at /en/about — which now
+     * 308s away. Pages rendered per request resolved the same string correctly,
+     * so half the site was right and half was wrong, which is worse than either.
+     *
+     * Here the address the visitor used is simply known: `rawPath` is what
+     * arrived, before the config rewrite puts /en on the front of it.
+     *
+     * A `Link` header rather than a tag because the alternative is going
+     * dynamic. Reading a path inside generateMetadata would opt every page under
+     * that layout out of prerendering — the regression this codebase has already
+     * had three times — to produce markup a header expresses exactly as well.
+     *
+     * The query string is deliberately dropped, which is what the canonical was
+     * there for in the first place: the marketplace takes filter parameters, and
+     * without this every combination is a separate URL competing with the rest
+     * for the same content.
+     */
+    const localised = !NOT_CANONICAL.some((p) => rawPath === p || rawPath.startsWith(`${p}/`));
+    if (localised && !/\.[a-z0-9]+$/i.test(rawPath)) {
+      res.headers.set("Link", `<${SITE_ORIGIN}${rawPath === "/" ? "" : rawPath}>; rel="canonical"`);
+    }
+    return res;
+  };
 
   // ---- Authenticated areas -------------------------------------------------
   const guarded = pathname.startsWith("/dashboard") || pathname.startsWith("/admin");
