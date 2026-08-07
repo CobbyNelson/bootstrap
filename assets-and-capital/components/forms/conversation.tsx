@@ -209,15 +209,21 @@ export function Conversation({
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key !== "Backspace" || !(e.metaKey || e.ctrlKey)) return;
-      if (idx === 0 && !announcing) return;
+      if (showAnnouncement) {
+        // Dismiss the announcement rather than leaving the section — the
+        // visitor is asking to get on with it, or to go back past it.
+        e.preventDefault();
+        setAnnouncing(false);
+        return;
+      }
+      if (idx === 0) return;
       e.preventDefault();
-      if (announcing) setAnnouncing(false);
-      else goTo(idx - 1);
+      goTo(idx - 1);
     }
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idx, announcing, values]);
+  }, [idx, showAnnouncement, values]);
 
   // The effect does only what an effect is for: moving focus after the question
   // has animated in.
