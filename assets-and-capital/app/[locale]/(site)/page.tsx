@@ -11,6 +11,7 @@ import { Insights } from "@/components/home/insights";
 import { FinalCTA } from "@/components/home/cta";
 import { listTeasers } from "@/lib/articles";
 import { getListingHeroes } from "@/lib/listing-heroes";
+import { ogImageFor, ogUrl } from "@/lib/og";
 
 /**
  * Home page — deliberately short.
@@ -63,11 +64,23 @@ export async function generateMetadata({
   return {
     title: { absolute: `${SITE.name} — ${tagline}` },
     description: t.tl(SITE.description),
+    // Declaring openGraph here REPLACES the layout's rather than merging into
+    // it, so the images and the twitter card have to be repeated — omitting
+    // them is why the home page was the one page on the site still sharing as a
+    // bare grey card after every other page had been fixed.
     openGraph: {
       title: `${SITE.name} — ${tagline}`,
       description: t.tl(SITE.description),
-      url: `https://${SITE.domain}`,
+      url: ogUrl("/"),
       type: "website",
+      siteName: SITE.name,
+      images: [await ogImageFor("/")],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${SITE.name} — ${tagline}`,
+      description: t.tl(SITE.description),
+      images: [(await ogImageFor("/")).url],
     },
   };
 }
