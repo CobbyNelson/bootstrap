@@ -20,7 +20,16 @@ import { cn } from "@/lib/utils";
  * Each language is written in itself. Someone who cannot read the current
  * language still has to be able to find theirs.
  */
-export function LanguageSwitcher({ className }: { className?: string }) {
+/**
+ * `onDark` styles the trigger for a dark backdrop.
+ *
+ * Every other control in the navbar takes the hero into account; this one had
+ * its colours hardcoded to ink, so on the home page it was a near-black globe
+ * on a dark photograph while the links beside it were white. The dropdown
+ * itself keeps its paper background in both cases — it is a surface, not
+ * chrome, and inverting it would make it the only dark panel on the page.
+ */
+export function LanguageSwitcher({ className, onDark = false }: { className?: string; onDark?: boolean }) {
   const pathname = usePathname() || "/";
   const { locale: current, path } = splitLocale(pathname);
   const [open, setOpen] = useState(false);
@@ -90,7 +99,10 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-haspopup="menu"
-        className="inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-button)] px-2.5 text-ink/70 transition-colors hover:text-ink"
+        className={cn(
+          "inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-button)] px-2.5 transition-colors",
+          onDark ? "text-white/85 hover:text-white" : "text-ink/70 hover:text-ink",
+        )}
       >
         <Globe className="h-4 w-4" />
         <span className="label-cta text-[0.66rem]">{current.toUpperCase()}</span>

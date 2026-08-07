@@ -99,6 +99,22 @@ export async function getSeries(days: Range): Promise<Point[]> {
   return out;
 }
 
+/**
+ * The PageView columns that are actually `String?` in the schema.
+ *
+ * `{ not: null }` is only valid on a nullable column — Prisma rejects it
+ * outright on a required one with "Argument `not` must not be null". This guard
+ * used to be written as `column !== "path"`, which named the one non-nullable
+ * column someone remembered and missed `device`, also required. So every render
+ * of the analytics page threw before it could return: the device breakdown took
+ * the whole page down with it, which is why the dashboard was "partly working"
+ * rather than obviously broken.
+ *
+ * Derived from the schema rather than from an exclusion list, so adding a
+ * required column cannot reintroduce it.
+ */
+const NULLABLE_COLUMNS = new Set(["country", "region", "city", "os", "browser", "referrerHost"]);
+
 async function topBy(
   column: "path" | "country" | "city" | "region" | "device" | "browser" | "os" | "referrerHost",
   days: Range,
@@ -107,7 +123,10 @@ async function topBy(
   const from = since(days);
   const rows = await prisma.pageView.groupBy({
     by: [column],
-    where: { createdAt: { gte: from }, ...(column !== "path" ? { [column]: { not: null } } : {}) },
+    where: {
+      createdAt: { gte: from },
+      ...(NULLABLE_COLUMNS.has(column) ? { [column]: { not: null } } : {}),
+    },
     _count: { _all: true },
     orderBy: { _count: { [column]: "desc" } },
     take: limit,

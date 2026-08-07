@@ -250,7 +250,7 @@ export function Navbar() {
             the nav menu, and without this the panel stays open under the
             switcher's own dropdown for as long as the pointer is in the bar. */}
         <div className="hidden items-center gap-2 lg:flex" onMouseEnter={() => setOpen(null)}>
-          <LanguageSwitcher />
+          <LanguageSwitcher onDark={onDarkHero} />
           {user ? (
             <>
               <Button
