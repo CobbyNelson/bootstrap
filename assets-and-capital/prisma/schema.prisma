@@ -112,38 +112,41 @@ enum CommitmentStatus {
 // ------------------------------------------------------------ identity
 
 model User {
-  id             String                @id @default(cuid())
-  email          String                @unique
-  name           String?
-  passwordHash   String?
-  role           Role                  @default(INVESTOR)
-  emailVerified  DateTime?
-  twoFactorOn    Boolean               @default(false)
-  orgId          String?
-  organization   Organization?         @relation(fields: [orgId], references: [id])
-  messages       Message[]             @relation("MessageSender")
-  notifications  Notification[]
-  auditLogs      AuditLog[]
-  subscription   InvestorSubscription?
-  interests      ListingInterest[]
-  ndaSignatures  NdaSignature[]
-  savedListings  SavedListing[]
-  paymentIntents PaymentIntent[]
-  commitments    Commitment[]
-  kyc            KycRecord?
-  docAccess      DocumentAccessLog[]
-  uploads        MediaAsset[]          @relation("MediaUploader")
-  articles       Article[]             @relation("ArticleAuthor")
+  id                 String                @id @default(cuid())
+  email              String                @unique
+  name               String?
+  passwordHash       String?
+  role               Role                  @default(INVESTOR)
+  emailVerified      DateTime?
+  twoFactorOn        Boolean               @default(false)
+  orgId              String?
+  organization       Organization?         @relation(fields: [orgId], references: [id])
+  messages           Message[]             @relation("MessageSender")
+  notifications      Notification[]
+  auditLogs          AuditLog[]
+  subscription       InvestorSubscription?
+  interests          ListingInterest[]
+  ndaSignatures      NdaSignature[]
+  savedListings      SavedListing[]
+  paymentIntents     PaymentIntent[]
+  commitments        Commitment[]
+  kyc                KycRecord?
+  docAccess          DocumentAccessLog[]
+  uploads            MediaAsset[]          @relation("MediaUploader")
+  articles           Article[]             @relation("ArticleAuthor")
   /**
    * Last heartbeat from a signed-in staff member. Drives the live/away badge
    * visitors see — presence is derived from recency, not a boolean someone
    * has to remember to switch off.
    */
-  staffSeenAt    DateTime?
-  chats          ChatConversation[]    @relation("ChatVisitor")
-  chatReplies    ChatMessage[]         @relation("ChatAuthor")
-  createdAt      DateTime              @default(now())
-  updatedAt      DateTime              @updatedAt
+  staffSeenAt        DateTime?
+  meetingsAsInvestor Meeting[]             @relation("MeetingInvestor")
+  meetingsAsBusiness Meeting[]             @relation("MeetingBusiness")
+  meetingsOrganised  Meeting[]             @relation("MeetingOrganiser")
+  chats              ChatConversation[]    @relation("ChatVisitor")
+  chatReplies        ChatMessage[]         @relation("ChatAuthor")
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
 
   @@index([orgId])
 }
@@ -840,4 +843,73 @@ model Setting {
   key       String   @id
   value     Json
   updatedAt DateTime @updatedAt
+}
+
+/**
+ * A meeting the platform arranged between an investor and a business.
+ * Both sides are Users rather than a free-text name, so the meeting appears on
+ * the right two dashboards without anybody matching strings — and so removing
+ * an account takes its meetings with it.
+ * `joinUrl` is supplied by whoever books it. There is deliberately no Zoom or
+ * Google API integration: creating a meeting through those needs an OAuth app
+ * per provider and a token per organiser, and pasting the link that Zoom or
+ * Meet already gave you does the same job on day one. The provider is recorded
+ * so the join button can name where it is going.
+ * Times are stored as instants. The ICS feed and every dashboard render from
+ * the same UTC value, so a Nairobi investor and a London deal lead cannot see
+ * different times for the same call.
+ */
+model Meeting {
+  id       String          @id @default(cuid())
+  title    String
+  agenda   String?
+  /**
+   * UTC instant. Duration is derived from endsAt, never stored twice.
+   */
+  startsAt DateTime
+  endsAt   DateTime
+  provider MeetingProvider @default(OTHER)
+  joinUrl  String?
+  location String?
+  status   MeetingStatus   @default(SCHEDULED)
+
+  /**
+   * The listing this is about, when it is about one.
+   */
+  slug String?
+
+  investorId  String
+  investor    User    @relation("MeetingInvestor", fields: [investorId], references: [id], onDelete: Cascade)
+  businessId  String
+  business    User    @relation("MeetingBusiness", fields: [businessId], references: [id], onDelete: Cascade)
+  organiserId String?
+  organiser   User?   @relation("MeetingOrganiser", fields: [organiserId], references: [id], onDelete: SetNull)
+
+  /**
+   * Bumped on every edit and written into the ICS SEQUENCE, which is how a
+   * calendar client knows an invitation is an update to one it already holds
+   * rather than a second meeting.
+   */
+  revision Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([startsAt])
+  @@index([investorId, startsAt])
+  @@index([businessId, startsAt])
+}
+
+enum MeetingProvider {
+  ZOOM
+  GOOGLE_MEET
+  TEAMS
+  IN_PERSON
+  OTHER
+}
+
+enum MeetingStatus {
+  SCHEDULED
+  CANCELLED
+  COMPLETED
 }

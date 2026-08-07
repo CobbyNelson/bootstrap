@@ -141,3 +141,23 @@ export function relativeTime(value: Date | string | number): string {
   if (weeks < 5) return `${weeks}w`;
   return `${Math.round(days / 30)}mo`;
 }
+
+/**
+ * "14:00–14:30" for a meeting card.
+ *
+ * Here rather than in the component for the same reason every other formatter
+ * is: `toLocaleTimeString` reads ambient locale and timezone, which the React
+ * compiler treats as impure and refuses inside a render.
+ *
+ * 24-hour deliberately. This is a scheduling context spanning Accra, London and
+ * Dubai, and "2:30" without a suffix is the one ambiguity a meeting time cannot
+ * afford.
+ */
+export function formatTimeRange(start: Date | string, end: Date | string, locale: Locale): string {
+  const a = start instanceof Date ? start : new Date(start);
+  const b = end instanceof Date ? end : new Date(end);
+  if (Number.isNaN(a.getTime()) || Number.isNaN(b.getTime())) return "";
+  const opts: Intl.DateTimeFormatOptions = { hour: "2-digit", minute: "2-digit", hour12: false };
+  const tag = intlTag(locale);
+  return `${a.toLocaleTimeString(tag, opts)}–${b.toLocaleTimeString(tag, opts)}`;
+}

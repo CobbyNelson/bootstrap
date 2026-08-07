@@ -24,7 +24,8 @@
     "db:setup": "npm run db:up && sleep 4 && npm run db:migrate && npm run db:seed",
     "check:i18n": "tsx scripts/check-i18n.mts",
     "extract:i18n": "tsx scripts/extract-strings.mts",
-    "check:kwaku": "tsx --tsconfig tsconfig.scripts.json scripts/check-kwaku.mts"
+    "check:kwaku": "tsx --tsconfig tsconfig.scripts.json scripts/check-kwaku.mts",
+    "check:ics": "tsx --tsconfig tsconfig.scripts.json scripts/check-ics.mts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",

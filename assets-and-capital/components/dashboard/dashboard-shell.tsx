@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard, Target, Bookmark, MessageSquare, FileSignature,
+  LayoutDashboard, Target, Bookmark, MessageSquare, FileSignature, Video,
   Settings, Bell, Search, ArrowLeft, BarChart3, Wallet, Building2, TrendingUp,
   Columns3, Lock, BadgeCheck, Menu, X,
 } from "lucide-react";
@@ -19,6 +19,7 @@ const INVESTOR_NAV: NavItem[] = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
   { label: "Deal pipeline", href: "/dashboard/pipeline", icon: Columns3 },
   { label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
+  { label: "Meetings", href: "/dashboard/meetings", icon: Video },
   { label: "Data rooms", href: "/dashboard/data-room", icon: Lock },
   { label: "Agreements", href: "/dashboard/documents", icon: FileSignature },
   { label: "Verification", href: "/dashboard/verification", icon: BadgeCheck },
@@ -31,6 +32,7 @@ const BUSINESS_NAV: NavItem[] = [
   { label: "Overview", href: "/dashboard/business", icon: LayoutDashboard },
   { label: "Deal pipeline", href: "/dashboard/pipeline", icon: Columns3 },
   { label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
+  { label: "Meetings", href: "/dashboard/meetings", icon: Video },
   { label: "Data room", href: "/dashboard/data-room", icon: Lock },
   { label: "Agreements", href: "/dashboard/documents", icon: FileSignature },
   { label: "Verification", href: "/dashboard/business/verification", icon: BadgeCheck },
