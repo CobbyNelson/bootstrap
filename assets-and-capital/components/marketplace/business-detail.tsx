@@ -164,7 +164,12 @@ export function BusinessDetail({
             )
               .replace("{name}", o.name)
               .replace("{ask}", o.ask)
-              .replace("{instrument}", o.instrument.toLowerCase())
+              // Translate first, THEN lowercase. Lowercasing "Equity" before the
+              // lookup produced "equity", which matches no dictionary key, so the
+              // one word in the sentence stayed English in all three languages.
+              // toLowerCase is a no-op on Arabic and correct mid-sentence in
+              // French and Spanish.
+              .replace("{instrument}", tl(o.instrument).toLowerCase())
               .replace("{region}", tl(o.region))}
           </p>
         </div>
