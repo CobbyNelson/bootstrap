@@ -79,6 +79,9 @@ export type Question = {
  */
 export const HONEYPOT_KEY = "__trap";
 
+/** Rows before a section spills into the next column. */
+const COLUMN_ROWS = 5;
+
 /** Grows the answer as it is typed, so a short one looks considered rather than lost. */
 function sizeFor(len: number): string {
   if (len > 90) return "text-xl md:text-2xl";
@@ -340,12 +343,23 @@ export function Conversation({
           instead of floating between two. */}
       {answered.length > 0 && (
         <div className="answer-rail -mx-1 mt-7 flex gap-8 overflow-x-auto px-1 pb-2">
-          {sections.map((name) => {
+          {/* A section longer than COLUMN_ROWS continues into another column
+              rather than growing downwards. Ten answers in one column is the
+              wall this was meant to replace, just turned sideways — and it is
+              what makes the sideways scroll do any work. */}
+          {sections.flatMap((name) => {
             const rows = answered.map((a, i) => ({ a, i })).filter(({ a }) => a.section === name);
-            if (rows.length === 0) return null;
+            if (rows.length === 0) return [];
+            const chunks: typeof rows[] = [];
+            for (let i = 0; i < rows.length; i += COLUMN_ROWS) chunks.push(rows.slice(i, i + COLUMN_ROWS));
+            return chunks.map((chunk, ci) => ({ name, rows: chunk, ci, of: chunks.length }));
+          }).map(({ name, rows, ci, of }) => {
             return (
-              <div key={name} className="min-w-[15rem] flex-none sm:min-w-[19rem]">
-                <p className="text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-brand-600">{name}</p>
+              <div key={`${name}-${ci}`} className="min-w-[15rem] flex-none sm:min-w-[18rem]">
+                <p className="text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-brand-600">
+                  {ci === 0 ? name : <span className="text-ink/30">{name} {tl("cont.")}</span>}
+                  {of > 1 && ci === 0 && <span className="ml-1 text-ink/30">→</span>}
+                </p>
                 <div className="mt-2 divide-y divide-ink/[0.07] border-t border-ink/[0.07]">
                   {rows.map(({ a, i }) => (
                     <button
