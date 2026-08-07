@@ -72,3 +72,26 @@ test("a page whose name starts with a reserved word is not swallowed", async ({ 
     expect((await request.get(path, { maxRedirects: 0 })).status(), path).toBe(404);
   }
 });
+
+/**
+ * A sitemap is a claim about what exists.
+ *
+ * It listed eight article URLs read from a hardcoded array while the article
+ * page read the database, so on a database nobody had imported into, every one
+ * of those eight returned 404 — and only a live check would say so, because
+ * both halves are individually fine.
+ */
+test("every URL in the sitemap actually resolves", async ({ request }) => {
+  const xml = await (await request.get("/sitemap.xml")).text();
+  const paths = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)]
+    .map((m) => m[1].replace(/^https:\/\/[^/]+/, "") || "/");
+
+  expect(paths.length, "sitemap should not be empty").toBeGreaterThan(10);
+
+  const broken: string[] = [];
+  for (const p of paths) {
+    const res = await request.get(p, { maxRedirects: 0 });
+    if (res.status() !== 200) broken.push(`${p} -> ${res.status()}`);
+  }
+  expect(broken, "sitemap URLs that do not return 200").toEqual([]);
+});
