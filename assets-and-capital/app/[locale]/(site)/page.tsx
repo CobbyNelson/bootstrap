@@ -17,7 +17,14 @@ import { getListingHeroes } from "@/lib/listing-heroes";
  *
  * HowItWorks and Process covered the same pipeline, so only Process remains
  * (it carries the numbered-step treatment). Industries, Services and Events
- * live on their own pages and were cut from here rather than duplicated.
+ * were cut from here too.
+ *
+ * Their components used to sit in components/home/ and are gone: /industries,
+ * /services and /events write their own content inline rather than importing
+ * them, so what survived here was seven unreferenced files — a second copy of
+ * the same marketing copy, drifting from the one anybody reads. This comment
+ * previously said they "live on their own pages", which was true of the copy
+ * and false of the code, and that is precisely what kept them alive.
  */
 /**
  * Prerendered and revalidated rather than rendered per request.
