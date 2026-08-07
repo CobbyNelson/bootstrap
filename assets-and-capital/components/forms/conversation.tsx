@@ -186,8 +186,10 @@ export function Conversation({
       <div key={q.key} className="mt-10">
         <p className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-ink/55">{q.section}</p>
         <h2 className="mt-2 font-display text-2xl font-semibold leading-tight text-navy-700 md:text-3xl">
-          {q.ask}
-          {q.optional && <span className="ml-2 align-middle text-sm font-normal text-ink/50">{tl("optional")}</span>}
+          {q.ask}{" "}
+          {q.optional && (
+            <span className="ml-1 align-middle text-sm font-normal text-ink/50">({tl("optional")})</span>
+          )}
         </h2>
         {q.hint && <p className="mt-2 max-w-xl text-sm text-ink/65">{q.hint}</p>}
 
