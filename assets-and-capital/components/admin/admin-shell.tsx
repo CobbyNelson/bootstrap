@@ -10,6 +10,7 @@ import {
 import { Logo } from "@/components/layout/logo";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { cn } from "@/lib/utils";
+import { ProfileMenu } from "./profile-menu";
 
 const NAV = [
   { label: "Overview", href: "/admin", icon: LayoutDashboard },
@@ -28,7 +29,19 @@ const NAV = [
   { label: "Audit log", href: "/admin/audit", icon: ScrollText },
 ];
 
-const TEAM = ["RO", "JA", "CD", "MP"];
+/**
+ * Who is signed in, who else is on the team, and what is unread.
+ *
+ * All three were written down. The profile said "Platform Admin / Super admin"
+ * to whoever was looking, the bell carried a permanently lit dot over an empty
+ * table, and Active team listed four invented initials and a "+12" — sixteen
+ * colleagues on a platform with three accounts.
+ */
+type Chrome = {
+  me: { name: string; role: string; initials: string };
+  team: { id: string; initials: string; name: string; role: string }[];
+  unread: number;
+};
 
 function AdminNavLinks({
   pathname,
@@ -83,6 +96,21 @@ function AdminNavLinks({
 export function AdminShell({ children }: { children: React.ReactNode }) {
   /** Live approvals count for the sidebar badge. Null until it arrives. */
   const [pending, setPending] = useState<number | null>(null);
+
+  // One request rather than three: the shell wraps every admin page and mounts
+  // once, so three round trips to populate one sidebar is a cost paid on every
+  // navigation for no benefit.
+  const [chrome, setChrome] = useState<Chrome | null>(null);
+  useEffect(() => {
+    let live = true;
+    fetch("/api/admin/chrome")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => live && d && setChrome(d))
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, []);
   useEffect(() => {
     let live = true;
     fetch("/api/admin/pending-count")
@@ -116,14 +144,14 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           <span className="ml-1 rounded-md bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-white">Admin</span>
         </div>
 
-        {/* profile */}
+        {/* profile — whoever is actually signed in */}
         <div className="relative mx-3 mb-2 flex items-center gap-3 rounded-2xl bg-white/[0.06] p-3">
           <span className="grid h-11 w-11 flex-none place-items-center rounded-[var(--radius-button)] bg-brand-500 text-sm font-semibold text-white ring-2 ring-brand-500/60 ring-offset-2 ring-offset-navy-900">
-            PA
+            {chrome?.me.initials ?? "—"}
           </span>
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-white">Platform Admin</p>
-            <p className="truncate text-[0.7rem] text-white/65">Super admin</p>
+            <p className="truncate text-sm font-semibold text-white">{chrome?.me.name ?? "Loading…"}</p>
+            <p className="truncate text-[0.7rem] text-white/65">{chrome?.me.role ?? ""}</p>
           </div>
         </div>
 
@@ -135,16 +163,30 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         {/* active team */}
         <div className="relative border-t border-white/10 px-5 py-4">
           <p className="kicker mb-2 text-[0.6rem] text-navy-300/70">Active team</p>
-          <div className="flex items-center">
-            <div className="flex -space-x-2">
-              {TEAM.map((t) => (
-                <span key={t} className="grid h-8 w-8 place-items-center rounded-full border-2 border-navy-900 bg-brand-500 text-[0.6rem] font-semibold text-white">
-                  {t}
+          {chrome && chrome.team.length > 0 ? (
+            <div className="flex items-center">
+              <div className="flex -space-x-2">
+                {chrome.team.slice(0, 5).map((t) => (
+                  <span
+                    key={t.id}
+                    title={`${t.name} · ${t.role}`}
+                    className="grid h-8 w-8 place-items-center rounded-full border-2 border-navy-900 bg-brand-500 text-[0.6rem] font-semibold text-white"
+                  >
+                    {t.initials}
+                  </span>
+                ))}
+              </div>
+              {chrome.team.length > 5 && (
+                <span className="ml-2 grid h-8 items-center rounded-full bg-navy-500 px-2 text-[0.65rem] font-semibold text-white">
+                  +{chrome.team.length - 5}
                 </span>
-              ))}
+              )}
             </div>
-            <span className="ml-2 grid h-8 items-center rounded-full bg-navy-500 px-2 text-[0.65rem] font-semibold text-white">+12</span>
-          </div>
+          ) : (
+            <p className="text-xs text-white/45">
+              {chrome ? "No other staff accounts yet." : "Loading…"}
+            </p>
+          )}
           <Link href="/" className="mt-4 flex items-center gap-2 text-sm font-medium text-white/70 hover:text-white">
             <ArrowLeft className="h-4 w-4" /> Back to site
           </Link>
@@ -208,17 +250,27 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               <Search className="h-4 w-4" /><span className="w-36 text-left">Search admin…</span>
               <kbd className="rounded border border-ink/15 px-1.5 text-[0.65rem] text-ink/60">⌘K</kbd>
             </button>
-            <button className="relative grid h-10 w-10 place-items-center rounded-[var(--radius-button)] border border-ink/10 bg-white text-ink/60 hover:text-ink" aria-label="Notifications">
+            {/* The dot appears only when something is unread. It used to be
+                always on, which carries no information and trains whoever sees
+                it to ignore the one time it matters. */}
+            <Link
+              href="/dashboard/notifications"
+              className="relative grid h-10 w-10 place-items-center rounded-[var(--radius-button)] border border-ink/10 bg-white text-ink/60 transition-colors hover:text-ink"
+              aria-label={
+                chrome?.unread
+                  ? `Notifications — ${chrome.unread} unread`
+                  : "Notifications"
+              }
+            >
               <Bell className="h-[18px] w-[18px]" />
-              <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-600" />
-            </button>
-            <div className="flex items-center gap-2.5 rounded-[var(--radius-button)] border border-ink/10 bg-white py-1 pl-1 pr-3">
-              <span className="grid h-8 w-8 place-items-center rounded-[var(--radius-button)] bg-brand-600 text-xs font-semibold text-white ring-1 ring-navy-500/50">PA</span>
-              <span className="hidden leading-tight sm:block">
-                <span className="block text-xs font-medium text-ink">Platform Admin</span>
-                <span className="block text-[0.65rem] text-ink/65">Super admin</span>
-              </span>
-            </div>
+              {!!chrome?.unread && (
+                <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-600" />
+              )}
+            </Link>
+
+            {/* A profile chip that does something. It was a div: no menu, no
+                sign out, and the wrong name on it. */}
+            <ProfileMenu me={chrome?.me ?? null} />
           </div>
         </header>
         <div className="flex-1 px-5 py-8 md:px-8">{children}</div>
