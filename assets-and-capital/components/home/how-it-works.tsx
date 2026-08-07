@@ -68,7 +68,7 @@ export function HowItWorks() {
                   tab === t.key ? "text-white" : "text-ink/60 hover:text-ink"
                 }`}
               >
-                {t.label}
+                {tl(t.label)}
               </button>
             ))}
           </div>

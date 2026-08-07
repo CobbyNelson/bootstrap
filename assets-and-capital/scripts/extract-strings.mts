@@ -129,7 +129,12 @@ function scanFile(file: string, context: string) {
   for (const m of src.matchAll(/(?:^|[\s{,])(?:label|any|title|name|blurb|body|text|copy|answer|question|description|subtitle|heading|caption|summary|intro|v|k)\s*:\s*"([^"]{3,300})"/gm)) {
     add(m[1], context);
   }
-  for (const m of src.matchAll(/\bt?\.?tl\(\s*"((?:[^"\\]|\\.)+)"\s*\)/g)) {
+  // The trailing comma is not cosmetic tolerance: a formatter breaks any long
+  // string onto its own line and leaves `,\n)` behind, and the old pattern
+  // required `)` immediately after the quote. The one interpolated sentence on
+  // the marketplace page was long enough to be formatted that way, so it was
+  // wrapped correctly, checked clean, and silently absent from the registry.
+  for (const m of src.matchAll(/\bt?\.?tl\(\s*"((?:[^"\\]|\\.)+)"\s*,?\s*\)/g)) {
     // Decode the source-level escapes so the registry holds what the RUNTIME
     // passes, not what the file spells. `t.tl("a \\u2014 b")` receives a literal
     // em dash; a registry entry containing the six characters of the escape

@@ -24,8 +24,8 @@ export async function Services({ locale }: { locale: Locale }) {
  />
 
  <div className="mt-14 grid gap-6 lg:grid-cols-2">
- <ServiceColumn title={t.tl("For Investors")} tag="Deploy with an edge" services={investor} accent="brand" />
- <ServiceColumn title={t.tl("For Businesses")} tag="Raise with confidence" services={business} accent="gold" />
+ <ServiceColumn title={t.tl("For Investors")} tag={t.tl("Deploy with an edge")} services={investor} accent="brand" />
+ <ServiceColumn title={t.tl("For Businesses")} tag={t.tl("Raise with confidence")} services={business} accent="gold" />
  </div>
  </div>
  </section>

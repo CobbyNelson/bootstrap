@@ -22,7 +22,8 @@ import json
 import re
 import sys
 
-PROPS = "title|subtitle|label|description|placeholder|heading|eyebrow|caption|summary|alt"
+PROPS = ("title|subtitle|label|description|placeholder|heading|eyebrow|caption|summary|alt|"
+         "desc|tag|subject|intro|empty|overall|delta|blurb|note|hint|cta|message|error")
 
 
 def cleaned_source(src: str) -> str:

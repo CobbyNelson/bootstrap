@@ -109,9 +109,9 @@ export function BusinessDetail({
   ];
 
   const compliance = [
-    { k: "Accreditation gate", v: "Cleared", ok: true },
-    { k: "Sanctions / PEP screen", v: "Clean", ok: true },
-    { k: "Business verification", v: "Verified", ok: true },
+    { k: "Accreditation gate", v: tl("Cleared"), ok: true },
+    { k: "Sanctions / PEP screen", v: tl("Clean"), ok: true },
+    { k: "Business verification", v: tl("Verified"), ok: true },
     { k: "NDA status", v: ndaSigned ? tl("Signed") : tl("Required"), ok: ndaSigned },
     { k: "Data room", v: documents ? tl("Open") : tl("Locked"), ok: !!documents },
   ];
@@ -144,9 +144,28 @@ export function BusinessDetail({
         <div className={card}>
           <h2 className="font-display text-xl font-semibold text-navy-700">{tl("Overview")}</h2>
           <p className="mt-3 leading-relaxed text-ink/65">{o.blurb}</p>
+          {/*
+            One sentence with placeholders, not four fragments around
+            interpolations. The fragments — " is seeking ", " in " — are what a
+            regex sees, and each is too short and too lowercase to look like
+            copy, so this paragraph rendered in English on every localised page
+            while the check reported zero.
+
+            Wrapping the fragments individually would have been worse than
+            leaving it: it freezes ENGLISH WORD ORDER into every language.
+            Arabic puts the verb first and reads right to left; a translator
+            handed " is seeking " in isolation cannot move the company name to
+            where Arabic needs it. One string with named holes can be reordered
+            freely, because the holes travel with the words.
+          */}
           <p className="mt-3 leading-relaxed text-ink/65">
-            {o.name} is seeking {o.ask} in {o.instrument.toLowerCase()} to accelerate growth across {tl(o.region)}. The
-            opportunity has been screened and verified by the Assets &amp; Capital team.
+            {tl(
+              "{name} is seeking {ask} in {instrument} to accelerate growth across {region}. The opportunity has been screened and verified by the Assets & Capital team.",
+            )
+              .replace("{name}", o.name)
+              .replace("{ask}", o.ask)
+              .replace("{instrument}", o.instrument.toLowerCase())
+              .replace("{region}", tl(o.region))}
           </p>
         </div>
 
@@ -159,7 +178,7 @@ export function BusinessDetail({
           <dl className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
             {coreSnapshot.map((m) => (
               <div key={m.k} className="rounded-2xl bg-paper-2/60 p-4">
-                <dt className="text-[0.65rem] uppercase tracking-wide text-ink/60">{m.k}</dt>
+                <dt className="text-[0.65rem] uppercase tracking-wide text-ink/60">{tl(m.k)}</dt>
                 <dd className="mt-1 font-semibold text-ink tnum">{m.v}</dd>
               </div>
             ))}
@@ -170,7 +189,7 @@ export function BusinessDetail({
         {full ? (
           <>
             <div className={card}>
-              <h2 className="font-display text-xl font-semibold text-navy-700">{tl("Full financials &amp; metrics")}</h2>
+              <h2 className="font-display text-xl font-semibold text-navy-700">{tl("Full financials & metrics")}</h2>
               <dl className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
                 {[
                   { k: "Target return", v: full.targetReturn },
@@ -180,7 +199,7 @@ export function BusinessDetail({
                   { k: "Risk level", v: full.riskLevel },
                 ].map((m) => (
                   <div key={m.k} className="rounded-2xl bg-paper-2/60 p-4">
-                    <dt className="text-[0.65rem] uppercase tracking-wide text-ink/60">{m.k}</dt>
+                    <dt className="text-[0.65rem] uppercase tracking-wide text-ink/60">{tl(m.k)}</dt>
                     <dd className="mt-1 font-semibold text-ink tnum">{m.v}</dd>
                   </div>
                 ))}
@@ -198,7 +217,7 @@ export function BusinessDetail({
                     key={c.k}
                     className="flex items-center justify-between rounded-xl border border-ink/[0.06] px-4 py-3 text-sm"
                   >
-                    <span className="text-ink/60">{c.k}</span>
+                    <span className="text-ink/60">{tl(c.k)}</span>
                     <Badge variant={c.ok ? "success" : "gold"} size="sm">
                       {c.v}
                     </Badge>
@@ -211,7 +230,7 @@ export function BusinessDetail({
           <LockPanel
             variant="subscribe"
             title={tl("Full business details are an investor subscription feature")}
-            desc="Subscribe to see full financials, target returns, estimated revenue & EBITDA, risk level and compliance readiness for every listing."
+            desc={tl("Subscribe to see full financials, target returns, estimated revenue & EBITDA, risk level and compliance readiness for every listing.")}
             cta={subscribeCta}
             href={subscribeHref}
           />

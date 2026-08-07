@@ -211,7 +211,16 @@ function scan(file: string): Finding[] {
   }
 
   // Copy passed as a literal prop.
-  const PROPS = "title|subtitle|label|description|placeholder|heading|eyebrow|caption|summary|alt";
+  // Every prop name that was found carrying a sentence, not the ten that were
+  // guessed. `desc=` alone hid a paragraph on the marketplace detail page for as
+  // long as this check has existed — it reported zero while a subscription
+  // pitch sat there in English on every localised page.
+  //
+  // `d` is deliberately absent: it carries SVG path data, which starts with a
+  // capital M and contains spaces, and so would pass every copy test there is.
+  const PROPS =
+    "title|subtitle|label|description|placeholder|heading|eyebrow|caption|summary|alt|" +
+    "desc|tag|subject|intro|empty|overall|delta|blurb|note|hint|cta|message|error";
   for (const m of cleaned.matchAll(new RegExp(`(?:${PROPS})=\\{?"([^"]{4,})"`, "g"))) {
     const line = lineOf(m.index!);
     if (isCopy(m[1]) && !exempt.has(line)) out.push({ file, line, text: m[1], kind: "literal-prop" });

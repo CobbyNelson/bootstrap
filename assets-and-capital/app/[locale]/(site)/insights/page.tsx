@@ -61,7 +61,7 @@ export default async function InsightsPage({ params }: { params: Promise<{ local
             <div className="relative overflow-hidden rounded-[2rem] bg-brand-600 px-8 py-12 text-center text-white md:px-16 md:py-14">
               <div className="grid-noise-light pointer-events-none absolute inset-0" aria-hidden />
               <div className="relative mx-auto max-w-xl">
-                <h2 className="font-display text-2xl font-semibold md:text-3xl">{t.tl("The Assets &amp; Capital briefing")}</h2>
+                <h2 className="font-display text-2xl font-semibold md:text-3xl">{t.tl("The Assets & Capital briefing")}</h2>
                 <p className="mt-3 text-white">{t.tl("Benchmarks drawn from real transactions, plus new opportunities, once a month.")}</p>
                 <Button href="/register/investor" variant="inverse" size="md" className="mt-7">
                   {t.tl("Subscribe")} <ArrowRight className="h-4 w-4" />

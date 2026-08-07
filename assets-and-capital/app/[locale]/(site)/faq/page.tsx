@@ -74,7 +74,7 @@ export default async function FaqPage({ params }: { params: Promise<{ locale: Lo
           <aside className="lg:sticky lg:top-28 lg:self-start">
             <div className="rounded-3xl border border-ink/[0.07] bg-navy-800 p-7 text-white">
               <h3 className="font-display text-lg font-bold text-white">{t.tl("Still have questions?")}</h3>
-              <p className="mt-2 text-sm text-white/70">{t.tl("Our team is happy to help you get set up, whether you&apos;re deploying capital or raising it.")}</p>
+              <p className="mt-2 text-sm text-white/70">{t.tl("Our team is happy to help you get set up, whether you're deploying capital or raising it.")}</p>
               <Link href="/contact" className="mt-5 inline-flex items-center gap-2 rounded-[var(--radius-button)] bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700">
                 {t.tl("Contact us")} <ArrowRight className="h-4 w-4" />
               </Link>
