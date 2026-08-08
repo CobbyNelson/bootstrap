@@ -78,6 +78,15 @@ reject("plus in the middle", "phone", "+233+201234567");
 // A URL scheme where a URL cannot belong. Inert as text, live the moment a
 // company name is rendered into an href — which is an ordinary thing to build.
 reject("scheme as a company name", "company", "javascript:alert(1)");
+// An entity name is a name, not a free text field. These all reached the
+// database before the company filter stopped being a denylist.
+reject("hash and asterisk", "company", "Aurora **Capital** #1");
+reject("percent and caret", "company", "Aurora 100% ^Capital");
+reject("plus and equals", "company", "Aurora+Capital=Ltd");
+reject("semicolons", "company", "Aurora; DROP TABLE users;");
+reject("only punctuation", "company", "&&& ...");
+reject("underscores", "company", "aurora_capital_ltd");
+reject("at sign", "company", "Aurora@Capital");
 reject("scheme as a person's name", "name", "data:text/html,x");
 reject("bare protocol in a company", "company", "https://evil.example.com");
 reject("javascript scheme in prose", "text", "click javascript:alert(1) now");
@@ -110,6 +119,10 @@ accept("curly apostrophe", "name", "O’Brien");
 accept("company with ampersand", "company", "Kumasi AgriWorks & Co. (Ltd)");
 accept("company with digits", "company", "3i Group plc");
 accept("company with comma", "company", "Mensah, Osei and Partners");
+accept("slash in an entity name", "company", "Aurora Capital / Nominees");
+accept("accented entity", "company", "Société Générale");
+accept("digits leading", "company", "3i Group plc");
+accept("apostrophe", "company", "O'Brien Holdings");
 
 accept("bare domain", "url", "kumasiagri.com");
 accept("https with path", "url", "https://kumasiagri.com/about?ref=1");
