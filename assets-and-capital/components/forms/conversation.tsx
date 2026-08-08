@@ -107,6 +107,20 @@ export { HONEYPOT_KEY };
  * The division of labour: `filterField` refuses the keystroke, `validateField`
  * refuses the answer. The first is a courtesy; the second is the rule.
  */
+/**
+ * What this field refuses on a keystroke.
+ *
+ * DERIVED from the rule rather than declared beside it. `accept` and `rule`
+ * were two separate properties that had to be kept in agreement by hand, and
+ * four fields on the investor mandate promptly disagreed: they carried a rule
+ * that refused digits on commit while accepting every character as it was
+ * typed, so somebody could fill in a name, press Enter, and only then be told.
+ *
+ * A question can still override it — a company name is filtered more loosely
+ * than it is judged — but forgetting is no longer possible.
+ */
+const filterKindOf = (q: Question) => q.accept ?? q.rule?.kind;
+
 const clean = (raw: string, accept?: Question["accept"]) => filterField(raw, accept);
 
 /** Rows before a section spills into the next column. */
@@ -577,7 +591,7 @@ export function Conversation({
                 rows={2}
                 value={draft}
                 placeholder={q.placeholder}
-                onChange={(e) => { setDraft(clean(e.target.value, q.accept)); setProblem(""); }}
+                onChange={(e) => { setDraft(clean(e.target.value, filterKindOf(q))); setProblem(""); }}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); commit(); } }}
                 aria-label={q.ask}
                 aria-invalid={Boolean(problem)}
@@ -594,7 +608,7 @@ export function Conversation({
                 autoComplete={q.autoComplete}
                 value={draft}
                 placeholder={q.placeholder}
-                onChange={(e) => { setDraft(clean(e.target.value, q.accept)); setProblem(""); }}
+                onChange={(e) => { setDraft(clean(e.target.value, filterKindOf(q))); setProblem(""); }}
                 onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); commit(); } }}
                 aria-label={q.ask}
                 aria-invalid={Boolean(problem)}

@@ -27,7 +27,8 @@
     "check:kwaku": "tsx --tsconfig tsconfig.scripts.json scripts/check-kwaku.mts",
     "check:ics": "tsx --tsconfig tsconfig.scripts.json scripts/check-ics.mts",
     "check:filters": "tsx --tsconfig tsconfig.scripts.json scripts/check-input-filters.mts",
-    "check:forms": "tsx --tsconfig tsconfig.scripts.json scripts/check-form-validation.mts"
+    "check:forms": "tsx --tsconfig tsconfig.scripts.json scripts/check-form-validation.mts",
+    "check:coverage": "tsx --tsconfig tsconfig.scripts.json scripts/check-form-coverage.mts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
