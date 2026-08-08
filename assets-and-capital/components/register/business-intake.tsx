@@ -5,6 +5,7 @@ import { useState } from "react";
 import { PartyPopper } from "lucide-react";
 import { useTl } from "@/components/i18n/locale-provider";
 import { Conversation, HONEYPOT_KEY, type Question } from "@/components/forms/conversation";
+import { INTAKE_SCHEMA } from "@/lib/intake-schema";
 import { FeaturedImageUpload } from "./featured-image-upload";
 
 /**
@@ -29,6 +30,8 @@ const STORAGE_KEY = "ac_business_intake_v2";
 export function BusinessIntake() {
   const tl = useTl();
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const S1 = tl("Company & contact");
   const S2 = tl("The ask");
@@ -39,14 +42,14 @@ export function BusinessIntake() {
   const QUESTIONS: Question[] = [
     // ── Company & contact
     {
-      key: "companyName", section: S1,
+      key: "companyName", section: S1, accept: "company", rule: INTAKE_SCHEMA.companyName,
       ask: tl("What is your company called?"),
       placeholder: tl("Registered company name"),
       autoComplete: "organization",
       validate: required(tl("We need the company name.")),
     },
     {
-      key: "hqCountry", section: S1,
+      key: "hqCountry", section: S1, rule: INTAKE_SCHEMA.hqCountry,
       ask: tl("Where is it headquartered?"),
       placeholder: tl("Country"),
       autoComplete: "country-name",
@@ -60,7 +63,7 @@ export function BusinessIntake() {
       validate: required(tl("Choose a region.")),
     },
     {
-      key: "website", section: S1,
+      key: "website", section: S1, rule: INTAKE_SCHEMA.website,
       ask: tl("Where can we see you online?"),
       hint: tl("A website, or the social account you are most active on."),
       placeholder: "https://",
@@ -68,7 +71,7 @@ export function BusinessIntake() {
       optional: true,
     },
     {
-      key: "founded", section: S1,
+      key: "founded", section: S1, rule: INTAKE_SCHEMA.founded,
       ask: tl("When was the company founded?"),
       placeholder: tl("e.g. 2019"),
       accept: "digits",
@@ -81,7 +84,7 @@ export function BusinessIntake() {
       optional: true,
     },
     {
-      key: "founders", section: S1,
+      key: "founders", section: S1, accept: "text", rule: INTAKE_SCHEMA.founders,
       ask: tl("Who founded it, and who else should we know?"),
       hint: tl("Name and role, one per line."),
       placeholder: tl("Name — Role"),
@@ -89,7 +92,7 @@ export function BusinessIntake() {
       optional: true,
     },
     {
-      key: "contactName", section: S1,
+      key: "contactName", section: S1, rule: INTAKE_SCHEMA.contactName,
       ask: tl("Who should we deal with?"),
       placeholder: tl("Full name"),
       autoComplete: "name",
@@ -97,16 +100,16 @@ export function BusinessIntake() {
       validate: required(tl("We need a contact name.")),
     },
     {
-      key: "contactEmail", section: S1,
+      key: "contactEmail", section: S1, rule: INTAKE_SCHEMA.contactEmail,
       ask: tl("And their email?"),
       placeholder: "name@company.com",
       type: "email",
       autoComplete: "email",
       accept: "email",
-      validate: (v) => (!v ? tl("We need an email.") : /^[^@\s]+@[^@\s.]+\.[^@\s]+$/.test(v) ? null : tl("Enter a valid email address.")),
+      validate: required(tl("We need an email.")),
     },
     {
-      key: "contactPhone", section: S1,
+      key: "contactPhone", section: S1, rule: INTAKE_SCHEMA.contactPhone,
       ask: tl("A phone number, in case email is slow?"),
       placeholder: "+233…",
       type: "tel",
@@ -117,7 +120,7 @@ export function BusinessIntake() {
 
     // ── The ask
     {
-      key: "purpose", section: S2,
+      key: "purpose", section: S2, accept: "text", rule: INTAKE_SCHEMA.purpose,
       ask: tl("What will the capital be used for?"),
       hint: tl("The clearer this is, the better we can match you to a mandate."),
       placeholder: tl("A few lines is plenty."),
@@ -125,7 +128,7 @@ export function BusinessIntake() {
       validate: required(tl("Tell us what the capital is for.")),
     },
     {
-      key: "amount", section: S2,
+      key: "amount", section: S2, rule: INTAKE_SCHEMA.amount,
       ask: tl("How much are you raising?"),
       hint: tl("In US dollars."),
       prefix: "$",
@@ -142,7 +145,7 @@ export function BusinessIntake() {
       validate: required(tl("Choose at least one.")),
     },
     {
-      key: "equityStake", section: S2,
+      key: "equityStake", section: S2, rule: INTAKE_SCHEMA.equityStake,
       ask: tl("What stake are you offering?"),
       suffix: "%",
       placeholder: "18",
@@ -150,7 +153,7 @@ export function BusinessIntake() {
       optional: true,
     },
     {
-      key: "returnOffer", section: S2,
+      key: "returnOffer", section: S2, rule: INTAKE_SCHEMA.returnOffer,
       ask: tl("And the return you are offering?"),
       suffix: "%",
       placeholder: "22",
@@ -200,20 +203,39 @@ export function BusinessIntake() {
     },
   ];
 
-  function submit(values: Record<string, string>) {
+  async function submit(values: Record<string, string>) {
     // A bot reached the end. Same journey, nothing submitted.
     if (values[HONEYPOT_KEY]) {
       setSubmitted(true);
       return;
     }
-    // Integration seam: POST the intake. The draft is cleared so a returning
-    // visitor starts fresh rather than resubmitting what we already have.
+    setSending(true);
+    setFailed(false);
     try {
-      window.localStorage.removeItem(STORAGE_KEY);
+      const res = await fetch("/api/business-intake", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      if (!res.ok) {
+        setFailed(true);
+        return;
+      }
+      // Only clear the draft once the server has it. Wiping nineteen answers
+      // on a failed request would lose work somebody spent looking up figures
+      // for — which is what the old code did unconditionally, on a submission
+      // that went nowhere at all.
+      try {
+        window.localStorage.removeItem(STORAGE_KEY);
+      } catch {
+        /* ignore */
+      }
+      setSubmitted(true);
     } catch {
-      /* ignore */
+      setFailed(true);
+    } finally {
+      setSending(false);
     }
-    setSubmitted(true);
   }
 
   return (
@@ -231,6 +253,8 @@ export function BusinessIntake() {
       title={tl("List your business")}
       intro={tl("Eighteen questions, in three parts. Your answers save as you go, so you can leave and come back.")}
       submitLabel={tl("Submit listing")}
+      submitting={sending}
+      error={failed ? tl("That did not go through. Please check your answers and try again.") : null}
       done={
         submitted ? (
           <div className="py-10 text-center" role="status">

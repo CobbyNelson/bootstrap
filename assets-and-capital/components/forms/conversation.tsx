@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTl } from "@/components/i18n/locale-provider";
+import { filterField, validateField, HONEYPOT_KEY, type FieldKind, type Rule } from "@/lib/form-validation";
 
 /**
  * One question at a time.
@@ -60,7 +61,16 @@ export type Question = {
    * regardless — they are invisible, they survive a copy-paste out of a PDF,
    * and they break everything downstream that assumes text is text.
    */
-  accept?: "digits" | "decimal" | "phone" | "email" | "name" | "url";
+  accept?: FieldKind;
+  /**
+   * The rule this answer is held to, shared verbatim with the server.
+   *
+   * `accept` only refuses characters; this parses. It is what knows that a
+   * website has to be a real address on http or https, that an email needs a
+   * domain that could exist, and that a raise of "1e9" is not a number somebody
+   * meant to type. Set it on anything that leaves the browser.
+   */
+  rule?: Rule;
   /** Returns a message when the answer is not acceptable, null when it is. */
   validate?: (v: string) => string | null;
   /**
@@ -81,43 +91,23 @@ export type Question = {
   confirm?: string;
 };
 
-/**
- * Where a honeypot hit is reported.
- *
- * Deliberately not "website": the input is NAMED website because that is what
- * a bot looks for, but a form may legitimately ask for one.
- */
-export const HONEYPOT_KEY = "__trap";
+/** Re-exported so form components keep one import. Defined in the shared
+ * module, because the server route checks it too. */
+export { HONEYPOT_KEY };
 
 /**
- * Characters no field accepts.
+ * The character tables live in lib/form-validation.ts, not in this file.
  *
- * C0 and C1 control codes, plus the zero-width and bidirectional-override
- * characters. All invisible, all routinely carried in on a paste from a PDF or
- * a spreadsheet, and the bidi ones can make a stored string RENDER as something
- * other than what it is — which on a marketplace is worth refusing outright.
+ * They used to be defined here, which quietly made them a property of the UI —
+ * and a rule that exists only in the UI is not a rule. Disable JavaScript, or
+ * post to the endpoint directly, and every one of them disappears. The same
+ * module now runs on the server against the posted body, so a submission that
+ * never touched this component is held to the identical standard.
+ *
+ * The division of labour: `filterField` refuses the keystroke, `validateField`
+ * refuses the answer. The first is a courtesy; the second is the rule.
  */
-// eslint-disable-next-line no-control-regex
-const FORBIDDEN = /[\u0000-\u001F\u007F-\u009F\u200B-\u200F\u202A-\u202E\u2066-\u2069]/g;
-
-const FILTERS: Record<NonNullable<Question["accept"]>, RegExp> = {
-  // Figures keep their thousands separators — somebody typing 15,000,000 is
-  // being clear, not wrong.
-  digits: /[^0-9,\s]/g,
-  decimal: /[^0-9.,\s]/g,
-  // ITU-T E.164 shapes, plus the punctuation people actually type.
-  phone: /[^0-9+\-() \u00A0.]/g,
-  email: /[\s,;:<>()[\]\\]/g,
-  // Unicode letters, so Ama Mensah and Amaëlle both pass.
-  name: /[^\p{L}\p{M}'\u2019\- .]/gu,
-  url: /[\s<>"'{}|\\^`]/g,
-};
-
-/** Everything a field will take, applied on every keystroke and paste. */
-function clean(raw: string, accept?: Question["accept"]): string {
-  const stripped = raw.replace(FORBIDDEN, "");
-  return accept ? stripped.replace(FILTERS[accept], "") : stripped;
-}
+const clean = (raw: string, accept?: Question["accept"]) => filterField(raw, accept);
 
 /** Rows before a section spills into the next column. */
 const COLUMN_ROWS = 5;
@@ -295,6 +285,16 @@ export function Conversation({
       return;
     }
     if (v) {
+      // The shared rule first, because it is the one the server will also
+      // apply — failing here means the submission would have been refused
+      // anyway, and it is kinder to say so now than after the last question.
+      if (q.rule) {
+        const verdict = validateField(v, q.rule);
+        if (!verdict.ok) {
+          setProblem(tl(verdict.error));
+          return;
+        }
+      }
       const bad = q.validate?.(v);
       if (bad) {
         setProblem(bad);

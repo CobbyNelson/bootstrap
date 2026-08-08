@@ -925,3 +925,30 @@ enum MeetingStatus {
   CANCELLED
   COMPLETED
 }
+
+/// A submission from one of the two public forms.
+///
+/// Both forms used to end at a `setTimeout` and a thank-you screen: the contact
+/// page simulated a send, and the business intake carried a comment saying a
+/// POST belonged there. Somebody filling in nineteen questions about their
+/// company got the same confirmation either way, and nothing arrived.
+///
+/// `payload` is Json rather than a column per question because the two forms
+/// ask different things and the questions will change; what does not change is
+/// that every value in it has been through lib/form-validation.ts on the server
+/// before it is written. Nothing here is trusted for having come from a form.
+model FormSubmission {
+  id        String   @id @default(cuid())
+  /// contact | business-intake
+  kind      String
+  payload   Json
+  /// Kept for rate-limit forensics and abuse reports, not for analytics.
+  ip        String?
+  userAgent String?
+  /// new | read | handled | spam
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+
+  @@index([kind, createdAt])
+  @@index([status])
+}

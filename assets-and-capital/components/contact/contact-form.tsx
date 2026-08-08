@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { Check } from "lucide-react";
-import { isEmail, minLen } from "@/lib/validation";
 import { useTl } from "@/components/i18n/locale-provider";
 import { Conversation, HONEYPOT_KEY, type Question } from "@/components/forms/conversation";
+import { CONTACT_SCHEMA } from "@/lib/intake-schema";
 
 /**
  * The contact form, asked one question at a time.
@@ -24,7 +24,7 @@ export function ContactForm() {
   // Same rules as the stacked form had, moved next to the question they judge.
   const QUESTIONS: Question[] = [
     {
-      key: "name",
+      key: "name", rule: CONTACT_SCHEMA.name,
       section: tl("About you"),
       ask: tl("Who are we speaking with?"),
       placeholder: tl("Your full name"),
@@ -33,7 +33,7 @@ export function ContactForm() {
       validate: (v) => (v ? null : tl("Please enter your name.")),
     },
     {
-      key: "email",
+      key: "email", rule: CONTACT_SCHEMA.email,
       section: tl("About you"),
       ask: tl("Where should we reply?"),
       hint: tl("We answer by email, usually within a working day."),
@@ -41,10 +41,10 @@ export function ContactForm() {
       type: "email",
       autoComplete: "email",
       accept: "email",
-      validate: (v) => (!v ? tl("Please enter your email.") : isEmail(v) ? null : tl("Enter a valid email address.")),
+      validate: (v) => (v ? null : tl("Please enter your email.")),
     },
     {
-      key: "role",
+      key: "role", rule: CONTACT_SCHEMA.role,
       section: tl("About you"),
       ask: tl("Which of these sounds like you?"),
       // A single choice, so the tap is the answer — there is nothing to type
@@ -53,7 +53,7 @@ export function ContactForm() {
       validate: (v) => (v ? null : tl("Select an option.")),
     },
     {
-      key: "company",
+      key: "company", accept: "company", rule: CONTACT_SCHEMA.company,
       section: tl("About you"),
       ask: tl("And your company?"),
       placeholder: tl("Company name"),
@@ -61,13 +61,13 @@ export function ContactForm() {
       optional: true,
     },
     {
-      key: "message",
+      key: "message", accept: "text", rule: CONTACT_SCHEMA.message,
       section: tl("What you need"),
       ask: tl("What can we help with?"),
       hint: tl("The more you tell us, the better we can point you at the right person."),
       placeholder: tl("A few lines is plenty."),
       multiline: true,
-      validate: (v) => (minLen(v, 10) ? null : tl("Tell us a little more (10+ characters).")),
+      validate: (v) => (v ? null : tl("Tell us what you need.")),
     },
   ];
 
@@ -80,9 +80,16 @@ export function ContactForm() {
     }
     setStatus("loading");
     try {
-      // Integration seam: POST /api/contact (Resend email). Simulated here.
-      await new Promise((r) => setTimeout(r, 900));
-      setStatus("done");
+      // The server checks all of this again against the same schema. What it
+      // sends back on a rejection is deliberately not shown field-by-field:
+      // anything the server refuses, the form already refused, so a message
+      // here would mean the two have drifted.
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      setStatus(res.ok ? "done" : "error");
     } catch {
       setStatus("error");
     }
