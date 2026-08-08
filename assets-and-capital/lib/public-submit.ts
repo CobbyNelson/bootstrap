@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { rateLimit } from "@/lib/rate-limit";
 import { validateSubmission, HONEYPOT_KEY, type Rule } from "@/lib/form-validation";
-import { ALLOWED_CHOICES, choiceParts } from "@/lib/intake-schema";
+import { ALLOWED_CHOICES, INVESTOR_OPTIONS, choiceParts } from "@/lib/intake-schema";
 
 /**
  * The one place a public form submission is allowed in.
@@ -138,13 +138,19 @@ export async function storeSubmission(
 async function resolveChoices(
   values: Record<string, string>,
 ): Promise<{ values: Record<string, string> } | { errors: Record<string, string> }> {
+  // Every list on the platform, in one map. A form that adds a choice question
+  // and forgets to register its options here gets NO membership check at all —
+  // which is the failure mode that let an invented listing tier through — so
+  // the merge happens in one place rather than per route.
+  const lists: Record<string, string[]> = { ...ALLOWED_CHOICES, ...INVESTOR_OPTIONS };
+
   const submitted: string[] = [];
-  for (const key of Object.keys(ALLOWED_CHOICES)) {
+  for (const key of Object.keys(lists)) {
     if (values[key]) submitted.push(...choiceParts(values[key]));
   }
   if (!submitted.length) return { values };
 
-  const allowedSources = new Set(Object.values(ALLOWED_CHOICES).flat());
+  const allowedSources = new Set(Object.values(lists).flat());
 
   // value -> English source, for every translation of a label we allow.
   const backwards = new Map<string, string>();
@@ -162,7 +168,7 @@ async function resolveChoices(
   const out = { ...values };
   const errors: Record<string, string> = {};
 
-  for (const [key, allowed] of Object.entries(ALLOWED_CHOICES)) {
+  for (const [key, allowed] of Object.entries(lists)) {
     const raw = out[key];
     if (!raw) continue;
 
