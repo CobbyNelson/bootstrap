@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { clientIp } from "@/lib/client-ip";
 import type { NextRequest } from "next/server";
 import { PREVIEW_COOKIE, PREVIEW_MAX_AGE, codeMatches, isLockEnabled, signPreviewToken } from "@/lib/site-lock";
 import { rateLimit } from "@/lib/rate-limit";
@@ -16,10 +17,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "The site is already public." }, { status: 400 });
   }
 
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    req.headers.get("x-real-ip") ||
-    "unknown";
+  const ip = clientIp(req.headers);
 
   const limit = rateLimit(`site-unlock:${ip}`, 8, 10 * 60 * 1000);
   if (!limit.ok) {

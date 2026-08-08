@@ -1,4 +1,5 @@
 import "server-only";
+import { clientIp as ipFromHeaders } from "@/lib/client-ip";
 import fs from "node:fs";
 import path from "node:path";
 import { Reader } from "mmdb-lib";
@@ -108,8 +109,6 @@ export function lookupGeo(ip: string): GeoResult {
 /** The client address, from the proxy header Caddy sets. */
 export function clientIp(headers: Headers): string {
   return (
-    headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    headers.get("x-real-ip") ||
-    "unknown"
+    ipFromHeaders(headers)
   );
 }

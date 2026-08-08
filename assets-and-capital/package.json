@@ -30,7 +30,8 @@
     "check:forms": "tsx --tsconfig tsconfig.scripts.json scripts/check-form-validation.mts",
     "check:coverage": "tsx --tsconfig tsconfig.scripts.json scripts/check-form-coverage.mts",
     "check:totp": "tsx --tsconfig tsconfig.scripts.json scripts/check-totp.mts",
-    "check:2fa": "tsx --tsconfig tsconfig.scripts.json scripts/check-2fa-policy.mts"
+    "check:2fa": "tsx --tsconfig tsconfig.scripts.json scripts/check-2fa-policy.mts",
+    "check:ip": "tsx --tsconfig tsconfig.scripts.json scripts/check-client-ip.mts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",

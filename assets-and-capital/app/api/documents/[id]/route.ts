@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { clientIp } from "@/lib/client-ip";
 import { getCurrentUser } from "@/lib/session";
 import { getAccess } from "@/lib/entitlements-server";
 
@@ -48,7 +49,10 @@ export async function GET(req: Request, ctx: { params: Promise<{ id: string }> }
     return Response.json({ ok: false, error: "Cross-site requests are not accepted here." }, { status: 403 });
   }
 
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
+  // Recorded on the access log, so it must be the real caller and not a header
+  // the caller chose for themselves.
+  const resolved = clientIp(req.headers);
+  const ip = resolved === "unknown" ? null : resolved;
   await prisma.documentAccessLog.create({
     data: { userId: user.id, documentId: doc.id, action: "download", ip },
   });

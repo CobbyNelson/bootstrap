@@ -1,6 +1,7 @@
 "use server";
 
 import bcrypt from "bcryptjs";
+import { clientIp } from "@/lib/client-ip";
 
 /**
  * bcrypt work factor.
@@ -34,7 +35,7 @@ const TOO_MANY = "Too many attempts. Please wait a moment and try again.";
 async function throttle(scope: string, email: string, limit: number, windowMs: number) {
   sweep();
   const h = await headers();
-  const ip = h.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const ip = clientIp(h);
   const byIp = rateLimit(`${scope}:ip:${ip}`, limit * 3, windowMs);
   const byEmail = rateLimit(`${scope}:em:${email}`, limit, windowMs);
   return byIp.ok && byEmail.ok;

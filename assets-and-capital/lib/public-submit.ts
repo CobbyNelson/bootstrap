@@ -1,4 +1,5 @@
 import "server-only";
+import { clientIp } from "@/lib/client-ip";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
@@ -41,10 +42,7 @@ export async function receiveSubmission(
   req: NextRequest,
   opts: { kind: string; schema: Record<string, Rule>; perHour: number },
 ): Promise<SubmitResult> {
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    req.headers.get("x-real-ip") ||
-    "unknown";
+  const ip = clientIp(req.headers);
 
   const limit = rateLimit(`submit:${opts.kind}:${ip}`, opts.perHour, 60 * 60 * 1000);
   if (!limit.ok) {

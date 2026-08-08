@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { clientIp as ipFromHeaders } from "@/lib/client-ip";
 import type { NextRequest } from "next/server";
 import { getCurrentUser } from "@/lib/session";
 import { rateLimit } from "@/lib/rate-limit";
@@ -31,9 +32,7 @@ import { getWeights } from "@/lib/matching-weights";
 
 function clientIp(req: Request): string {
   return (
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    req.headers.get("x-real-ip") ||
-    "unknown"
+    ipFromHeaders(req.headers)
   );
 }
 
