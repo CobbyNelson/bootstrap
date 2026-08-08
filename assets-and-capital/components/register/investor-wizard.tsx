@@ -85,9 +85,46 @@ export function InvestorWizard() {
   const opt = (key: string) => (INVESTOR_OPTIONS[key] ?? []).map((o) => tl(o));
   const required = (msg: string) => (v: string) => (v ? null : msg);
 
+  /**
+   * What the recap calls each answer.
+   *
+   * Separate from `ask` because the question is a sentence — "What are you
+   * optimising for?" — and the recap needs a column heading. Without these the
+   * component falls back to the key, which for this form meant somebody read
+   * "PE_IRR_MIN" back to themselves.
+   */
+  const LABEL: Record<string, string> = {
+    entityName: tl("Investor"), investorType: tl("Type"), jurisdiction: tl("Domicile"),
+    contactName: tl("Contact"), contactTitle: tl("Title"), email: tl("Email"), phone: tl("Phone"),
+    accredited: tl("Accredited"), kyc: tl("KYC ready"),
+
+    pe_objectives: tl("Objectives"), pe_irr_min: tl("Minimum IRR"), pe_irr_target: tl("Target IRR"),
+    pe_irr_aggr: tl("Upside IRR"), pe_risk: tl("Risk"), pe_control: tl("Control"),
+    pe_horizon: tl("Horizon"), pe_strategies: tl("Strategies"), pe_instruments: tl("Instruments"),
+    pe_stage: tl("Stage"), pe_markets: tl("Markets"), pe_sectors: tl("Sectors"),
+    pe_exclusions: tl("Exclusions"), pe_total: tl("Total capital"), pe_min: tl("Minimum ticket"),
+    pe_target: tl("Typical ticket"), pe_max: tl("Maximum ticket"), pe_liquidity: tl("Exit"),
+    pe_governance: tl("Governance"),
+
+    re_objectives: tl("Objectives"), re_noi: tl("Target NOI"), re_growth: tl("Capital growth"),
+    re_irr: tl("Total return"), re_risk: tl("Risk"), re_classes: tl("Asset classes"),
+    re_structure: tl("Structure"), re_instruments: tl("Instruments"), re_dev: tl("Condition"),
+    re_markets: tl("Markets"), re_total: tl("Total capital"), re_min: tl("Minimum ticket"),
+    re_target: tl("Typical ticket"), re_max: tl("Maximum ticket"), re_deploy: tl("Deployment"),
+    re_liquidity: tl("Hold period"), re_exit: tl("Exit"), re_metrics: tl("Reporting"),
+
+    fd_objectives: tl("Objectives"), fd_min: tl("Minimum return"), fd_target: tl("Target return"),
+    fd_upside: tl("Upside"), fd_risk: tl("Risk"), fd_horizon: tl("Horizon"),
+    fd_categories: tl("Fund types"), fd_styles: tl("Styles"), fd_strategies: tl("Strategies"),
+    fd_exclusions: tl("Exclusions"), fd_total: tl("Total capital"), fd_lockup: tl("Lock-up"),
+    fd_governance: tl("Governance"), fd_fees: tl("Fees"),
+
+    consent: tl("Confirmed"),
+  };
+
   const ABOUT: Question[] = [
     {
-      key: "entityName", section: S1, accept: "company", rule: INVESTOR_SCHEMA.entityName,
+      key: "entityName", label: LABEL.entityName, section: S1, accept: "company", rule: INVESTOR_SCHEMA.entityName,
       ask: tl("Who is investing?"),
       hint: tl("The entity that would appear on a commitment, not the individual signing it."),
       placeholder: tl("e.g. Aurora Family Office"),
@@ -95,13 +132,13 @@ export function InvestorWizard() {
       validate: required(tl("We need the investor or entity name.")),
     },
     {
-      key: "investorType", section: S1, rule: INVESTOR_SCHEMA.investorType,
+      key: "investorType", label: LABEL.investorType, section: S1, rule: INVESTOR_SCHEMA.investorType,
       ask: tl("And what kind of entity is that?"),
       choices: opt("investorType"),
       validate: required(tl("Choose an investor type.")),
     },
     {
-      key: "jurisdiction", section: S1, rule: INVESTOR_SCHEMA.jurisdiction,
+      key: "jurisdiction", label: LABEL.jurisdiction, section: S1, rule: INVESTOR_SCHEMA.jurisdiction,
       ask: tl("Where is it domiciled?"),
       hint: tl("The jurisdiction whose rules govern what you can commit to."),
       placeholder: tl("Country"),
@@ -109,20 +146,20 @@ export function InvestorWizard() {
       validate: required(tl("We need the jurisdiction.")),
     },
     {
-      key: "contactName", section: S1, rule: INVESTOR_SCHEMA.contactName,
+      key: "contactName", label: LABEL.contactName, section: S1, rule: INVESTOR_SCHEMA.contactName,
       ask: tl("Who should we deal with?"),
       placeholder: tl("Full name"),
       autoComplete: "name",
       validate: required(tl("We need a contact name.")),
     },
     {
-      key: "contactTitle", section: S1, accept: "text", rule: INVESTOR_SCHEMA.contactTitle,
+      key: "contactTitle", label: LABEL.contactTitle, section: S1, accept: "text", rule: INVESTOR_SCHEMA.contactTitle,
       ask: tl("What is their title?"),
       placeholder: tl("e.g. Chief Investment Officer"),
       optional: true,
     },
     {
-      key: "email", section: S1, rule: INVESTOR_SCHEMA.email,
+      key: "email", label: LABEL.email, section: S1, rule: INVESTOR_SCHEMA.email,
       ask: tl("And their email?"),
       placeholder: "name@entity.com",
       type: "email",
@@ -130,7 +167,7 @@ export function InvestorWizard() {
       validate: required(tl("We need an email.")),
     },
     {
-      key: "phone", section: S1, rule: INVESTOR_SCHEMA.phone,
+      key: "phone", label: LABEL.phone, section: S1, rule: INVESTOR_SCHEMA.phone,
       ask: tl("A phone number, in case email is slow?"),
       placeholder: "+971…",
       type: "tel",
@@ -138,14 +175,14 @@ export function InvestorWizard() {
       optional: true,
     },
     {
-      key: "accredited", section: S1, rule: INVESTOR_SCHEMA.accredited,
+      key: "accredited", label: LABEL.accredited, section: S1, rule: INVESTOR_SCHEMA.accredited,
       ask: tl("Are you an accredited or qualified investor?"),
       hint: tl("Most jurisdictions restrict private placements to investors who meet a wealth or sophistication test."),
       choices: opt("accredited"),
       validate: required(tl("Please answer this one.")),
     },
     {
-      key: "kyc", section: S1, rule: INVESTOR_SCHEMA.kyc,
+      key: "kyc", label: LABEL.kyc, section: S1, rule: INVESTOR_SCHEMA.kyc,
       ask: tl("Do you have KYC and AML documentation ready?"),
       hint: tl("Not needed now — knowing tells us how quickly we can verify you."),
       choices: opt("kyc"),
@@ -155,16 +192,16 @@ export function InvestorWizard() {
 
   /** Shorthands, because the branches ask thirty of these between them. */
   const pick = (key: string, section: string, ask: string, extra: Partial<Question> = {}): Question => ({
-    key, section, ask, choices: opt(key), rule: INVESTOR_SCHEMA[key], ...extra,
+    key, section, ask, label: LABEL[key], choices: opt(key), rule: INVESTOR_SCHEMA[key], ...extra,
   });
   const picks = (key: string, section: string, ask: string, extra: Partial<Question> = {}): Question => ({
-    key, section, ask, multi: opt(key), rule: INVESTOR_SCHEMA[key], ...extra,
+    key, section, ask, label: LABEL[key], multi: opt(key), rule: INVESTOR_SCHEMA[key], ...extra,
   });
   const pct = (key: string, section: string, ask: string, placeholder: string): Question => ({
-    key, section, ask, suffix: "%", placeholder, accept: "decimal", rule: INVESTOR_SCHEMA[key], optional: true,
+    key, section, ask, label: LABEL[key], suffix: "%", placeholder, accept: "decimal", rule: INVESTOR_SCHEMA[key], optional: true,
   });
   const usd = (key: string, section: string, ask: string, extra: Partial<Question> = {}): Question => ({
-    key, section, ask, prefix: "$", placeholder: "25,000,000", accept: "digits", rule: INVESTOR_SCHEMA[key], optional: true, ...extra,
+    key, section, ask, label: LABEL[key], prefix: "$", placeholder: "25,000,000", accept: "digits", rule: INVESTOR_SCHEMA[key], optional: true, ...extra,
   });
 
   const PE: Question[] = (() => {
@@ -246,7 +283,7 @@ export function InvestorWizard() {
     ...ABOUT,
     ...(BRANCH_QUESTIONS[branch] ?? []),
     {
-      key: "consent",
+      key: "consent", label: LABEL.consent,
       section: tl("Confirm"),
       ask: tl("One last thing."),
       confirm: tl("I confirm this mandate is accurate and I consent to Assets & Capital matching me to opportunities against it."),

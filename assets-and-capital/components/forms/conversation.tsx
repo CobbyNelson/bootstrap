@@ -71,6 +71,16 @@ export type Question = {
    * meant to type. Set it on anything that leaves the browser.
    */
   rule?: Rule;
+  /**
+   * What the recap calls this answer.
+   *
+   * Falls back to the key, which was the only option and is wrong the moment a
+   * key is not already a plain English word: the investor mandate uses branch
+   * prefixes, so `pe_irr_min` was rendering to somebody as "PE_IRR_MIN".
+   * Nothing secret — a field name is in the DOM and in the request body either
+   * way — but internal naming has no business on a form somebody is filling in.
+   */
+  label?: string;
   /** Returns a message when the answer is not acceptable, null when it is. */
   validate?: (v: string) => string | null;
   /**
@@ -122,6 +132,22 @@ export { HONEYPOT_KEY };
 const filterKindOf = (q: Question) => q.accept ?? q.rule?.kind;
 
 const clean = (raw: string, accept?: Question["accept"]) => filterField(raw, accept);
+
+/**
+ * A readable name for an answer, when the question did not give one.
+ *
+ * Splits camelCase, drops a leading branch prefix, and turns underscores into
+ * spaces — so `contactName` reads "contact Name" and `pe_irr_min` reads
+ * "irr min" rather than the raw key. A question that wants better than this
+ * should set `label`.
+ */
+function labelFromKey(key: string): string {
+  return key
+    .replace(/^(pe|re|fd)_/, "")
+    .replace(/_/g, " ")
+    .replace(/([A-Z])/g, " $1")
+    .trim();
+}
 
 /** Rows before a section spills into the next column. */
 const COLUMN_ROWS = 5;
@@ -469,7 +495,7 @@ export function Conversation({
                       title={tl("Change this answer")}
                     >
                       <span className="w-24 shrink-0 truncate text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-ink/45">
-                        {a.key.replace(/([A-Z])/g, " $1")}
+                        {a.label ?? labelFromKey(a.key)}
                       </span>
                       <span className="min-w-0 flex-1 truncate text-sm text-ink/75 transition-colors group-hover:text-brand-700">
                         {values[a.key]
