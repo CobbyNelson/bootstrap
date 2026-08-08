@@ -28,7 +28,8 @@
     "check:ics": "tsx --tsconfig tsconfig.scripts.json scripts/check-ics.mts",
     "check:filters": "tsx --tsconfig tsconfig.scripts.json scripts/check-input-filters.mts",
     "check:forms": "tsx --tsconfig tsconfig.scripts.json scripts/check-form-validation.mts",
-    "check:coverage": "tsx --tsconfig tsconfig.scripts.json scripts/check-form-coverage.mts"
+    "check:coverage": "tsx --tsconfig tsconfig.scripts.json scripts/check-form-coverage.mts",
+    "check:totp": "tsx --tsconfig tsconfig.scripts.json scripts/check-totp.mts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",

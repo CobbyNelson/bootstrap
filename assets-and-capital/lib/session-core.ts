@@ -23,8 +23,8 @@ function key() {
  * one: raising the number on the account invalidates every token issued before
  * it, without a session table.
  */
-export async function signSessionToken(user: SessionUser, tokenVersion = 0): Promise<string> {
-  return new SignJWT({ email: user.email, name: user.name, role: user.role, v: tokenVersion })
+export async function signSessionToken(user: SessionUser, tokenVersion = 0, mfa = false): Promise<string> {
+  return new SignJWT({ email: user.email, name: user.name, role: user.role, v: tokenVersion, m: mfa })
     .setProtectedHeader({ alg: ALG })
     .setSubject(user.id)
     .setIssuedAt()
@@ -44,7 +44,7 @@ export async function signSessionToken(user: SessionUser, tokenVersion = 0): Pro
  * PAST middleware, and is then rejected by the page or route behind it. The gate
  * is not the authority.
  */
-export async function verifySessionToken(token: string): Promise<(SessionUser & { v: number }) | null> {
+export async function verifySessionToken(token: string): Promise<(SessionUser & { v: number; m: boolean }) | null> {
   try {
     const { payload } = await jwtVerify(token, key());
     return {
@@ -53,6 +53,16 @@ export async function verifySessionToken(token: string): Promise<(SessionUser & 
       name: (payload.name as string) ?? null,
       role: String(payload.role),
       v: typeof payload.v === "number" ? payload.v : 0,
+      // Whether the second factor has been satisfied FOR THIS SESSION.
+      //
+      // A separate claim rather than a property of the account, because the
+      // question is not "does this person use 2FA" — it is "has this particular
+      // browser proved it yet". A password alone mints a token with m:false,
+      // which is enough to reach the verification screen and nothing else.
+      //
+      // Absent on tokens issued before 2FA existed, so it defaults to false and
+      // those sessions are sent to verify rather than silently trusted.
+      m: payload.m === true,
     };
   } catch {
     return null;

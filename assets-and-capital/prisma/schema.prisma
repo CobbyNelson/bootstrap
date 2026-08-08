@@ -119,6 +119,22 @@ model User {
   role               Role                  @default(INVESTOR)
   emailVerified      DateTime?
   twoFactorOn        Boolean               @default(false)
+  /// The TOTP seed, base32. Null until enrolment starts.
+  ///
+  /// Stored as-is. Encrypting it here would put the key on the same machine as
+  /// the ciphertext, which buys nothing against the threat that matters: anyone
+  /// who can read this column can read that key too. What protects it is that
+  /// it is never selected into a response, and that the disk should be
+  /// encrypted at rest.
+  twoFactorSecret      String?
+  /// Set when a first correct code proves an app was really paired. A secret
+  /// without this is an abandoned enrolment, not a second factor.
+  twoFactorConfirmedAt DateTime?
+  /// bcrypt hashes of single-use recovery codes.
+  ///
+  /// Hashed because each one is password-equivalent — it bypasses the second
+  /// factor exactly once. Spent codes are removed from the array.
+  twoFactorRecovery    String[]              @default([])
   orgId              String?
   organization       Organization?         @relation(fields: [orgId], references: [id])
   messages           Message[]             @relation("MessageSender")

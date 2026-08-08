@@ -6,14 +6,14 @@ import { SESSION_COOKIE, SESSION_MAX_AGE, signSessionToken, verifySessionToken, 
 
 export type { SessionUser };
 
-export async function createSession(user: SessionUser): Promise<void> {
+export async function createSession(user: SessionUser, mfaSatisfied = false): Promise<void> {
   // The version is read at sign-in and baked into the token, so a bump after
   // this moment invalidates it.
   const row = await prisma.user
     .findUnique({ where: { id: user.id }, select: { tokenVersion: true } })
     .catch(() => null);
 
-  const token = await signSessionToken(user, row?.tokenVersion ?? 0);
+  const token = await signSessionToken(user, row?.tokenVersion ?? 0, mfaSatisfied);
   const store = await cookies();
   store.set(SESSION_COOKIE, token, {
     httpOnly: true,
@@ -68,7 +68,9 @@ export async function destroySession(): Promise<void> {
  * A user row that has vanished returns null: an account deleted mid-session
  * stops being signed in.
  */
-export const getCurrentUser = cache(async (): Promise<SessionUser | null> => {
+export type CurrentUser = SessionUser & { mfa: boolean };
+
+export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
   const store = await cookies();
   const token = store.get(SESSION_COOKIE)?.value;
   if (!token) return null;
@@ -85,7 +87,10 @@ export const getCurrentUser = cache(async (): Promise<SessionUser | null> => {
     if (row.tokenVersion !== claims.v) return null;
 
     // The row wins on every field, so a renamed or re-roled account is current.
-    return { id: row.id, email: row.email, name: row.name, role: row.role };
+    // `mfa` comes from the TOKEN, not the row, and that is the whole point: the
+    // row says whether the account HAS a second factor, the claim says whether
+    // THIS browser has presented it.
+    return { id: row.id, email: row.email, name: row.name, role: row.role, mfa: claims.m };
   } catch {
     // The database is unreachable. Refusing to authenticate is the only safe
     // answer: treating a signature as sufficient here would restore exactly the

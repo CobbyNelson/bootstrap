@@ -19,6 +19,9 @@ const ADMIN_ROLES = new Set(["ADMIN", "SUPER_ADMIN", "STAFF"]);
  * Deliberately checked against the RAW path, not the locale-stripped one — the
  * canonical is about the address the visitor typed.
  */
+/** Prefixes whose responses are somebody's own data, never a cache's. */
+const AUTHENTICATED = ["/dashboard", "/admin", "/api", "/chat", "/login", "/logout"];
+
 const NOT_CANONICAL = ["/api", "/admin", "/dashboard", "/chat", "/coming-soon", "/login", "/logout", "/_next"];
 
 /**
@@ -81,6 +84,21 @@ export async function middleware(req: NextRequest) {
   /** Attach CSP (and the nonce Next needs) to any response we return. */
   const withCsp = <T extends NextResponse>(res: T): T => {
     res.headers.set("Content-Security-Policy", csp);
+
+    // Signed-in pages must not be stored anywhere.
+    //
+    // Without this, a dashboard carrying an investor's commitments can be
+    // served from the browser's disk cache after sign-out — press Back on a
+    // shared or borrowed machine and the data is still on screen. `no-store`
+    // covers the disk cache and any intermediary; `must-revalidate` closes the
+    // back/forward path.
+    //
+    // Only these prefixes: applying it site-wide would make every marketing
+    // page uncacheable, which costs real speed for no security at all.
+    if (AUTHENTICATED.some((p) => pathname === p || pathname.startsWith(p + "/"))) {
+      res.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+      res.headers.set("Pragma", "no-cache");
+    }
     // Read by the layouts to pick a dictionary and set dir/lang. A header
     // rather than a cookie: it is per-request, so two languages open in two
     // tabs cannot overwrite each other.
