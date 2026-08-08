@@ -3,6 +3,7 @@ import { splitLocale, DEFAULT_LOCALE } from "@/lib/i18n/config";
 import { SITE_ORIGIN } from "@/lib/site-url";
 import type { NextRequest } from "next/server";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session-core";
+import { twoFactorRequiredFor } from "@/lib/two-factor-policy";
 import {
   PREVIEW_COOKIE,
   isAllowedWhileLocked,
@@ -20,9 +21,9 @@ const ADMIN_ROLES = new Set(["ADMIN", "SUPER_ADMIN", "STAFF"]);
  * canonical is about the address the visitor typed.
  */
 /** Prefixes whose responses are somebody's own data, never a cache's. */
-const AUTHENTICATED = ["/dashboard", "/admin", "/api", "/chat", "/login", "/logout"];
+const AUTHENTICATED = ["/dashboard", "/admin", "/api", "/chat", "/login", "/logout", "/security"];
 
-const NOT_CANONICAL = ["/api", "/admin", "/dashboard", "/chat", "/coming-soon", "/login", "/logout", "/_next"];
+const NOT_CANONICAL = ["/api", "/admin", "/dashboard", "/chat", "/coming-soon", "/login", "/logout", "/security", "/_next"];
 
 /**
  * Content-Security-Policy.
@@ -219,6 +220,22 @@ export async function middleware(req: NextRequest) {
   if (!user) {
     const url = req.nextUrl.clone();
     url.pathname = "/login";
+    url.searchParams.set("next", pathname);
+    return withCsp(NextResponse.redirect(url));
+  }
+
+  // ---- Second factor -------------------------------------------------------
+  //
+  // The cheap half of the check, and the only half that belongs on the edge:
+  // does THIS session carry the claim. Whether the account is even enrolled is
+  // a database read, so /security does that and decides between pairing an app
+  // and asking for a code.
+  //
+  // /security is deliberately not guarded by this, or somebody with m:false
+  // would be redirected to the page that exists to fix m:false.
+  if (twoFactorRequiredFor(user.role) && !user.m) {
+    const url = req.nextUrl.clone();
+    url.pathname = "/security";
     url.searchParams.set("next", pathname);
     return withCsp(NextResponse.redirect(url));
   }

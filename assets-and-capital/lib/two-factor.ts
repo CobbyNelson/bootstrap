@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { randomInt } from "node:crypto";
 import { prisma } from "@/lib/prisma";
 import { verifyTotp, generateSecret, otpauthUri } from "@/lib/totp";
+import { twoFactorRequiredFor } from "./two-factor-policy";
 
 /**
  * Who must present a second factor, and what state their enrolment is in.
@@ -12,36 +13,9 @@ import { verifyTotp, generateSecret, otpauthUri } from "@/lib/totp";
  * drifts when it is written down three times.
  */
 
-/**
- * Admins are exempt until launch — ON PURPOSE, and temporarily.
- *
- * Every admin account is currently a developer account, and forcing enrolment
- * on them now means every fresh environment, every restored database and every
- * teammate joining mid-build starts by pairing an authenticator against a
- * throwaway account. That is friction with no attacker on the other side of it,
- * and the predictable result is somebody disabling 2FA wholesale to get work
- * done.
- *
- * The exemption is a single environment variable rather than a code branch, so
- * going live is a deploy setting rather than a pull request somebody has to
- * remember to write:
- *
- *     ADMIN_2FA_REQUIRED=true
- *
- * THIS MUST BE SET BEFORE LAUNCH. An admin account on a capital marketplace is
- * the highest-value credential on the platform; leaving it on a password alone
- * is only defensible while the platform holds nothing real. Admins can already
- * enrol voluntarily today — this governs whether they are *forced* to.
- */
-export function adminTwoFactorRequired(): boolean {
-  return process.env.ADMIN_2FA_REQUIRED === "true";
-}
-
-/** Roles that must complete enrolment before reaching anything. */
-export function twoFactorRequiredFor(role: string): boolean {
-  const isAdmin = role === "ADMIN" || role === "SUPER_ADMIN" || role === "STAFF";
-  return isAdmin ? adminTwoFactorRequired() : true;
-}
+// The policy itself lives in an edge-safe module, because middleware needs it
+// and this file cannot go there. Re-exported so callers have one import.
+export { adminTwoFactorRequired, twoFactorRequiredFor } from "./two-factor-policy";
 
 export type TwoFactorState = {
   /** An app has been paired and proved with a code. */
@@ -76,7 +50,26 @@ export async function twoFactorState(userId: string, role: string): Promise<TwoF
  * the secret, which is what somebody who lost their phone mid-setup expects.
  */
 export async function beginEnrolment(userId: string, email: string): Promise<{ secret: string; uri: string }> {
-  const secret = generateSecret();
+  const existing = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { twoFactorSecret: true, twoFactorConfirmedAt: true },
+  });
+
+  // Reuse an enrolment already in progress.
+  //
+  // This page renders on every visit, and minting a fresh secret each time
+  // meant refreshing the tab — or coming back after fetching your phone —
+  // silently invalidated the QR you had just scanned. The app would then show
+  // codes that could never be right, with nothing on screen to say why.
+  //
+  // A secret with no confirmation is unusable for signing in, so keeping it
+  // costs nothing. A CONFIRMED one is replaced: reaching this function while
+  // already enrolled means re-enrolling, and that should start clean.
+  const secret =
+    existing?.twoFactorSecret && !existing.twoFactorConfirmedAt
+      ? existing.twoFactorSecret
+      : generateSecret();
+
   await prisma.user.update({
     where: { id: userId },
     data: { twoFactorSecret: secret, twoFactorConfirmedAt: null },

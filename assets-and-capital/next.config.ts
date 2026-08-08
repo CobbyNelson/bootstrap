@@ -92,7 +92,7 @@ const nextConfig: NextConfig = {
       // Locale prefixes: already routed, or handled by middleware.
       "en", "fr", "es", "ar",
       // Not under app/[locale]. Kept in step with NOT_LOCALISED in middleware.ts.
-      "api", "admin", "dashboard", "chat", "coming-soon", "login", "logout", "_next",
+      "api", "admin", "dashboard", "chat", "coming-soon", "login", "logout", "security", "_next",
     ].join("|");
 
     return {
