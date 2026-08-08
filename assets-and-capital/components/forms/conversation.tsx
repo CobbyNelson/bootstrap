@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTl } from "@/components/i18n/locale-provider";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { filterField, validateField, HONEYPOT_KEY, type FieldKind, type Rule } from "@/lib/form-validation";
 
 /**
@@ -327,6 +328,50 @@ export function Conversation({
    * point of having it — but now it says so. Same principle as the server:
    * refusing out loud beats cleaning in silence.
    */
+  /**
+   * Whether the recap can scroll, and which way.
+   *
+   * Measured rather than counted: whether the columns overflow depends on the
+   * rendered width, not on how many answers there are — four long ones on a
+   * phone overflow where eight short ones on a desktop do not.
+   *
+   * A ResizeObserver rather than a measurement in an effect. It fires once when
+   * it starts observing, which supplies the initial reading asynchronously, and
+   * setting state synchronously inside an effect is what the compiler warns
+   * about — it cascades renders.
+   */
+  const railRef = useRef<HTMLDivElement | null>(null);
+  const [nav, setNav] = useState({ left: false, right: false });
+
+  const measure = useCallback(() => {
+    const el = railRef.current;
+    if (!el) return;
+    // Eight pixels of slack, not one. Scroll-snap and the rail's own padding
+    // leave a few pixels of drift at rest — measured at 4 — so a tighter
+    // threshold lit the "earlier" arrow while the recap was visually at its
+    // start, which reads as a control that does nothing.
+    const SLACK = 8;
+    const left = el.scrollLeft > SLACK;
+    const right = el.scrollLeft + el.clientWidth < el.scrollWidth - SLACK;
+    setNav((prev) => (prev.left === left && prev.right === right ? prev : { left, right }));
+  }, []);
+
+  useEffect(() => {
+    const el = railRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    for (const child of Array.from(el.children)) ro.observe(child);
+    return () => ro.disconnect();
+  }, [measure, idx]);
+
+  /** One column-ish, so a nudge lands on a boundary rather than mid-answer. */
+  function slide(dir: -1 | 1) {
+    const el = railRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * Math.max(220, el.clientWidth * 0.6), behavior: "smooth" });
+  }
+
   function onTyped(raw: string) {
     const cleaned = clean(raw, filterKindOf(q));
     setDraft(cleaned);
@@ -459,7 +504,11 @@ export function Conversation({
           form is, and the rows are ruled so a value lines up with its label
           instead of floating between two. */}
       {answered.length > 0 && (
-        <div className="answer-rail -mx-1 mt-7 flex gap-8 overflow-x-auto px-1 pb-2">
+        <div
+          ref={railRef}
+          onScroll={measure}
+          className="answer-rail -mx-1 mt-7 flex gap-8 overflow-x-auto px-1 pb-2"
+        >
           {/* A section longer than COLUMN_ROWS continues into another column
               rather than growing downwards. Ten answers in one column is the
               wall this was meant to replace, just turned sideways — and it is
@@ -511,6 +560,45 @@ export function Conversation({
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/*
+        Only when there is somewhere to go.
+        
+        A pair of arrows that are always visible but usually dead teaches people
+        to ignore them; appearing when the recap outgrows its width is the
+        signal itself. Rendered BELOW the rail rather than floated over it, so
+        nothing is ever covering an answer somebody is trying to read.
+
+        Contrast is deliberate: navy-700 on white is the darkest pairing in the
+        palette and clears WCAG AAA, and the border is ink/25 rather than the
+        ink/[0.07] used elsewhere on this screen — hairlines are right for
+        dividing content and wrong for something you have to hit. Disabled
+        states drop to ink/25 on the glyph, which still reads as a control
+        rather than vanishing.
+      */}
+      {answered.length > 0 && (nav.left || nav.right) && (
+        <div className="mt-3 flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => slide(-1)}
+            disabled={!nav.left}
+            aria-label={tl("Show earlier answers")}
+            className="grid h-9 w-9 place-items-center rounded-full border border-ink/25 text-navy-700 transition hover:border-brand-600 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 disabled:border-ink/[0.09] disabled:text-ink/25 disabled:hover:bg-transparent"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => slide(1)}
+            disabled={!nav.right}
+            aria-label={tl("Show later answers")}
+            className="grid h-9 w-9 place-items-center rounded-full border border-ink/25 text-navy-700 transition hover:border-brand-600 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 disabled:border-ink/[0.09] disabled:text-ink/25 disabled:hover:bg-transparent"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+          <span className="text-xs text-ink/55">{tl("Scroll to review your answers")}</span>
         </div>
       )}
 
