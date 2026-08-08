@@ -80,6 +80,10 @@ reject("plus in the middle", "phone", "+233+201234567");
 reject("scheme as a company name", "company", "javascript:alert(1)");
 // An entity name is a name, not a free text field. These all reached the
 // database before the company filter stopped being a denylist.
+reject("the field as typed into", "company", "88987njbj@@#&&8");
+reject("what the filter leaves behind", "company", "88987njbj&&8");
+reject("doubled ampersand", "company", "Aurora && Capital");
+reject("digits outnumber letters", "company", "1234567 ab");
 reject("hash and asterisk", "company", "Aurora **Capital** #1");
 reject("percent and caret", "company", "Aurora 100% ^Capital");
 reject("plus and equals", "company", "Aurora+Capital=Ltd");
@@ -122,6 +126,9 @@ accept("company with comma", "company", "Mensah, Osei and Partners");
 accept("slash in an entity name", "company", "Aurora Capital / Nominees");
 accept("accented entity", "company", "Société Générale");
 accept("digits leading", "company", "3i Group plc");
+accept("hyphen and a digit", "company", "7-Eleven Holdings");
+accept("digits inside a word", "company", "23andMe Inc");
+accept("two characters", "company", "3M");
 accept("apostrophe", "company", "O'Brien Holdings");
 
 accept("bare domain", "url", "kumasiagri.com");

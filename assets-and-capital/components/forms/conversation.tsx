@@ -288,6 +288,25 @@ export function Conversation({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx, showAnnouncement]);
 
+  /**
+   * A keystroke, with the field's filter applied — and a word about it.
+   *
+   * Silently dropping refused characters was worse than it looked. Typing
+   * "88987njbj@@#&&8" into an entity name quietly became "88987njbj&&8", and
+   * because the value then equalled its own filtered form, the server's
+   * "refuse anything that had to be cleaned" rule had nothing left to refuse.
+   * The client was laundering input into a shape the server would accept.
+   *
+   * The filter still runs — the character never reaches state, which is the
+   * point of having it — but now it says so. Same principle as the server:
+   * refusing out loud beats cleaning in silence.
+   */
+  function onTyped(raw: string) {
+    const cleaned = clean(raw, filterKindOf(q));
+    setDraft(cleaned);
+    setProblem(cleaned === raw ? "" : tl("That character isn't accepted here."));
+  }
+
   function commit(raw?: string) {
     const v = (raw ?? draft).trim();
     if (q.confirm && v !== "yes") {
@@ -591,7 +610,7 @@ export function Conversation({
                 rows={2}
                 value={draft}
                 placeholder={q.placeholder}
-                onChange={(e) => { setDraft(clean(e.target.value, filterKindOf(q))); setProblem(""); }}
+                onChange={(e) => { onTyped(e.target.value); }}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); commit(); } }}
                 aria-label={q.ask}
                 aria-invalid={Boolean(problem)}
@@ -608,7 +627,7 @@ export function Conversation({
                 autoComplete={q.autoComplete}
                 value={draft}
                 placeholder={q.placeholder}
-                onChange={(e) => { setDraft(clean(e.target.value, filterKindOf(q))); setProblem(""); }}
+                onChange={(e) => { onTyped(e.target.value); }}
                 onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); commit(); } }}
                 aria-label={q.ask}
                 aria-invalid={Boolean(problem)}
