@@ -1,6 +1,20 @@
 "use server";
 
 import bcrypt from "bcryptjs";
+
+/**
+ * bcrypt work factor.
+ *
+ * Was 10, which is the floor rather than the recommendation — each step doubles
+ * the cost of a guess, so 12 makes an offline attack on a stolen hash four
+ * times more expensive for about 250ms of our own time at sign-in, once.
+ *
+ * Raising this does NOT touch the hashes already stored: bcrypt records its
+ * cost inside the hash, so an old one keeps verifying at 10 forever. They are
+ * upgraded in `loginUser`, which is the only moment the plaintext exists to
+ * re-hash from.
+ */
+const BCRYPT_COST = 12;
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -43,7 +57,7 @@ export async function registerUser(input: {
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) return { ok: false, error: "An account with this email already exists." };
 
-    const passwordHash = await bcrypt.hash(input.password, 10);
+    const passwordHash = await bcrypt.hash(input.password, BCRYPT_COST);
     const role = input.role === "BUSINESS" ? "BUSINESS" : "INVESTOR";
     const user = await prisma.user.create({
       data: { email, name: input.name?.trim() || null, passwordHash, role },
@@ -66,6 +80,23 @@ export async function loginUser(input: { email: string; password: string }): Pro
     if (!user || !user.passwordHash) return { ok: false, error: "Incorrect email or password." };
     const valid = await bcrypt.compare(input.password || "", user.passwordHash);
     if (!valid) return { ok: false, error: "Incorrect email or password." };
+
+    // Re-hash at the current cost if this one was stored at a weaker one.
+    //
+    // Here because it is the one moment the plaintext password exists on the
+    // server; there is no batch job that could do this. The whole thing is
+    // best-effort — a failed write must never turn a correct password into a
+    // failed sign-in, so the account is let in either way.
+    const stored = Number(user.passwordHash.split("$")[2]);
+    if (Number.isFinite(stored) && stored < BCRYPT_COST) {
+      try {
+        const upgraded = await bcrypt.hash(input.password, BCRYPT_COST);
+        await prisma.user.update({ where: { id: user.id }, data: { passwordHash: upgraded } });
+      } catch (e) {
+        console.error("password re-hash failed", e);
+      }
+    }
+
     await createSession({ id: user.id, email: user.email, name: user.name, role: user.role });
     return { ok: true, role: user.role };
   } catch (e) {
